@@ -5,6 +5,7 @@
     "name": "Khalifa Lame",
     "email": "khalibloo@gmail.com"
   },
+  "license": "MIT",
   "private": true,
   "version": "0.0.1",
   "scripts": {
