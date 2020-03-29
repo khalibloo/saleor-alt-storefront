@@ -13,6 +13,7 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false
   }
 }

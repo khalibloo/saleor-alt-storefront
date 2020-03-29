@@ -1,4 +1,4 @@
-# umi project
+# Alt Storefront for Saleor
 
 ## Getting Started
 
