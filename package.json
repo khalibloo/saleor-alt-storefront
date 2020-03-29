@@ -17,7 +17,7 @@
     "build:prod": "cross-env UMI_ENV=prod umi build",
     "codegen": "apollo codegen:generate --target=typescript types --globalTypesFile=src/globalTypes.ts",
     "codegen:watch": "npm run codegen -- --watch",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "prettier": "prettier --write src/**/*.{js,jsx,tsx,ts,less,md,json}",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage"
   },

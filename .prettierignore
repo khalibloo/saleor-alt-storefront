@@ -6,3 +6,5 @@ package.json
 .umi
 .umi-production
 .umi-test
+**/types/*.ts
+src/globalTypes.ts

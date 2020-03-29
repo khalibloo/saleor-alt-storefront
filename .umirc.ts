@@ -1,9 +1,16 @@
 import { defineConfig } from "umi";
 
 export default defineConfig({
-  routes: [{ path: "/", component: "@/pages/index" }],
+  title: "Alt Storefront",
+  locale: {
+    default: "en-US",
+    antd: true,
+    title: true,
+    baseNavigator: true,
+    baseSeparator: "-",
+  },
   define: {
     APP_ENV: "default",
-    SITE_NAME: "Saleor Alt",
+    SITE_NAME: "Alt Storefront",
   },
 });
