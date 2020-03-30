@@ -13,4 +13,8 @@ export default defineConfig({
     APP_ENV: "default",
     SITE_NAME: "Alt Storefront",
   },
+  theme: {
+    "layout-header-background": "#fff",
+    "layout-body-background": "#fff",
+  },
 });

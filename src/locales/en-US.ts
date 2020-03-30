@@ -2,6 +2,10 @@ import config from "@/config";
 import { formatTitle } from "@/utils/utils";
 
 export default {
+  // layout
+  "footer.createdby": "Created by Khalibloo",
+  "navbar.search.placeholder": "Search products...",
+
   // home
   "site.title": config.siteName,
 
