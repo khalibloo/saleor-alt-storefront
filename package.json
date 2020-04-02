@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "core-js": "^3.6.4",
     "cross-env": "^7.0.2",
     "html-critical-webpack-plugin": "^2.1.0",
     "import-sort-cli": "^6.0.0",
