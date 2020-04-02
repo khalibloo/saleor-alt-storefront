@@ -1,4 +1,5 @@
 module.exports = {
+  preset: "jest-playwright-preset",
   moduleNameMapper: {
     "@/(.*)": "<rootDir>/src/$1",
   },

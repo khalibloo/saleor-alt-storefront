@@ -19,7 +19,8 @@
     "codegen:watch": "npm run codegen -- --watch",
     "prettier": "prettier --write src/**/*.{js,jsx,tsx,ts,less,md,json}",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "test:watch": "umi-test --watch"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -58,13 +59,17 @@
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-lazyload": "^2.6.6",
     "umi": "^3.0.14",
     "yorkie": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
     "cross-env": "^7.0.2",
+    "html-critical-webpack-plugin": "^2.1.0",
     "import-sort-cli": "^6.0.0",
+    "jest-playwright-preset": "^0.1.1",
+    "playwright": "^0.12.1",
     "typescript": "^3.8.3"
   }
 }
