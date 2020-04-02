@@ -67,7 +67,7 @@ export interface TokenCreateMutation_tokenCreate {
 export interface TokenCreateMutation {
   /**
    * Mutation that authenticates a user and returns token and user data.
-   *
+   * 
    * It overrides the default graphql_jwt.ObtainJSONWebToken to wrap potential
    * authentication errors in our Error type, which is consistent to how the rest of
    * the mutation works.

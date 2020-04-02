@@ -27,6 +27,15 @@ export interface collectionDetailQuery_products_edges_node_collections {
   name: string;
 }
 
+export interface collectionDetailQuery_products_edges_node_category {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface collectionDetailQuery_products_edges_node_pricing_discount_gross {
   __typename: "Money";
   /**
@@ -190,9 +199,8 @@ export interface collectionDetailQuery_products_edges_node {
   /**
    * List of collections for the product.
    */
-  collections:
-    | (collectionDetailQuery_products_edges_node_collections | null)[]
-    | null;
+  collections: (collectionDetailQuery_products_edges_node_collections | null)[] | null;
+  category: collectionDetailQuery_products_edges_node_category | null;
   /**
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */

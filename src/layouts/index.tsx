@@ -40,13 +40,30 @@ const BasicLayout: React.FC = ({ children }) => {
     </Menu>
   );
   return (
-    <Layout className="full-height">
+    <Layout className={styles.layout}>
       <Layout.Header className={clx("full-width", styles.header)}>
-        <Row justify="space-between" align="middle">
-          <Col>
-            <Typography.Title level={3} className="no-margin">
-              Alt Storefront
-            </Typography.Title>
+        <Row justify="space-between" align="middle" className="full-height">
+          <Col className="full-height">
+            <Menu
+              mode="horizontal"
+              className={clx("no-border full-height")}
+              selectedKeys={[]}
+            >
+              <Menu.Item
+                key="1"
+                className={clx("full-height", styles.logoItem)}
+              >
+                <Link to="/" className="full-height">
+                  <Row align="middle" className="full-height">
+                    <Col>
+                      <Typography.Title level={3} className="no-margin">
+                        Alt Storefront
+                      </Typography.Title>
+                    </Col>
+                  </Row>
+                </Link>
+              </Menu.Item>
+            </Menu>
           </Col>
           <Col span={8}>
             <Input.Search
@@ -57,19 +74,32 @@ const BasicLayout: React.FC = ({ children }) => {
               })}
             />
           </Col>
-          <Col>
-            <Menu mode="horizontal" className="no-border" selectedKeys={[]}>
-              <Menu.Item key="1" className="no-padding">
+          <Col className="full-height">
+            <Menu
+              mode="horizontal"
+              className={clx("no-border full-height")}
+              selectedKeys={[]}
+            >
+              <Menu.Item
+                key="1"
+                className={clx("no-padding full-height", styles.navrightItem)}
+              >
                 <Dropdown overlay={langMenu}>
                   <div className={styles.dropdownPadder}>
                     <GlobalOutlined className={styles.navrightIcon} />
                   </div>
                 </Dropdown>
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item
+                key="2"
+                className={clx("full-height", styles.navrightItem)}
+              >
                 <ShoppingCartOutlined className={styles.navrightIcon} />
               </Menu.Item>
-              <Menu.Item key="3" className="no-padding">
+              <Menu.Item
+                key="3"
+                className={clx("no-padding full-height", styles.navrightItem)}
+              >
                 <Dropdown overlay={avatarMenu} placement="bottomCenter">
                   <div className={styles.dropdownPadder}>
                     <UserOutlined className={styles.navrightIcon} />

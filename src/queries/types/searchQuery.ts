@@ -27,6 +27,41 @@ export interface searchQuery_products_edges_node_collections {
   name: string;
 }
 
+export interface searchQuery_products_edges_node_category_ancestors_edges_node {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface searchQuery_products_edges_node_category_ancestors_edges {
+  __typename: "CategoryCountableEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: searchQuery_products_edges_node_category_ancestors_edges_node;
+}
+
+export interface searchQuery_products_edges_node_category_ancestors {
+  __typename: "CategoryCountableConnection";
+  edges: searchQuery_products_edges_node_category_ancestors_edges[];
+}
+
+export interface searchQuery_products_edges_node_category {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  /**
+   * List of ancestors of the category.
+   */
+  ancestors: searchQuery_products_edges_node_category_ancestors | null;
+}
+
 export interface searchQuery_products_edges_node_pricing_discount_gross {
   __typename: "Money";
   /**
@@ -175,41 +210,6 @@ export interface searchQuery_products_edges_node_pricing {
   priceRangeUndiscounted: searchQuery_products_edges_node_pricing_priceRangeUndiscounted | null;
 }
 
-export interface searchQuery_products_edges_node_category_ancestors_edges_node {
-  __typename: "Category";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  name: string;
-}
-
-export interface searchQuery_products_edges_node_category_ancestors_edges {
-  __typename: "CategoryCountableEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: searchQuery_products_edges_node_category_ancestors_edges_node;
-}
-
-export interface searchQuery_products_edges_node_category_ancestors {
-  __typename: "CategoryCountableConnection";
-  edges: searchQuery_products_edges_node_category_ancestors_edges[];
-}
-
-export interface searchQuery_products_edges_node_category {
-  __typename: "Category";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  name: string;
-  /**
-   * List of ancestors of the category.
-   */
-  ancestors: searchQuery_products_edges_node_category_ancestors | null;
-}
-
 export interface searchQuery_products_edges_node {
   __typename: "Product";
   /**
@@ -226,11 +226,11 @@ export interface searchQuery_products_edges_node {
    * List of collections for the product.
    */
   collections: (searchQuery_products_edges_node_collections | null)[] | null;
+  category: searchQuery_products_edges_node_category | null;
   /**
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: searchQuery_products_edges_node_pricing | null;
-  category: searchQuery_products_edges_node_category | null;
 }
 
 export interface searchQuery_products_edges {

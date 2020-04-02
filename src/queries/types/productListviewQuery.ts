@@ -27,6 +27,15 @@ export interface productListviewQuery_product_collections {
   name: string;
 }
 
+export interface productListviewQuery_product_category {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface productListviewQuery_product_pricing_discount_gross {
   __typename: "Money";
   /**
@@ -191,6 +200,7 @@ export interface productListviewQuery_product {
    * List of collections for the product.
    */
   collections: (productListviewQuery_product_collections | null)[] | null;
+  category: productListviewQuery_product_category | null;
   /**
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */

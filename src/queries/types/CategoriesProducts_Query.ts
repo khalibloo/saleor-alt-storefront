@@ -163,9 +163,7 @@ export interface CategoriesProducts_Query_attributes_edges_node {
   /**
    * List of attribute's values.
    */
-  values:
-    | (CategoriesProducts_Query_attributes_edges_node_values | null)[]
-    | null;
+  values: (CategoriesProducts_Query_attributes_edges_node_values | null)[] | null;
 }
 
 export interface CategoriesProducts_Query_attributes_edges {
@@ -195,6 +193,15 @@ export interface CategoriesProducts_Query_products_edges_node_thumbnail {
 
 export interface CategoriesProducts_Query_products_edges_node_collections {
   __typename: "Collection";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface CategoriesProducts_Query_products_edges_node_category {
+  __typename: "Category";
   /**
    * The ID of the object.
    */
@@ -365,9 +372,8 @@ export interface CategoriesProducts_Query_products_edges_node {
   /**
    * List of collections for the product.
    */
-  collections:
-    | (CategoriesProducts_Query_products_edges_node_collections | null)[]
-    | null;
+  collections: (CategoriesProducts_Query_products_edges_node_collections | null)[] | null;
+  category: CategoriesProducts_Query_products_edges_node_category | null;
   /**
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */

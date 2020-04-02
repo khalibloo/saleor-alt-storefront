@@ -13,6 +13,10 @@ export const PRODUCT_CARD_FRAGMENT = gql`
       id
       name
     }
+    category {
+      id
+      name
+    }
     pricing {
       onSale
       discount {
