@@ -9,7 +9,7 @@ import {
   Menu,
   Dropdown,
 } from "antd";
-import { useIntl, Link } from "umi";
+import { useIntl, Link, history } from "umi";
 import {
   ShoppingCartOutlined,
   UserOutlined,
@@ -57,7 +57,9 @@ const BasicLayout: React.FC = ({ children }) => {
                   <Row align="middle" className="full-height">
                     <Col>
                       <Typography.Title level={3} className="no-margin">
-                        Alt Storefront
+                        {intl.formatMessage({
+                          id: "site.title",
+                        })}
                       </Typography.Title>
                     </Col>
                   </Row>
@@ -72,6 +74,12 @@ const BasicLayout: React.FC = ({ children }) => {
               placeholder={intl.formatMessage({
                 id: "navbar.search.placeholder",
               })}
+              onSearch={query =>
+                history.push({
+                  pathname: "/search",
+                  query: { query },
+                })
+              }
             />
           </Col>
           <Col className="full-height">
