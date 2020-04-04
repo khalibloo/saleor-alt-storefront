@@ -1,10 +1,156 @@
 import React from "react";
-import { Typography } from "antd";
+import { Typography, Row, Col, Button, Select } from "antd";
+import RichTextContent from "@/components/RichTextContent";
+import AspectRatio from "@/components/AspectRatio";
+import VSpacing from "@/components/VSpacing";
+import styles from "./id.less";
+import { useIntl } from "umi";
+import { formatPrice } from "@/utils/utils";
+import ProductCard from "@/components/ProductCard";
+import { sampleProduct } from '@/sampleData';
 
 const ProductDetailPage = () => {
+  const intl = useIntl();
+  const currency = sampleProduct.pricing?.priceRange?.start?.gross
+    .currency as string;
+  const minPrice = sampleProduct.pricing?.priceRange?.start?.gross
+    .amount as number;
+  const maxPrice = sampleProduct.pricing?.priceRange?.stop?.gross
+    .amount as number;
   return (
     <div>
-      <Typography.Title level={1}>Product Name</Typography.Title>
+      <VSpacing height={48} />
+      <Row justify="center" gutter={24}>
+        <Col span={22}>
+          <Row justify="center" gutter={24}>
+            <Col span={12}>
+              <Row gutter={8}>
+                <Col span={4}>
+                  <div style={{ marginBottom: 8 }}>
+                    <AspectRatio width={1} height={1} noMask>
+                      <Button className="full-width full-height no-padding">
+                        <img
+                          className="full-width"
+                          alt={sampleProduct.thumbnail?.alt as string}
+                          src={sampleProduct.thumbnail?.url}
+                        />
+                      </Button>
+                    </AspectRatio>
+                  </div>
+                  <div style={{ marginBottom: 8 }}>
+                    <AspectRatio width={1} height={1} noMask>
+                      <Button className="full-width full-height no-padding">
+                        <img
+                          className="full-width"
+                          alt={sampleProduct.thumbnail?.alt as string}
+                          src={sampleProduct.thumbnail?.url}
+                        />
+                      </Button>
+                    </AspectRatio>
+                  </div>
+                </Col>
+                <Col span={20}>
+                  <AspectRatio width={1} height={1}>
+                    <img
+                      className="full-width"
+                      alt={sampleProduct.thumbnail?.alt as string}
+                      src={sampleProduct.thumbnail?.url}
+                    />
+                  </AspectRatio>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Typography.Title level={1}>
+                {sampleProduct.name}
+              </Typography.Title>
+              <div>
+                <RichTextContent
+                  contentJson={sampleProduct.descriptionJson}
+                  lines={10}
+                />
+              </div>
+              <VSpacing height={36} />
+              <Row justify="center">
+                <Col span={14}>
+                  <Select
+                    className="full-width"
+                    size="large"
+                    placeholder="Size"
+                  >
+                    <Select.Option value="XS">XS</Select.Option>
+                    <Select.Option value="S">S</Select.Option>
+                    <Select.Option value="M">M</Select.Option>
+                    <Select.Option value="L">L</Select.Option>
+                    <Select.Option value="Elephant">Elephant</Select.Option>
+                    <Select.Option value="T-Rex">T-Rex</Select.Option>
+                    <Select.Option value="Dragon">Dragon</Select.Option>
+                  </Select>
+                </Col>
+              </Row>
+              <VSpacing height={24} />
+              <Row justify="center">
+                <Col span={14}>
+                  <Select
+                    className="full-width"
+                    size="large"
+                    placeholder="Collar"
+                  >
+                    <Select.Option value="XS">Round</Select.Option>
+                    <Select.Option value="S">V-Neck</Select.Option>
+                  </Select>
+                </Col>
+              </Row>
+              <VSpacing height={48} />
+              <Typography.Title className="center-text" level={2}>
+                {formatPrice(currency, minPrice, maxPrice)}
+              </Typography.Title>
+              <VSpacing height={24} />
+              <Row justify="center">
+                <Col span={14}>
+                  <Button
+                    block
+                    className={styles.addToCartBtn}
+                    size="large"
+                    shape="round"
+                    type="primary"
+                  >
+                    {intl.formatMessage({ id: "products.detail.addToCart" })}
+                  </Button>
+                </Col>
+              </Row>
+              <VSpacing height={24} />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <VSpacing height={48} />
+
+      <Row justify="center">
+        <Col>
+          <Row justify="center">
+            <Typography.Title level={1}>
+              {intl.formatMessage({ id: "products.detail.suggestions" })}
+            </Typography.Title>
+          </Row>
+          <Row gutter={24}>
+            <Col>
+              <ProductCard product={sampleProduct} />
+            </Col>
+            <Col>
+              <ProductCard product={sampleProduct} />
+            </Col>
+            <Col>
+              <ProductCard product={sampleProduct} />
+            </Col>
+            <Col>
+              <ProductCard product={sampleProduct} />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <VSpacing height={48} />
     </div>
   );
 };

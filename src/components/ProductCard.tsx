@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ProductCard as ProductCardType } from "@/fragments/types/ProductCard";
-import { Link } from "umi";
+import { Link, history } from "umi";
 import { Card, Typography } from "antd";
 import AspectRatio from "./AspectRatio";
 import { formatPrice } from "@/utils/utils";
@@ -31,14 +31,7 @@ const ProductCard: React.FunctionComponent<Props> = props => {
       >
         <Card.Meta
           title="Sample Product"
-          description={
-            <Link
-              to={`/categories/${product.category?.id}`}
-              className="unset-color"
-            >
-              {product.category?.name}
-            </Link>
-          }
+          description={product.category?.name}
         />
         <Typography.Text strong>
           {formatPrice(currency, minPrice, maxPrice)}

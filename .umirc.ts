@@ -25,6 +25,7 @@ export default defineConfig({
   theme: {
     "layout-header-background": "#fff",
     "layout-body-background": "#fff",
+    "layout-footer-background": "#eee",
   },
   chainWebpack: (memo, {}) => {
     memo

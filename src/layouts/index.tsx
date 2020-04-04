@@ -94,7 +94,9 @@ const BasicLayout: React.FC = ({ children }) => {
                 key="2"
                 className={clx("full-height", styles.navrightItem)}
               >
-                <ShoppingCartOutlined className={styles.navrightIcon} />
+                <Link to="/cart">
+                  <ShoppingCartOutlined className={styles.navrightIcon} />
+                </Link>
               </Menu.Item>
               <Menu.Item
                 key="3"

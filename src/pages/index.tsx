@@ -1,41 +1,13 @@
 import React from "react";
-import { Typography, Skeleton, Row, Col, Card } from "antd";
+import { Typography, Row, Col } from "antd";
 import styles from "./index.less";
-import { useIntl, Link } from "umi";
+import { useIntl } from "umi";
 import ProductCard from "@/components/ProductCard";
 import VSpacing from "@/components/VSpacing";
+import { sampleProduct } from "@/sampleData";
 
 const HomePage = () => {
   const intl = useIntl();
-  const sampleProduct = {
-    id: "meow",
-    name: "Sample Product",
-    slug: "sample-product",
-    thumbnail: {
-      alt: "sample image text",
-      url: "https://via.placeholder.com/512.jpg",
-    },
-    category: {
-      id: "blah",
-      name: "Sample Category",
-    },
-    pricing: {
-      priceRange: {
-        start: {
-          gross: {
-            amount: 30,
-            currency: "USD",
-          },
-        },
-        stop: {
-          gross: {
-            amount: 60,
-            currency: "USD",
-          },
-        },
-      },
-    },
-  };
   return (
     <div>
       <div style={{ height: 500, overflow: "hidden" }}>

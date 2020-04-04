@@ -9,6 +9,11 @@ export default {
   // home
   "site.title": config.siteName,
 
+  // products
+  // detail
+  "products.detail.addToCart": "Add To Cart",
+  "products.detail.suggestions": "Suggestions",
+
   //   cart
   "cart.title": formatTitle("Cart"),
   "cart.heading": "My Cart",
