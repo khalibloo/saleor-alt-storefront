@@ -1,7 +1,4 @@
 {
-  "dynamic_modules": ["brotli_filter", "brotli_static"],
-  "brotli": "on",
-  "brotli_static": "on",
   "root": "dist/",
   "clean_urls": true,
   "https_only": true,
