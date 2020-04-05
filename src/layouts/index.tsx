@@ -46,7 +46,7 @@ const BasicLayout: React.FC = ({ children }) => {
           <Col className="full-height">
             <Menu
               mode="horizontal"
-              className={clx("no-border full-height")}
+              className={clx("no-bg no-border full-height")}
               selectedKeys={[]}
             >
               <Menu.Item
@@ -85,7 +85,7 @@ const BasicLayout: React.FC = ({ children }) => {
           <Col className="full-height">
             <Menu
               mode="horizontal"
-              className={clx("no-border full-height")}
+              className={clx("no-bg no-border full-height")}
               selectedKeys={[]}
             >
               <Menu.Item

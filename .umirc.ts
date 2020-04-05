@@ -2,8 +2,14 @@ import { defineConfig } from "umi";
 import path from "path";
 import HtmlCriticalWebpackPlugin from "html-critical-webpack-plugin";
 
+const useDark = false;
+// uncomment to use dark theme for users who prefer dark
+// const useDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 export default defineConfig({
   title: "Alt Storefront",
+  antd: {
+    dark: useDark,
+  },
   locale: {
     default: "en-US",
     antd: true,
@@ -22,11 +28,13 @@ export default defineConfig({
     ENDPOINT: "",
     SITE_NAME: "Alt Storefront",
   },
-  theme: {
-    "layout-header-background": "#fff",
-    "layout-body-background": "#fff",
-    "layout-footer-background": "#eee",
-  },
+  theme: useDark
+    ? {}
+    : {
+        "layout-header-background": "#fff",
+        "layout-body-background": "#fff",
+        "layout-footer-background": "#eee",
+      },
   chainWebpack: (memo, {}) => {
     memo
       .plugin("critical")
