@@ -1,0 +1,4 @@
+{
+  "appCommand": "npm run serve",
+  "developmentMode": true
+}

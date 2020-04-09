@@ -1,25 +1,13 @@
-import { firefox } from "playwright";
+import { Selector } from "testcafe";
 
-describe("Home Page", () => {
-  let browser, context, page;
+fixture`Getting Started`.page`http://localhost:5000`;
 
-  beforeAll(async () => {
-    browser = await firefox.launch();
-    context = await browser.newContext();
-    page = await context.newPage();
-    await page.goto("http://localhost:3000");
-  });
+test("loads without error", async t => {
+  await t.expect(Selector("body").textContent).contains("Alt Storefront");
+});
 
-  it("should load without error", async () => {
-    let text = await page.evaluate(() => document.body.textContent);
-    expect(text).toContain("Alt Storefront");
-  });
-
-  it('should be titled "Alt Storefront"', async () => {
-    await expect(page.title()).resolves.toContain("Alt Storefront");
-  });
-
-  afterAll(async () => {
-    await browser.close();
-  });
+test('is titled "Alt Storefront"', async t => {
+  await t
+    .expect(Selector("head").find("title").textContent)
+    .contains("Alt Storefront");
 });
