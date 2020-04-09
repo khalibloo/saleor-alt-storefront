@@ -21,8 +21,8 @@
     "codegen:watch": "npm run codegen -- --watch",
     "prettier": "prettier --write src/**/*.{js,jsx,tsx,ts,less,md,json}",
     "test": "umi-test",
-    "test-e2e:no-build": "testcafe 'chrome:headless' src/**/*.e2e.ts?(x)",
-    "test-e2e": "npm-run-all --serial build test-e2e",
+    "test-e2e:no-build": "testcafe 'chrome:headless' src/**/*.e2e.ts",
+    "test-e2e": "npm-run-all --serial build test-e2e:no-build",
     "test:coverage": "umi-test --coverage",
     "test:watch": "umi-test --watch"
   },
