@@ -13,7 +13,6 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "types": ["jest-playwright-preset", "expect-playwright", "jest"],
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false
   }

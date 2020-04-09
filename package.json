@@ -14,11 +14,15 @@
     "start:no-mock": "cross-env MOCK=none umi dev",
     "start:no-ui": "cross-env UMI_UI=none umi dev",
     "build": "umi build",
+    "serve": "serve ./dist",
     "build:prod": "cross-env UMI_ENV=prod umi build",
+    "build-serve": "npm-run-all --serial build serve",
     "codegen": "apollo codegen:generate --target=typescript types --globalTypesFile=src/globalTypes.ts",
     "codegen:watch": "npm run codegen -- --watch",
     "prettier": "prettier --write src/**/*.{js,jsx,tsx,ts,less,md,json}",
     "test": "umi-test",
+    "test-e2e:no-build": "testcafe 'chrome:headless' src/**/*.e2e.ts",
+    "test-e2e": "npm-run-all --serial build test-e2e:no-build",
     "test:coverage": "umi-test --coverage",
     "test:watch": "umi-test --watch"
   },
@@ -70,12 +74,11 @@
     "@types/jest": "^25.2.1",
     "core-js": "^3.6.4",
     "cross-env": "^7.0.2",
-    "expect-playwright": "^0.2.1",
     "html-critical-webpack-plugin": "^2.1.0",
     "import-sort-cli": "^6.0.0",
-    "jest-playwright-preset": "^0.1.1",
-    "node-fetch": "^2.6.0",
-    "playwright": "^0.12.1",
+    "npm-run-all": "^4.1.5",
+    "serve": "^11.3.0",
+    "testcafe": "^1.8.4",
     "typescript": "^3.8.3"
   }
 }
