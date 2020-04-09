@@ -1,15 +1,12 @@
+const testMatchTypes = ["spec", "test"];
+const testMatchPrefix = "";
 module.exports = {
-  // NOTE: ts-jest breaks our defines and env vars
-  // preset doesnt work correctly. doesnt set testEnv
-  // preset: "jest-playwright-preset",
-  testEnvironment: "jest-playwright-preset",
-  globalSetup: "./global-setup.js",
-  // we need teardown to terminate the process when testing completed
-  globalTeardown: "./global-teardown.js",
-  setupFilesAfterEnv: ["expect-playwright"],
   moduleNameMapper: {
     "@/(.*)": "<rootDir>/src/$1",
   },
+  testMatch: [
+    `${testMatchPrefix}**/?*.(${testMatchTypes.join("|")}).(j|t)s?(x)`,
+  ],
   globals: {
     APP_ENV: "test",
     SITE_NAME: "Alt Storefront",
