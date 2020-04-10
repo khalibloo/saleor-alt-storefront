@@ -1,6 +1,6 @@
 import { Selector } from "testcafe";
 
-fixture`Getting Started`.page`http://localhost:5000`;
+fixture`Home Page`.page`http://localhost:5000`;
 
 test("loads without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
