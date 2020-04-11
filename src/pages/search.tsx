@@ -9,7 +9,6 @@ import { formatPrice } from "@/utils/utils";
 const SearchPage = () => {
   const intl = useIntl();
   const location = useLocation();
-  console.log(location);
   return (
     <div>
       <VSpacing height={48} />
@@ -23,24 +22,32 @@ const SearchPage = () => {
           </Typography.Title>
           <Row justify="end" gutter={16} align="middle">
             <Col>
-              <Typography.Text>Sort By</Typography.Text>
+              <Typography.Text>
+                {intl.formatMessage({ id: "search.sortby" })}
+              </Typography.Text>
             </Col>
             <Col span={3}>
               <Select className="full-width" defaultValue="RELEVANCE">
-                <Select.Option value="RELEVANCE">Relevance</Select.Option>
+                <Select.Option value="RELEVANCE">
+                  {intl.formatMessage({ id: "search.sort.relevance" })}
+                </Select.Option>
                 <Select.Option value="PRICE_ASC">
-                  Price (Low to High)
+                  {intl.formatMessage({ id: "search.sort.price.lowtohigh" })}
                 </Select.Option>
                 <Select.Option value="PRICE_DESC">
-                  Price (High to Low)
+                  {intl.formatMessage({ id: "search.sort.price.hightolow" })}
                 </Select.Option>
-                <Select.Option value="DATE_DESC">Newest Arrivals</Select.Option>
+                <Select.Option value="DATE_DESC">
+                  {intl.formatMessage({ id: "search.sort.newest" })}
+                </Select.Option>
               </Select>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={6}>
-              <Typography.Title level={3}>Filters...</Typography.Title>
+              <Typography.Title level={3}>
+                {intl.formatMessage({ id: "search.filters" })}...
+              </Typography.Title>
             </Col>
 
             <Col span={18}>
