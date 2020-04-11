@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Row, Col, Button, Select } from "antd";
+import { Typography, Row, Col, Button, Select, InputNumber } from "antd";
 import { Helmet } from "react-helmet";
 import RichTextContent from "@/components/RichTextContent";
 import AspectRatio from "@/components/AspectRatio";
@@ -109,7 +109,30 @@ const ProductDetailPage = () => {
               <Typography.Title className="center-text" level={2}>
                 {formatPrice(currency, minPrice, maxPrice)}
               </Typography.Title>
+
               <VSpacing height={24} />
+
+              <Row justify="center">
+                <Col span={14}>
+                  <Row justify="center" gutter={36}>
+                    <Col>
+                      <Typography.Title level={3}>Qty: </Typography.Title>
+                    </Col>
+                    <Col span={8}>
+                      <InputNumber
+                        className="full-width"
+                        defaultValue={1}
+                        size="large"
+                        min={1}
+                        max={10}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <VSpacing height={24} />
+
               <Row justify="center">
                 <Col span={14}>
                   <Button
