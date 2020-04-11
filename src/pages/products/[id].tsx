@@ -1,13 +1,14 @@
 import React from "react";
-import { Typography, Row, Col, Button, Select } from "antd";
+import { Typography, Row, Col, Button, Select, InputNumber } from "antd";
+import { Helmet } from "react-helmet";
 import RichTextContent from "@/components/RichTextContent";
 import AspectRatio from "@/components/AspectRatio";
 import VSpacing from "@/components/VSpacing";
 import styles from "./id.less";
 import { useIntl } from "umi";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, formatTitle } from "@/utils/utils";
 import ProductCard from "@/components/ProductCard";
-import { sampleProduct } from '@/sampleData';
+import { sampleProduct } from "@/sampleData";
 
 const ProductDetailPage = () => {
   const intl = useIntl();
@@ -19,6 +20,9 @@ const ProductDetailPage = () => {
     .amount as number;
   return (
     <div>
+      <Helmet>
+        <title>{formatTitle(sampleProduct.name)}</title>
+      </Helmet>
       <VSpacing height={48} />
       <Row justify="center" gutter={24}>
         <Col span={22}>
@@ -61,10 +65,10 @@ const ProductDetailPage = () => {
               </Row>
             </Col>
             <Col span={12}>
-              <Typography.Title level={1}>
+              <Typography.Title level={1} id="product-name">
                 {sampleProduct.name}
               </Typography.Title>
-              <div>
+              <div id="product-desc">
                 <RichTextContent
                   contentJson={sampleProduct.descriptionJson}
                   lines={10}
@@ -105,10 +109,34 @@ const ProductDetailPage = () => {
               <Typography.Title className="center-text" level={2}>
                 {formatPrice(currency, minPrice, maxPrice)}
               </Typography.Title>
+
               <VSpacing height={24} />
+
+              <Row justify="center">
+                <Col span={14}>
+                  <Row justify="center" gutter={36}>
+                    <Col>
+                      <Typography.Title level={3}>Qty: </Typography.Title>
+                    </Col>
+                    <Col span={8}>
+                      <InputNumber
+                        className="full-width"
+                        defaultValue={1}
+                        size="large"
+                        min={1}
+                        max={10}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <VSpacing height={24} />
+
               <Row justify="center">
                 <Col span={14}>
                   <Button
+                    id="add-to-cart-btn"
                     block
                     className={styles.addToCartBtn}
                     size="large"
@@ -130,11 +158,11 @@ const ProductDetailPage = () => {
       <Row justify="center">
         <Col>
           <Row justify="center">
-            <Typography.Title level={1}>
+            <Typography.Title level={1} id="product-suggestions-title">
               {intl.formatMessage({ id: "products.detail.suggestions" })}
             </Typography.Title>
           </Row>
-          <Row gutter={24}>
+          <Row gutter={24} id="product-suggestions-row">
             <Col>
               <ProductCard product={sampleProduct} />
             </Col>

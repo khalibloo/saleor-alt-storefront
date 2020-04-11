@@ -12,6 +12,12 @@ export default {
   // search
   "search.title": formatTitle("Search Results"),
   "search.heading": "Search Results",
+  "search.sortby": "Sort By",
+  "search.sort.relevance": "Relevance",
+  "search.sort.price.lowtohigh": "Price (Low to High)",
+  "search.sort.price.hightolow": "Price (High to Low)",
+  "search.sort.newest": "Newest Arrivals",
+  "search.filters": "Filters",
 
   // products
   // detail
