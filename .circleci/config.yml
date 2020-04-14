@@ -8,13 +8,19 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test --coverage
-            - run: npm test-e2e
-            - store_test_results:
-                path: /tmp/test-results
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test --coverage
+      - run: yarn test-e2e
+      - store_test_results:
+          path: /tmp/test-results
 workflows:
     build-and-test:
       jobs:
