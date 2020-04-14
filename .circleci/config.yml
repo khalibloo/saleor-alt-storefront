@@ -10,7 +10,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: npm install -g yarn@1.22.0
+      - run: sudo npm install -g yarn@1.22.0
       - run: yarn install
       - save_cache:
           paths:
