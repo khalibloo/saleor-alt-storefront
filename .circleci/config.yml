@@ -4,8 +4,6 @@ jobs:
     docker:
       - image: circleci/node:12.13-browsers
     working_directory: ~/repo
-    executor:
-      name: node/default
     steps:
       - checkout
       - restore_cache:
