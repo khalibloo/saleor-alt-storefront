@@ -1,8 +1,9 @@
 version: 2.1
-orbs:
-  node: circleci/node@12.13.0-browsers
 jobs:
   build-and-test:
+    docker:
+      - image: circleci/node:12.13-browsers
+    working_directory: ~/repo
     executor:
       name: node/default
     steps:
@@ -12,6 +13,8 @@ jobs:
             - run: npm install
             - run: npm test --coverage
             - run: npm test-e2e
+            - store_test_results:
+                path: /tmp/test-results
 workflows:
     build-and-test:
       jobs:
