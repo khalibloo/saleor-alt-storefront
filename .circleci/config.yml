@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: 12.3.0
+          node-version: 12.13.0
           install-yarn: true
           yarn-version: 1.22.0
       - node/install-packages:
