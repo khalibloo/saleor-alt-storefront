@@ -1,26 +1,45 @@
 version: 2.1
+orbs:
+  node: circleci/node@12.13.0-browsers
 jobs:
-  build-and-test:
-    docker:
-      - image: circleci/node:12.13-browsers
-    working_directory: ~/repo
+  build:
+    executor:
+      name: node/default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: sudo npm install -g yarn@1.22.0
-      - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn test --coverage
-      - run: yarn test-e2e
-      - store_test_results:
-          path: /tmp/test-results
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm build
+  test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm test --coverage
+  test-e2e:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm test-e2e
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  build:
+    jobs:
+      - build
+  test:
+    jobs:
+      - test
+      - test-e2e
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
