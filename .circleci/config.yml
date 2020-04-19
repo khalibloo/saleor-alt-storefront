@@ -19,15 +19,11 @@ jobs:
   test:
     executor:
       name: node/default
-    requires:
-      - build
     steps:
       - yarn test --coverage
   test-e2e:
     executor:
       name: node/default
-    requires:
-      - build
     steps:
       - yarn test-e2e
 workflows:
@@ -36,8 +32,12 @@ workflows:
       - build
   test:
     jobs:
-      - test
-      - test-e2e
+      - test:
+          requires:
+            - build
+      - test-e2e:
+          requires:
+            - build
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git:
