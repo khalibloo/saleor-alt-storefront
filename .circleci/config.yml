@@ -15,17 +15,17 @@ jobs:
           npm-version: 6.9.1
       - node/install-packages:
           pkg-manager: yarn
-      - yarn build
+      - run: yarn build
   test:
     executor:
       name: node/default
     steps:
-      - yarn test --coverage
+      - run: yarn test --coverage
   test-e2e:
     executor:
       name: node/default
     steps:
-      - yarn test-e2e
+      - run: yarn test-e2e
 workflows:
   build:
     jobs:
