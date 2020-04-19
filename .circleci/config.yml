@@ -27,19 +27,15 @@ jobs:
     steps:
       - run: yarn test-e2e
 workflows:
-  build:
+  heroku_deploy:
     jobs:
       - build
-  test:
-    jobs:
       - test:
           requires:
             - build
       - test-e2e:
           requires:
             - build
-  heroku_deploy:
-    jobs:
       - heroku/deploy-via-git:
           requires:
             - test
