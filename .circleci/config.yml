@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@2.0.2
+  browser-tools: circleci/browser-tools@1.0.0
   heroku: circleci/heroku@1.0.1
 jobs:
   build:
@@ -8,6 +9,7 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - browser-tools/install-browser-tools
       - node/install:
           node-version: 12.13.0
           install-yarn: true
