@@ -1,32 +1,35 @@
 version: 2.1
 orbs:
-  node: circleci/node@12.13.0-browsers
+  node: circleci/node@2.0.2
+  heroku: circleci/heroku@1.0.1
 jobs:
   build:
     executor:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm build
+      - node/install:
+          node-version: 12.3.0
+          install-yarn: true
+          yarn-version: 1.22.0
+          npm-version: 6.9.1
+      - node/install-packages:
+          pkg-manager: yarn
+      - yarn build
   test:
     executor:
       name: node/default
+    requires:
+      - build
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm test --coverage
+      - yarn test --coverage
   test-e2e:
     executor:
       name: node/default
+    requires:
+      - build
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm test-e2e
+      - yarn test-e2e
 workflows:
   build:
     jobs:
@@ -39,7 +42,8 @@ workflows:
     jobs:
       - heroku/deploy-via-git:
           requires:
-            - build
+            - test
+            - test-e2e
           filters:
             branches:
               only: master
