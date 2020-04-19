@@ -12,7 +12,6 @@ jobs:
           node-version: 12.3.0
           install-yarn: true
           yarn-version: 1.22.0
-          npm-version: 6.9.1
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn build
