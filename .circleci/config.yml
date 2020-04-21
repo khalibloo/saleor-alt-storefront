@@ -12,7 +12,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 13.11
+          node-version: 13.x
           install-yarn: true
       - node/install-packages:
           pkg-manager: yarn
@@ -28,7 +28,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 13.11
+          node-version: 13.x
           install-yarn: true
       - browser-tools/install-browser-tools
       - run: yarn build
@@ -43,7 +43,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 13.11
+          node-version: 13.x
           install-yarn: true
       - run: yarn test --coverage
   test-e2e:
@@ -53,7 +53,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 13.11
+          node-version: 13.x
           install-yarn: true
       - run: yarn test-e2e:no-build
 workflows:
