@@ -12,9 +12,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 12.13.0
           install-yarn: true
-          yarn-version: 1.22.0
       - node/install-packages:
           pkg-manager: yarn
           cache-key: yarn.lock
@@ -29,9 +27,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 12.13.0
           install-yarn: true
-          yarn-version: 1.22.0
       - browser-tools/install-browser-tools
       - run: yarn build
       - persist_to_workspace:
@@ -45,9 +41,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 12.13.0
           install-yarn: true
-          yarn-version: 1.22.0
       - run: yarn test --coverage
   test-e2e:
     executor:
@@ -56,9 +50,7 @@ jobs:
       - attach_workspace:
           at: .
       - node/install:
-          node-version: 12.13.0
           install-yarn: true
-          yarn-version: 1.22.0
       - run: yarn test-e2e:no-build
 workflows:
   heroku_deploy:
