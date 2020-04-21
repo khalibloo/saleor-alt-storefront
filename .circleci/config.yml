@@ -58,7 +58,7 @@ jobs:
       - browser-tools/install-browser-tools
       - run: yarn test-e2e:no-build
 workflows:
-  heroku_deploy:
+  build-test-deploy:
     jobs:
       - install
       - build:
