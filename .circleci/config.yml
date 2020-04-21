@@ -13,10 +13,7 @@ jobs:
           at: .
       - node/install:
           node-version: 13.11.0
-          install-yarn: true
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - node/install-packages
       - persist_to_workspace:
           root: .
           paths:
