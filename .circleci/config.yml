@@ -28,6 +28,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - node/install:
+          node-version: 12.13.0
+          install-yarn: true
+          yarn-version: 1.22.0
       - browser-tools/install-browser-tools
       - run: yarn build
       - persist_to_workspace:
@@ -40,6 +44,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - node/install:
+          node-version: 12.13.0
+          install-yarn: true
+          yarn-version: 1.22.0
       - run: yarn test --coverage
   test-e2e:
     executor:
@@ -47,6 +55,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - node/install:
+          node-version: 12.13.0
+          install-yarn: true
+          yarn-version: 1.22.0
       - run: yarn test-e2e:no-build
 workflows:
   heroku_deploy:
