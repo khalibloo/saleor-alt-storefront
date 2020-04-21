@@ -16,7 +16,7 @@ jobs:
           install-yarn: true
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: yarn.lock
+          cache-key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
           root: .
           paths:
