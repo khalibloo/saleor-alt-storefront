@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/tmp/workspace
+          at: .
       - node/install:
           node-version: 12.13.0
           install-yarn: true
@@ -19,38 +19,34 @@ jobs:
           pkg-manager: yarn
           cache-key: yarn.lock
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: .
           paths:
-            - node_modules
-            - yarn.lock
+            - .
   build:
     executor:
       name: node/default
     steps:
-      - checkout
       - attach_workspace:
-          at: ~/tmp/workspace
+          at: .
       - browser-tools/install-browser-tools
       - run: yarn build
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: .
           paths:
-            - dist
+            - .
   test:
     executor:
       name: node/default
     steps:
-      - checkout
       - attach_workspace:
-          at: ~/tmp/workspace
+          at: .
       - run: yarn test --coverage
   test-e2e:
     executor:
       name: node/default
     steps:
-      - checkout
       - attach_workspace:
-          at: ~/tmp/workspace
+          at: .
       - run: yarn test-e2e:no-build
 workflows:
   heroku_deploy:
