@@ -13,12 +13,18 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY . .
+COPY package*.json ./
 RUN npm install
+COPY . .
 ARG UMI_ENV=prod
 RUN UMI_ENV=${UMI_ENV} npm run build
 
-FROM nginx:stable
+FROM builder AS tester
+WORKDIR /app
+RUN npm run test
+RUN npm run test-e2e:no-build
+
+FROM nginx:1.16.1-alpine
 WORKDIR /app
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # copy build output to nginx serve folder
