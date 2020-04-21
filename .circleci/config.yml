@@ -4,12 +4,13 @@ orbs:
   browser-tools: circleci/browser-tools@1.0.0
   heroku: circleci/heroku@1.0.1
 jobs:
-  build:
+  install:
     executor:
       name: node/default
     steps:
       - checkout
-      - browser-tools/install-browser-tools
+      - attach_workspace:
+          at: ~/tmp/workspace
       - node/install:
           node-version: 12.13.0
           install-yarn: true
@@ -17,21 +18,47 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: yarn.lock
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - node_modules
+            - yarn.lock
+  build:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/tmp/workspace
+      - browser-tools/install-browser-tools
       - run: yarn build
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - dist
   test:
     executor:
       name: node/default
     steps:
+      - checkout
+      - attach_workspace:
+          at: ~/tmp/workspace
       - run: yarn test --coverage
   test-e2e:
     executor:
       name: node/default
     steps:
-      - run: yarn test-e2e
+      - checkout
+      - attach_workspace:
+          at: ~/tmp/workspace
+      - run: yarn test-e2e:no-build
 workflows:
   heroku_deploy:
     jobs:
-      - build
+      - install
+      - build:
+          requires:
+            - install
       - test:
           requires:
             - build
