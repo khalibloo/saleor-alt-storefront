@@ -5,17 +5,14 @@ import { useIntl } from "umi";
 import ProductCard from "@/components/ProductCard";
 import VSpacing from "@/components/VSpacing";
 import { sampleProduct } from "@/sampleData";
+import placeholderImg from "@/res/img/512.jpg";
 
 const HomePage = () => {
   const intl = useIntl();
   return (
     <div>
       <div style={{ height: 500, overflow: "hidden" }}>
-        <img
-          className="full-width"
-          alt="banner"
-          src="https://via.placeholder.com/512.jpg"
-        />
+        <img className="full-width" alt="banner" src={placeholderImg} />
       </div>
       <VSpacing height={24} />
       <Row justify="center">

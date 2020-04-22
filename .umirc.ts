@@ -18,10 +18,10 @@ export default defineConfig({
     baseSeparator: "-",
   },
   links: [
-    {
-      rel: "preconnect",
-      href: "https://via.placeholder.com",
-    },
+    // {
+    //   rel: "preconnect",
+    //   href: "https://via.placeholder.com",
+    // },
   ],
   define: {
     APP_ENV: "default",
