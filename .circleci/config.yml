@@ -52,7 +52,8 @@ jobs:
       - node/install:
           node-version: 13.11.0
           install-yarn: true
-      - browser-tools/install-browser-tools
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run: yarn test-e2e:no-build
 workflows:
   build-test-deploy:
