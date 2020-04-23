@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Row, Col } from "antd";
-import { useRouteMatch, useIntl } from "umi";
+import { useIntl, useParams } from "umi";
 
 import VSpacing from "@/components/VSpacing";
 import ProductCard from "@/components/ProductCard";
@@ -10,9 +10,7 @@ import styles from "./id.less";
 
 const CategoryDetailPage: React.FC = () => {
   const intl = useIntl();
-  const {
-    params: { id },
-  } = useRouteMatch();
+  const { id } = useParams();
   // TODO: fetch category
   const category = sampleCategory;
   return (
@@ -34,9 +32,7 @@ const CategoryDetailPage: React.FC = () => {
               </Typography.Title>
             </Col>
             <Col span={18}>
-              <Typography.Title level={1}>
-                {category.name}
-              </Typography.Title>
+              <Typography.Title level={1}>{category.name}</Typography.Title>
               <Row gutter={[24, 24]}>
                 <Col>
                   <ProductCard product={sampleProduct} />
