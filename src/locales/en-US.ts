@@ -27,6 +27,11 @@ export default {
   // cart
   "cart.title": formatTitle("Cart"),
   "cart.heading": "My Cart",
+  "cart.summary": "Cart Summary",
+  "cart.subtotal": "Subtotal",
+  "cart.shipping": "Shipping",
+  "cart.total": "Total",
+  "cart.checkout": "Checkout",
 
   // profile
   "profile.title": formatTitle("Profile"),
