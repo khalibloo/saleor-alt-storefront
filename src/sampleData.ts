@@ -32,4 +32,18 @@ const sampleProduct = {
   },
 };
 
-export { sampleProduct };
+const sampleAddress = {
+  id: 1,
+  firstName: "Courage",
+  lastName: "the Cowardly Dog",
+  phone: "+1234567890",
+  streetAddress1: "123 Middle of Nowhere",
+  streetAddress2: null,
+  cityArea: null,
+  city: "Some City",
+  postalCode: "12345",
+  countryArea: "Some State",
+  country: "MU",
+};
+
+export { sampleProduct, sampleAddress };

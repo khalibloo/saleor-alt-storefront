@@ -11,7 +11,7 @@ const SearchPage = () => {
   const location = useLocation();
   return (
     <div>
-      <VSpacing height={48} />
+      <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
           <Typography.Title className="center-text" level={1}>

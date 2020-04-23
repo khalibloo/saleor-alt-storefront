@@ -31,6 +31,11 @@ export default {
   // profile
   "profile.title": formatTitle("Profile"),
   "profile.heading": "My Profile",
+  "profile.personalInfo": "Personal Information",
+  "profile.contactInfo": "Contact Information",
+  "profile.name": "Name",
+  "profile.email": "Email",
+  "profile.addresses": "Addresses",
 
   // orders
   "orders.title": formatTitle("Orders"),
