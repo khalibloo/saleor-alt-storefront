@@ -1,4 +1,5 @@
 import placeholderImg from "@/res/img/512.jpg";
+import moment from "moment";
 
 const sampleProduct = {
   id: "meow",
@@ -46,4 +47,83 @@ const sampleAddress = {
   country: "MU",
 };
 
-export { sampleProduct, sampleAddress };
+const sampleOrder = {
+  id: 1,
+  date: moment().toISOString(),
+  number: "27",
+  total: { gross: { currency: "USD", amount: 314 } },
+  lines: [
+    {
+      id: 1,
+      quantity: 2,
+      unitPrice: {
+        gross: {
+          currency: "USD",
+          amount: 24.99,
+        },
+      },
+      variant: {
+        id: 1,
+        images: [
+          {
+            alt: "sample image text",
+            url: placeholderImg,
+          },
+        ],
+        pricing: {
+          price: {
+            gross: {
+              currency: "USD",
+              amount: 18.9,
+            },
+          },
+        },
+        product: {
+          id: 1,
+          name: "Sample Product",
+          thumbnail: {
+            alt: "sample image text",
+            url: placeholderImg,
+          },
+        },
+      },
+    },
+    {
+      id: 2,
+      quantity: 1,
+      unitPrice: {
+        gross: {
+          currency: "USD",
+          amount: 19.9,
+        },
+      },
+      variant: {
+        id: 1,
+        images: [
+          {
+            alt: "sample image text",
+            url: placeholderImg,
+          },
+        ],
+        pricing: {
+          price: {
+            gross: {
+              currency: "USD",
+              amount: 18.9,
+            },
+          },
+        },
+        product: {
+          id: 2,
+          name: "Another Sample Product",
+          thumbnail: {
+            alt: "sample image text",
+            url: placeholderImg,
+          },
+        },
+      },
+    },
+  ],
+};
+
+export { sampleProduct, sampleAddress, sampleOrder };

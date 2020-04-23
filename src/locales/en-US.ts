@@ -45,6 +45,9 @@ export default {
   // orders
   "orders.title": formatTitle("Orders"),
   "orders.heading": "My Orders",
+  "orders.placedOn": "Placed On",
+  "orders.orderID": "Order ID",
+  "orders.total": "Total",
 
   // who
   "who.title": formatTitle("Who"),
