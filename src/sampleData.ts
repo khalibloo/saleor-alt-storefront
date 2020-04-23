@@ -126,4 +126,22 @@ const sampleOrder = {
   ],
 };
 
-export { sampleProduct, sampleAddress, sampleOrder };
+const sampleCategory = {
+  id: 1,
+  name: "Sample Category",
+  slug: "sample-category",
+  backgroundImage: {
+    alt: "Sample banner",
+    url: placeholderImg,
+  },
+  products: [
+    sampleProduct,
+    sampleProduct,
+    sampleProduct,
+    sampleProduct,
+    sampleProduct,
+  ],
+  level: 0,
+};
+
+export { sampleProduct, sampleAddress, sampleOrder, sampleCategory };
