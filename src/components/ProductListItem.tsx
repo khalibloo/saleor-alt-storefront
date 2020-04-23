@@ -6,7 +6,6 @@ import AspectRatio from "./AspectRatio";
 import { formatPrice } from "@/utils/utils";
 
 interface Props {
-  id: string;
   product: ProductCardType;
 }
 const ProductListItem: React.FunctionComponent<Props> = props => {
