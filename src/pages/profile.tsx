@@ -1,9 +1,10 @@
 import React from "react";
-import { Typography, Row, Col, Card, List, Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Typography, Row, Col, Card, List } from "antd";
 import { useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
 import { sampleAddress } from "@/sampleData";
+import AddAddress from "@/components/AddAddress";
+import AddressCard from "@/components/AddressCard";
 
 const ProfilePage = () => {
   const intl = useIntl();
@@ -51,54 +52,13 @@ const ProfilePage = () => {
                     if (!item.id) {
                       return (
                         <List.Item key="plus">
-                          <Button
-                            className="full-width"
-                            style={{ height: 120 }}
-                          >
-                            <PlusOutlined style={{ fontSize: 36 }} />
-                          </Button>
+                          <AddAddress />
                         </List.Item>
                       );
                     }
                     return (
                       <List.Item key={item.id}>
-                        <Card>
-                          <div>
-                            <Typography.Text>{item.phone}</Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>
-                              {item.firstName + " " + item.lastName}
-                            </Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>
-                              {item.streetAddress1}
-                            </Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>
-                              {item.streetAddress2}
-                            </Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>{item.cityArea}</Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>{item.city}</Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>{item.postalCode}</Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>
-                              {item.countryArea}
-                            </Typography.Text>
-                          </div>
-                          <div>
-                            <Typography.Text>{item.country}</Typography.Text>
-                          </div>
-                        </Card>
+                        <AddressCard address={item} />
                       </List.Item>
                     );
                   }}
