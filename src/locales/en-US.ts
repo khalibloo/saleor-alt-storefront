@@ -40,6 +40,7 @@ export default {
   "profile.contactInfo": "Contact Information",
   "profile.name": "Name",
   "profile.email": "Email",
+  "profile.phone": "Phone",
   "profile.addresses": "Addresses",
 
   // orders
