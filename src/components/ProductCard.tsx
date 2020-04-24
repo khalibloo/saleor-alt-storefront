@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ProductCard as ProductCardType } from "@/fragments/types/ProductCard";
-import { Link, history } from "umi";
+import { Link } from "umi";
 import { Card, Typography } from "antd";
 import AspectRatio from "./AspectRatio";
 import { formatPrice } from "@/utils/utils";

@@ -35,6 +35,9 @@ const BasicLayout: React.FC = ({ children }) => {
       <Menu.Item>
         <Link to="/orders">My Orders</Link>
       </Menu.Item>
+      <Menu.Item>
+        <Link to="/settings">Settings</Link>
+      </Menu.Item>
       <Menu.Divider />
       <Menu.Item onClick={() => {}}>Logout</Menu.Item>
     </Menu>

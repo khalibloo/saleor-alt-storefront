@@ -2,16 +2,15 @@ import React from "react";
 import { Typography, Row, Col, List, Select } from "antd";
 import { useIntl, useLocation, Link } from "umi";
 import VSpacing from "@/components/VSpacing";
+import ProductListItem from "@/components/ProductListItem";
 import { sampleProduct } from "@/sampleData";
-import RichTextContent from "@/components/RichTextContent";
-import { formatPrice } from "@/utils/utils";
 
 const SearchPage = () => {
   const intl = useIntl();
   const location = useLocation();
   return (
     <div>
-      <VSpacing height={48} />
+      <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
           <Typography.Title className="center-text" level={1}>
@@ -53,43 +52,12 @@ const SearchPage = () => {
             <Col span={18}>
               <List
                 dataSource={[sampleProduct, sampleProduct, sampleProduct]}
-                renderItem={item => {
-                  const currency = item.pricing?.priceRange?.start?.gross
-                    .currency as string;
-                  const minPrice = item.pricing?.priceRange?.start?.gross
-                    .amount as number;
-                  const maxPrice = item.pricing?.priceRange?.stop?.gross
-                    .amount as number;
+                renderItem={product => {
                   return (
-                    <List.Item key={item.id}>
-                      <Link to={`/products/${item.id}`} className="unset-color">
-                        <Row gutter={24}>
-                          <Col span={6}>
-                            <img
-                              src={item.thumbnail.url}
-                              className="full-width"
-                            />
-                          </Col>
-                          <Col span={18}>
-                            <div>
-                              <Typography.Title level={3}>
-                                {item.name}
-                              </Typography.Title>
-                            </div>
-                            <div>
-                              <RichTextContent
-                                contentJson={item.descriptionJson}
-                                lines={3}
-                              />
-                            </div>
-                            <div>
-                              <Typography.Title level={4}>
-                                {formatPrice(currency, minPrice, maxPrice)}
-                              </Typography.Title>
-                            </div>
-                          </Col>
-                        </Row>
-                      </Link>
+                    <List.Item key={product.id}>
+                      <div className="full-width">
+                        <ProductListItem product={product} />
+                      </div>
                     </List.Item>
                   );
                 }}
