@@ -50,6 +50,19 @@ export default {
   "orders.orderID": "Order ID",
   "orders.total": "Total",
 
+  // profile
+  "settings.title": formatTitle("Account Settings"),
+  "settings.heading": "Account Settings",
+  "settings.security": "Security",
+  "settings.pwd": "Password",
+  "settings.changePwd": "Change Password",
+  "settings.email": "Email",
+  "settings.changeEmail": "Change Email",
+  "settings.dangerZone": "Danger Zone",
+  "settings.shutdownAccount": "Shutdown Account",
+  "settings.confirmation":
+    "Are you sure you want to permanently shutdown your account?",
+
   // who
   "who.title": formatTitle("Who"),
   "who.heading": "Login or Signup",
