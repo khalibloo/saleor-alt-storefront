@@ -65,7 +65,27 @@ export default {
 
   // who
   "who.title": formatTitle("Who"),
-  "who.heading": "Login or Signup",
+  "who.heading": "LogIn or SignUp",
+  "who.signup": "Sign Up",
+  "who.email": "Email",
+  "who.pwd": "Password",
+  "who.signup.email.required": "Please enter your email",
+  "who.signup.email.invalid": "Please enter a valid email",
+  "who.signup.fname": "First Name",
+  "who.signup.fname.required": "Please enter your first name",
+  "who.signup.lname": "Last Name",
+  "who.signup.lname.required": "Please enter your last name",
+  "who.signup.pwd.required": "Please enter password",
+  "who.signup.pwd.minLength": "Must be 8 characters or more",
+  "who.signup.pwd2": "Confirm password",
+  "who.signup.pwd2.required": "Please confirm password",
+  "who.signup.pwd2.match": "Passwords do not match",
+  "who.signup.agree": "I agree to the {terms} and {priv}",
+  "who.signup.agree.required": "You must agree to our terms to use our service",
+  "who.terms": "Terms of Service",
+  "who.privacyPolicy": "Privacy Policy",
+  "who.login": "Log In",
+  "who.login.remember": "Remember me",
 
   // 404
   "404.title": formatTitle("Page Not Found"),
