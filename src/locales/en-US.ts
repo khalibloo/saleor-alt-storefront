@@ -6,6 +6,9 @@ export default {
   "footer.createdby": "Created by Khalibloo",
   "navbar.search.placeholder": "Search products...",
 
+  // misc
+  "misc.pleaseSelect": "Please Select",
+
   // home
   "site.title": config.siteName,
 
@@ -29,9 +32,12 @@ export default {
   "cart.heading": "My Cart",
   "cart.summary": "Cart Summary",
   "cart.subtotal": "Subtotal",
-  "cart.shipping": "Shipping",
+  "cart.shippingAddress": "Shipping Address",
+  "cart.shippingMethod": "Shipping Method",
+  "cart.shippingFee": "Shipping Fee",
   "cart.total": "Total",
   "cart.checkout": "Checkout",
+  "cart.selectAddress": "Select Address",
 
   // profile
   "profile.title": formatTitle("Profile"),

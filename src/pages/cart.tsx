@@ -1,11 +1,21 @@
 import React from "react";
-import { Typography, Col, Row, List, Button, InputNumber, Card } from "antd";
+import {
+  Typography,
+  Col,
+  Row,
+  List,
+  Button,
+  InputNumber,
+  Card,
+  Select,
+} from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link } from "umi";
 import VSpacing from "@/components/VSpacing";
-import { sampleProduct } from "@/sampleData";
+import { sampleProduct, sampleAddress } from "@/sampleData";
 import AspectRatio from "@/components/AspectRatio";
 import { formatPrice } from "@/utils/utils";
+import AddressSelector from "@/components/AddressSelector";
 
 const CartPage = () => {
   const intl = useIntl();
@@ -80,21 +90,68 @@ const CartPage = () => {
             </Col>
             <Col span={8}>
               <Card title={intl.formatMessage({ id: "cart.summary" })}>
-                <div>
-                  <Typography.Text>
-                    {intl.formatMessage({ id: "cart.subtotal" })}: $60.00
-                  </Typography.Text>
-                </div>
-                <div>
-                  <Typography.Text>
-                    {intl.formatMessage({ id: "cart.shipping" })}: --
-                  </Typography.Text>
-                </div>
-                <div>
-                  <Typography.Text>
-                    {intl.formatMessage({ id: "cart.total" })}: $60.00
-                  </Typography.Text>
-                </div>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Typography.Text>
+                      {intl.formatMessage({ id: "cart.subtotal" })}:
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    <Typography.Text>$60.00</Typography.Text>
+                  </Col>
+                </Row>
+                <VSpacing height={8} />
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Typography.Text>
+                      {intl.formatMessage({ id: "cart.shippingAddress" })}:
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    <AddressSelector block value={sampleAddress} />
+                  </Col>
+                </Row>
+                <VSpacing height={8} />
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Typography.Text>
+                      {intl.formatMessage({ id: "cart.shippingMethod" })}:
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    <Select
+                      className="full-width"
+                      placeholder={intl.formatMessage({
+                        id: "misc.pleaseSelect",
+                      })}
+                    >
+                      <Select.Option value="1">Standard Shipping</Select.Option>
+                      <Select.Option value="2">Priority Shipping</Select.Option>
+                    </Select>
+                  </Col>
+                </Row>
+                <VSpacing height={8} />
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Typography.Text>
+                      {intl.formatMessage({ id: "cart.shippingFee" })}:
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    <Typography.Text>--</Typography.Text>
+                  </Col>
+                </Row>
+                <VSpacing height={24} />
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Typography.Text strong>
+                      {intl.formatMessage({ id: "cart.total" })}:
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    <Typography.Text strong>$60.00</Typography.Text>
+                  </Col>
+                </Row>
                 <VSpacing height={24} />
                 <Button
                   id="checkout-btn"
