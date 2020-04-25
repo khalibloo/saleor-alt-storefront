@@ -14,7 +14,7 @@ const SettingsPage = () => {
             {intl.formatMessage({ id: "settings.heading" })}
           </Typography.Title>
           <Row justify="center">
-            <Col span={12}>
+            <Col span={12} xs={24} sm={24} md={16} lg={12} xl={12} xxl={8}>
               <Card title={intl.formatMessage({ id: "settings.security" })}>
                 <div>
                   <Typography.Text strong>
