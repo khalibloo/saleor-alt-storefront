@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Row, Col } from "antd";
 import styles from "./index.less";
-import { useIntl } from "umi";
+import { useIntl, Link } from "umi";
 import ProductCard from "@/components/ProductCard";
 import VSpacing from "@/components/VSpacing";
 import { sampleProduct } from "@/sampleData";
@@ -12,17 +12,19 @@ const HomePage = () => {
   return (
     <div>
       <div style={{ height: 500, overflow: "hidden" }}>
-        <img className="full-width" alt="banner" src={placeholderImg} />
+        <Link to="/collections/meow">
+          <img className="full-width" alt="banner" src={placeholderImg} />
+        </Link>
       </div>
       <VSpacing height={24} />
       <Row justify="center">
-        <Col>
+        <Col span={22}>
           <Row justify="center">
-            <Typography.Title level={1}>
+            <Typography.Title className="center-text" level={1}>
               Welcome to Alt Storefront
             </Typography.Title>
           </Row>
-          <Row gutter={24}>
+          <Row gutter={[24, 24]} justify="space-around">
             <Col>
               <ProductCard product={sampleProduct} />
             </Col>

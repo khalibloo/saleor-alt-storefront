@@ -1,26 +1,22 @@
 import React from "react";
-import {
-  Typography,
-  Layout,
-  Row,
-  Col,
-  Input,
-  //   Button,
-  Menu,
-  Dropdown,
-} from "antd";
-import { useIntl, Link, history } from "umi";
+import { Typography, Layout, Row, Col, Menu, Dropdown } from "antd";
+import { useIntl, Link } from "umi";
 import {
   ShoppingCartOutlined,
   UserOutlined,
   GlobalOutlined,
+  MenuOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import clx from "classnames";
 
 import styles from "./index.less";
+import ProductSearch from "@/components/ProductSearch";
+import { useResponsive } from "@umijs/hooks";
 
 const BasicLayout: React.FC = ({ children }) => {
   const intl = useIntl();
+  const responsive = useResponsive();
   const langMenu = (
     <Menu>
       <Menu.Item>English</Menu.Item>
@@ -44,7 +40,7 @@ const BasicLayout: React.FC = ({ children }) => {
   );
   return (
     <Layout className={styles.layout}>
-      <Layout.Header className={clx("full-width", styles.header)}>
+      <Layout.Header className={clx("full-width no-padding", styles.header)}>
         <Row justify="space-between" align="middle" className="full-height">
           <Col className="full-height">
             <Menu
@@ -70,20 +66,8 @@ const BasicLayout: React.FC = ({ children }) => {
               </Menu.Item>
             </Menu>
           </Col>
-          <Col span={8}>
-            <Input.Search
-              size="large"
-              className="full-width"
-              placeholder={intl.formatMessage({
-                id: "navbar.search.placeholder",
-              })}
-              onSearch={query =>
-                history.push({
-                  pathname: "/search",
-                  query: { query },
-                })
-              }
-            />
+          <Col span={8} xs={0} sm={0} md={0} lg={8}>
+            <ProductSearch />
           </Col>
           <Col className="full-height">
             <Menu
@@ -92,8 +76,16 @@ const BasicLayout: React.FC = ({ children }) => {
               selectedKeys={[]}
             >
               <Menu.Item
-                key="1"
+                key="search"
+                className={clx("full-height", styles.navrightItem)}
+                hidden={responsive.lg}
+              >
+                <SearchOutlined className={styles.navrightIcon} />
+              </Menu.Item>
+              <Menu.Item
+                key="lang"
                 className={clx("no-padding full-height", styles.navrightItem)}
+                hidden={!responsive.sm}
               >
                 <Dropdown overlay={langMenu}>
                   <div className={styles.dropdownPadder}>
@@ -102,16 +94,18 @@ const BasicLayout: React.FC = ({ children }) => {
                 </Dropdown>
               </Menu.Item>
               <Menu.Item
-                key="2"
+                key="cart"
                 className={clx("full-height", styles.navrightItem)}
+                hidden={!responsive.sm}
               >
                 <Link to="/cart">
                   <ShoppingCartOutlined className={styles.navrightIcon} />
                 </Link>
               </Menu.Item>
               <Menu.Item
-                key="3"
+                key="profile"
                 className={clx("no-padding full-height", styles.navrightItem)}
+                hidden={!responsive.sm}
               >
                 <Dropdown overlay={avatarMenu} placement="bottomCenter">
                   <div className={styles.dropdownPadder}>
@@ -119,19 +113,14 @@ const BasicLayout: React.FC = ({ children }) => {
                   </div>
                 </Dropdown>
               </Menu.Item>
+              <Menu.Item
+                key="extra"
+                className={clx("full-height", styles.navrightItem)}
+                hidden={responsive.sm}
+              >
+                <MenuOutlined className={styles.navrightIcon} />
+              </Menu.Item>
             </Menu>
-            {/* <Row>
-              <Col>
-                <Button size="large" className="icon-btn">
-                  <ShoppingCartOutlined className={styles.navrightIcon} />
-                </Button>
-              </Col>
-              <Col>
-                <Button size="large" className={"icon-btn"}>
-                  <UserOutlined className={styles.navrightIcon} />
-                </Button>
-              </Col>
-            </Row> */}
           </Col>
         </Row>
       </Layout.Header>
