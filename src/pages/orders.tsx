@@ -18,7 +18,7 @@ const OrdersPage = () => {
             {intl.formatMessage({ id: "orders.heading" })}
           </Typography.Title>
           <Row justify="center">
-            <Col span={16}>
+            <Col span={16} xs={24} sm={24} md={18} lg={16} xl={16} xxl={12}>
               <List
                 dataSource={[
                   { ...sampleOrder, id: 1 },
