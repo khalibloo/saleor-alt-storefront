@@ -22,6 +22,7 @@ const NavBar: React.FC = () => {
     setFalse: closeSearchDrawer,
   } = useBoolean(false);
   const responsive = useResponsive();
+
   const langMenu = (
     <Menu>
       <Menu.Item>English</Menu.Item>
@@ -56,7 +57,7 @@ const NavBar: React.FC = () => {
       >
         <Row justify="center" align="middle" className="full-height">
           <Col span={16} xs={22} sm={22} md={20} lg={16}>
-            <ProductSearch />
+            <ProductSearch onSearch={closeSearchDrawer} />
           </Col>
         </Row>
       </Drawer>
@@ -104,7 +105,7 @@ const NavBar: React.FC = () => {
               className={clx("no-padding full-height", styles.navrightItem)}
               hidden={!responsive.sm}
             >
-              <Dropdown overlay={langMenu}>
+              <Dropdown overlay={langMenu} trigger={["click", "hover"]}>
                 <div className={styles.dropdownPadder}>
                   <GlobalOutlined className={styles.navrightIcon} />
                 </div>
@@ -124,7 +125,11 @@ const NavBar: React.FC = () => {
               className={clx("no-padding full-height", styles.navrightItem)}
               hidden={!responsive.sm}
             >
-              <Dropdown overlay={avatarMenu} placement="bottomCenter">
+              <Dropdown
+                overlay={avatarMenu}
+                placement="bottomCenter"
+                trigger={["click", "hover"]}
+              >
                 <div className={styles.dropdownPadder}>
                   <UserOutlined className={styles.navrightIcon} />
                 </div>
