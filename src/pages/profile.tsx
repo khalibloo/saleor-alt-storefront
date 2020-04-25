@@ -17,7 +17,7 @@ const ProfilePage = () => {
             {intl.formatMessage({ id: "profile.heading" })}
           </Typography.Title>
           <Row justify="center">
-            <Col span={12}>
+            <Col span={12} xs={24} sm={24} md={16} lg={12} xl={12} xxl={8}>
               <Card title={intl.formatMessage({ id: "profile.personalInfo" })}>
                 <div>
                   <Typography.Text strong>
@@ -47,7 +47,7 @@ const ProfilePage = () => {
                     { ...sampleAddress, id: 2 },
                     {},
                   ]}
-                  grid={{ column: 2, gutter: 24 }}
+                  grid={{ column: 2, xs: 1, sm: 2, gutter: 24 }}
                   renderItem={item => {
                     if (!item.id) {
                       return (
