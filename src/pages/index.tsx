@@ -1,14 +1,16 @@
 import React from "react";
 import { Typography, Row, Col, List } from "antd";
-import styles from "./index.less";
 import { useIntl, Link } from "umi";
+import clx from "classnames";
 import ProductCard from "@/components/ProductCard";
 import VSpacing from "@/components/VSpacing";
-import { sampleProduct } from "@/sampleData";
-import placeholderImg from "@/res/img/512.jpg";
-import { ListGridType } from "antd/lib/list";
 import { useResponsive } from "@umijs/hooks";
 import { getScreenSize } from "@/utils/utils";
+import { sampleProduct, sampleCategory } from "@/sampleData";
+import { ListGridType } from "antd/lib/list";
+
+import styles from "./index.less";
+import placeholderImg from "@/res/img/512.jpg";
 
 const HomePage = () => {
   const intl = useIntl();
@@ -33,9 +35,23 @@ const HomePage = () => {
   };
   return (
     <div>
-      <div className="mask" style={{ height: 500 }}>
+      <div className={styles.bannerContainer}>
         <Link to="/collections/meow">
-          <img className="full-width" alt="banner" src={placeholderImg} />
+          <img
+            className={clx("full-width full-height", styles.bannerImg)}
+            src={sampleCategory.backgroundImage.url}
+            alt={sampleCategory.backgroundImage.alt}
+          />
+          <Row className="full-height" justify="center" align="middle">
+            <Col className={styles.bannerTitleBG}>
+              <Typography.Title
+                className="center-text no-margin inverse-text"
+                level={1}
+              >
+                {sampleCategory.name}
+              </Typography.Title>
+            </Col>
+          </Row>
         </Link>
       </div>
       <VSpacing height={24} />
