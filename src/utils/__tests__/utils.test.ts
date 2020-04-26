@@ -1,14 +1,83 @@
-import { formatTitle, formatPrice } from "../utils";
+import { formatTitle, formatPrice, getScreenSize } from "../utils";
 import config from "@/config";
 
+describe("getScreenSize tests", () => {
+  test("returns xxl", async () => {
+    const responsive = {
+      xs: true,
+      sm: true,
+      md: true,
+      lg: true,
+      xl: true,
+      xxl: true,
+    };
+    expect(getScreenSize(responsive)).toEqual("xxl");
+  });
+  test("returns xl", async () => {
+    const responsive = {
+      xs: true,
+      sm: true,
+      md: true,
+      lg: true,
+      xl: true,
+      xxl: false,
+    };
+    expect(getScreenSize(responsive)).toEqual("xl");
+  });
+  test("returns lg", async () => {
+    const responsive = {
+      xs: true,
+      sm: true,
+      md: true,
+      lg: true,
+      xl: false,
+      xxl: false,
+    };
+    expect(getScreenSize(responsive)).toEqual("lg");
+  });
+  test("returns md", async () => {
+    const responsive = {
+      xs: true,
+      sm: true,
+      md: true,
+      lg: false,
+      xl: false,
+      xxl: false,
+    };
+    expect(getScreenSize(responsive)).toEqual("md");
+  });
+  test("returns sm", async () => {
+    const responsive = {
+      xs: true,
+      sm: true,
+      md: false,
+      lg: false,
+      xl: false,
+      xxl: false,
+    };
+    expect(getScreenSize(responsive)).toEqual("sm");
+  });
+  test("returns xs", async () => {
+    const responsive = {
+      xs: true,
+      sm: false,
+      md: false,
+      lg: false,
+      xl: false,
+      xxl: false,
+    };
+    expect(getScreenSize(responsive)).toEqual("xs");
+  });
+});
+
 describe("formatTitle tests", () => {
-  test("starts with supplied text", () => {
+  test("starts with supplied text", async () => {
     expect(formatTitle("Blah").startsWith("Blah")).toBe(true);
   });
-  test("contains separator ( | )", () => {
+  test("contains separator ( | )", async () => {
     expect(formatTitle("Blah")).toEqual(expect.stringContaining(" | "));
   });
-  test("ends with site name", () => {
+  test("ends with site name", async () => {
     expect(formatTitle("Blah").endsWith(config.siteName)).toBe(true);
   });
 });

@@ -18,7 +18,6 @@ const ProductCard: React.FunctionComponent<Props> = props => {
     <Link to={`/products/${product.id}`}>
       <Card
         hoverable
-        style={{ width: 240 }}
         cover={
           <AspectRatio width={1} height={1}>
             <img
