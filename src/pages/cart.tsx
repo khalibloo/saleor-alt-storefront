@@ -10,6 +10,7 @@ import {
   Select,
   Affix,
   Drawer,
+  Collapse,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link } from "umi";
@@ -23,14 +24,9 @@ import { useResponsive, useBoolean } from "@umijs/hooks";
 const CartPage = () => {
   const intl = useIntl();
   const responsive = useResponsive();
-  const {
-    state: mbCheckoutOpen,
-    setTrue: openMbCheckout,
-    setFalse: closeMbCheckout,
-  } = useBoolean(false);
 
   const summary = (
-    <>
+    <Card className="shadow" title={intl.formatMessage({ id: "cart.summary" })}>
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
@@ -97,19 +93,11 @@ const CartPage = () => {
       <Button id="checkout-btn" block size="large" shape="round" type="primary">
         {intl.formatMessage({ id: "cart.checkout" })}
       </Button>
-    </>
+    </Card>
   );
   return (
     <div className="vflex flex-grow-1">
       <VSpacing height={24} />
-      <Drawer
-        visible={mbCheckoutOpen}
-        onClose={closeMbCheckout}
-        placement="bottom"
-        height={300}
-      >
-        {summary}
-      </Drawer>
       <Row justify="center" className="flex-grow-1">
         <Col span={22}>
           <Typography.Title className="center-text" level={1}>
@@ -121,6 +109,9 @@ const CartPage = () => {
                 dataSource={[
                   { ...sampleProduct, id: 1 },
                   { ...sampleProduct, id: 2 },
+                  { ...sampleProduct, id: 3 },
+                  { ...sampleProduct, id: 4 },
+                  { ...sampleProduct, id: 5 },
                 ]}
                 renderItem={item => {
                   const currency = item.pricing?.priceRange?.start?.gross
@@ -194,27 +185,13 @@ const CartPage = () => {
               />
             </Col>
             <Col span={8} xs={0} sm={0} md={0} lg={8} xl={8} xxl={8}>
-              <Card title={intl.formatMessage({ id: "cart.summary" })}>
-                {summary}
-              </Card>
+              {summary}
             </Col>
           </Row>
         </Col>
       </Row>
       <VSpacing height={48} />
-      {!responsive.lg && (
-        <Affix>
-          <Button
-            id="checkout-btn"
-            block
-            type="primary"
-            size="large"
-            onClick={openMbCheckout}
-          >
-            {intl.formatMessage({ id: "cart.checkout" })}
-          </Button>
-        </Affix>
-      )}
+      {!responsive.lg && <Affix offsetBottom={0}>{summary}</Affix>}
     </div>
   );
 };

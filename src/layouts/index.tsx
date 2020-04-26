@@ -9,7 +9,9 @@ import Footer from "./Footer";
 const BasicLayout: React.FC = ({ children }) => {
   return (
     <Layout className={styles.layout}>
-      <Layout.Header className={clx("full-width no-padding", styles.header)}>
+      <Layout.Header
+        className={clx("full-width no-padding shadow", styles.header)}
+      >
         <NavBar />
       </Layout.Header>
       <Layout.Content className={styles.content}>{children}</Layout.Content>

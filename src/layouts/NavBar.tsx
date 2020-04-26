@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import clx from "classnames";
 
-import styles from "./index.less";
+import styles from "./NavBar.less";
 import ProductSearch from "@/components/ProductSearch";
 import { useResponsive, useBoolean } from "@umijs/hooks";
 
