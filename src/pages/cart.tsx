@@ -26,7 +26,11 @@ const CartPage = () => {
   const responsive = useResponsive();
 
   const summary = (
-    <Card className="shadow" title={intl.formatMessage({ id: "cart.summary" })}>
+    <Card
+      className="shadow"
+      bordered={false}
+      title={intl.formatMessage({ id: "cart.summary" })}
+    >
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
