@@ -2,6 +2,7 @@ import * as React from "react";
 import { Form, Input, Checkbox, Button, Row, Col } from "antd";
 import { useIntl, Link } from "umi";
 import { useResponsive } from "@umijs/hooks";
+import Logger from "@/utils/logger";
 
 interface Props {
   onSubmit?: () => void;
@@ -11,12 +12,12 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
   const responsive = useResponsive();
 
   const onFinish = values => {
-    console.log("Success:", values);
+    Logger.log("Success:", values);
     onSubmit?.();
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    Logger.log("Failed:", errorInfo);
   };
   return (
     <Form
