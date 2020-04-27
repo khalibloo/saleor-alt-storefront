@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Row, Col, List, Card } from "antd";
 import { useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
-import moment from "moment";
+import dayjs from "dayjs";
 import { formatPrice } from "@/utils/utils";
 import { sampleOrder } from "@/sampleData";
 import VariantListItem from "@/components/VariantListItem";
@@ -38,7 +38,7 @@ const OrdersPage = () => {
                                   {intl.formatMessage({
                                     id: "orders.placedOn",
                                   })}
-                                  : {moment(order.date).format("Do MMMM, YYYY")}
+                                  : {dayjs(order.date).format("Do MMMM, YYYY")}
                                 </Typography.Text>
                               </div>
                               <div>
