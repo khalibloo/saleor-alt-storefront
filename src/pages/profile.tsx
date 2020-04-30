@@ -13,12 +13,24 @@ const ProfilePage = () => {
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="center-text" level={1}>
             {intl.formatMessage({ id: "profile.heading" })}
           </Typography.Title>
           <Row justify="center">
-            <Col span={12} xs={24} sm={24} md={16} lg={12} xl={12} xxl={8}>
-              <Card title={intl.formatMessage({ id: "profile.personalInfo" })}>
+            <Col
+              id="content-col"
+              span={12}
+              xs={24}
+              sm={24}
+              md={16}
+              lg={12}
+              xl={12}
+              xxl={8}
+            >
+              <Card
+                id="personal-info-card"
+                title={intl.formatMessage({ id: "profile.personalInfo" })}
+              >
                 <div>
                   <Typography.Text strong>
                     {intl.formatMessage({ id: "profile.name" })}
@@ -29,7 +41,10 @@ const ProfilePage = () => {
                 </div>
               </Card>
               <VSpacing height={24} />
-              <Card title={intl.formatMessage({ id: "profile.contactInfo" })}>
+              <Card
+                id="contact-info-card"
+                title={intl.formatMessage({ id: "profile.contactInfo" })}
+              >
                 <div>
                   <Typography.Text strong>
                     {intl.formatMessage({ id: "profile.email" })}
@@ -40,7 +55,10 @@ const ProfilePage = () => {
                 </div>
               </Card>
               <VSpacing height={24} />
-              <Card title={intl.formatMessage({ id: "profile.addresses" })}>
+              <Card
+                id="addresses-card"
+                title={intl.formatMessage({ id: "profile.addresses" })}
+              >
                 <List
                   dataSource={[
                     { ...sampleAddress, id: 1 },

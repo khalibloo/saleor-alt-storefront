@@ -18,15 +18,28 @@ const SearchPage = () => {
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="center-text" level={1}>
             {intl.formatMessage({ id: "search.heading" })}
           </Typography.Title>
-          <Typography.Title className="center-text" level={3}>
+          <Typography.Title
+            id="page-subheading"
+            className="center-text"
+            level={3}
+          >
             <i>"{location.query?.query}"</i>
           </Typography.Title>
           <FilterBar hideFilters={responsive.lg} />
           <Row gutter={24}>
-            <Col span={6} xs={0} sm={0} md={0} lg={6} xl={6} xxl={8}>
+            <Col
+              id="filters-col"
+              span={6}
+              xs={0}
+              sm={0}
+              md={0}
+              lg={6}
+              xl={6}
+              xxl={8}
+            >
               <Typography.Title level={3}>
                 {intl.formatMessage({ id: "search.filters" })}...
               </Typography.Title>
@@ -37,7 +50,7 @@ const SearchPage = () => {
                 dataSource={[sampleProduct, sampleProduct, sampleProduct]}
                 renderItem={product => {
                   return (
-                    <List.Item key={product.id}>
+                    <List.Item className="product-list-items" key={product.id}>
                       <div className="full-width">
                         <ProductListItem product={product} />
                       </div>

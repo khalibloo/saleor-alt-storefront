@@ -6,7 +6,7 @@ const NotFoundPage = () => {
   const intl = useIntl();
   return (
     <div>
-      <Typography.Title level={1}>
+      <Typography.Title id="page-heading" level={1}>
         {intl.formatMessage({ id: "404.heading" })}
       </Typography.Title>
     </div>

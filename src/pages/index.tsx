@@ -10,7 +10,6 @@ import { sampleProduct, sampleCategory } from "@/sampleData";
 import { ListGridType } from "antd/lib/list";
 
 import styles from "./index.less";
-import placeholderImg from "@/res/img/512.jpg";
 
 const HomePage = () => {
   const intl = useIntl();
@@ -35,7 +34,7 @@ const HomePage = () => {
   };
   return (
     <div>
-      <div className={styles.bannerContainer}>
+      <div id="banner-container" className={styles.bannerContainer}>
         <Link to="/collections/meow">
           <img
             className={clx("full-width full-height", styles.bannerImg)}
@@ -58,7 +57,11 @@ const HomePage = () => {
       <Row justify="center">
         <Col span={22}>
           <Row justify="center">
-            <Typography.Title className="center-text" level={1}>
+            <Typography.Title
+              id="welcome-msg"
+              className="center-text"
+              level={1}
+            >
               Welcome to Alt Storefront
             </Typography.Title>
           </Row>
@@ -67,7 +70,7 @@ const HomePage = () => {
             grid={productGrid}
             renderItem={product => {
               return (
-                <List.Item key={product.id}>
+                <List.Item className="product-list-items" key={product.id}>
                   <div className="full-width">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>

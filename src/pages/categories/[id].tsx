@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Row, Col, List } from "antd";
+import { Helmet } from "react-helmet";
 import { useIntl, useParams } from "umi";
 import clx from "classnames";
 
@@ -10,6 +11,7 @@ import { sampleCategory, sampleProduct } from "@/sampleData";
 import styles from "./id.less";
 import FilterBar from "@/components/FilterBar";
 import { useResponsive } from "@umijs/hooks";
+import { formatTitle } from '@/utils/utils';
 
 const CategoryDetailPage: React.FC = () => {
   const intl = useIntl();
@@ -19,8 +21,12 @@ const CategoryDetailPage: React.FC = () => {
   const category = sampleCategory;
   return (
     <div>
+      <Helmet>
+        <title>{formatTitle(category.name)}</title>
+      </Helmet>
       <div className={styles.bannerContainer}>
         <img
+          id="banner-img"
           className={clx("full-width full-height", styles.bannerImg)}
           src={category.backgroundImage.url}
           alt={category.backgroundImage.alt}
@@ -28,6 +34,7 @@ const CategoryDetailPage: React.FC = () => {
         <Row className="full-height" justify="center" align="middle">
           <Col className={styles.bannerTitleBG}>
             <Typography.Title
+              id="title"
               className="center-text no-margin inverse-text"
               level={1}
             >
@@ -39,7 +46,16 @@ const CategoryDetailPage: React.FC = () => {
       <Row justify="center">
         <Col span={22}>
           <Row gutter={24}>
-            <Col span={6} xs={0} sm={0} md={0} lg={6} xl={6} xxl={8}>
+            <Col
+              id="filters-col"
+              span={6}
+              xs={0}
+              sm={0}
+              md={0}
+              lg={6}
+              xl={6}
+              xxl={8}
+            >
               <VSpacing height={24} />
               <Typography.Title level={3}>
                 {intl.formatMessage({ id: "search.filters" })}...
@@ -60,7 +76,7 @@ const CategoryDetailPage: React.FC = () => {
                 grid={{ gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }}
                 renderItem={product => {
                   return (
-                    <List.Item key={product.id}>
+                    <List.Item className="product-list-items" key={product.id}>
                       <div className="full-width">
                         <Row justify="center">
                           <Col span={24} style={{ maxWidth: 240 }}>

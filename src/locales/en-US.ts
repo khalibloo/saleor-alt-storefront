@@ -70,7 +70,7 @@ export default {
     "Are you sure you want to permanently shutdown your account?",
 
   // who
-  "who.title": formatTitle("Who"),
+  "who.title": formatTitle("LogIn or SignUp"),
   "who.heading": "LogIn or SignUp",
   "who.signup": "Sign Up",
   "who.email": "Email",

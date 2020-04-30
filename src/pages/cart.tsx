@@ -27,6 +27,7 @@ const CartPage = () => {
 
   const summary = (
     <Card
+      id="summary-card"
       className="shadow"
       bordered={false}
       title={intl.formatMessage({ id: "cart.summary" })}
@@ -104,7 +105,7 @@ const CartPage = () => {
       <VSpacing height={24} />
       <Row justify="center" className="flex-grow-1">
         <Col span={22}>
-          <Typography.Title className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="center-text" level={1}>
             {intl.formatMessage({ id: "cart.heading" })}
           </Typography.Title>
           <Row gutter={24} justify="center">
@@ -123,7 +124,7 @@ const CartPage = () => {
                   const minPrice = item.pricing?.priceRange?.start?.gross
                     .amount as number;
                   return (
-                    <List.Item key={item.id}>
+                    <List.Item className="product-list-items" key={item.id}>
                       <div className="full-width">
                         <Card>
                           <Row gutter={24}>
