@@ -1,60 +1,56 @@
 import React from "react";
-import { Typography, Row, Col, List, Select } from "antd";
-import { useIntl, useLocation, Link } from "umi";
+import { Typography, Row, Col, List } from "antd";
+
+import { useIntl, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
 import ProductListItem from "@/components/ProductListItem";
 import { sampleProduct } from "@/sampleData";
+import FilterBar from "@/components/FilterBar";
+import { useResponsive } from "@umijs/hooks";
 
 const SearchPage = () => {
   const intl = useIntl();
+  const responsive = useResponsive();
   const location = useLocation();
+
   return (
     <div>
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="center-text" level={1}>
             {intl.formatMessage({ id: "search.heading" })}
           </Typography.Title>
-          <Typography.Title className="center-text" level={3}>
+          <Typography.Title
+            id="page-subheading"
+            className="center-text"
+            level={3}
+          >
             <i>"{location.query?.query}"</i>
           </Typography.Title>
-          <Row justify="end" gutter={16} align="middle">
-            <Col>
-              <Typography.Text>
-                {intl.formatMessage({ id: "search.sortby" })}
-              </Typography.Text>
-            </Col>
-            <Col span={3}>
-              <Select className="full-width" defaultValue="RELEVANCE">
-                <Select.Option value="RELEVANCE">
-                  {intl.formatMessage({ id: "search.sort.relevance" })}
-                </Select.Option>
-                <Select.Option value="PRICE_ASC">
-                  {intl.formatMessage({ id: "search.sort.price.lowtohigh" })}
-                </Select.Option>
-                <Select.Option value="PRICE_DESC">
-                  {intl.formatMessage({ id: "search.sort.price.hightolow" })}
-                </Select.Option>
-                <Select.Option value="DATE_DESC">
-                  {intl.formatMessage({ id: "search.sort.newest" })}
-                </Select.Option>
-              </Select>
-            </Col>
-          </Row>
+          <FilterBar hideFilters={responsive.lg} />
           <Row gutter={24}>
-            <Col span={6}>
+            <Col
+              id="filters-col"
+              span={6}
+              xs={0}
+              sm={0}
+              md={0}
+              lg={6}
+              xl={6}
+              xxl={8}
+            >
               <Typography.Title level={3}>
                 {intl.formatMessage({ id: "search.filters" })}...
               </Typography.Title>
             </Col>
 
-            <Col span={18}>
+            <Col span={18} xs={24} sm={24} md={24} lg={18} xl={18} xxl={16}>
               <List
                 dataSource={[sampleProduct, sampleProduct, sampleProduct]}
                 renderItem={product => {
                   return (
-                    <List.Item key={product.id}>
+                    <List.Item className="product-list-items" key={product.id}>
                       <div className="full-width">
                         <ProductListItem product={product} />
                       </div>

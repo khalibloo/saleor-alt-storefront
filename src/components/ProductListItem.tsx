@@ -16,7 +16,7 @@ const ProductListItem: React.FunctionComponent<Props> = props => {
   return (
     <Card>
       <Row gutter={24}>
-        <Col span={4}>
+        <Col span={4} xs={8} sm={6} md={6} lg={4} xl={4} xxl={4}>
           <Link to={`/products/${product.id}`}>
             <AspectRatio width={1} height={1}>
               <img
@@ -27,7 +27,7 @@ const ProductListItem: React.FunctionComponent<Props> = props => {
             </AspectRatio>
           </Link>
         </Col>
-        <Col span={20}>
+        <Col span={20} xs={16} sm={18} md={18} lg={20} xl={20} xxl={20}>
           <Link to={`/products/${product.id}`}>
             <Typography.Title level={4}>{product.name}</Typography.Title>
           </Link>

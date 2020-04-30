@@ -5,6 +5,14 @@ export default {
   // layout
   "footer.createdby": "Created by Khalibloo",
   "navbar.search.placeholder": "Search products...",
+  "navbar.menu": "Menu",
+  "navbar.cart": "Shopping Cart",
+  "navbar.account": "My Account",
+  "navbar.profile": "My Profile",
+  "navbar.orders": "My Orders",
+  "navbar.settings": "Settings",
+  "navbar.language": "Language",
+  "navbar.logout": "Logout",
 
   // misc
   "misc.pleaseSelect": "Please Select",
@@ -70,7 +78,7 @@ export default {
     "Are you sure you want to permanently shutdown your account?",
 
   // who
-  "who.title": formatTitle("Who"),
+  "who.title": formatTitle("LogIn or SignUp"),
   "who.heading": "LogIn or SignUp",
   "who.signup": "Sign Up",
   "who.email": "Email",

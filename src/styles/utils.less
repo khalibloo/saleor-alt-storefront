@@ -1,3 +1,5 @@
+@import "~antd/lib/style/themes/default.less";
+
 body {
   .full-width {
     width: 100%;
@@ -19,6 +21,9 @@ body {
   }
   .uppercase-text {
     text-transform: uppercase;
+  }
+  .inverse-text {
+    color: @text-color-inverse;
   }
   .block {
     display: block;
@@ -73,6 +78,16 @@ body {
   }
   .absolute {
     position: absolute;
+  }
+  .vflex {
+    display: flex;
+    flex-direction: column;
+  }
+  .flex-grow-1 {
+    flex-grow: 1;
+  }
+  .shadow {
+    box-shadow: #0003 1px 0px 8px;
   }
 
   //Hide

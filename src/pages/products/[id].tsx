@@ -1,80 +1,204 @@
 import React from "react";
-import { Typography, Row, Col, Button, Select, InputNumber } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Button,
+  Select,
+  InputNumber,
+  List,
+  Affix,
+  Card,
+} from "antd";
+import clx from "classnames";
 import { Helmet } from "react-helmet";
 import RichTextContent from "@/components/RichTextContent";
 import AspectRatio from "@/components/AspectRatio";
 import VSpacing from "@/components/VSpacing";
 import styles from "./id.less";
 import { useIntl } from "umi";
-import { formatPrice, formatTitle } from "@/utils/utils";
+import { formatPrice, formatTitle, getScreenSize } from "@/utils/utils";
 import ProductCard from "@/components/ProductCard";
 import { sampleProduct } from "@/sampleData";
+import { ListGridType } from "antd/lib/list";
+import { useResponsive, useSize } from "@umijs/hooks";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 const ProductDetailPage = () => {
   const intl = useIntl();
-  const currency = sampleProduct.pricing?.priceRange?.start?.gross
-    .currency as string;
-  const minPrice = sampleProduct.pricing?.priceRange?.start?.gross
-    .amount as number;
-  const maxPrice = sampleProduct.pricing?.priceRange?.stop?.gross
-    .amount as number;
-  return (
+  const responsive: any = useResponsive();
+  const screenSize = getScreenSize(responsive);
+  const [imgSize, imgRef] = useSize<HTMLDivElement>();
+  const [thumbsColSize, thumbsColRef] = useSize<HTMLDivElement>();
+  const product = sampleProduct;
+  const suggestions = [
+    { ...sampleProduct, id: 1 },
+    { ...sampleProduct, id: 2 },
+    { ...sampleProduct, id: 3 },
+    { ...sampleProduct, id: 4 },
+    { ...sampleProduct, id: 5 },
+    { ...sampleProduct, id: 6 },
+  ];
+  const productGrid: ListGridType = {
+    gutter: 24,
+    xs: 1,
+    sm: 2,
+    md: 3,
+    lg: 3,
+    xl: 4,
+    xxl: 6,
+  };
+  const currency = product.pricing?.priceRange?.start?.gross.currency as string;
+  const minPrice = product.pricing?.priceRange?.start?.gross.amount as number;
+  const maxPrice = product.pricing?.priceRange?.stop?.gross.amount as number;
+
+  const thumb = (
     <div>
+      <AspectRatio width={1} height={1} noMask>
+        <Button className="full-width full-height no-padding">
+          <img
+            className="full-width"
+            alt={product.thumbnail?.alt as string}
+            src={product.thumbnail?.url}
+          />
+        </Button>
+      </AspectRatio>
+      <VSpacing height={8} />
+    </div>
+  );
+
+  const priceLabel = (
+    <Typography.Title className="center-text" level={3}>
+      {formatPrice(currency, minPrice, maxPrice)}
+    </Typography.Title>
+  );
+
+  const qty = (
+    <Row justify="center" gutter={36}>
+      <Col>
+        <Typography.Title level={4}>Qty: </Typography.Title>
+      </Col>
+      <Col span={8}>
+        <InputNumber
+          className="full-width"
+          defaultValue={1}
+          size="large"
+          min={1}
+          max={10}
+        />
+      </Col>
+    </Row>
+  );
+
+  const addToCartBtn = (
+    <Button id="add-to-cart-btn" block size="large" type="primary">
+      {intl.formatMessage({
+        id: "products.detail.addToCart",
+      })}
+    </Button>
+  );
+  return (
+    <div className="vflex flex-grow-1">
       <Helmet>
-        <title>{formatTitle(sampleProduct.name)}</title>
+        <title>{formatTitle(product.name)}</title>
       </Helmet>
-      <VSpacing height={48} />
+      <VSpacing height={!responsive.lg ? 8 : 48} />
       <Row justify="center" gutter={24}>
         <Col span={22}>
           <Row justify="center" gutter={24}>
-            <Col span={12}>
-              <Row gutter={8}>
+            <Col span={12} xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+              <Row gutter={[8, 8]}>
                 <Col span={4}>
-                  <div style={{ marginBottom: 8 }}>
-                    <AspectRatio width={1} height={1} noMask>
-                      <Button className="full-width full-height no-padding">
-                        <img
-                          className="full-width"
-                          alt={sampleProduct.thumbnail?.alt as string}
-                          src={sampleProduct.thumbnail?.url}
-                        />
-                      </Button>
-                    </AspectRatio>
+                  {thumbsColSize.height &&
+                    imgSize.height &&
+                    thumbsColSize.height > imgSize.height && (
+                      <>
+                        <Button
+                          block
+                          className="icon-btn"
+                          onClick={() =>
+                            document
+                              .getElementById("thumbsContainer")
+                              ?.scrollBy({
+                                top: -100,
+                                behavior: "smooth",
+                              })
+                          }
+                        >
+                          <UpOutlined />
+                        </Button>
+                        <VSpacing height={8} />
+                      </>
+                    )}
+                  <div
+                    id="thumbsContainer"
+                    style={{
+                      height: imgSize.height ? imgSize.height - 80 : undefined,
+                      overflowY: "scroll",
+                    }}
+                  >
+                    <div ref={thumbsColRef}>
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                      {thumb}
+                    </div>
                   </div>
-                  <div style={{ marginBottom: 8 }}>
-                    <AspectRatio width={1} height={1} noMask>
-                      <Button className="full-width full-height no-padding">
-                        <img
-                          className="full-width"
-                          alt={sampleProduct.thumbnail?.alt as string}
-                          src={sampleProduct.thumbnail?.url}
-                        />
-                      </Button>
-                    </AspectRatio>
-                  </div>
+                  {thumbsColSize.height &&
+                    imgSize.height &&
+                    thumbsColSize.height > imgSize.height && (
+                      <>
+                        <VSpacing height={8} />
+                        <Button
+                          block
+                          className="icon-btn"
+                          onClick={() =>
+                            document
+                              .getElementById("thumbsContainer")
+                              ?.scrollBy({
+                                top: 100,
+                                behavior: "smooth",
+                              })
+                          }
+                        >
+                          <DownOutlined />
+                        </Button>
+                      </>
+                    )}
                 </Col>
                 <Col span={20}>
-                  <AspectRatio width={1} height={1}>
-                    <img
-                      className="full-width"
-                      alt={sampleProduct.thumbnail?.alt as string}
-                      src={sampleProduct.thumbnail?.url}
-                    />
-                  </AspectRatio>
+                  <div ref={imgRef}>
+                    <AspectRatio width={1} height={1}>
+                      <img
+                        className="full-width"
+                        alt={product.thumbnail?.alt as string}
+                        src={product.thumbnail?.url}
+                      />
+                    </AspectRatio>
+                  </div>
                 </Col>
               </Row>
             </Col>
-            <Col span={12}>
-              <Typography.Title level={1} id="product-name">
-                {sampleProduct.name}
+            <Col span={12} xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+              {!responsive.lg && <VSpacing height={24} />}
+              <Typography.Title
+                id="product-name"
+                className={clx({ ["center-text"]: !responsive.lg })}
+                level={1}
+              >
+                {product.name}
               </Typography.Title>
               <div id="product-desc">
                 <RichTextContent
-                  contentJson={sampleProduct.descriptionJson}
+                  contentJson={product.descriptionJson}
                   lines={10}
                 />
               </div>
-              <VSpacing height={36} />
+              <VSpacing height={!responsive.lg ? 8 : 36} />
               <Row justify="center">
                 <Col span={14}>
                   <Select
@@ -92,7 +216,7 @@ const ProductDetailPage = () => {
                   </Select>
                 </Col>
               </Row>
-              <VSpacing height={24} />
+              <VSpacing height={!responsive.lg ? 8 : 24} />
               <Row justify="center">
                 <Col span={14}>
                   <Select
@@ -105,49 +229,23 @@ const ProductDetailPage = () => {
                   </Select>
                 </Col>
               </Row>
-              <VSpacing height={48} />
-              <Typography.Title className="center-text" level={2}>
-                {formatPrice(currency, minPrice, maxPrice)}
-              </Typography.Title>
+              {responsive.lg && (
+                <>
+                  <VSpacing height={48} />
+                  {priceLabel}
+                  <VSpacing height={24} />
 
-              <VSpacing height={24} />
-
-              <Row justify="center">
-                <Col span={14}>
-                  <Row justify="center" gutter={36}>
-                    <Col>
-                      <Typography.Title level={3}>Qty: </Typography.Title>
-                    </Col>
-                    <Col span={8}>
-                      <InputNumber
-                        className="full-width"
-                        defaultValue={1}
-                        size="large"
-                        min={1}
-                        max={10}
-                      />
-                    </Col>
+                  <Row justify="center">
+                    <Col span={14}>{qty}</Col>
                   </Row>
-                </Col>
-              </Row>
+                  <VSpacing height={24} />
 
-              <VSpacing height={24} />
-
-              <Row justify="center">
-                <Col span={14}>
-                  <Button
-                    id="add-to-cart-btn"
-                    block
-                    className={styles.addToCartBtn}
-                    size="large"
-                    shape="round"
-                    type="primary"
-                  >
-                    {intl.formatMessage({ id: "products.detail.addToCart" })}
-                  </Button>
-                </Col>
-              </Row>
-              <VSpacing height={24} />
+                  <Row justify="center">
+                    <Col span={14}>{addToCartBtn}</Col>
+                  </Row>
+                  <VSpacing height={24} />
+                </>
+              )}
             </Col>
           </Row>
         </Col>
@@ -156,29 +254,45 @@ const ProductDetailPage = () => {
       <VSpacing height={48} />
 
       <Row justify="center">
-        <Col>
+        <Col span={22}>
           <Row justify="center">
             <Typography.Title level={1} id="product-suggestions-title">
               {intl.formatMessage({ id: "products.detail.suggestions" })}
             </Typography.Title>
           </Row>
-          <Row gutter={24} id="product-suggestions-row">
-            <Col>
-              <ProductCard product={sampleProduct} />
-            </Col>
-            <Col>
-              <ProductCard product={sampleProduct} />
-            </Col>
-            <Col>
-              <ProductCard product={sampleProduct} />
-            </Col>
-            <Col>
-              <ProductCard product={sampleProduct} />
-            </Col>
-          </Row>
+          <List
+            dataSource={suggestions.slice(0, productGrid[screenSize])}
+            grid={productGrid}
+            renderItem={productItem => {
+              return (
+                <List.Item key={productItem.id}>
+                  <div className="full-width">
+                    <Row justify="center">
+                      <Col span={24} style={{ maxWidth: 240 }}>
+                        <ProductCard product={productItem} />
+                      </Col>
+                    </Row>
+                  </div>
+                </List.Item>
+              );
+            }}
+          />
         </Col>
       </Row>
       <VSpacing height={48} />
+      {!responsive.lg && (
+        <Affix offsetBottom={0}>
+          <Card className="shadow" bodyStyle={{ padding: 0 }} bordered={false}>
+            <div className={styles.affixPadding}>
+              {priceLabel}
+              <Row justify="center">
+                <Col span={20}>{qty}</Col>
+              </Row>
+            </div>
+            <Row>{addToCartBtn}</Row>
+          </Card>
+        </Affix>
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ import { createUploadLink } from "apollo-upload-client";
 
 import config from "./config";
 import logger from "./utils/logger";
-import moment from "moment";
+import dayjs from "dayjs";
 import { TOKEN_REFRESH_MUTATION } from "./mutations/TokenRefresh";
 
 // Apollo client
@@ -63,7 +63,7 @@ const setExpiresIn = token => localStorage.setItem("exp", token);
 const isTokenExpired = () => {
   const exp = getExpiresIn();
   if (exp) {
-    return moment(parseInt(exp)) <= moment();
+    return dayjs(parseInt(exp)) <= dayjs();
   }
   return false;
 };

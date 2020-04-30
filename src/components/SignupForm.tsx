@@ -1,21 +1,23 @@
 import * as React from "react";
 import { Form, Input, Checkbox, Button, Row, Col } from "antd";
 import { useIntl, Link } from "umi";
+import { useResponsive } from "@umijs/hooks";
+import Logger from "@/utils/logger";
 
 interface Props {
   onSubmit?: () => void;
 }
-const SignupForm: React.FC<Props> = props => {
-  const { onSubmit } = props;
+const SignupForm: React.FC<Props> = ({ onSubmit }) => {
   const intl = useIntl();
+  const responsive = useResponsive();
 
   const onFinish = values => {
-    console.log("Success:", values);
+    Logger.log("Success:", values);
     onSubmit?.();
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    Logger.log("Failed:", errorInfo);
   };
   return (
     <Form
@@ -26,7 +28,7 @@ const SignupForm: React.FC<Props> = props => {
       onFinishFailed={onFinishFailed}
     >
       <Row gutter={24}>
-        <Col span={12}>
+        <Col span={12} xs={24} sm={12} md={12} lg={12} xl={12} xxl={12}>
           <Form.Item
             label={intl.formatMessage({ id: "who.signup.fname" })}
             name="firstName"
@@ -43,7 +45,7 @@ const SignupForm: React.FC<Props> = props => {
             <Input />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={12} xs={24} sm={12} md={12} lg={12} xl={12} xxl={12}>
           <Form.Item
             label={intl.formatMessage({ id: "who.signup.lname" })}
             name="lastName"
@@ -81,7 +83,7 @@ const SignupForm: React.FC<Props> = props => {
       </Form.Item>
 
       <Row gutter={24}>
-        <Col span={12}>
+        <Col span={12} xs={24} sm={12} md={12} lg={12} xl={12} xxl={12}>
           <Form.Item
             label={intl.formatMessage({ id: "who.pwd" })}
             name="password"
@@ -99,7 +101,7 @@ const SignupForm: React.FC<Props> = props => {
             <Input.Password />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={12} xs={24} sm={12} md={12} lg={12} xl={12} xxl={12}>
           <Form.Item
             name="confirm"
             label={intl.formatMessage({ id: "who.signup.pwd2" })}
@@ -160,7 +162,12 @@ const SignupForm: React.FC<Props> = props => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button
+          block={!responsive.md}
+          type="primary"
+          size="large"
+          htmlType="submit"
+        >
           {intl.formatMessage({ id: "who.signup" })}
         </Button>
       </Form.Item>

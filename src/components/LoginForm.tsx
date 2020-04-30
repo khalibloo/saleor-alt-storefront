@@ -1,21 +1,23 @@
 import * as React from "react";
 import { Form, Input, Checkbox, Button } from "antd";
 import { useIntl } from "umi";
+import { useResponsive } from "@umijs/hooks";
+import Logger from "@/utils/logger";
 
 interface Props {
   onSubmit?: () => void;
 }
-const LoginForm: React.FC<Props> = props => {
-  const { onSubmit } = props;
+const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   const intl = useIntl();
+  const responsive = useResponsive();
 
   const onFinish = values => {
-    console.log("Success:", values);
+    Logger.log("Success:", values);
     onSubmit?.();
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    Logger.log("Failed:", errorInfo);
   };
   return (
     <Form
@@ -38,7 +40,12 @@ const LoginForm: React.FC<Props> = props => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button
+          block={!responsive.md}
+          type="primary"
+          size="large"
+          htmlType="submit"
+        >
           {intl.formatMessage({ id: "who.login" })}
         </Button>
       </Form.Item>

@@ -1,5 +1,5 @@
 import placeholderImg from "@/res/img/512.jpg";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const sampleProduct = {
   id: "meow",
@@ -49,7 +49,7 @@ const sampleAddress = {
 
 const sampleOrder = {
   id: 1,
-  date: moment().toISOString(),
+  date: dayjs().toISOString(),
   number: "27",
   total: { gross: { currency: "USD", amount: 314 } },
   lines: [
