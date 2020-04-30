@@ -1,18 +1,19 @@
 import React from "react";
 import { Typography, Row, Col, Menu, Dropdown, Drawer } from "antd";
-import { useIntl, Link } from "umi";
+import { useIntl, Link, useLocation } from "umi";
 import {
   ShoppingCartOutlined,
   UserOutlined,
   GlobalOutlined,
   MenuOutlined,
   SearchOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import clx from "classnames";
 
 import styles from "./NavBar.less";
 import ProductSearch from "@/components/ProductSearch";
-import { useResponsive, useBoolean } from "@umijs/hooks";
+import { useResponsive, useBoolean, useUpdateEffect } from "@umijs/hooks";
 
 const NavBar: React.FC = () => {
   const intl = useIntl();
@@ -20,6 +21,11 @@ const NavBar: React.FC = () => {
     state: searchDrawerOpen,
     setTrue: openSearchDrawer,
     setFalse: closeSearchDrawer,
+  } = useBoolean(false);
+  const {
+    state: menuDrawerOpen,
+    setTrue: openMenuDrawer,
+    setFalse: closeMenuDrawer,
   } = useBoolean(false);
   const responsive = useResponsive();
 
@@ -32,16 +38,22 @@ const NavBar: React.FC = () => {
   const avatarMenu = (
     <Menu>
       <Menu.Item>
-        <Link to="/profile">My Profile</Link>
+        <Link to="/profile">
+          {intl.formatMessage({ id: "navbar.profile" })}
+        </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/orders">My Orders</Link>
+        <Link to="/orders">{intl.formatMessage({ id: "navbar.orders" })}</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/settings">Settings</Link>
+        <Link to="/settings">
+          {intl.formatMessage({ id: "navbar.settings" })}
+        </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item onClick={() => {}}>Logout</Menu.Item>
+      <Menu.Item onClick={() => {}}>
+        {intl.formatMessage({ id: "navbar.logout" })}
+      </Menu.Item>
     </Menu>
   );
   return (
@@ -60,6 +72,70 @@ const NavBar: React.FC = () => {
             <ProductSearch onSearch={closeSearchDrawer} />
           </Col>
         </Row>
+      </Drawer>
+      <Drawer
+        title={intl.formatMessage({ id: "navbar.menu" })}
+        visible={menuDrawerOpen}
+        onClose={closeMenuDrawer}
+        placement="right"
+        width="60%"
+        bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
+      >
+        <Menu mode="inline" defaultOpenKeys={["accmenu"]} selectable={false}>
+          <Menu.Item onClick={closeMenuDrawer}>
+            <Link to="/cart">
+              <ShoppingCartOutlined />{" "}
+              {intl.formatMessage({ id: "navbar.cart" })}
+            </Link>
+          </Menu.Item>
+          <Menu.SubMenu
+            key="accmenu"
+            title={
+              <span>
+                <UserOutlined />
+                <span>{intl.formatMessage({ id: "navbar.account" })}</span>
+              </span>
+            }
+          >
+            <Menu.Item onClick={closeMenuDrawer}>
+              <Link to="/profile">
+                {intl.formatMessage({ id: "navbar.profile" })}
+              </Link>
+            </Menu.Item>
+            <Menu.Item onClick={closeMenuDrawer}>
+              <Link to="/orders">
+                {intl.formatMessage({ id: "navbar.orders" })}
+              </Link>
+            </Menu.Item>
+            <Menu.Item onClick={closeMenuDrawer}>
+              <Link to="/settings">
+                {intl.formatMessage({ id: "navbar.settings" })}
+              </Link>
+            </Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Divider />
+          <Menu.SubMenu
+            key="langmenu"
+            title={
+              <span>
+                <GlobalOutlined />
+                <span>{intl.formatMessage({ id: "navbar.language" })}</span>
+              </span>
+            }
+          >
+            <Menu.Item>English</Menu.Item>
+            <Menu.Item>Français</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Divider />
+          <Menu.Item
+            onClick={() => {
+              //TODO: logout
+              closeMenuDrawer();
+            }}
+          >
+            <LogoutOutlined /> {intl.formatMessage({ id: "navbar.logout" })}
+          </Menu.Item>
+        </Menu>
       </Drawer>
       <Row justify="space-between" align="middle" className="full-height">
         <Col className="full-height">
@@ -139,6 +215,7 @@ const NavBar: React.FC = () => {
               key="extra"
               className={clx("full-height", styles.navrightItem)}
               hidden={responsive.sm}
+              onClick={openMenuDrawer}
             >
               <MenuOutlined className={styles.navrightIcon} />
             </Menu.Item>

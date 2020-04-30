@@ -5,6 +5,14 @@ export default {
   // layout
   "footer.createdby": "Created by Khalibloo",
   "navbar.search.placeholder": "Search products...",
+  "navbar.menu": "Menu",
+  "navbar.cart": "Shopping Cart",
+  "navbar.account": "My Account",
+  "navbar.profile": "My Profile",
+  "navbar.orders": "My Orders",
+  "navbar.settings": "Settings",
+  "navbar.language": "Language",
+  "navbar.logout": "Logout",
 
   // misc
   "misc.pleaseSelect": "Please Select",
