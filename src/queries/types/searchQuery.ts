@@ -18,6 +18,19 @@ export interface searchQuery_products_edges_node_thumbnail {
   alt: string | null;
 }
 
+export interface searchQuery_products_edges_node_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
+}
+
 export interface searchQuery_products_edges_node_collections {
   __typename: "Collection";
   /**
@@ -222,6 +235,10 @@ export interface searchQuery_products_edges_node {
    * The main thumbnail for a product.
    */
   thumbnail: searchQuery_products_edges_node_thumbnail | null;
+  /**
+   * List of images for the product.
+   */
+  images: (searchQuery_products_edges_node_images | null)[] | null;
   /**
    * List of collections for the product.
    */

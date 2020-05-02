@@ -18,6 +18,19 @@ export interface productListviewQuery_product_thumbnail {
   alt: string | null;
 }
 
+export interface productListviewQuery_product_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
+}
+
 export interface productListviewQuery_product_collections {
   __typename: "Collection";
   /**
@@ -196,6 +209,10 @@ export interface productListviewQuery_product {
    * The main thumbnail for a product.
    */
   thumbnail: productListviewQuery_product_thumbnail | null;
+  /**
+   * List of images for the product.
+   */
+  images: (productListviewQuery_product_images | null)[] | null;
   /**
    * List of collections for the product.
    */

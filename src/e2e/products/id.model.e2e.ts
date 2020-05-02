@@ -6,6 +6,7 @@ class Page {
   addToCartBtn = Selector("#add-to-cart-btn");
   suggestionsTitle = Selector("#product-suggestions-title");
   suggestionsRow = Selector("#product-suggestions-row");
+  suggestionListItems = Selector(".suggestion-list-items");
 
   async addToCart(qty: number = 1) {
     await t

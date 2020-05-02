@@ -37,6 +37,9 @@ export const formatPrice = (
   minPrice: number,
   maxPrice?: number,
 ) => {
+  if (!currency || minPrice == null) {
+    return null;
+  }
   const intl = getIntl();
   const minPriceFormatted = intl.formatNumber(minPrice, {
     style: "currency",
