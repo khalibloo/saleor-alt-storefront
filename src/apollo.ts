@@ -13,9 +13,12 @@ import logger from "./utils/logger";
 import dayjs from "dayjs";
 import { TOKEN_REFRESH_MUTATION } from "./mutations/TokenRefresh";
 
+const storage = localStorage.getItem("rememberme")
+  ? localStorage
+  : sessionStorage;
 // Apollo client
 const request = operation => {
-  const token = localStorage.getItem("jwt");
+  const token = storage.getItem("jwt");
   operation.setContext({
     headers: {
       authorization: token ? `JWT ${token}` : "",
@@ -56,10 +59,10 @@ const retryLink = new RetryLink({
   },
 });
 
-const getToken = () => localStorage.getItem("jwt");
-const setToken = token => localStorage.setItem("jwt", token);
-const getExpiresIn = () => localStorage.getItem("exp");
-const setExpiresIn = token => localStorage.setItem("exp", token);
+const getToken = () => storage.getItem("jwt");
+const setToken = token => storage.setItem("jwt", token);
+const getExpiresIn = () => storage.getItem("exp");
+const setExpiresIn = token => storage.setItem("exp", token);
 const isTokenExpired = () => {
   const exp = getExpiresIn();
   if (exp) {

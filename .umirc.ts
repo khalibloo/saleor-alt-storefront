@@ -11,6 +11,10 @@ export default defineConfig({
   antd: {
     dark: useDark,
   },
+  dva: {
+    immer: true,
+    hmr: true,
+  },
   locale: {
     default: "en-US",
     antd: true,

@@ -17,11 +17,11 @@ const mock = RequestMock()
 fixture`Category Detail Page`
   .page`http://localhost:5000/categories/1`.requestHooks(mock);
 
-test("loads without error", async t => {
+test("loads initial page without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
 });
 
-test("shows category name", async t => {
+test("fetches query and shows category name", async t => {
   await t.expect((await page.title.innerText).toLowerCase()).eql("juices");
 });
 

@@ -5,9 +5,10 @@ import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
 
 interface Props {
+  id?: string;
   onSubmit?: () => void;
 }
-const SignupForm: React.FC<Props> = ({ onSubmit }) => {
+const SignupForm: React.FC<Props> = ({ id, onSubmit }) => {
   const intl = useIntl();
   const responsive = useResponsive();
 
@@ -21,6 +22,7 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
   };
   return (
     <Form
+      id={id}
       name="signup"
       layout="vertical"
       hideRequiredMark

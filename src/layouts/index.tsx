@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
 import clx from "classnames";
 
@@ -7,8 +7,20 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { client } from "@/apollo";
+import { connect, ConnectRC, Loading } from "umi";
+import { ConnectState } from "@/models/connect";
+import Loader from "@/components/Loader";
 
-const BasicLayout: React.FC = ({ children }) => {
+interface Props {
+  loading: Loading;
+}
+const BasicLayout: ConnectRC<Props> = ({ children, loading, dispatch }) => {
+  useEffect(() => {
+    dispatch?.({ type: "auth/initialize" });
+  }, []);
+  if (loading.effects["auth/initialize"]) {
+    return <Loader />;
+  }
   return (
     <ApolloProvider client={client}>
       <Layout className={styles.layout}>
@@ -26,4 +38,6 @@ const BasicLayout: React.FC = ({ children }) => {
   );
 };
 
-export default BasicLayout;
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  BasicLayout,
+);
