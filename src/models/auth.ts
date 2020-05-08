@@ -134,6 +134,7 @@ const AuthModel: AuthModelType = {
             },
           });
 
+          yield take("setLoggedIn");
           // set user's name
           yield put({
             type: "updateName",
