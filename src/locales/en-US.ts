@@ -89,6 +89,8 @@ export default {
   "who.signup.fname.required": "Please enter your first name",
   "who.signup.lname": "Last Name",
   "who.signup.lname.required": "Please enter your last name",
+  "who.signup.name.min": "Name should be at least 2 characters",
+  "who.signup.name.max": "Name is too long",
   "who.signup.pwd.required": "Please enter password",
   "who.signup.pwd.minLength": "Must be 8 characters or more",
   "who.signup.pwd2": "Confirm password",
@@ -98,6 +100,10 @@ export default {
   "who.signup.agree.required": "You must agree to our terms to use our service",
   "who.terms": "Terms of Service",
   "who.privacyPolicy": "Privacy Policy",
+  "who.signup.success": "Successfully Signed Up",
+  "who.signup.success.confirm": "Please Check Your Email",
+  "who.signup.success.confirm.desc":
+    "We've sent you an email. Please click the link in the email to proceed.",
   "who.login": "Log In",
   "who.login.remember": "Remember me",
 

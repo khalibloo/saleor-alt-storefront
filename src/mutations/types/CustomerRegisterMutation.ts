@@ -80,6 +80,10 @@ export interface CustomerRegisterMutation_accountRegister {
    */
   errors: CustomerRegisterMutation_accountRegister_errors[];
   user: CustomerRegisterMutation_accountRegister_user | null;
+  /**
+   * Informs whether users need to confirm their email address.
+   */
+  requiresConfirmation: boolean | null;
 }
 
 export interface CustomerRegisterMutation {

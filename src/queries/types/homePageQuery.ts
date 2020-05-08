@@ -6,26 +6,6 @@
 // GraphQL query operation: homePageQuery
 // ====================================================
 
-export interface homePageQuery_shop_geolocalization_country {
-  __typename: "CountryDisplay";
-  /**
-   * Country code.
-   */
-  code: string;
-  /**
-   * Country name.
-   */
-  country: string;
-}
-
-export interface homePageQuery_shop_geolocalization {
-  __typename: "Geolocalization";
-  /**
-   * Country of the user acquired by his IP address.
-   */
-  country: homePageQuery_shop_geolocalization_country | null;
-}
-
 export interface homePageQuery_shop_homepageCollection_backgroundImage {
   __typename: "Image";
   /**
@@ -289,10 +269,6 @@ export interface homePageQuery_shop {
    * Shop's name.
    */
   name: string;
-  /**
-   * Customer's geolocalization data.
-   */
-  geolocalization: homePageQuery_shop_geolocalization | null;
   /**
    * Collection displayed on homepage.
    */

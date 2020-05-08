@@ -1,10 +1,10 @@
 import { USER_DETAILS_FRAGMENT } from "@/fragments/user";
 import { gql } from "apollo-boost";
 
-export const CUSTOMER_REGISTER_MUTATION = gql`
+export const CUSTOMER_NAME_UPDATE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
-  mutation CustomerRegisterMutation($input: AccountRegisterInput!) {
-    accountRegister(input: $input) {
+  mutation CustomerNameUpdateMutation($input: AccountInput!) {
+    accountUpdate(input: $input) {
       errors {
         field
         message
@@ -12,7 +12,6 @@ export const CUSTOMER_REGISTER_MUTATION = gql`
       user {
         ...UserDetails
       }
-      requiresConfirmation
     }
   }
 `;

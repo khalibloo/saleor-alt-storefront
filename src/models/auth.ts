@@ -10,6 +10,16 @@ import {
   TokenVerifyMutation,
 } from "@/mutations/types/TokenVerifyMutation";
 import { TOKEN_VERIFY_MUTATION } from "@/mutations/TokenVerify";
+import {
+  CustomerRegisterMutationVariables,
+  CustomerRegisterMutation,
+} from "@/mutations/types/CustomerRegisterMutation";
+import { CUSTOMER_REGISTER_MUTATION } from "@/mutations/CustomerRegister";
+import {
+  CustomerNameUpdateMutationVariables,
+  CustomerNameUpdateMutation,
+} from "@/mutations/types/CustomerNameUpdateMutation";
+import { CUSTOMER_NAME_UPDATE_MUTATION } from "@/mutations/CustomerNameUpdate";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -21,6 +31,8 @@ export interface AuthModelType {
   effects: {
     initialize: Effect;
     login: Effect;
+    signup: Effect;
+    updateName: Effect;
     logout: Effect;
   };
   reducers: {
@@ -65,9 +77,7 @@ const AuthModel: AuthModelType = {
     },
     *login({ payload }, { call, put }) {
       try {
-        const email = payload.email;
-        const password = payload.password;
-        const remember = payload.remember;
+        const { email, password, remember } = payload;
         const variables: TokenCreateMutationVariables = {
           email,
           password,
@@ -89,6 +99,74 @@ const AuthModel: AuthModelType = {
         yield put({ type: "setLoggedIn", payload: { authenticated: true } });
 
         payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *signup({ payload }, { call, put, take }) {
+      try {
+        const { firstName, lastName, email, password } = payload;
+        // create account
+        const variables: CustomerRegisterMutationVariables = {
+          input: {
+            email,
+            password,
+            redirectUrl: window.location.origin,
+          },
+        };
+        const response: { data: CustomerRegisterMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CUSTOMER_REGISTER_MUTATION,
+            variables,
+          },
+        );
+
+        if (response.data.accountRegister?.requiresConfirmation === false) {
+          // login
+          yield put({
+            type: "login",
+            payload: {
+              email,
+              password,
+              remember: true,
+              onError: payload?.onError,
+            },
+          });
+
+          // set user's name
+          yield put({
+            type: "updateName",
+            payload: {
+              firstName,
+              lastName,
+              onError: payload?.onError,
+            },
+          });
+        }
+
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *updateName({ payload }, { call, put }) {
+      try {
+        const { firstName, lastName } = payload;
+        const nameVariables: CustomerNameUpdateMutationVariables = {
+          input: {
+            firstName,
+            lastName,
+          },
+        };
+        const response: { data: CustomerNameUpdateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CUSTOMER_NAME_UPDATE_MUTATION,
+            variables: nameVariables,
+          },
+        );
+        payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
