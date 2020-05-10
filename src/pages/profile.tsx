@@ -1,13 +1,17 @@
 import React from "react";
-import { Typography, Row, Col, Card, List } from "antd";
+import { Typography, Row, Col, Card, List, Skeleton } from "antd";
 import { useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
 import { sampleAddress } from "@/sampleData";
 import AddAddress from "@/components/AddAddress";
 import AddressCard from "@/components/AddressCard";
+import { useQuery } from "@apollo/react-hooks";
+import { profileQuery } from "@/queries/types/profileQuery";
+import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 
 const ProfilePage = () => {
   const intl = useIntl();
+  const { loading, error, data } = useQuery<profileQuery>(PROFILE_PAGE_QUERY);
   return (
     <div>
       <VSpacing height={24} />
@@ -31,28 +35,48 @@ const ProfilePage = () => {
                 id="personal-info-card"
                 title={intl.formatMessage({ id: "profile.personalInfo" })}
               >
-                <div>
-                  <Typography.Text strong>
-                    {intl.formatMessage({ id: "profile.name" })}
-                  </Typography.Text>
-                </div>
-                <div>
-                  <Typography.Text>Neko Meow</Typography.Text>
-                </div>
+                <Skeleton
+                  active
+                  avatar={false}
+                  title={{ width: "30%" }}
+                  paragraph={{ rows: 1 }}
+                  loading={loading}
+                >
+                  <div>
+                    <Typography.Text strong>
+                      {intl.formatMessage({ id: "profile.name" })}
+                    </Typography.Text>
+                  </div>
+                  <div>
+                    <Typography.Text>
+                      {data?.me?.firstName} {data?.me?.lastName}
+                    </Typography.Text>
+                  </div>
+                </Skeleton>
               </Card>
               <VSpacing height={24} />
               <Card
                 id="contact-info-card"
                 title={intl.formatMessage({ id: "profile.contactInfo" })}
               >
-                <div>
-                  <Typography.Text strong>
-                    {intl.formatMessage({ id: "profile.email" })}
-                  </Typography.Text>
-                </div>
-                <div>
-                  <Typography.Text>neko@example.com</Typography.Text>
-                </div>
+                <Skeleton
+                  active
+                  avatar={false}
+                  title={{ width: "30%" }}
+                  paragraph={{ rows: 1 }}
+                  loading={loading}
+                >
+                  <div>
+                    <Typography.Text strong>
+                      {intl.formatMessage({ id: "profile.email" })}
+                    </Typography.Text>
+                  </div>
+                  <div>
+                    <Typography.Text>
+                      {data?.me?.email.toLowerCase()}
+                    </Typography.Text>
+                  </div>
+                </Skeleton>
               </Card>
               <VSpacing height={24} />
               <Card

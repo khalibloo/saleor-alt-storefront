@@ -21,8 +21,8 @@ export interface CustomerRegisterMutation_accountRegister_errors {
   message: string | null;
 }
 
-export interface CustomerRegisterMutation_accountRegister_user_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface CustomerRegisterMutation_accountRegister_user_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -31,30 +31,6 @@ export interface CustomerRegisterMutation_accountRegister_user_meta_clients_meta
    * Value of a metadata item.
    */
   value: string;
-}
-
-export interface CustomerRegisterMutation_accountRegister_user_meta_clients {
-  __typename: "MetaClientStore";
-  /**
-   * Metadata client's name.
-   */
-  name: string;
-  /**
-   * Metadata stored for a client.
-   */
-  metadata: (CustomerRegisterMutation_accountRegister_user_meta_clients_metadata | null)[];
-}
-
-export interface CustomerRegisterMutation_accountRegister_user_meta {
-  __typename: "MetaStore";
-  /**
-   * Name of metadata client group.
-   */
-  namespace: string;
-  /**
-   * List of clients that stored metadata in a group.
-   */
-  clients: (CustomerRegisterMutation_accountRegister_user_meta_clients | null)[];
 }
 
 export interface CustomerRegisterMutation_accountRegister_user {
@@ -68,9 +44,9 @@ export interface CustomerRegisterMutation_accountRegister_user {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (CustomerRegisterMutation_accountRegister_user_meta | null)[];
+  metadata: (CustomerRegisterMutation_accountRegister_user_metadata | null)[];
 }
 
 export interface CustomerRegisterMutation_accountRegister {

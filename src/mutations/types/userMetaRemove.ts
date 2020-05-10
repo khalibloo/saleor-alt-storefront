@@ -38,8 +38,8 @@ export interface userMetaRemove_userClearMetadata_accountErrors {
   code: AccountErrorCode;
 }
 
-export interface userMetaRemove_userClearMetadata_user_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface userMetaRemove_userClearMetadata_user_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -48,30 +48,6 @@ export interface userMetaRemove_userClearMetadata_user_meta_clients_metadata {
    * Value of a metadata item.
    */
   value: string;
-}
-
-export interface userMetaRemove_userClearMetadata_user_meta_clients {
-  __typename: "MetaClientStore";
-  /**
-   * Metadata client's name.
-   */
-  name: string;
-  /**
-   * Metadata stored for a client.
-   */
-  metadata: (userMetaRemove_userClearMetadata_user_meta_clients_metadata | null)[];
-}
-
-export interface userMetaRemove_userClearMetadata_user_meta {
-  __typename: "MetaStore";
-  /**
-   * Name of metadata client group.
-   */
-  namespace: string;
-  /**
-   * List of clients that stored metadata in a group.
-   */
-  clients: (userMetaRemove_userClearMetadata_user_meta_clients | null)[];
 }
 
 export interface userMetaRemove_userClearMetadata_user {
@@ -85,9 +61,9 @@ export interface userMetaRemove_userClearMetadata_user {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (userMetaRemove_userClearMetadata_user_meta | null)[];
+  metadata: (userMetaRemove_userClearMetadata_user_metadata | null)[];
 }
 
 export interface userMetaRemove_userClearMetadata {

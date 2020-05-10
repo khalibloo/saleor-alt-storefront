@@ -6,6 +6,25 @@ export const PROFILE_PAGE_QUERY = gql`
   query profileQuery {
     me {
       ...UserDetails
+      addresses {
+        id
+        firstName
+        lastName
+        companyName
+        streetAddress1
+        streetAddress2
+        city
+        cityArea
+        postalCode
+        country {
+          code
+          country
+        }
+        countryArea
+        phone
+        isDefaultShippingAddress
+        isDefaultBillingAddress
+      }
     }
   }
 `;

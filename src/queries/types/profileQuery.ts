@@ -6,8 +6,8 @@
 // GraphQL query operation: profileQuery
 // ====================================================
 
-export interface profileQuery_me_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface profileQuery_me_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -18,28 +18,46 @@ export interface profileQuery_me_meta_clients_metadata {
   value: string;
 }
 
-export interface profileQuery_me_meta_clients {
-  __typename: "MetaClientStore";
+export interface profileQuery_me_addresses_country {
+  __typename: "CountryDisplay";
   /**
-   * Metadata client's name.
+   * Country code.
    */
-  name: string;
+  code: string;
   /**
-   * Metadata stored for a client.
+   * Country name.
    */
-  metadata: (profileQuery_me_meta_clients_metadata | null)[];
+  country: string;
 }
 
-export interface profileQuery_me_meta {
-  __typename: "MetaStore";
+export interface profileQuery_me_addresses {
+  __typename: "Address";
   /**
-   * Name of metadata client group.
+   * The ID of the object.
    */
-  namespace: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
   /**
-   * List of clients that stored metadata in a group.
+   * Shop's default country.
    */
-  clients: (profileQuery_me_meta_clients | null)[];
+  country: profileQuery_me_addresses_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
 }
 
 export interface profileQuery_me {
@@ -53,9 +71,13 @@ export interface profileQuery_me {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (profileQuery_me_meta | null)[];
+  metadata: (profileQuery_me_metadata | null)[];
+  /**
+   * List of all user's addresses.
+   */
+  addresses: (profileQuery_me_addresses | null)[] | null;
 }
 
 export interface profileQuery {

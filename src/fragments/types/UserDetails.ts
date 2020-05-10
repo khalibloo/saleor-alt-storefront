@@ -6,8 +6,8 @@
 // GraphQL fragment: UserDetails
 // ====================================================
 
-export interface UserDetails_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface UserDetails_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -16,30 +16,6 @@ export interface UserDetails_meta_clients_metadata {
    * Value of a metadata item.
    */
   value: string;
-}
-
-export interface UserDetails_meta_clients {
-  __typename: "MetaClientStore";
-  /**
-   * Metadata client's name.
-   */
-  name: string;
-  /**
-   * Metadata stored for a client.
-   */
-  metadata: (UserDetails_meta_clients_metadata | null)[];
-}
-
-export interface UserDetails_meta {
-  __typename: "MetaStore";
-  /**
-   * Name of metadata client group.
-   */
-  namespace: string;
-  /**
-   * List of clients that stored metadata in a group.
-   */
-  clients: (UserDetails_meta_clients | null)[];
 }
 
 export interface UserDetails {
@@ -53,7 +29,7 @@ export interface UserDetails {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (UserDetails_meta | null)[];
+  metadata: (UserDetails_metadata | null)[];
 }

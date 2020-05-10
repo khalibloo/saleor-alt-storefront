@@ -38,8 +38,8 @@ export interface userMetaUpdate_accountUpdateMeta_accountErrors {
   code: AccountErrorCode;
 }
 
-export interface userMetaUpdate_accountUpdateMeta_user_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface userMetaUpdate_accountUpdateMeta_user_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -48,30 +48,6 @@ export interface userMetaUpdate_accountUpdateMeta_user_meta_clients_metadata {
    * Value of a metadata item.
    */
   value: string;
-}
-
-export interface userMetaUpdate_accountUpdateMeta_user_meta_clients {
-  __typename: "MetaClientStore";
-  /**
-   * Metadata client's name.
-   */
-  name: string;
-  /**
-   * Metadata stored for a client.
-   */
-  metadata: (userMetaUpdate_accountUpdateMeta_user_meta_clients_metadata | null)[];
-}
-
-export interface userMetaUpdate_accountUpdateMeta_user_meta {
-  __typename: "MetaStore";
-  /**
-   * Name of metadata client group.
-   */
-  namespace: string;
-  /**
-   * List of clients that stored metadata in a group.
-   */
-  clients: (userMetaUpdate_accountUpdateMeta_user_meta_clients | null)[];
 }
 
 export interface userMetaUpdate_accountUpdateMeta_user {
@@ -85,9 +61,9 @@ export interface userMetaUpdate_accountUpdateMeta_user {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (userMetaUpdate_accountUpdateMeta_user_meta | null)[];
+  metadata: (userMetaUpdate_accountUpdateMeta_user_metadata | null)[];
 }
 
 export interface userMetaUpdate_accountUpdateMeta {
