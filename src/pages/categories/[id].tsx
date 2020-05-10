@@ -22,7 +22,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 const CategoryDetailPage: React.FC = () => {
   const intl = useIntl();
   const { id } = useParams();
-  const { loading, error, data } = useQuery<
+  const { loading: fetching, error, data } = useQuery<
     categoryDetailQuery,
     categoryDetailQueryVariables
   >(CATEGORY_DETAIL_PAGE_QUERY, {
@@ -41,7 +41,7 @@ const CategoryDetailPage: React.FC = () => {
         </Helmet>
       )}
       <div className={styles.bannerContainer}>
-        <SkeletonDiv active loading={loading}>
+        <SkeletonDiv active loading={fetching}>
           <img
             id="banner-img"
             className={clx("full-width full-height", styles.bannerImg)}
@@ -86,7 +86,7 @@ const CategoryDetailPage: React.FC = () => {
               <List
                 dataSource={data?.products?.edges}
                 grid={{ gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }}
-                loading={loading}
+                loading={fetching}
                 renderItem={edge => {
                   const product = edge.node;
                   return (

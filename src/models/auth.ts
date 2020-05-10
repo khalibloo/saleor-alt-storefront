@@ -154,7 +154,7 @@ const AuthModel: AuthModelType = {
     *updateName({ payload }, { call, put }) {
       try {
         const { firstName, lastName } = payload;
-        const nameVariables: CustomerNameUpdateMutationVariables = {
+        const variables: CustomerNameUpdateMutationVariables = {
           input: {
             firstName,
             lastName,
@@ -164,7 +164,7 @@ const AuthModel: AuthModelType = {
           client.mutate,
           {
             mutation: CUSTOMER_NAME_UPDATE_MUTATION,
-            variables: nameVariables,
+            variables: variables,
           },
         );
         payload?.onCompleted(response.data);

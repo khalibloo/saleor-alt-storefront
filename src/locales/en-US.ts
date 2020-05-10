@@ -16,6 +16,11 @@ export default {
 
   // misc
   "misc.pleaseSelect": "Please Select",
+  "misc.edit": "Edit",
+  "misc.delete": "Delete",
+  "misc.saveChanges": "Save Changes",
+  "misc.save.success": "Changes Saved Successfully",
+  "misc.form.invalid": "Please check form for errors and try again",
 
   // home
   "site.title": config.siteName,
@@ -56,6 +61,7 @@ export default {
   "profile.email": "Email",
   "profile.phone": "Phone",
   "profile.addresses": "Addresses",
+  "profile.editName": "Edit Name",
 
   // orders
   "orders.title": formatTitle("Orders"),

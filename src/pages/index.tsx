@@ -7,7 +7,6 @@ import VSpacing from "@/components/VSpacing";
 import { useQuery } from "@apollo/react-hooks";
 import { useResponsive } from "@umijs/hooks";
 import { getScreenSize } from "@/utils/utils";
-import { sampleProduct, sampleCategory } from "@/sampleData";
 import { ListGridType } from "antd/lib/list";
 
 import styles from "./index.less";
@@ -17,7 +16,9 @@ import _ from "lodash";
 import { homePageQuery } from "@/queries/types/homePageQuery";
 
 const HomePage = () => {
-  const { loading, error, data } = useQuery<homePageQuery>(HOME_PAGE_QUERY);
+  const { loading: fetching, error, data } = useQuery<homePageQuery>(
+    HOME_PAGE_QUERY,
+  );
   const intl = useIntl();
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
@@ -34,7 +35,7 @@ const HomePage = () => {
   return (
     <div>
       <div id="banner-container" className={styles.bannerContainer}>
-        <SkeletonDiv active loading={loading}>
+        <SkeletonDiv active loading={fetching}>
           <Link to={`/collections/${data?.shop.homepageCollection?.id}`}>
             <img
               className={clx("full-width full-height", styles.bannerImg)}
@@ -60,7 +61,7 @@ const HomePage = () => {
           <Row justify="center">
             <Skeleton
               active
-              loading={loading}
+              loading={fetching}
               avatar={false}
               paragraph={false}
               title
@@ -76,7 +77,7 @@ const HomePage = () => {
             </Skeleton>
           </Row>
           <List
-            dataSource={(loading ? (_.range(4) as any[]) : row1).slice(
+            dataSource={(fetching ? (_.range(4) as any[]) : row1).slice(
               0,
               productGrid[screenSize],
             )}
@@ -91,7 +92,7 @@ const HomePage = () => {
                   <div className="full-width">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
-                        <ProductCard loading={loading} product={product} />
+                        <ProductCard loading={fetching} product={product} />
                       </Col>
                     </Row>
                   </div>

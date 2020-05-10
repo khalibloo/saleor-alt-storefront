@@ -1,6 +1,16 @@
 import React from "react";
-import { Typography, Row, Col, Card, List, Skeleton } from "antd";
-import { useIntl } from "umi";
+import {
+  Typography,
+  Row,
+  Col,
+  Card,
+  List,
+  Skeleton,
+  Button,
+  Modal,
+} from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { useIntl, connect } from "umi";
 import VSpacing from "@/components/VSpacing";
 import { sampleAddress } from "@/sampleData";
 import AddAddress from "@/components/AddAddress";
@@ -8,13 +18,46 @@ import AddressCard from "@/components/AddressCard";
 import { useQuery } from "@apollo/react-hooks";
 import { profileQuery } from "@/queries/types/profileQuery";
 import { PROFILE_PAGE_QUERY } from "@/queries/profile";
+import EditNameForm from "@/components/EditNameForm";
+import { useBoolean } from "@umijs/hooks";
+import { ConnectState, Loading } from "@/models/connect";
 
-const ProfilePage = () => {
+interface Props {
+  loading: Loading;
+}
+const ProfilePage: React.FC<Props> = ({ loading }) => {
   const intl = useIntl();
-  const { loading, error, data } = useQuery<profileQuery>(PROFILE_PAGE_QUERY);
+  const {
+    state: editNameModalOpen,
+    setTrue: openEditNameModal,
+    setFalse: closeEditNameModal,
+  } = useBoolean();
+  const { loading: fetching, error, data } = useQuery<profileQuery>(
+    PROFILE_PAGE_QUERY,
+  );
   return (
     <div>
       <VSpacing height={24} />
+      <Modal
+        destroyOnClose
+        okText={intl.formatMessage({ id: "misc.saveChanges" })}
+        okButtonProps={{
+          form: "editname-form",
+          htmlType: "submit",
+          loading: loading.effects["auth/updateName"],
+        }}
+        onCancel={closeEditNameModal}
+        title={intl.formatMessage({ id: "profile.editName" })}
+        visible={editNameModalOpen}
+      >
+        <EditNameForm
+          id="editname-form"
+          firstName={data?.me?.firstName || ""}
+          lastName={data?.me?.lastName || ""}
+          hideSubmit
+          onSubmit={closeEditNameModal}
+        />
+      </Modal>
       <Row justify="center">
         <Col span={22}>
           <Typography.Title id="page-heading" className="center-text" level={1}>
@@ -34,13 +77,18 @@ const ProfilePage = () => {
               <Card
                 id="personal-info-card"
                 title={intl.formatMessage({ id: "profile.personalInfo" })}
+                extra={
+                  <Button onClick={openEditNameModal}>
+                    <EditOutlined /> {intl.formatMessage({ id: "misc.edit" })}
+                  </Button>
+                }
               >
                 <Skeleton
                   active
                   avatar={false}
                   title={{ width: "30%" }}
                   paragraph={{ rows: 1 }}
-                  loading={loading}
+                  loading={fetching}
                 >
                   <div>
                     <Typography.Text strong>
@@ -58,13 +106,18 @@ const ProfilePage = () => {
               <Card
                 id="contact-info-card"
                 title={intl.formatMessage({ id: "profile.contactInfo" })}
+                extra={
+                  <Button>
+                    <EditOutlined /> {intl.formatMessage({ id: "misc.edit" })}
+                  </Button>
+                }
               >
                 <Skeleton
                   active
                   avatar={false}
                   title={{ width: "30%" }}
                   paragraph={{ rows: 1 }}
-                  loading={loading}
+                  loading={fetching}
                 >
                   <div>
                     <Typography.Text strong>
@@ -116,4 +169,6 @@ const ProfilePage = () => {
 };
 
 ProfilePage.title = "profile.title";
-export default ProfilePage;
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  ProfilePage,
+);

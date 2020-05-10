@@ -38,7 +38,7 @@ const ProductDetailPage = () => {
 
   const intl = useIntl();
   const { id } = useParams();
-  const { loading, error, data } = useQuery<
+  const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
     productDetailQueryVariables
   >(PRODUCT_DETAIL_PAGE_QUERY, {
@@ -77,7 +77,7 @@ const ProductDetailPage = () => {
   const priceLabel = (
     <SkeletonDiv
       active
-      loading={loading}
+      loading={fetching}
       style={{ height: 21, width: "30%", margin: "auto" }}
     >
       <Typography.Title className="center-text" level={3}>
@@ -91,14 +91,14 @@ const ProductDetailPage = () => {
       <Col>
         <SkeletonDiv
           active
-          loading={loading}
+          loading={fetching}
           style={{ height: 24, width: 100 }}
         >
           <Typography.Title level={4}>Qty: </Typography.Title>
         </SkeletonDiv>
       </Col>
       <Col span={8}>
-        <SkeletonDiv active loading={loading} style={{ height: 40 }}>
+        <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
           <InputNumber
             className="full-width"
             defaultValue={1}
@@ -115,7 +115,7 @@ const ProductDetailPage = () => {
     <Button
       id="add-to-cart-btn"
       block
-      disabled={loading}
+      disabled={fetching}
       size="large"
       type="primary"
     >
@@ -167,7 +167,7 @@ const ProductDetailPage = () => {
                     }}
                   >
                     <div ref={thumbsColRef}>
-                      {(loading
+                      {(fetching
                         ? _.fill(Array(3), null)
                         : data?.product?.images
                       )?.map((image, i) => (
@@ -183,7 +183,7 @@ const ProductDetailPage = () => {
                               )}
                               onClick={() => carouselRef.current?.goTo(i)}
                             >
-                              <SkeletonDiv active loading={loading}>
+                              <SkeletonDiv active loading={fetching}>
                                 <img
                                   className="full-width"
                                   alt={image?.alt || ""}
@@ -222,7 +222,7 @@ const ProductDetailPage = () => {
                 <Col span={20}>
                   <div ref={imgRef}>
                     <AspectRatio width={1} height={1}>
-                      <SkeletonDiv active loading={loading}>
+                      <SkeletonDiv active loading={fetching}>
                         <Carousel
                           ref={carouselRef}
                           beforeChange={(current, next) => setSelectedImg(next)}
@@ -247,7 +247,7 @@ const ProductDetailPage = () => {
               {!responsive.lg && <VSpacing height={24} />}
               <Skeleton
                 active
-                loading={loading}
+                loading={fetching}
                 avatar={false}
                 paragraph={{ rows: 1, width: "80%" }}
                 title={false}
@@ -263,7 +263,7 @@ const ProductDetailPage = () => {
               <div id="product-desc">
                 <Skeleton
                   active
-                  loading={loading}
+                  loading={fetching}
                   avatar={false}
                   paragraph={{ rows: 6 }}
                   title={false}
@@ -277,7 +277,7 @@ const ProductDetailPage = () => {
               <VSpacing height={!responsive.lg ? 8 : 36} />
               <Row justify="center">
                 <Col span={14}>
-                  <SkeletonDiv active loading={loading} style={{ height: 40 }}>
+                  <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
                     <Select
                       className="full-width"
                       size="large"
@@ -297,7 +297,7 @@ const ProductDetailPage = () => {
               <VSpacing height={!responsive.lg ? 8 : 24} />
               <Row justify="center">
                 <Col span={14}>
-                  <SkeletonDiv active loading={loading} style={{ height: 40 }}>
+                  <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
                     <Select
                       className="full-width"
                       size="large"
@@ -338,7 +338,7 @@ const ProductDetailPage = () => {
           <Row justify="center">
             <SkeletonDiv
               active
-              loading={loading}
+              loading={fetching}
               style={{
                 height: 21,
                 width: "50%",
@@ -352,7 +352,7 @@ const ProductDetailPage = () => {
             </SkeletonDiv>
           </Row>
           <List
-            dataSource={(loading ? (_.range(4) as any[]) : suggestions)?.slice(
+            dataSource={(fetching ? (_.range(4) as any[]) : suggestions)?.slice(
               0,
               productGrid[screenSize],
             )}
@@ -367,7 +367,7 @@ const ProductDetailPage = () => {
                   <div className="full-width">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
-                        <ProductCard loading={loading} product={productItem} />
+                        <ProductCard loading={fetching} product={productItem} />
                       </Col>
                     </Row>
                   </div>
