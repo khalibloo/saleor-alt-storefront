@@ -52,7 +52,7 @@ const EditNameForm: ConnectRC<Props> = ({
   return (
     <Form
       id={id}
-      name="editname"
+      name="edit-name"
       layout="vertical"
       hideRequiredMark
       initialValues={{ firstName, lastName }}

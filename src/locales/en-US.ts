@@ -62,6 +62,10 @@ export default {
   "profile.phone": "Phone",
   "profile.addresses": "Addresses",
   "profile.editName": "Edit Name",
+  "profile.changeEmail": "Change Email",
+  "profile.changeEmail.newEmail": "New Email",
+  "profile.changeEmail.newEmail.match":
+    "New email is the same as current email",
 
   // orders
   "orders.title": formatTitle("Orders"),
@@ -89,6 +93,7 @@ export default {
   "who.signup": "Sign Up",
   "who.email": "Email",
   "who.pwd": "Password",
+  "who.pwd.reenter": "Re-enter Password",
   "who.signup.email.required": "Please enter your email",
   "who.signup.email.invalid": "Please enter a valid email",
   "who.signup.fname": "First Name",

@@ -21,6 +21,7 @@ import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 import EditNameForm from "@/components/EditNameForm";
 import { useBoolean } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
+import ChangeEmailForm from "@/components/ChangeEmailForm";
 
 interface Props {
   loading: Loading;
@@ -31,6 +32,11 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
     state: editNameModalOpen,
     setTrue: openEditNameModal,
     setFalse: closeEditNameModal,
+  } = useBoolean();
+  const {
+    state: changeEmailModalOpen,
+    setTrue: openChangeEmailModal,
+    setFalse: closeChangeEmailModal,
   } = useBoolean();
   const { loading: fetching, error, data } = useQuery<profileQuery>(
     PROFILE_PAGE_QUERY,
@@ -56,6 +62,25 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
           lastName={data?.me?.lastName || ""}
           hideSubmit
           onSubmit={closeEditNameModal}
+        />
+      </Modal>
+      <Modal
+        destroyOnClose
+        okText={intl.formatMessage({ id: "misc.saveChanges" })}
+        okButtonProps={{
+          form: "change-email-form",
+          htmlType: "submit",
+          loading: loading.effects["auth/changeEmail"],
+        }}
+        onCancel={closeChangeEmailModal}
+        title={intl.formatMessage({ id: "profile.changeEmail" })}
+        visible={changeEmailModalOpen}
+      >
+        <ChangeEmailForm
+          id="editname-form"
+          email={data?.me?.email || ""}
+          hideSubmit
+          onSubmit={closeChangeEmailModal}
         />
       </Modal>
       <Row justify="center">
@@ -107,7 +132,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                 id="contact-info-card"
                 title={intl.formatMessage({ id: "profile.contactInfo" })}
                 extra={
-                  <Button>
+                  <Button onClick={openChangeEmailModal}>
                     <EditOutlined /> {intl.formatMessage({ id: "misc.edit" })}
                   </Button>
                 }
