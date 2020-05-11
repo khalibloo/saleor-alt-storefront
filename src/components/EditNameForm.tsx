@@ -3,8 +3,8 @@ import { Form, Input, Button, Row, Col, notification, message } from "antd";
 import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
-import { CustomerNameUpdateMutation } from "@/mutations/types/CustomerNameUpdateMutation";
 import { ConnectState, Loading } from "@/models/connect";
+import { userNameUpdateMutation } from "@/mutations/types/userNameUpdateMutation";
 
 interface Props {
   id?: string;
@@ -33,7 +33,7 @@ const EditNameForm: ConnectRC<Props> = ({
       payload: {
         firstName: values.firstName.trim(),
         lastName: values.lastName.trim(),
-        onCompleted: (data: CustomerNameUpdateMutation) => {
+        onCompleted: (data: userNameUpdateMutation) => {
           Logger.log(data);
 
           notification.success({

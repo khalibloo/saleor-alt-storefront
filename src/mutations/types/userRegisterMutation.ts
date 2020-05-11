@@ -2,13 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AccountInput } from "./../../globalTypes";
+import { AccountRegisterInput } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: CustomerNameUpdateMutation
+// GraphQL mutation operation: userRegisterMutation
 // ====================================================
 
-export interface CustomerNameUpdateMutation_accountUpdate_errors {
+export interface userRegisterMutation_accountRegister_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +21,7 @@ export interface CustomerNameUpdateMutation_accountUpdate_errors {
   message: string | null;
 }
 
-export interface CustomerNameUpdateMutation_accountUpdate_user_metadata {
+export interface userRegisterMutation_accountRegister_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -33,7 +33,7 @@ export interface CustomerNameUpdateMutation_accountUpdate_user_metadata {
   value: string;
 }
 
-export interface CustomerNameUpdateMutation_accountUpdate_user {
+export interface userRegisterMutation_accountRegister_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -46,25 +46,29 @@ export interface CustomerNameUpdateMutation_accountUpdate_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (CustomerNameUpdateMutation_accountUpdate_user_metadata | null)[];
+  metadata: (userRegisterMutation_accountRegister_user_metadata | null)[];
 }
 
-export interface CustomerNameUpdateMutation_accountUpdate {
-  __typename: "AccountUpdate";
+export interface userRegisterMutation_accountRegister {
+  __typename: "AccountRegister";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: CustomerNameUpdateMutation_accountUpdate_errors[];
-  user: CustomerNameUpdateMutation_accountUpdate_user | null;
-}
-
-export interface CustomerNameUpdateMutation {
+  errors: userRegisterMutation_accountRegister_errors[];
+  user: userRegisterMutation_accountRegister_user | null;
   /**
-   * Updates the account of the logged-in user.
+   * Informs whether users need to confirm their email address.
    */
-  accountUpdate: CustomerNameUpdateMutation_accountUpdate | null;
+  requiresConfirmation: boolean | null;
 }
 
-export interface CustomerNameUpdateMutationVariables {
-  input: AccountInput;
+export interface userRegisterMutation {
+  /**
+   * Register a new user.
+   */
+  accountRegister: userRegisterMutation_accountRegister | null;
+}
+
+export interface userRegisterMutationVariables {
+  input: AccountRegisterInput;
 }

@@ -162,17 +162,17 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                 title={intl.formatMessage({ id: "profile.addresses" })}
               >
                 <List
-                  dataSource={[
-                    { ...sampleAddress, id: 1 },
-                    { ...sampleAddress, id: 2 },
-                    {},
-                  ]}
+                  dataSource={[...(data?.me?.addresses || []), {}]}
                   grid={{ column: 2, xs: 1, sm: 2, gutter: 24 }}
                   renderItem={item => {
                     if (!item.id) {
                       return (
                         <List.Item key="plus">
-                          <AddAddress />
+                          <AddAddress
+                            id="profile-add-addr"
+                            firstName={data?.me?.firstName}
+                            lastName={data?.me?.lastName}
+                          />
                         </List.Item>
                       );
                     }

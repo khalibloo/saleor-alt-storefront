@@ -2,13 +2,11 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AccountRegisterInput } from "./../../globalTypes";
-
 // ====================================================
-// GraphQL mutation operation: CustomerRegisterMutation
+// GraphQL mutation operation: requestEmailChangeMutation
 // ====================================================
 
-export interface CustomerRegisterMutation_accountRegister_errors {
+export interface requestEmailChangeMutation_requestEmailChange_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +19,7 @@ export interface CustomerRegisterMutation_accountRegister_errors {
   message: string | null;
 }
 
-export interface CustomerRegisterMutation_accountRegister_user_metadata {
+export interface requestEmailChangeMutation_requestEmailChange_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -33,7 +31,7 @@ export interface CustomerRegisterMutation_accountRegister_user_metadata {
   value: string;
 }
 
-export interface CustomerRegisterMutation_accountRegister_user {
+export interface requestEmailChangeMutation_requestEmailChange_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -46,29 +44,30 @@ export interface CustomerRegisterMutation_accountRegister_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (CustomerRegisterMutation_accountRegister_user_metadata | null)[];
+  metadata: (requestEmailChangeMutation_requestEmailChange_user_metadata | null)[];
 }
 
-export interface CustomerRegisterMutation_accountRegister {
-  __typename: "AccountRegister";
+export interface requestEmailChangeMutation_requestEmailChange {
+  __typename: "RequestEmailChange";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: CustomerRegisterMutation_accountRegister_errors[];
-  user: CustomerRegisterMutation_accountRegister_user | null;
+  errors: requestEmailChangeMutation_requestEmailChange_errors[];
   /**
-   * Informs whether users need to confirm their email address.
+   * A user instance.
    */
-  requiresConfirmation: boolean | null;
+  user: requestEmailChangeMutation_requestEmailChange_user | null;
 }
 
-export interface CustomerRegisterMutation {
+export interface requestEmailChangeMutation {
   /**
-   * Register a new user.
+   * Request email change of the logged in user.
    */
-  accountRegister: CustomerRegisterMutation_accountRegister | null;
+  requestEmailChange: requestEmailChangeMutation_requestEmailChange | null;
 }
 
-export interface CustomerRegisterMutationVariables {
-  input: AccountRegisterInput;
+export interface requestEmailChangeMutationVariables {
+  newEmail: string;
+  password: string;
+  redirectUrl: string;
 }

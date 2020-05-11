@@ -1,9 +1,9 @@
 import { USER_DETAILS_FRAGMENT } from "@/fragments/user";
 import { gql } from "apollo-boost";
 
-export const CUSTOMER_EMAIL_CHANGE_MUTATION = gql`
+export const USER_EMAIL_CHANGE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
-  mutation requestEmailChange(
+  mutation requestEmailChangeMutation(
     $newEmail: String!
     $password: String!
     $redirectUrl: String!

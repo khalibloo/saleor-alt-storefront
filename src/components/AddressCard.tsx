@@ -33,7 +33,7 @@ const AddressCard: React.FC<Props> = ({ address }) => {
         <Typography.Text>{address.countryArea}</Typography.Text>
       </div>
       <div>
-        <Typography.Text>{address.country}</Typography.Text>
+        <Typography.Text>{address.country?.country}</Typography.Text>
       </div>
       <div>
         <Typography.Text>

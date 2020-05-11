@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, message } from "antd";
 import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
@@ -17,6 +17,7 @@ const ChangeEmailForm: ConnectRC<Props> = ({
   id,
   email,
   hideSubmit,
+  loading,
   onSubmit,
   dispatch,
 }) => {
@@ -46,6 +47,7 @@ const ChangeEmailForm: ConnectRC<Props> = ({
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
+    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
   };
   return (
     <Form
@@ -109,6 +111,7 @@ const ChangeEmailForm: ConnectRC<Props> = ({
             block={!responsive.md}
             type="primary"
             size="large"
+            loading={loading.effects["auth/changeEmail"]}
             htmlType="submit"
           >
             {intl.formatMessage({ id: "misc.saveChanges" })}

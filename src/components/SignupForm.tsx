@@ -1,15 +1,33 @@
 import * as React from "react";
-import { Form, Input, Checkbox, Button, Row, Col, notification } from "antd";
+import {
+  Form,
+  Input,
+  Checkbox,
+  Button,
+  Row,
+  Col,
+  notification,
+  message,
+} from "antd";
 import { useIntl, Link, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
 import { CustomerRegisterMutation } from "@/mutations/types/CustomerRegisterMutation";
+import { ConnectState, Loading } from "@/models/connect";
 
 interface Props {
   id?: string;
+  hideSubmit?: boolean;
+  loading: Loading;
   onSubmit?: () => void;
 }
-const SignupForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
+const SignupForm: ConnectRC<Props> = ({
+  id,
+  hideSubmit,
+  loading,
+  onSubmit,
+  dispatch,
+}) => {
   const intl = useIntl();
   const responsive = useResponsive();
 
@@ -44,6 +62,7 @@ const SignupForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
+    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
   };
   return (
     <Form
@@ -216,18 +235,23 @@ const SignupForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
         </Checkbox>
       </Form.Item>
 
-      <Form.Item>
-        <Button
-          block={!responsive.md}
-          type="primary"
-          size="large"
-          htmlType="submit"
-        >
-          {intl.formatMessage({ id: "who.signup" })}
-        </Button>
-      </Form.Item>
+      {!hideSubmit && (
+        <Form.Item>
+          <Button
+            block={!responsive.md}
+            type="primary"
+            size="large"
+            loading={loading.effects["auth/signup"]}
+            htmlType="submit"
+          >
+            {intl.formatMessage({ id: "who.signup" })}
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };
 
-export default connect()(SignupForm);
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  SignupForm,
+);

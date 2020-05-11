@@ -10,16 +10,26 @@ import {
   TokenVerifyMutation,
 } from "@/mutations/types/TokenVerifyMutation";
 import { TOKEN_VERIFY_MUTATION } from "@/mutations/TokenVerify";
+import { USER_REGISTER_MUTATION } from "@/mutations/UserRegister";
+import { USER_NAME_UPDATE_MUTATION } from "@/mutations/UserNameUpdate";
+import { USER_EMAIL_CHANGE_MUTATION } from "@/mutations/UserEmailChange";
 import {
-  CustomerRegisterMutationVariables,
-  CustomerRegisterMutation,
-} from "@/mutations/types/CustomerRegisterMutation";
-import { CUSTOMER_REGISTER_MUTATION } from "@/mutations/CustomerRegister";
+  userRegisterMutationVariables,
+  userRegisterMutation,
+} from "@/mutations/types/userRegisterMutation";
 import {
-  CustomerNameUpdateMutationVariables,
-  CustomerNameUpdateMutation,
-} from "@/mutations/types/CustomerNameUpdateMutation";
-import { CUSTOMER_NAME_UPDATE_MUTATION } from "@/mutations/CustomerNameUpdate";
+  userNameUpdateMutationVariables,
+  userNameUpdateMutation,
+} from "@/mutations/types/userNameUpdateMutation";
+import {
+  requestEmailChangeMutation,
+  requestEmailChangeMutationVariables,
+} from "@/mutations/types/requestEmailChangeMutation";
+import {
+  accountAddressCreateMutationVariables,
+  accountAddressCreateMutation,
+} from "@/mutations/types/accountAddressCreateMutation";
+import { USER_ADDRESS_CREATE_MUTATION } from "@/mutations/UserAddressCreate";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -33,6 +43,8 @@ export interface AuthModelType {
     login: Effect;
     signup: Effect;
     updateName: Effect;
+    changeEmail: Effect;
+    createAddress: Effect;
     logout: Effect;
   };
   reducers: {
@@ -107,17 +119,17 @@ const AuthModel: AuthModelType = {
       try {
         const { firstName, lastName, email, password } = payload;
         // create account
-        const variables: CustomerRegisterMutationVariables = {
+        const variables: userRegisterMutationVariables = {
           input: {
             email,
             password,
             redirectUrl: window.location.origin,
           },
         };
-        const response: { data: CustomerRegisterMutation } = yield call(
+        const response: { data: userRegisterMutation } = yield call(
           client.mutate,
           {
-            mutation: CUSTOMER_REGISTER_MUTATION,
+            mutation: USER_REGISTER_MUTATION,
             variables,
           },
         );
@@ -154,16 +166,54 @@ const AuthModel: AuthModelType = {
     *updateName({ payload }, { call, put }) {
       try {
         const { firstName, lastName } = payload;
-        const variables: CustomerNameUpdateMutationVariables = {
+        const variables: userNameUpdateMutationVariables = {
           input: {
             firstName,
             lastName,
           },
         };
-        const response: { data: CustomerNameUpdateMutation } = yield call(
+        const response: { data: userNameUpdateMutation } = yield call(
           client.mutate,
           {
-            mutation: CUSTOMER_NAME_UPDATE_MUTATION,
+            mutation: USER_NAME_UPDATE_MUTATION,
+            variables: variables,
+          },
+        );
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *changeEmail({ payload }, { call, put }) {
+      try {
+        const { email, password } = payload;
+        const variables: requestEmailChangeMutationVariables = {
+          newEmail: email,
+          password,
+          redirectUrl: window.location.origin + "/profile",
+        };
+        const response: { data: requestEmailChangeMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_EMAIL_CHANGE_MUTATION,
+            variables: variables,
+          },
+        );
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *createAddress({ payload }, { call, put }) {
+      try {
+        const { address } = payload;
+        const variables: accountAddressCreateMutationVariables = {
+          address,
+        };
+        const response: { data: accountAddressCreateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_ADDRESS_CREATE_MUTATION,
             variables: variables,
           },
         );

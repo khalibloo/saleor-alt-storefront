@@ -1,18 +1,13 @@
 import { USER_DETAILS_FRAGMENT } from "@/fragments/user";
 import { gql } from "apollo-boost";
 
-export const USER_META_REMOVE_MUTATION = gql`
+export const USER_ADDRESS_CREATE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
-  mutation userMetaRemove($id: ID!, $input: MetaPath!) {
-    userClearMetadata(id: $id, input: $input) {
+  mutation accountAddressCreateMutation($address: AddressInput!) {
+    accountAddressCreate(input: $address) {
       errors {
         field
         message
-      }
-      accountErrors {
-        field
-        message
-        code
       }
       user {
         ...UserDetails

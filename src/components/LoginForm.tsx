@@ -1,14 +1,23 @@
 import * as React from "react";
-import { Form, Input, Checkbox, Button, notification } from "antd";
+import { Form, Input, Checkbox, Button, notification, message } from "antd";
 import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
+import { ConnectState, Loading } from "@/models/connect";
 
 interface Props {
   id?: string;
+  hideSubmit?: boolean;
+  loading: Loading;
   onSubmit?: () => void;
 }
-const LoginForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
+const LoginForm: ConnectRC<Props> = ({
+  id,
+  hideSubmit,
+  loading,
+  onSubmit,
+  dispatch,
+}) => {
   const intl = useIntl();
   const responsive = useResponsive();
 
@@ -31,6 +40,7 @@ const LoginForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
+    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
   };
   return (
     <Form
@@ -72,18 +82,23 @@ const LoginForm: ConnectRC<Props> = ({ id, onSubmit, dispatch }) => {
         <Checkbox>{intl.formatMessage({ id: "who.login.remember" })}</Checkbox>
       </Form.Item>
 
-      <Form.Item>
-        <Button
-          block={!responsive.md}
-          type="primary"
-          size="large"
-          htmlType="submit"
-        >
-          {intl.formatMessage({ id: "who.login" })}
-        </Button>
-      </Form.Item>
+      {!hideSubmit && (
+        <Form.Item>
+          <Button
+            block={!responsive.md}
+            type="primary"
+            size="large"
+            loading={loading.effects["auth/login"]}
+            htmlType="submit"
+          >
+            {intl.formatMessage({ id: "who.login" })}
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };
 
-export default connect()(LoginForm);
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  LoginForm,
+);
