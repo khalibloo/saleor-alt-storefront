@@ -2,11 +2,11 @@ import { gql } from "apollo-boost";
 import { USER_DETAILS_FRAGMENT } from "@/fragments/user";
 import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 
-export const USER_REGISTER_MUTATION = gql`
+export const USER_ADDRESS_DELETE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  mutation userRegisterMutation($input: AccountRegisterInput!) {
-    accountRegister(input: $input) {
+  mutation accountAddressDeleteMutation($id: ID!) {
+    accountAddressDelete(id: $id) {
       errors {
         field
         message
@@ -17,7 +17,6 @@ export const USER_REGISTER_MUTATION = gql`
           ...AddressDetails
         }
       }
-      requiresConfirmation
     }
   }
 `;

@@ -33,6 +33,48 @@ export interface accountAddressCreateMutation_accountAddressCreate_user_metadata
   value: string;
 }
 
+export interface accountAddressCreateMutation_accountAddressCreate_user_addresses_country {
+  __typename: "CountryDisplay";
+  /**
+   * Country code.
+   */
+  code: string;
+  /**
+   * Country name.
+   */
+  country: string;
+}
+
+export interface accountAddressCreateMutation_accountAddressCreate_user_addresses {
+  __typename: "Address";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
+  /**
+   * Shop's default country.
+   */
+  country: accountAddressCreateMutation_accountAddressCreate_user_addresses_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
+}
+
 export interface accountAddressCreateMutation_accountAddressCreate_user {
   __typename: "User";
   /**
@@ -47,6 +89,10 @@ export interface accountAddressCreateMutation_accountAddressCreate_user {
    * List of public metadata items. Can be accessed without permissions.
    */
   metadata: (accountAddressCreateMutation_accountAddressCreate_user_metadata | null)[];
+  /**
+   * List of all user's addresses.
+   */
+  addresses: (accountAddressCreateMutation_accountAddressCreate_user_addresses | null)[] | null;
 }
 
 export interface accountAddressCreateMutation_accountAddressCreate {

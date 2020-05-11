@@ -2,11 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+import { AddressInput } from "./../../globalTypes";
+
 // ====================================================
-// GraphQL mutation operation: requestEmailChangeMutation
+// GraphQL mutation operation: accountAddressUpdateMutation
 // ====================================================
 
-export interface requestEmailChangeMutation_requestEmailChange_errors {
+export interface accountAddressUpdateMutation_accountAddressUpdate_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -19,7 +21,7 @@ export interface requestEmailChangeMutation_requestEmailChange_errors {
   message: string | null;
 }
 
-export interface requestEmailChangeMutation_requestEmailChange_user_metadata {
+export interface accountAddressUpdateMutation_accountAddressUpdate_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -31,7 +33,7 @@ export interface requestEmailChangeMutation_requestEmailChange_user_metadata {
   value: string;
 }
 
-export interface requestEmailChangeMutation_requestEmailChange_user_addresses_country {
+export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -43,7 +45,7 @@ export interface requestEmailChangeMutation_requestEmailChange_user_addresses_co
   country: string;
 }
 
-export interface requestEmailChangeMutation_requestEmailChange_user_addresses {
+export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -60,7 +62,7 @@ export interface requestEmailChangeMutation_requestEmailChange_user_addresses {
   /**
    * Shop's default country.
    */
-  country: requestEmailChangeMutation_requestEmailChange_user_addresses_country;
+  country: accountAddressUpdateMutation_accountAddressUpdate_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -73,7 +75,7 @@ export interface requestEmailChangeMutation_requestEmailChange_user_addresses {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface requestEmailChangeMutation_requestEmailChange_user {
+export interface accountAddressUpdateMutation_accountAddressUpdate_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -86,34 +88,33 @@ export interface requestEmailChangeMutation_requestEmailChange_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (requestEmailChangeMutation_requestEmailChange_user_metadata | null)[];
+  metadata: (accountAddressUpdateMutation_accountAddressUpdate_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (requestEmailChangeMutation_requestEmailChange_user_addresses | null)[] | null;
+  addresses: (accountAddressUpdateMutation_accountAddressUpdate_user_addresses | null)[] | null;
 }
 
-export interface requestEmailChangeMutation_requestEmailChange {
-  __typename: "RequestEmailChange";
+export interface accountAddressUpdateMutation_accountAddressUpdate {
+  __typename: "AccountAddressUpdate";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: requestEmailChangeMutation_requestEmailChange_errors[];
+  errors: accountAddressUpdateMutation_accountAddressUpdate_errors[];
   /**
-   * A user instance.
+   * A user object for which the address was edited.
    */
-  user: requestEmailChangeMutation_requestEmailChange_user | null;
+  user: accountAddressUpdateMutation_accountAddressUpdate_user | null;
 }
 
-export interface requestEmailChangeMutation {
+export interface accountAddressUpdateMutation {
   /**
-   * Request email change of the logged in user.
+   * Updates an address of the logged-in user.
    */
-  requestEmailChange: requestEmailChangeMutation_requestEmailChange | null;
+  accountAddressUpdate: accountAddressUpdateMutation_accountAddressUpdate | null;
 }
 
-export interface requestEmailChangeMutationVariables {
-  newEmail: string;
-  password: string;
-  redirectUrl: string;
+export interface accountAddressUpdateMutationVariables {
+  id: string;
+  address: AddressInput;
 }

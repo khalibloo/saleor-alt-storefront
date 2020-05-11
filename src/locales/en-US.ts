@@ -84,6 +84,8 @@ export default {
   "profile.phone": "Phone",
   "profile.addresses": "Addresses",
   "profile.editName": "Edit Name",
+  "profile.editAddress": "Edit Address",
+  "profile.address.delete.confirm": "Do you want to delete this address?",
   "profile.changeEmail": "Change Email",
   "profile.changeEmail.newEmail": "New Email",
   "profile.changeEmail.newEmail.match":

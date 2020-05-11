@@ -30,6 +30,16 @@ import {
   accountAddressCreateMutation,
 } from "@/mutations/types/accountAddressCreateMutation";
 import { USER_ADDRESS_CREATE_MUTATION } from "@/mutations/UserAddressCreate";
+import {
+  accountAddressUpdateMutationVariables,
+  accountAddressUpdateMutation,
+} from "@/mutations/types/accountAddressUpdateMutation";
+import { USER_ADDRESS_UPDATE_MUTATION } from "@/mutations/UserAddressUpdate";
+import {
+  accountAddressDeleteMutationVariables,
+  accountAddressDeleteMutation,
+} from "@/mutations/types/accountAddressDeleteMutation";
+import { USER_ADDRESS_DELETE_MUTATION } from "@/mutations/UserAddressDelete";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -45,6 +55,8 @@ export interface AuthModelType {
     updateName: Effect;
     changeEmail: Effect;
     createAddress: Effect;
+    updateAddress: Effect;
+    deleteAddress: Effect;
     logout: Effect;
   };
   reducers: {
@@ -214,6 +226,43 @@ const AuthModel: AuthModelType = {
           client.mutate,
           {
             mutation: USER_ADDRESS_CREATE_MUTATION,
+            variables: variables,
+          },
+        );
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *updateAddress({ payload }, { call, put }) {
+      try {
+        const { id, address } = payload;
+        const variables: accountAddressUpdateMutationVariables = {
+          id,
+          address,
+        };
+        const response: { data: accountAddressUpdateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_ADDRESS_UPDATE_MUTATION,
+            variables: variables,
+          },
+        );
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *deleteAddress({ payload }, { call, put }) {
+      try {
+        const { id } = payload;
+        const variables: accountAddressDeleteMutationVariables = {
+          id,
+        };
+        const response: { data: accountAddressDeleteMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_ADDRESS_DELETE_MUTATION,
             variables: variables,
           },
         );

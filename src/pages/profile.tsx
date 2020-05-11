@@ -12,7 +12,6 @@ import {
 import { EditOutlined } from "@ant-design/icons";
 import { useIntl, connect } from "umi";
 import VSpacing from "@/components/VSpacing";
-import { sampleAddress } from "@/sampleData";
 import AddAddress from "@/components/AddAddress";
 import AddressCard from "@/components/AddressCard";
 import { useQuery } from "@apollo/react-hooks";
@@ -32,12 +31,12 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
     state: editNameModalOpen,
     setTrue: openEditNameModal,
     setFalse: closeEditNameModal,
-  } = useBoolean();
+  } = useBoolean(false);
   const {
     state: changeEmailModalOpen,
     setTrue: openChangeEmailModal,
     setFalse: closeChangeEmailModal,
-  } = useBoolean();
+  } = useBoolean(false);
   const { loading: fetching, error, data } = useQuery<profileQuery>(
     PROFILE_PAGE_QUERY,
   );

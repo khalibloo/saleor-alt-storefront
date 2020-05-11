@@ -41,6 +41,8 @@ const AddressForm: ConnectRC<Props> = ({
   const intl = useIntl();
   const responsive = useResponsive();
 
+  const isEditing = address?.id != null;
+
   const onFinish = values => {
     Logger.log("Success:", values);
     const addressData: AddressInput = {
@@ -57,8 +59,9 @@ const AddressForm: ConnectRC<Props> = ({
     };
 
     dispatch?.({
-      type: "auth/createAddress",
+      type: isEditing ? "auth/updateAddress" : "auth/createAddress",
       payload: {
+        id: isEditing ? address?.id : undefined,
         address: addressData,
         onCompleted: (data: accountAddressCreateMutation) => {
           Logger.log(data);
@@ -83,6 +86,7 @@ const AddressForm: ConnectRC<Props> = ({
       hideRequiredMark
       initialValues={{
         ...address,
+        country: address?.country?.code,
         firstName: address?.firstName || firstName,
         lastName: address?.lastName || lastName,
       }}
