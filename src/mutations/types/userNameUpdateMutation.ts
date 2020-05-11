@@ -2,13 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AccountInput } from "./../../globalTypes";
+import { AccountInput, AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: userNameUpdateMutation
+// GraphQL mutation operation: UserNameUpdateMutation
 // ====================================================
 
-export interface userNameUpdateMutation_accountUpdate_errors {
+export interface UserNameUpdateMutation_accountUpdate_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +21,24 @@ export interface userNameUpdateMutation_accountUpdate_errors {
   message: string | null;
 }
 
-export interface userNameUpdateMutation_accountUpdate_user_metadata {
+export interface UserNameUpdateMutation_accountUpdate_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the
+   * error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
+
+export interface UserNameUpdateMutation_accountUpdate_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -33,7 +50,7 @@ export interface userNameUpdateMutation_accountUpdate_user_metadata {
   value: string;
 }
 
-export interface userNameUpdateMutation_accountUpdate_user_addresses_country {
+export interface UserNameUpdateMutation_accountUpdate_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -45,7 +62,7 @@ export interface userNameUpdateMutation_accountUpdate_user_addresses_country {
   country: string;
 }
 
-export interface userNameUpdateMutation_accountUpdate_user_addresses {
+export interface UserNameUpdateMutation_accountUpdate_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -62,7 +79,7 @@ export interface userNameUpdateMutation_accountUpdate_user_addresses {
   /**
    * Shop's default country.
    */
-  country: userNameUpdateMutation_accountUpdate_user_addresses_country;
+  country: UserNameUpdateMutation_accountUpdate_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -75,7 +92,7 @@ export interface userNameUpdateMutation_accountUpdate_user_addresses {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface userNameUpdateMutation_accountUpdate_user {
+export interface UserNameUpdateMutation_accountUpdate_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -88,29 +105,30 @@ export interface userNameUpdateMutation_accountUpdate_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (userNameUpdateMutation_accountUpdate_user_metadata | null)[];
+  metadata: (UserNameUpdateMutation_accountUpdate_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (userNameUpdateMutation_accountUpdate_user_addresses | null)[] | null;
+  addresses: (UserNameUpdateMutation_accountUpdate_user_addresses | null)[] | null;
 }
 
-export interface userNameUpdateMutation_accountUpdate {
+export interface UserNameUpdateMutation_accountUpdate {
   __typename: "AccountUpdate";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: userNameUpdateMutation_accountUpdate_errors[];
-  user: userNameUpdateMutation_accountUpdate_user | null;
+  errors: UserNameUpdateMutation_accountUpdate_errors[];
+  accountErrors: UserNameUpdateMutation_accountUpdate_accountErrors[];
+  user: UserNameUpdateMutation_accountUpdate_user | null;
 }
 
-export interface userNameUpdateMutation {
+export interface UserNameUpdateMutation {
   /**
    * Updates the account of the logged-in user.
    */
-  accountUpdate: userNameUpdateMutation_accountUpdate | null;
+  accountUpdate: UserNameUpdateMutation_accountUpdate | null;
 }
 
-export interface userNameUpdateMutationVariables {
+export interface UserNameUpdateMutationVariables {
   input: AccountInput;
 }

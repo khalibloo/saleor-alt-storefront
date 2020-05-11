@@ -104,6 +104,11 @@ export default {
   "settings.security": "Security",
   "settings.pwd": "Password",
   "settings.changePwd": "Change Password",
+  "settings.changePwd.oldPwd": "Current Password",
+  "settings.changePwd.newPwd": "New Password",
+  "settings.changePwd.newPwd.match":
+    "New password should be different from old password",
+  "settings.changePwd.oldPwd.incorrect": "Incorrect current password",
   "settings.email": "Email",
   "settings.changeEmail": "Change Email",
   "settings.dangerZone": "Danger Zone",
@@ -139,8 +144,10 @@ export default {
   "who.signup.success.confirm": "Please Check Your Email",
   "who.signup.success.confirm.desc":
     "We've sent you an email. Please click the link in the email to proceed.",
+  "who.signup.email.unique": "Email already registered",
   "who.login": "Log In",
   "who.login.remember": "Remember me",
+  "who.login.incorrect": "Incorrect email or password",
 
   // 404
   "404.title": formatTitle("Page Not Found"),

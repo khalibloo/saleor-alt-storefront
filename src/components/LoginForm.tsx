@@ -4,6 +4,7 @@ import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
 import { ConnectState, Loading } from "@/models/connect";
+import { APIException } from "@/apollo";
 
 interface Props {
   id?: string;
@@ -34,13 +35,18 @@ const LoginForm: ConnectRC<Props> = ({
           notification.success({ message: "Successfully Logged In" });
           onSubmit?.();
         },
+        onError: (err: APIException) => {
+          if (err.errors?.find(e => e.code === "INVALID_CREDENTIALS")) {
+            message.error(intl.formatMessage({ id: "who.login.incorrect" }));
+          }
+        },
       },
     });
   };
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
-    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
+    message.error(intl.formatMessage({ id: "form.invalid" }));
   };
   return (
     <Form

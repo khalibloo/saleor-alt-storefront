@@ -2,19 +2,14 @@ import { gql } from "apollo-boost";
 import { USER_DETAILS_FRAGMENT } from "@/fragments/user";
 import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 
-export const USER_EMAIL_CHANGE_MUTATION = gql`
+export const USER_PASSWORD_CHANGE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  mutation UserEmailChangeMutation(
-    $newEmail: String!
-    $password: String!
-    $redirectUrl: String!
+  mutation PasswordChangeMutation(
+    $newPassword: String!
+    $oldPassword: String!
   ) {
-    requestEmailChange(
-      newEmail: $newEmail
-      password: $password
-      redirectUrl: $redirectUrl
-    ) {
+    passwordChange(newPassword: $newPassword, oldPassword: $oldPassword) {
       errors {
         field
         message

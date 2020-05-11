@@ -4,7 +4,8 @@ import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
 import { ConnectState, Loading } from "@/models/connect";
-import { userNameUpdateMutation } from "@/mutations/types/userNameUpdateMutation";
+import { UserNameUpdateMutation } from "@/mutations/types/userNameUpdateMutation";
+import { APIException } from "@/apollo";
 
 interface Props {
   id?: string;
@@ -33,7 +34,7 @@ const EditNameForm: ConnectRC<Props> = ({
       payload: {
         firstName: values.firstName.trim(),
         lastName: values.lastName.trim(),
-        onCompleted: (data: userNameUpdateMutation) => {
+        onCompleted: (data: UserNameUpdateMutation) => {
           Logger.log(data);
 
           notification.success({
@@ -41,13 +42,14 @@ const EditNameForm: ConnectRC<Props> = ({
           });
           onSubmit?.();
         },
+        onError: (err: APIException) => {},
       },
     });
   };
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
-    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
+    message.error(intl.formatMessage({ id: "form.invalid" }));
   };
   return (
     <Form

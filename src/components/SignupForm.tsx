@@ -12,8 +12,9 @@ import {
 import { useIntl, Link, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
-import { CustomerRegisterMutation } from "@/mutations/types/CustomerRegisterMutation";
 import { ConnectState, Loading } from "@/models/connect";
+import { UserRegisterMutation } from "@/mutations/types/UserRegisterMutation";
+import { APIException } from "@/apollo";
 
 interface Props {
   id?: string;
@@ -41,7 +42,7 @@ const SignupForm: ConnectRC<Props> = ({
         email: values.email.trim().toLowerCase(),
         password: values.password,
         remember: values.remember,
-        onCompleted: (data: CustomerRegisterMutation) => {
+        onCompleted: (data: UserRegisterMutation) => {
           Logger.log(data);
           notification.success({
             message: intl.formatMessage({ id: "who.signup.success" }),
@@ -55,6 +56,13 @@ const SignupForm: ConnectRC<Props> = ({
             });
           }
           onSubmit?.();
+        },
+        onError: (err: APIException) => {
+          if (err.errors?.find(e => e.code === "UNIQUE")) {
+            message.error(
+              intl.formatMessage({ id: "who.signup.email.unique" }),
+            );
+          }
         },
       },
     });
@@ -221,14 +229,22 @@ const SignupForm: ConnectRC<Props> = ({
             { id: "who.signup.agree" },
             {
               terms: (
-                <Link to="/pages/terms">
+                <a
+                  href="/pages/terms"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {intl.formatMessage({ id: "who.terms" })}
-                </Link>
+                </a>
               ),
               priv: (
-                <Link to="/pages/privacy">
+                <a
+                  href="/pages/privacy"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {intl.formatMessage({ id: "who.privacyPolicy" })}
-                </Link>
+                </a>
               ),
             },
           )}

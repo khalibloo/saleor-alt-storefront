@@ -2,11 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+import { AccountErrorCode } from "./../../globalTypes";
+
 // ====================================================
-// GraphQL mutation operation: accountAddressDeleteMutation
+// GraphQL mutation operation: UserAddressDeleteMutation
 // ====================================================
 
-export interface accountAddressDeleteMutation_accountAddressDelete_errors {
+export interface UserAddressDeleteMutation_accountAddressDelete_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -19,7 +21,24 @@ export interface accountAddressDeleteMutation_accountAddressDelete_errors {
   message: string | null;
 }
 
-export interface accountAddressDeleteMutation_accountAddressDelete_user_metadata {
+export interface UserAddressDeleteMutation_accountAddressDelete_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the
+   * error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
+
+export interface UserAddressDeleteMutation_accountAddressDelete_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -31,7 +50,7 @@ export interface accountAddressDeleteMutation_accountAddressDelete_user_metadata
   value: string;
 }
 
-export interface accountAddressDeleteMutation_accountAddressDelete_user_addresses_country {
+export interface UserAddressDeleteMutation_accountAddressDelete_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -43,7 +62,7 @@ export interface accountAddressDeleteMutation_accountAddressDelete_user_addresse
   country: string;
 }
 
-export interface accountAddressDeleteMutation_accountAddressDelete_user_addresses {
+export interface UserAddressDeleteMutation_accountAddressDelete_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -60,7 +79,7 @@ export interface accountAddressDeleteMutation_accountAddressDelete_user_addresse
   /**
    * Shop's default country.
    */
-  country: accountAddressDeleteMutation_accountAddressDelete_user_addresses_country;
+  country: UserAddressDeleteMutation_accountAddressDelete_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -73,7 +92,7 @@ export interface accountAddressDeleteMutation_accountAddressDelete_user_addresse
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface accountAddressDeleteMutation_accountAddressDelete_user {
+export interface UserAddressDeleteMutation_accountAddressDelete_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -86,32 +105,33 @@ export interface accountAddressDeleteMutation_accountAddressDelete_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (accountAddressDeleteMutation_accountAddressDelete_user_metadata | null)[];
+  metadata: (UserAddressDeleteMutation_accountAddressDelete_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (accountAddressDeleteMutation_accountAddressDelete_user_addresses | null)[] | null;
+  addresses: (UserAddressDeleteMutation_accountAddressDelete_user_addresses | null)[] | null;
 }
 
-export interface accountAddressDeleteMutation_accountAddressDelete {
+export interface UserAddressDeleteMutation_accountAddressDelete {
   __typename: "AccountAddressDelete";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: accountAddressDeleteMutation_accountAddressDelete_errors[];
+  errors: UserAddressDeleteMutation_accountAddressDelete_errors[];
+  accountErrors: UserAddressDeleteMutation_accountAddressDelete_accountErrors[];
   /**
    * A user instance for which the address was deleted.
    */
-  user: accountAddressDeleteMutation_accountAddressDelete_user | null;
+  user: UserAddressDeleteMutation_accountAddressDelete_user | null;
 }
 
-export interface accountAddressDeleteMutation {
+export interface UserAddressDeleteMutation {
   /**
    * Delete an address of the logged-in user.
    */
-  accountAddressDelete: accountAddressDeleteMutation_accountAddressDelete | null;
+  accountAddressDelete: UserAddressDeleteMutation_accountAddressDelete | null;
 }
 
-export interface accountAddressDeleteMutationVariables {
+export interface UserAddressDeleteMutationVariables {
   id: string;
 }

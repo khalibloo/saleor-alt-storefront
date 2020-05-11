@@ -5,9 +5,14 @@ import { gql } from "apollo-boost";
 export const USER_NAME_UPDATE_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  mutation userNameUpdateMutation($input: AccountInput!) {
+  mutation UserNameUpdateMutation($input: AccountInput!) {
     accountUpdate(input: $input) {
       errors {
+        field
+        message
+      }
+      accountErrors {
+        code
         field
         message
       }

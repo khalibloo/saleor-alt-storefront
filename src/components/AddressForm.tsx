@@ -17,7 +17,8 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import Logger from "@/utils/logger";
 import { ConnectState, Loading } from "@/models/connect";
 import { AddressInput } from "@/globalTypes";
-import { accountAddressCreateMutation } from "@/mutations/types/accountAddressCreateMutation";
+import { UserAddressCreateMutation } from "@/mutations/types/UserAddressCreateMutation";
+import { APIException } from "@/apollo";
 
 interface Props {
   id?: string;
@@ -63,20 +64,21 @@ const AddressForm: ConnectRC<Props> = ({
       payload: {
         id: isEditing ? address?.id : undefined,
         address: addressData,
-        onCompleted: (data: accountAddressCreateMutation) => {
+        onCompleted: (data: UserAddressCreateMutation) => {
           Logger.log(data);
           notification.success({
             message: intl.formatMessage({ id: "misc.save.success" }),
           });
           onSubmit?.();
         },
+        onError: (err: APIException) => {},
       },
     });
   };
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
-    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
+    message.error(intl.formatMessage({ id: "form.invalid" }));
   };
   return (
     <Form

@@ -2,13 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AccountRegisterInput, AccountErrorCode } from "./../../globalTypes";
+import { AddressInput, AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: UserRegisterMutation
+// GraphQL mutation operation: UserAddressUpdateMutation
 // ====================================================
 
-export interface UserRegisterMutation_accountRegister_errors {
+export interface UserAddressUpdateMutation_accountAddressUpdate_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +21,7 @@ export interface UserRegisterMutation_accountRegister_errors {
   message: string | null;
 }
 
-export interface UserRegisterMutation_accountRegister_accountErrors {
+export interface UserAddressUpdateMutation_accountAddressUpdate_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -38,7 +38,7 @@ export interface UserRegisterMutation_accountRegister_accountErrors {
   message: string | null;
 }
 
-export interface UserRegisterMutation_accountRegister_user_metadata {
+export interface UserAddressUpdateMutation_accountAddressUpdate_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -50,7 +50,7 @@ export interface UserRegisterMutation_accountRegister_user_metadata {
   value: string;
 }
 
-export interface UserRegisterMutation_accountRegister_user_addresses_country {
+export interface UserAddressUpdateMutation_accountAddressUpdate_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -62,7 +62,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses_country {
   country: string;
 }
 
-export interface UserRegisterMutation_accountRegister_user_addresses {
+export interface UserAddressUpdateMutation_accountAddressUpdate_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -79,7 +79,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses {
   /**
    * Shop's default country.
    */
-  country: UserRegisterMutation_accountRegister_user_addresses_country;
+  country: UserAddressUpdateMutation_accountAddressUpdate_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -92,7 +92,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface UserRegisterMutation_accountRegister_user {
+export interface UserAddressUpdateMutation_accountAddressUpdate_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -105,34 +105,34 @@ export interface UserRegisterMutation_accountRegister_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (UserRegisterMutation_accountRegister_user_metadata | null)[];
+  metadata: (UserAddressUpdateMutation_accountAddressUpdate_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (UserRegisterMutation_accountRegister_user_addresses | null)[] | null;
+  addresses: (UserAddressUpdateMutation_accountAddressUpdate_user_addresses | null)[] | null;
 }
 
-export interface UserRegisterMutation_accountRegister {
-  __typename: "AccountRegister";
+export interface UserAddressUpdateMutation_accountAddressUpdate {
+  __typename: "AccountAddressUpdate";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: UserRegisterMutation_accountRegister_errors[];
-  accountErrors: UserRegisterMutation_accountRegister_accountErrors[];
-  user: UserRegisterMutation_accountRegister_user | null;
+  errors: UserAddressUpdateMutation_accountAddressUpdate_errors[];
+  accountErrors: UserAddressUpdateMutation_accountAddressUpdate_accountErrors[];
   /**
-   * Informs whether users need to confirm their email address.
+   * A user object for which the address was edited.
    */
-  requiresConfirmation: boolean | null;
+  user: UserAddressUpdateMutation_accountAddressUpdate_user | null;
 }
 
-export interface UserRegisterMutation {
+export interface UserAddressUpdateMutation {
   /**
-   * Register a new user.
+   * Updates an address of the logged-in user.
    */
-  accountRegister: UserRegisterMutation_accountRegister | null;
+  accountAddressUpdate: UserAddressUpdateMutation_accountAddressUpdate | null;
 }
 
-export interface UserRegisterMutationVariables {
-  input: AccountRegisterInput;
+export interface UserAddressUpdateMutationVariables {
+  id: string;
+  address: AddressInput;
 }

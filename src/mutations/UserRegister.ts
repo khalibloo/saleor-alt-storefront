@@ -5,9 +5,14 @@ import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 export const USER_REGISTER_MUTATION = gql`
   ${USER_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  mutation userRegisterMutation($input: AccountRegisterInput!) {
+  mutation UserRegisterMutation($input: AccountRegisterInput!) {
     accountRegister(input: $input) {
       errors {
+        field
+        message
+      }
+      accountErrors {
+        code
         field
         message
       }

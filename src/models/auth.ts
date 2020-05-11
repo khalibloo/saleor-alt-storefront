@@ -1,5 +1,5 @@
 import { Effect, ImmerReducer, Subscription, Reducer } from "umi";
-import { client } from "@/apollo";
+import { client, APIException } from "@/apollo";
 import { TOKEN_CREATE_MUTATION } from "@/mutations/TokenCreate";
 import {
   TokenCreateMutationVariables,
@@ -13,33 +13,38 @@ import { TOKEN_VERIFY_MUTATION } from "@/mutations/TokenVerify";
 import { USER_REGISTER_MUTATION } from "@/mutations/UserRegister";
 import { USER_NAME_UPDATE_MUTATION } from "@/mutations/UserNameUpdate";
 import { USER_EMAIL_CHANGE_MUTATION } from "@/mutations/UserEmailChange";
+import { USER_ADDRESS_CREATE_MUTATION } from "@/mutations/UserAddressCreate";
+import { USER_ADDRESS_UPDATE_MUTATION } from "@/mutations/UserAddressUpdate";
+import { USER_ADDRESS_DELETE_MUTATION } from "@/mutations/UserAddressDelete";
 import {
-  userRegisterMutationVariables,
-  userRegisterMutation,
-} from "@/mutations/types/userRegisterMutation";
+  UserRegisterMutationVariables,
+  UserRegisterMutation,
+} from "@/mutations/types/UserRegisterMutation";
 import {
-  userNameUpdateMutationVariables,
-  userNameUpdateMutation,
+  UserNameUpdateMutationVariables,
+  UserNameUpdateMutation,
 } from "@/mutations/types/userNameUpdateMutation";
 import {
-  requestEmailChangeMutation,
-  requestEmailChangeMutationVariables,
-} from "@/mutations/types/requestEmailChangeMutation";
+  UserEmailChangeMutationVariables,
+  UserEmailChangeMutation,
+} from "@/mutations/types/UserEmailChangeMutation";
 import {
-  accountAddressCreateMutationVariables,
-  accountAddressCreateMutation,
-} from "@/mutations/types/accountAddressCreateMutation";
-import { USER_ADDRESS_CREATE_MUTATION } from "@/mutations/UserAddressCreate";
+  UserAddressCreateMutationVariables,
+  UserAddressCreateMutation,
+} from "@/mutations/types/UserAddressCreateMutation";
 import {
-  accountAddressUpdateMutationVariables,
-  accountAddressUpdateMutation,
-} from "@/mutations/types/accountAddressUpdateMutation";
-import { USER_ADDRESS_UPDATE_MUTATION } from "@/mutations/UserAddressUpdate";
+  UserAddressUpdateMutationVariables,
+  UserAddressUpdateMutation,
+} from "@/mutations/types/UserAddressUpdateMutation";
 import {
-  accountAddressDeleteMutationVariables,
-  accountAddressDeleteMutation,
-} from "@/mutations/types/accountAddressDeleteMutation";
-import { USER_ADDRESS_DELETE_MUTATION } from "@/mutations/UserAddressDelete";
+  UserAddressDeleteMutationVariables,
+  UserAddressDeleteMutation,
+} from "@/mutations/types/UserAddressDeleteMutation";
+import {
+  PasswordChangeMutationVariables,
+  PasswordChangeMutation,
+} from "@/mutations/types/PasswordChangeMutation";
+import { USER_PASSWORD_CHANGE_MUTATION } from "@/mutations/UserPasswordChange";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -54,6 +59,7 @@ export interface AuthModelType {
     signup: Effect;
     updateName: Effect;
     changeEmail: Effect;
+    changePassword: Effect;
     createAddress: Effect;
     updateAddress: Effect;
     deleteAddress: Effect;
@@ -122,6 +128,11 @@ const AuthModel: AuthModelType = {
         storage.setItem("jwt", response.data.tokenCreate?.token as string);
         yield put({ type: "setLoggedIn", payload: { authenticated: true } });
 
+        if (!response.data.tokenCreate?.token) {
+          throw new APIException([
+            { field: null, message: null, code: "INVALID_CREDENTIALS" },
+          ]);
+        }
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -131,20 +142,25 @@ const AuthModel: AuthModelType = {
       try {
         const { firstName, lastName, email, password } = payload;
         // create account
-        const variables: userRegisterMutationVariables = {
+        const variables: UserRegisterMutationVariables = {
           input: {
             email,
             password,
             redirectUrl: window.location.origin,
           },
         };
-        const response: { data: userRegisterMutation } = yield call(
+        const response: { data: UserRegisterMutation } = yield call(
           client.mutate,
           {
             mutation: USER_REGISTER_MUTATION,
             variables,
           },
         );
+
+        const errors = response.data.accountRegister?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
 
         if (response.data.accountRegister?.requiresConfirmation === false) {
           // login
@@ -169,7 +185,6 @@ const AuthModel: AuthModelType = {
             },
           });
         }
-
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -178,19 +193,23 @@ const AuthModel: AuthModelType = {
     *updateName({ payload }, { call, put }) {
       try {
         const { firstName, lastName } = payload;
-        const variables: userNameUpdateMutationVariables = {
+        const variables: UserNameUpdateMutationVariables = {
           input: {
             firstName,
             lastName,
           },
         };
-        const response: { data: userNameUpdateMutation } = yield call(
+        const response: { data: UserNameUpdateMutation } = yield call(
           client.mutate,
           {
             mutation: USER_NAME_UPDATE_MUTATION,
             variables: variables,
           },
         );
+        const errors = response.data.accountUpdate?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -199,18 +218,45 @@ const AuthModel: AuthModelType = {
     *changeEmail({ payload }, { call, put }) {
       try {
         const { email, password } = payload;
-        const variables: requestEmailChangeMutationVariables = {
+        const variables: UserEmailChangeMutationVariables = {
           newEmail: email,
           password,
           redirectUrl: window.location.origin + "/profile",
         };
-        const response: { data: requestEmailChangeMutation } = yield call(
+        const response: { data: UserEmailChangeMutation } = yield call(
           client.mutate,
           {
             mutation: USER_EMAIL_CHANGE_MUTATION,
             variables: variables,
           },
         );
+        const errors = response.data.requestEmailChange?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *changePassword({ payload }, { call, put }) {
+      try {
+        const { oldPassword, newPassword } = payload;
+        const variables: PasswordChangeMutationVariables = {
+          oldPassword,
+          newPassword,
+        };
+        const response: { data: PasswordChangeMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_PASSWORD_CHANGE_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.passwordChange?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -219,16 +265,20 @@ const AuthModel: AuthModelType = {
     *createAddress({ payload }, { call, put }) {
       try {
         const { address } = payload;
-        const variables: accountAddressCreateMutationVariables = {
+        const variables: UserAddressCreateMutationVariables = {
           address,
         };
-        const response: { data: accountAddressCreateMutation } = yield call(
+        const response: { data: UserAddressCreateMutation } = yield call(
           client.mutate,
           {
             mutation: USER_ADDRESS_CREATE_MUTATION,
             variables: variables,
           },
         );
+        const errors = response.data.accountAddressCreate?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -237,17 +287,21 @@ const AuthModel: AuthModelType = {
     *updateAddress({ payload }, { call, put }) {
       try {
         const { id, address } = payload;
-        const variables: accountAddressUpdateMutationVariables = {
+        const variables: UserAddressUpdateMutationVariables = {
           id,
           address,
         };
-        const response: { data: accountAddressUpdateMutation } = yield call(
+        const response: { data: UserAddressUpdateMutation } = yield call(
           client.mutate,
           {
             mutation: USER_ADDRESS_UPDATE_MUTATION,
             variables: variables,
           },
         );
+        const errors = response.data.accountAddressUpdate?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -256,16 +310,20 @@ const AuthModel: AuthModelType = {
     *deleteAddress({ payload }, { call, put }) {
       try {
         const { id } = payload;
-        const variables: accountAddressDeleteMutationVariables = {
+        const variables: UserAddressDeleteMutationVariables = {
           id,
         };
-        const response: { data: accountAddressDeleteMutation } = yield call(
+        const response: { data: UserAddressDeleteMutation } = yield call(
           client.mutate,
           {
             mutation: USER_ADDRESS_DELETE_MUTATION,
             variables: variables,
           },
         );
+        const errors = response.data.accountAddressDelete?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);

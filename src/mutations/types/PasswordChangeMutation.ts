@@ -2,13 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AddressInput } from "./../../globalTypes";
+import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: accountAddressUpdateMutation
+// GraphQL mutation operation: PasswordChangeMutation
 // ====================================================
 
-export interface accountAddressUpdateMutation_accountAddressUpdate_errors {
+export interface PasswordChangeMutation_passwordChange_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +21,24 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_errors {
   message: string | null;
 }
 
-export interface accountAddressUpdateMutation_accountAddressUpdate_user_metadata {
+export interface PasswordChangeMutation_passwordChange_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the
+   * error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
+
+export interface PasswordChangeMutation_passwordChange_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -33,7 +50,7 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_user_metadata
   value: string;
 }
 
-export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresses_country {
+export interface PasswordChangeMutation_passwordChange_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -45,7 +62,7 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresse
   country: string;
 }
 
-export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresses {
+export interface PasswordChangeMutation_passwordChange_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -62,7 +79,7 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresse
   /**
    * Shop's default country.
    */
-  country: accountAddressUpdateMutation_accountAddressUpdate_user_addresses_country;
+  country: PasswordChangeMutation_passwordChange_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -75,7 +92,7 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_user_addresse
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface accountAddressUpdateMutation_accountAddressUpdate_user {
+export interface PasswordChangeMutation_passwordChange_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -88,33 +105,34 @@ export interface accountAddressUpdateMutation_accountAddressUpdate_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (accountAddressUpdateMutation_accountAddressUpdate_user_metadata | null)[];
+  metadata: (PasswordChangeMutation_passwordChange_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (accountAddressUpdateMutation_accountAddressUpdate_user_addresses | null)[] | null;
+  addresses: (PasswordChangeMutation_passwordChange_user_addresses | null)[] | null;
 }
 
-export interface accountAddressUpdateMutation_accountAddressUpdate {
-  __typename: "AccountAddressUpdate";
+export interface PasswordChangeMutation_passwordChange {
+  __typename: "PasswordChange";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: accountAddressUpdateMutation_accountAddressUpdate_errors[];
+  errors: PasswordChangeMutation_passwordChange_errors[];
+  accountErrors: PasswordChangeMutation_passwordChange_accountErrors[];
   /**
-   * A user object for which the address was edited.
+   * A user instance with a new password.
    */
-  user: accountAddressUpdateMutation_accountAddressUpdate_user | null;
+  user: PasswordChangeMutation_passwordChange_user | null;
 }
 
-export interface accountAddressUpdateMutation {
+export interface PasswordChangeMutation {
   /**
-   * Updates an address of the logged-in user.
+   * Change the password of the logged in user.
    */
-  accountAddressUpdate: accountAddressUpdateMutation_accountAddressUpdate | null;
+  passwordChange: PasswordChangeMutation_passwordChange | null;
 }
 
-export interface accountAddressUpdateMutationVariables {
-  id: string;
-  address: AddressInput;
+export interface PasswordChangeMutationVariables {
+  newPassword: string;
+  oldPassword: string;
 }

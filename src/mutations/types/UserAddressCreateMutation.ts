@@ -2,13 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { AddressInput } from "./../../globalTypes";
+import { AddressInput, AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: accountAddressCreateMutation
+// GraphQL mutation operation: UserAddressCreateMutation
 // ====================================================
 
-export interface accountAddressCreateMutation_accountAddressCreate_errors {
+export interface UserAddressCreateMutation_accountAddressCreate_errors {
   __typename: "Error";
   /**
    * Name of a field that caused the error. A value of `null` indicates that the
@@ -21,7 +21,24 @@ export interface accountAddressCreateMutation_accountAddressCreate_errors {
   message: string | null;
 }
 
-export interface accountAddressCreateMutation_accountAddressCreate_user_metadata {
+export interface UserAddressCreateMutation_accountAddressCreate_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the
+   * error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
+
+export interface UserAddressCreateMutation_accountAddressCreate_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -33,7 +50,7 @@ export interface accountAddressCreateMutation_accountAddressCreate_user_metadata
   value: string;
 }
 
-export interface accountAddressCreateMutation_accountAddressCreate_user_addresses_country {
+export interface UserAddressCreateMutation_accountAddressCreate_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -45,7 +62,7 @@ export interface accountAddressCreateMutation_accountAddressCreate_user_addresse
   country: string;
 }
 
-export interface accountAddressCreateMutation_accountAddressCreate_user_addresses {
+export interface UserAddressCreateMutation_accountAddressCreate_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -62,7 +79,7 @@ export interface accountAddressCreateMutation_accountAddressCreate_user_addresse
   /**
    * Shop's default country.
    */
-  country: accountAddressCreateMutation_accountAddressCreate_user_addresses_country;
+  country: UserAddressCreateMutation_accountAddressCreate_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -75,7 +92,7 @@ export interface accountAddressCreateMutation_accountAddressCreate_user_addresse
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface accountAddressCreateMutation_accountAddressCreate_user {
+export interface UserAddressCreateMutation_accountAddressCreate_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -88,32 +105,33 @@ export interface accountAddressCreateMutation_accountAddressCreate_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (accountAddressCreateMutation_accountAddressCreate_user_metadata | null)[];
+  metadata: (UserAddressCreateMutation_accountAddressCreate_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (accountAddressCreateMutation_accountAddressCreate_user_addresses | null)[] | null;
+  addresses: (UserAddressCreateMutation_accountAddressCreate_user_addresses | null)[] | null;
 }
 
-export interface accountAddressCreateMutation_accountAddressCreate {
+export interface UserAddressCreateMutation_accountAddressCreate {
   __typename: "AccountAddressCreate";
   /**
    * List of errors that occurred executing the mutation.
    */
-  errors: accountAddressCreateMutation_accountAddressCreate_errors[];
+  errors: UserAddressCreateMutation_accountAddressCreate_errors[];
+  accountErrors: UserAddressCreateMutation_accountAddressCreate_accountErrors[];
   /**
    * A user instance for which the address was created.
    */
-  user: accountAddressCreateMutation_accountAddressCreate_user | null;
+  user: UserAddressCreateMutation_accountAddressCreate_user | null;
 }
 
-export interface accountAddressCreateMutation {
+export interface UserAddressCreateMutation {
   /**
    * Create a new address for the customer.
    */
-  accountAddressCreate: accountAddressCreateMutation_accountAddressCreate | null;
+  accountAddressCreate: UserAddressCreateMutation_accountAddressCreate | null;
 }
 
-export interface accountAddressCreateMutationVariables {
+export interface UserAddressCreateMutationVariables {
   address: AddressInput;
 }
