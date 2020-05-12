@@ -16,6 +16,11 @@ const ProductCard: React.FunctionComponent<Props> = props => {
     .currency as string;
   const minPrice = product?.pricing?.priceRange?.start?.gross.amount as number;
   const maxPrice = product?.pricing?.priceRange?.stop?.gross.amount as number;
+  const minUndiscountedPrice = product?.pricing?.priceRangeUndiscounted?.start
+    ?.gross.amount as number;
+  const maxUndiscountedPrice = product?.pricing?.priceRangeUndiscounted?.stop
+    ?.gross.amount as number;
+  const isOnSale = product?.pricing?.onSale;
 
   const card = (
     <Card
@@ -65,6 +70,21 @@ const ProductCard: React.FunctionComponent<Props> = props => {
         paragraph={{ rows: 1, width: "30%" }}
         title={false}
       >
+        {isOnSale && (
+          <span>
+            <Typography.Text
+              className="strike-text"
+              type="secondary"
+              style={{ fontSize: 12 }}
+            >
+              {formatPrice(
+                currency,
+                minUndiscountedPrice,
+                maxUndiscountedPrice,
+              )}
+            </Typography.Text>{" "}
+          </span>
+        )}
         <Typography.Text strong>
           {formatPrice(currency, minPrice, maxPrice)}
         </Typography.Text>

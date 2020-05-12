@@ -13,6 +13,11 @@ const ProductListItem: React.FunctionComponent<Props> = props => {
   const currency = product.pricing?.priceRange?.start?.gross.currency as string;
   const minPrice = product.pricing?.priceRange?.start?.gross.amount as number;
   const maxPrice = product.pricing?.priceRange?.stop?.gross.amount as number;
+  const minUndiscountedPrice = product?.pricing?.priceRangeUndiscounted?.start
+    ?.gross.amount as number;
+  const maxUndiscountedPrice = product?.pricing?.priceRangeUndiscounted?.stop
+    ?.gross.amount as number;
+  const isOnSale = product?.pricing?.onSale;
   return (
     <Card>
       <Row gutter={24}>
@@ -32,6 +37,21 @@ const ProductListItem: React.FunctionComponent<Props> = props => {
             <Typography.Title level={4}>{product.name}</Typography.Title>
           </Link>
           <Typography.Title level={4}>
+            {isOnSale && (
+              <span>
+                <Typography.Text
+                  className="strike-text"
+                  type="secondary"
+                  style={{ fontSize: 14 }}
+                >
+                  {formatPrice(
+                    currency,
+                    minUndiscountedPrice,
+                    maxUndiscountedPrice,
+                  )}
+                </Typography.Text>{" "}
+              </span>
+            )}
             {formatPrice(currency, minPrice, maxPrice)}
           </Typography.Title>
         </Col>

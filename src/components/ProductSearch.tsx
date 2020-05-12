@@ -16,9 +16,12 @@ const ProductSearch: React.FC<Props> = ({ onSearch, ...rest }) => {
         id: "navbar.search.placeholder",
       })}
       onSearch={query => {
+        if (query.trim().length === 0) {
+          return;
+        }
         history.push({
           pathname: "/search",
-          query: { query },
+          query: { q: query.trim() },
         });
         onSearch?.(query);
       }}
