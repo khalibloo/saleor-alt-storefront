@@ -40,11 +40,12 @@ const HomePage = () => {
             <img
               className={clx("full-width full-height", styles.bannerImg)}
               src={data?.shop.homepageCollection?.backgroundImage?.url}
-              alt={data?.shop.homepageCollection?.backgroundImage?.alt}
+              alt={data?.shop.homepageCollection?.backgroundImage?.alt || ""}
             />
             <Row className="full-height" justify="center" align="middle">
               <Col className={styles.bannerTitleBG}>
                 <Typography.Title
+                  id="banner-title"
                   className="center-text no-margin inverse-text"
                   level={1}
                 >

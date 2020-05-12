@@ -22,8 +22,8 @@ test("loads initial page without error", async t => {
 
 test("fetches query and shows banner text", async t => {
   await t
-    .expect((await page.bannerContainer.textContent).toLowerCase())
-    .contains("summer collection");
+    .expect((await page.bannerTitle.innerText).toLowerCase())
+    .eql("summer collection");
 });
 
 test("shows 4 fetched products on desktop", async t => {
