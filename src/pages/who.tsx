@@ -39,7 +39,9 @@ const WhoPage = ({ authenticated }) => {
   );
 };
 
-WhoPage.title = "who.title";
-export default connect((state: ConnectState) => ({
+const ConnectedPage = connect((state: ConnectState) => ({
   authenticated: state.auth.authenticated,
 }))(WhoPage);
+
+ConnectedPage.title = "who.title";
+export default ConnectedPage;

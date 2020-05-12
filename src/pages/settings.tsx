@@ -140,7 +140,9 @@ const SettingsPage = ({ loading }) => {
   );
 };
 
-SettingsPage.title = "settings.title";
-export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  SettingsPage,
-);
+const ConnectedPage = connect((state: ConnectState) => ({
+  loading: state.loading,
+}))(SettingsPage);
+
+ConnectedPage.title = "settings.title";
+export default ConnectedPage;

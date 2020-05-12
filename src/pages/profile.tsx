@@ -138,7 +138,9 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
   );
 };
 
-ProfilePage.title = "profile.title";
-export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  ProfilePage,
-);
+const ConnectedPage = connect((state: ConnectState) => ({
+  loading: state.loading,
+}))(ProfilePage);
+
+ConnectedPage.title = "profile.title";
+export default ConnectedPage;
