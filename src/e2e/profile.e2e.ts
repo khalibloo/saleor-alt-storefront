@@ -11,10 +11,6 @@ test("shows personal info", async t => {
   await t.expect(page.personalInfoCard.exists).eql(true);
 });
 
-test("shows contact info", async t => {
-  await t.expect(page.contactInfoCard.exists).eql(true);
-});
-
 test("shows addresses", async t => {
   await t.expect(page.addressesCard.exists).eql(true);
 });

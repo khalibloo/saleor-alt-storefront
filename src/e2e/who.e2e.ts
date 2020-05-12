@@ -22,8 +22,8 @@ test("switching tabs works", async t => {
   await t.expect(page.signupForm.exists).eql(true);
 });
 
-test("has login or signup in title", async t => {
+test("has log in or sign up in title", async t => {
   await t
     .expect(Selector("head").find("title").textContent)
-    .contains("LogIn or SignUp");
+    .contains("Log In or Sign Up");
 });
