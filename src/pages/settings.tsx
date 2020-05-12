@@ -9,6 +9,7 @@ import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 import ChangeEmailForm from "@/components/ChangeEmailForm";
 import { ConnectState } from "@/models/connect";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
+import AccountDeactivationForm from "@/components/AccountDeactivationForm";
 
 interface Props {
   loading: Loading;
@@ -24,6 +25,11 @@ const SettingsPage = ({ loading }) => {
     state: changePwdModalOpen,
     setTrue: openChangePwdModal,
     setFalse: closeChangePwdModal,
+  } = useBoolean(false);
+  const {
+    state: deactivationModalOpen,
+    setTrue: openDeactivationModal,
+    setFalse: closeDeactivationModal,
   } = useBoolean(false);
   const { loading: fetching, error, data } = useQuery<profileQuery>(
     PROFILE_PAGE_QUERY,
@@ -66,6 +72,28 @@ const SettingsPage = ({ loading }) => {
           id="change-pwd-form"
           hideSubmit
           onSubmit={closeChangePwdModal}
+        />
+      </Modal>
+      <Modal
+        destroyOnClose
+        okText={intl.formatMessage({ id: "settings.shutdownAccount" })}
+        okType="danger"
+        okButtonProps={{
+          form: "request-acc-deactivation-form",
+          htmlType: "submit",
+          loading: loading.effects["auth/requestAccountDeactivation"],
+        }}
+        onCancel={closeDeactivationModal}
+        title={intl.formatMessage({ id: "settings.shutdownAccount" })}
+        visible={deactivationModalOpen}
+      >
+        <Typography.Text>
+          {intl.formatMessage({ id: "account.deactivate.challenge.info" })}
+        </Typography.Text>
+        <AccountDeactivationForm
+          id="request-acc-deactivation-form"
+          hideSubmit
+          onSubmit={closeDeactivationModal}
         />
       </Modal>
       <Row justify="center">
@@ -126,7 +154,11 @@ const SettingsPage = ({ loading }) => {
                 title={intl.formatMessage({ id: "settings.dangerZone" })}
               >
                 <div>
-                  <Button id="shutdown-account-btn" type="danger">
+                  <Button
+                    id="shutdown-account-btn"
+                    type="danger"
+                    onClick={openDeactivationModal}
+                  >
                     {intl.formatMessage({ id: "settings.shutdownAccount" })}
                   </Button>
                 </div>

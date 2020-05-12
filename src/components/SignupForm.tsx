@@ -53,6 +53,7 @@ const SignupForm: ConnectRC<Props> = ({
               description: intl.formatMessage({
                 id: "who.signup.success.confirm.desc",
               }),
+              duration: 5,
             });
           }
           onSubmit?.();

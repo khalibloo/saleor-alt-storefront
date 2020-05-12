@@ -152,4 +152,18 @@ export default {
   // 404
   "404.title": formatTitle("Page Not Found"),
   "404.heading": "Page Not Found",
+
+  // account deactivation
+  "account.deactivate.challenge.info":
+    "If you have any concerns or difficulties with our service, please " +
+    "contact support and let us know. If you still wish to proceed with " +
+    "deactivating your account, kindly enter the confirmation phrase below.",
+  "account.deactivate.challenge": 'Please type "confirm" below',
+  "account.deactivate.challenge.answer": "confirm",
+  "account.deactivate.challenge.match": "Please type the confirmation phrase",
+  "account.deactivate.request.success": "Account Deactivation Request Sent",
+  "account.deactivate.request.success.desc":
+    "We've sent you an email containing further instructions",
+  "account.deactivate.success": "Account Deactivated",
+  "account.deactivate.success.desc": "We're sad to see you go",
 };

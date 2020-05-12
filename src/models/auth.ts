@@ -45,6 +45,16 @@ import {
   PasswordChangeMutation,
 } from "@/mutations/types/PasswordChangeMutation";
 import { USER_PASSWORD_CHANGE_MUTATION } from "@/mutations/UserPasswordChange";
+import {
+  UserDeactivateMutationVariables,
+  UserDeactivateMutation,
+} from "@/mutations/types/UserDeactivateMutation";
+import { USER_DEACTIVATE_MUTATION } from "@/mutations/UserDeactivate";
+import {
+  UserRequestDeactivationMutationVariables,
+  UserRequestDeactivationMutation,
+} from "@/mutations/types/UserRequestDeactivationMutation";
+import { USER_REQUEST_DEACTIVATION_MUTATION } from "@/mutations/UserRequestDeactivation";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -64,6 +74,8 @@ export interface AuthModelType {
     updateAddress: Effect;
     deleteAddress: Effect;
     logout: Effect;
+    requestAccountDeactivation: Effect;
+    deactivateAccount: Effect;
   };
   reducers: {
     setLoggedIn: ImmerReducer<AuthModelState>;
@@ -336,6 +348,49 @@ const AuthModel: AuthModelType = {
       sessionStorage.removeItem("jwt");
       localStorage.removeItem("rememberme");
       localStorage.removeItem("exp");
+    },
+    *requestAccountDeactivation({ payload }, { call, put }) {
+      try {
+        const variables: UserRequestDeactivationMutationVariables = {
+          redirectUrl: window.location.origin + "/account/deactivate",
+        };
+        const response: { data: UserRequestDeactivationMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_REQUEST_DEACTIVATION_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.accountRequestDeletion?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *deactivateAccount({ payload }, { call, put }) {
+      try {
+        const variables: UserDeactivateMutationVariables = {
+          token: payload.token,
+        };
+        const response: { data: UserDeactivateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_DEACTIVATE_MUTATION,
+            variables: variables,
+          },
+        );
+        yield put({ type: "logout" });
+        const errors = response.data.accountDelete?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
     },
   },
   reducers: {
