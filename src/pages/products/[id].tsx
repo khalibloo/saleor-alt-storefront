@@ -28,11 +28,22 @@ import { useQuery } from "@apollo/react-hooks";
 import {
   productDetailQuery,
   productDetailQueryVariables,
+  productDetailQuery_product_variants,
 } from "@/queries/types/productDetailQuery";
 import { PRODUCT_DETAIL_PAGE_QUERY } from "@/queries/productDetail";
 import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
 
+interface AttrValue {
+  id: string;
+  name: string;
+}
+interface VariantAttr {
+  id: string;
+  name: string;
+  values: AttrValue[];
+  selection: string | undefined;
+}
 const ProductDetailPage = () => {
   const carouselRef = createRef<Carousel>();
 
@@ -47,10 +58,81 @@ const ProductDetailPage = () => {
     },
   });
   const [selectedImg, setSelectedImg] = useState(0);
+  const [variantAttrs, setVariantAttrs] = useState<VariantAttr[]>([]);
+  const [
+    selectedVariant,
+    setSelectedVariant,
+  ] = useState<productDetailQuery_product_variants | null>(null);
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
   const [imgSize, imgRef] = useSize<HTMLDivElement>();
   const [thumbsColSize, thumbsColRef] = useSize<HTMLDivElement>();
+
+  useEffect(() => {
+    // gather variant attributes
+    let vAttrs: VariantAttr[] = [];
+    data?.product?.variants?.forEach(v => {
+      v?.attributes.forEach(attr => {
+        // if it's not an empty attribute
+        if (attr.values.length > 0) {
+          // if already in our array
+          const matchIndex = vAttrs.findIndex(a => a.id === attr.attribute.id);
+          const entry = vAttrs[matchIndex];
+          if (!entry) {
+            vAttrs.push({
+              id: attr.attribute.id,
+              name: attr.attribute.name as string,
+              values: [attr.values[0] as AttrValue],
+              selection: undefined,
+            });
+          } else if (
+            !entry.values.find(
+              entryValue => entryValue.id === attr.values[0]?.id,
+            )
+          ) {
+            vAttrs[matchIndex] = {
+              ...entry,
+              values: [...entry.values, attr.values[0] as AttrValue],
+            };
+          }
+        }
+      });
+    });
+
+    // set default selections
+    vAttrs = vAttrs.map(vAttr => ({
+      ...vAttr,
+      selection: vAttr.values.length === 1 ? vAttr.values[0].id : undefined,
+    }));
+    setVariantAttrs(vAttrs);
+  }, [data]);
+
+  // update selected variant when attribute selection changes
+  useEffect(() => {
+    setSelectedVariant(null);
+    const variants = data?.product?.variants;
+    if (variants) {
+      if (variants.length === 1) {
+        setSelectedVariant(variants[0]);
+        return;
+      }
+      const selectionLevels = [variants];
+      variantAttrs.forEach(vAttr => {
+        if (vAttr.selection) {
+          const matchingVariants =
+            _.last(selectionLevels)?.filter(
+              variant =>
+                variant?.attributes.find(a => a.attribute.id === vAttr.id)
+                  ?.values?.[0]?.id === vAttr.selection,
+            ) || [];
+          selectionLevels.push(matchingVariants);
+        }
+      });
+      if (selectionLevels && _.last(selectionLevels)?.length === 1) {
+        setSelectedVariant(_.last(selectionLevels)?.[0] || null);
+      }
+    }
+  }, [variantAttrs]);
 
   // if we navigate to different product, scroll to top
   useEffect(() => {
@@ -67,12 +149,19 @@ const ProductDetailPage = () => {
     xl: 4,
     xxl: 6,
   };
+
+  const images =
+    selectedVariant && (selectedVariant.images?.length || 0) > 0
+      ? selectedVariant.images
+      : data?.product?.images;
   const currency = data?.product?.pricing?.priceRange?.start?.gross
     .currency as string;
-  const minPrice = data?.product?.pricing?.priceRange?.start?.gross
-    .amount as number;
-  const maxPrice = data?.product?.pricing?.priceRange?.stop?.gross
-    .amount as number;
+  const minPrice = selectedVariant
+    ? (selectedVariant.pricing?.price?.gross.amount as number)
+    : (data?.product?.pricing?.priceRange?.start?.gross.amount as number);
+  const maxPrice = selectedVariant
+    ? undefined
+    : (data?.product?.pricing?.priceRange?.stop?.gross.amount as number);
 
   const priceLabel = (
     <SkeletonDiv
@@ -102,6 +191,7 @@ const ProductDetailPage = () => {
           <InputNumber
             className="full-width"
             defaultValue={1}
+            disabled={fetching || !selectedVariant}
             size="large"
             min={1}
             max={10}
@@ -115,7 +205,7 @@ const ProductDetailPage = () => {
     <Button
       id="add-to-cart-btn"
       block
-      disabled={fetching}
+      disabled={fetching || !selectedVariant}
       size="large"
       type="primary"
     >
@@ -167,34 +257,33 @@ const ProductDetailPage = () => {
                     }}
                   >
                     <div ref={thumbsColRef}>
-                      {(fetching
-                        ? _.fill(Array(3), null)
-                        : data?.product?.images
-                      )?.map((image, i) => (
-                        <div key={image?.id || i}>
-                          <AspectRatio width={1} height={1} noMask>
-                            <Button
-                              className={clx(
-                                "full-width full-height no-padding",
-                                {
-                                  [styles.selectedBtn]: i === selectedImg,
-                                  [styles.unselectedBtn]: i !== selectedImg,
-                                },
-                              )}
-                              onClick={() => carouselRef.current?.goTo(i)}
-                            >
-                              <SkeletonDiv active loading={fetching}>
-                                <img
-                                  className="full-width"
-                                  alt={image?.alt || ""}
-                                  src={image?.url}
-                                />
-                              </SkeletonDiv>
-                            </Button>
-                          </AspectRatio>
-                          <VSpacing height={8} />
-                        </div>
-                      ))}
+                      {(fetching ? _.fill(Array(3), null) : images)?.map(
+                        (image, i) => (
+                          <div key={image?.id || i}>
+                            <AspectRatio width={1} height={1} noMask>
+                              <Button
+                                className={clx(
+                                  "full-width full-height no-padding",
+                                  {
+                                    [styles.selectedBtn]: i === selectedImg,
+                                    [styles.unselectedBtn]: i !== selectedImg,
+                                  },
+                                )}
+                                onClick={() => carouselRef.current?.goTo(i)}
+                              >
+                                <SkeletonDiv active loading={fetching}>
+                                  <img
+                                    className="full-width"
+                                    alt={image?.alt || ""}
+                                    src={image?.url}
+                                  />
+                                </SkeletonDiv>
+                              </Button>
+                            </AspectRatio>
+                            <VSpacing height={8} />
+                          </div>
+                        ),
+                      )}
                     </div>
                   </div>
                   {thumbsColSize.height &&
@@ -227,7 +316,7 @@ const ProductDetailPage = () => {
                           ref={carouselRef}
                           beforeChange={(current, next) => setSelectedImg(next)}
                         >
-                          {data?.product?.images?.map(image => (
+                          {images?.map(image => (
                             <div key={image?.id}>
                               <img
                                 className="full-width"
@@ -277,36 +366,47 @@ const ProductDetailPage = () => {
               <VSpacing height={!responsive.lg ? 8 : 36} />
               <Row justify="center">
                 <Col span={14}>
-                  <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
-                    <Select
-                      className="full-width"
-                      size="large"
-                      placeholder="Size"
-                    >
-                      <Select.Option value="XS">XS</Select.Option>
-                      <Select.Option value="S">S</Select.Option>
-                      <Select.Option value="M">M</Select.Option>
-                      <Select.Option value="L">L</Select.Option>
-                      <Select.Option value="Elephant">Elephant</Select.Option>
-                      <Select.Option value="T-Rex">T-Rex</Select.Option>
-                      <Select.Option value="Dragon">Dragon</Select.Option>
-                    </Select>
-                  </SkeletonDiv>
-                </Col>
-              </Row>
-              <VSpacing height={!responsive.lg ? 8 : 24} />
-              <Row justify="center">
-                <Col span={14}>
-                  <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
-                    <Select
-                      className="full-width"
-                      size="large"
-                      placeholder="Collar"
-                    >
-                      <Select.Option value="XS">Round</Select.Option>
-                      <Select.Option value="S">V-Neck</Select.Option>
-                    </Select>
-                  </SkeletonDiv>
+                  {fetching ? (
+                    <>
+                      <SkeletonDiv
+                        active
+                        loading={fetching}
+                        style={{ height: 40 }}
+                      />
+                      <VSpacing height={!responsive.lg ? 8 : 24} />
+                      <SkeletonDiv
+                        active
+                        loading={fetching}
+                        style={{ height: 40 }}
+                      />
+                    </>
+                  ) : (
+                    variantAttrs.map((vAttr, i) => {
+                      return (
+                        <Select
+                          className="full-width"
+                          key={vAttr.id}
+                          size="large"
+                          placeholder={vAttr.name}
+                          onChange={value => {
+                            const selection = [...variantAttrs];
+                            selection[i] = { ...vAttr, selection: value };
+                            setVariantAttrs(selection);
+                          }}
+                          value={vAttr.selection}
+                        >
+                          {vAttr.values.map(val => (
+                            <Select.Option
+                              key={val?.id}
+                              value={val?.id as string}
+                            >
+                              {val?.name}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      );
+                    })
+                  )}
                 </Col>
               </Row>
               {responsive.lg && (
