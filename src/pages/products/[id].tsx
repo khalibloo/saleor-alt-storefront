@@ -11,6 +11,7 @@ import {
   Card,
   Skeleton,
   Carousel,
+  notification,
 } from "antd";
 import clx from "classnames";
 import { Helmet } from "react-helmet";
@@ -18,7 +19,7 @@ import RichTextContent from "@/components/RichTextContent";
 import AspectRatio from "@/components/AspectRatio";
 import VSpacing from "@/components/VSpacing";
 import styles from "./id.less";
-import { useIntl, useParams } from "umi";
+import { useIntl, useParams, useDispatch, connect, ConnectRC } from "umi";
 import { formatPrice, formatTitle, getScreenSize } from "@/utils/utils";
 import ProductCard from "@/components/ProductCard";
 import { ListGridType } from "antd/lib/list";
@@ -33,6 +34,7 @@ import {
 import { PRODUCT_DETAIL_PAGE_QUERY } from "@/queries/productDetail";
 import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
+import { ConnectState, Loading } from "@/models/connect";
 
 interface AttrValue {
   id: string;
@@ -44,10 +46,14 @@ interface VariantAttr {
   values: AttrValue[];
   selection: string | undefined;
 }
-const ProductDetailPage = () => {
+interface Props {
+  loading: Loading;
+}
+const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   const carouselRef = createRef<Carousel>();
 
   const intl = useIntl();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
@@ -63,6 +69,7 @@ const ProductDetailPage = () => {
     selectedVariant,
     setSelectedVariant,
   ] = useState<productDetailQuery_product_variants | null>(null);
+  const [qty, setQty] = useState(1);
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
   const [imgSize, imgRef] = useSize<HTMLDivElement>();
@@ -175,7 +182,7 @@ const ProductDetailPage = () => {
     </SkeletonDiv>
   );
 
-  const qty = (
+  const qtySelector = (
     <Row justify="center" gutter={36}>
       <Col>
         <SkeletonDiv
@@ -190,7 +197,8 @@ const ProductDetailPage = () => {
         <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
           <InputNumber
             className="full-width"
-            defaultValue={1}
+            value={qty}
+            onChange={value => value && setQty(value)}
             disabled={fetching || !selectedVariant}
             size="large"
             min={1}
@@ -206,6 +214,21 @@ const ProductDetailPage = () => {
       id="add-to-cart-btn"
       block
       disabled={fetching || !selectedVariant}
+      loading={loading.effects["cart/addItem"]}
+      onClick={() =>
+        dispatch({
+          type: "cart/addItem",
+          payload: {
+            variantId: selectedVariant?.id,
+            quantity: qty,
+            onCompleted: () => {
+              notification.success({
+                message: intl.formatMessage({ id: "cart.addItem.success" }),
+              });
+            },
+          },
+        })
+      }
       size="large"
       type="primary"
     >
@@ -416,7 +439,7 @@ const ProductDetailPage = () => {
                   <VSpacing height={24} />
 
                   <Row justify="center">
-                    <Col span={14}>{qty}</Col>
+                    <Col span={14}>{qtySelector}</Col>
                   </Row>
                   <VSpacing height={24} />
 
@@ -484,7 +507,7 @@ const ProductDetailPage = () => {
             <div className={styles.affixPadding}>
               {priceLabel}
               <Row justify="center">
-                <Col span={20}>{qty}</Col>
+                <Col span={20}>{qtySelector}</Col>
               </Row>
             </div>
             <Row>{addToCartBtn}</Row>
@@ -495,4 +518,6 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  ProductDetailPage,
+);

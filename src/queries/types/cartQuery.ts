@@ -6,6 +6,110 @@
 // GraphQL query operation: cartQuery
 // ====================================================
 
+export interface cartQuery_me_checkout_shippingMethod_minimumOrderPrice {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface cartQuery_me_checkout_shippingMethod {
+  __typename: "ShippingMethod";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  minimumOrderPrice: cartQuery_me_checkout_shippingMethod_minimumOrderPrice | null;
+}
+
+export interface cartQuery_me_checkout_shippingPrice_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface cartQuery_me_checkout_shippingPrice {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: cartQuery_me_checkout_shippingPrice_gross;
+}
+
+export interface cartQuery_me_checkout_subtotalPrice_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface cartQuery_me_checkout_subtotalPrice {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: cartQuery_me_checkout_subtotalPrice_gross;
+}
+
+export interface cartQuery_me_checkout_totalPrice_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface cartQuery_me_checkout_totalPrice {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: cartQuery_me_checkout_totalPrice_gross;
+}
+
+export interface cartQuery_me_checkout_availableShippingMethods_price {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface cartQuery_me_checkout_availableShippingMethods {
+  __typename: "ShippingMethod";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  price: cartQuery_me_checkout_availableShippingMethods_price | null;
+}
+
 export interface cartQuery_me_checkout_lines_variant_stocks {
   __typename: "Stock";
   /**
@@ -123,6 +227,7 @@ export interface cartQuery_me_checkout_lines_variant {
    * The ID of the object.
    */
   id: string;
+  name: string;
   sku: string;
   /**
    * Stocks for the product variant.
@@ -183,6 +288,24 @@ export interface cartQuery_me_checkout {
    * The ID of the object.
    */
   id: string;
+  token: any;
+  shippingMethod: cartQuery_me_checkout_shippingMethod | null;
+  /**
+   * The price of the shipping, with all the taxes included.
+   */
+  shippingPrice: cartQuery_me_checkout_shippingPrice | null;
+  /**
+   * The price of the checkout before shipping, with taxes included.
+   */
+  subtotalPrice: cartQuery_me_checkout_subtotalPrice | null;
+  /**
+   * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
+   */
+  totalPrice: cartQuery_me_checkout_totalPrice | null;
+  /**
+   * Shipping methods that can be used with this order.
+   */
+  availableShippingMethods: (cartQuery_me_checkout_availableShippingMethods | null)[];
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

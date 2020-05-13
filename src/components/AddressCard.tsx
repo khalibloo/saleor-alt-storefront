@@ -9,6 +9,7 @@ import {
 import { useBoolean } from "@umijs/hooks";
 import { Loading, ConnectState } from "@/models/connect";
 import AddressForm from "./AddressForm";
+import Logger from "@/utils/logger";
 
 interface Props {
   address: any;
@@ -83,7 +84,7 @@ const AddressCard: ConnectRC<Props> = ({ address, loading, dispatch }) => {
                         },
                         onError: err => reject(err),
                       },
-                    }).catch(err => console.log("Failed to delete address"));
+                    }).catch(err => Logger.log("Failed to delete address"));
                   });
                 },
                 okButtonProps: {

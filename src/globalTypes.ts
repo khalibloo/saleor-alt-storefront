@@ -34,6 +34,30 @@ export enum AccountErrorCode {
 /**
  * An enumeration.
  */
+export enum CheckoutErrorCode {
+  BILLING_ADDRESS_NOT_SET = "BILLING_ADDRESS_NOT_SET",
+  CHECKOUT_NOT_FULLY_PAID = "CHECKOUT_NOT_FULLY_PAID",
+  GRAPHQL_ERROR = "GRAPHQL_ERROR",
+  INSUFFICIENT_STOCK = "INSUFFICIENT_STOCK",
+  INVALID = "INVALID",
+  INVALID_SHIPPING_METHOD = "INVALID_SHIPPING_METHOD",
+  NOT_FOUND = "NOT_FOUND",
+  PAYMENT_ERROR = "PAYMENT_ERROR",
+  QUANTITY_GREATER_THAN_LIMIT = "QUANTITY_GREATER_THAN_LIMIT",
+  REQUIRED = "REQUIRED",
+  SHIPPING_ADDRESS_NOT_SET = "SHIPPING_ADDRESS_NOT_SET",
+  SHIPPING_METHOD_NOT_APPLICABLE = "SHIPPING_METHOD_NOT_APPLICABLE",
+  SHIPPING_METHOD_NOT_SET = "SHIPPING_METHOD_NOT_SET",
+  SHIPPING_NOT_REQUIRED = "SHIPPING_NOT_REQUIRED",
+  TAX_ERROR = "TAX_ERROR",
+  UNIQUE = "UNIQUE",
+  VOUCHER_NOT_APPLICABLE = "VOUCHER_NOT_APPLICABLE",
+  ZERO_QUANTITY = "ZERO_QUANTITY",
+}
+
+/**
+ * An enumeration.
+ */
 export enum CountryCode {
   AD = "AD",
   AE = "AE",
@@ -332,6 +356,18 @@ export interface AttributeInput {
   slug: string;
   value?: string | null;
   values?: (string | null)[] | null;
+}
+
+export interface CheckoutCreateInput {
+  lines: (CheckoutLineInput | null)[];
+  email?: string | null;
+  shippingAddress?: AddressInput | null;
+  billingAddress?: AddressInput | null;
+}
+
+export interface CheckoutLineInput {
+  quantity: number;
+  variantId: string;
 }
 
 export interface ProductOrder {

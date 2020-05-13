@@ -73,6 +73,8 @@ export default {
   "cart.total": "Total",
   "cart.checkout": "Checkout",
   "cart.selectAddress": "Select Address",
+  "cart.addItem.success": "Item Added to Cart",
+  "cart.deleteItem.success": "Item Removed from Cart",
 
   // profile
   "profile.title": formatTitle("Profile"),

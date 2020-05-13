@@ -1,5 +1,14 @@
 import React from "react";
-import { Typography, Row, Col, Menu, Dropdown, Drawer, Modal } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Menu,
+  Dropdown,
+  Drawer,
+  Modal,
+  Badge,
+} from "antd";
 import { useIntl, Link, connect, ConnectRC } from "umi";
 import {
   ShoppingCartOutlined,
@@ -17,6 +26,9 @@ import ProductSearch from "@/components/ProductSearch";
 import { useResponsive, useBoolean } from "@umijs/hooks";
 import { Loading, ConnectState } from "@/models/connect";
 import AuthTabs from "@/components/AuthTabs";
+import { useQuery } from "@apollo/react-hooks";
+import { CART_BADGE_QUERY } from "@/queries/cart";
+import { cartBadgeQuery } from "@/queries/types/cartBadgeQuery";
 
 interface Props {
   authenticated: boolean;
@@ -40,6 +52,9 @@ const NavBar: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
     setFalse: closeMenuDrawer,
   } = useBoolean(false);
   const responsive = useResponsive();
+  const { loading: fetching, data: cartData, error: cartError } = useQuery<
+    cartBadgeQuery
+  >(CART_BADGE_QUERY);
 
   const logout = () => dispatch?.({ type: "auth/logout" });
 
@@ -259,7 +274,9 @@ const NavBar: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
               hidden={!responsive.sm}
             >
               <Link to="/cart">
-                <ShoppingCartOutlined className={styles.navrightIcon} />
+                <Badge count={cartData?.me?.checkout?.lines?.length}>
+                  <ShoppingCartOutlined className={styles.navrightIcon} />
+                </Badge>
               </Link>
             </Menu.Item>
             {authIcon}
