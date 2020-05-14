@@ -343,11 +343,11 @@ const AuthModel: AuthModelType = {
     },
     *logout({ payload }, { call, put }) {
       yield put({ type: "clear" });
-      yield call(client.resetStore);
       localStorage.removeItem("jwt");
       sessionStorage.removeItem("jwt");
       localStorage.removeItem("rememberme");
       localStorage.removeItem("exp");
+      yield call(client.resetStore);
     },
     *requestAccountDeactivation({ payload }, { call, put }) {
       try {
