@@ -139,6 +139,7 @@ const AuthModel: AuthModelType = {
         const storage = remember ? localStorage : sessionStorage;
         storage.setItem("jwt", response.data.tokenCreate?.token as string);
         yield put({ type: "setLoggedIn", payload: { authenticated: true } });
+        yield call(client.resetStore);
 
         if (!response.data.tokenCreate?.token) {
           throw new APIException([
@@ -197,6 +198,7 @@ const AuthModel: AuthModelType = {
             },
           });
         }
+        yield call(client.resetStore);
         payload?.onCompleted(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -346,7 +348,6 @@ const AuthModel: AuthModelType = {
       localStorage.removeItem("jwt");
       sessionStorage.removeItem("jwt");
       localStorage.removeItem("rememberme");
-      localStorage.removeItem("exp");
       yield call(client.resetStore);
     },
     *requestAccountDeactivation({ payload }, { call, put }) {

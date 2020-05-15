@@ -10,10 +10,6 @@ export const USER_PASSWORD_CHANGE_MUTATION = gql`
     $oldPassword: String!
   ) {
     passwordChange(newPassword: $newPassword, oldPassword: $oldPassword) {
-      errors {
-        field
-        message
-      }
       accountErrors {
         code
         field

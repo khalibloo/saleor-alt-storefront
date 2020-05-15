@@ -296,14 +296,6 @@ export interface productDetailQuery_product_variants_attributes {
   attribute: productDetailQuery_product_variants_attributes_attribute;
 }
 
-export interface productDetailQuery_product_variants_stocks {
-  __typename: "Stock";
-  /**
-   * Quantity of a product available for sale.
-   */
-  stockQuantity: number;
-}
-
 export interface productDetailQuery_product_variants {
   __typename: "ProductVariant";
   /**
@@ -325,9 +317,9 @@ export interface productDetailQuery_product_variants {
    */
   attributes: productDetailQuery_product_variants_attributes[];
   /**
-   * Stocks for the product variant.
+   * Quantity of a product available for sale in one checkout.
    */
-  stocks: (productDetailQuery_product_variants_stocks | null)[] | null;
+  quantityAvailable: number;
 }
 
 export interface productDetailQuery_product_category_products_edges_node_thumbnail {

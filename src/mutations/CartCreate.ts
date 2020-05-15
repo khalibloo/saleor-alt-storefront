@@ -5,10 +5,6 @@ export const CART_CREATE_MUTATION = gql`
   ${CHECKOUT_DETAILS_FRAGMENT}
   mutation CartCreateMutation($input: CheckoutCreateInput!) {
     checkoutCreate(input: $input) {
-      errors {
-        field
-        message
-      }
       checkoutErrors {
         code
         field

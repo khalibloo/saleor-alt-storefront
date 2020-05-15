@@ -8,19 +8,6 @@ import { AccountErrorCode } from "./../../globalTypes";
 // GraphQL mutation operation: PasswordChangeMutation
 // ====================================================
 
-export interface PasswordChangeMutation_passwordChange_errors {
-  __typename: "Error";
-  /**
-   * Name of a field that caused the error. A value of `null` indicates that the
-   * error isn't associated with a particular field.
-   */
-  field: string | null;
-  /**
-   * The error message.
-   */
-  message: string | null;
-}
-
 export interface PasswordChangeMutation_passwordChange_accountErrors {
   __typename: "AccountError";
   /**
@@ -114,10 +101,6 @@ export interface PasswordChangeMutation_passwordChange_user {
 
 export interface PasswordChangeMutation_passwordChange {
   __typename: "PasswordChange";
-  /**
-   * List of errors that occurred executing the mutation.
-   */
-  errors: PasswordChangeMutation_passwordChange_errors[];
   accountErrors: PasswordChangeMutation_passwordChange_accountErrors[];
   /**
    * A user instance with a new password.

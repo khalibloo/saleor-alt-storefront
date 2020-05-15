@@ -15,10 +15,6 @@ export const USER_EMAIL_CHANGE_MUTATION = gql`
       password: $password
       redirectUrl: $redirectUrl
     ) {
-      errors {
-        field
-        message
-      }
       accountErrors {
         code
         field

@@ -8,19 +8,6 @@ import { CheckoutLineInput, CheckoutErrorCode } from "./../../globalTypes";
 // GraphQL mutation operation: CartLinesUpdateMutation
 // ====================================================
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_errors {
-  __typename: "Error";
-  /**
-   * Name of a field that caused the error. A value of `null` indicates that the
-   * error isn't associated with a particular field.
-   */
-  field: string | null;
-  /**
-   * The error message.
-   */
-  message: string | null;
-}
-
 export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkoutErrors {
   __typename: "CheckoutError";
   /**
@@ -157,10 +144,6 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout {
 
 export interface CartLinesUpdateMutation_checkoutLinesUpdate {
   __typename: "CheckoutLinesUpdate";
-  /**
-   * List of errors that occurred executing the mutation.
-   */
-  errors: CartLinesUpdateMutation_checkoutLinesUpdate_errors[];
   checkoutErrors: CartLinesUpdateMutation_checkoutLinesUpdate_checkoutErrors[];
   /**
    * An updated checkout.

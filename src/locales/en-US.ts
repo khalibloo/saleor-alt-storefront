@@ -21,7 +21,7 @@ export default {
   "misc.save": "Save",
   "misc.saveChanges": "Save Changes",
   "misc.save.success": "Changes Saved Successfully",
-  "misc.addAddress": "Add Address",
+  "misc.address.createNew": "Create New Address",
 
   // forms
   "form.optional": "Optional",

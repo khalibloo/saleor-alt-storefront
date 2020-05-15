@@ -5,10 +5,6 @@ export const CART_LINE_DELETE_MUTATION = gql`
   ${CHECKOUT_DETAILS_FRAGMENT}
   mutation CartLineDeleteMutation($checkoutId: ID!, $checkoutLineId: ID!) {
     checkoutLineDelete(checkoutId: $checkoutId, lineId: $checkoutLineId) {
-      errors {
-        field
-        message
-      }
       checkoutErrors {
         code
         field

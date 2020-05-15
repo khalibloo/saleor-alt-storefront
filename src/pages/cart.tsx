@@ -12,9 +12,8 @@ import {
   notification,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useIntl, Link, useModel, connect, ConnectRC } from "umi";
+import { useIntl, Link, connect, ConnectRC } from "umi";
 import VSpacing from "@/components/VSpacing";
-import { sampleProduct, sampleAddress } from "@/sampleData";
 import AspectRatio from "@/components/AspectRatio";
 import { formatPrice } from "@/utils/utils";
 import AddressSelector from "@/components/AddressSelector";
@@ -64,7 +63,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <AddressSelector block value={sampleAddress} />
+          <AddressSelector block value={data?.me?.checkout?.shippingAddress} />
         </Col>
       </Row>
       <VSpacing height={8} />

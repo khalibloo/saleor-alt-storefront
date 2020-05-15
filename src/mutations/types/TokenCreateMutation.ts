@@ -37,6 +37,9 @@ export interface TokenCreateMutation_tokenCreate_user {
 export interface TokenCreateMutation_tokenCreate {
   __typename: "CreateToken";
   token: string | null;
+  /**
+   * A user instance.
+   */
   user: TokenCreateMutation_tokenCreate_user | null;
 }
 

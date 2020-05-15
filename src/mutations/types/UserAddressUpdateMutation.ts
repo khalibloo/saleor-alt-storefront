@@ -8,19 +8,6 @@ import { AddressInput, AccountErrorCode } from "./../../globalTypes";
 // GraphQL mutation operation: UserAddressUpdateMutation
 // ====================================================
 
-export interface UserAddressUpdateMutation_accountAddressUpdate_errors {
-  __typename: "Error";
-  /**
-   * Name of a field that caused the error. A value of `null` indicates that the
-   * error isn't associated with a particular field.
-   */
-  field: string | null;
-  /**
-   * The error message.
-   */
-  message: string | null;
-}
-
 export interface UserAddressUpdateMutation_accountAddressUpdate_accountErrors {
   __typename: "AccountError";
   /**
@@ -114,10 +101,6 @@ export interface UserAddressUpdateMutation_accountAddressUpdate_user {
 
 export interface UserAddressUpdateMutation_accountAddressUpdate {
   __typename: "AccountAddressUpdate";
-  /**
-   * List of errors that occurred executing the mutation.
-   */
-  errors: UserAddressUpdateMutation_accountAddressUpdate_errors[];
   accountErrors: UserAddressUpdateMutation_accountAddressUpdate_accountErrors[];
   /**
    * A user object for which the address was edited.

@@ -266,7 +266,7 @@ export interface categoryDetailQuery {
    */
   products: categoryDetailQuery_products | null;
   /**
-   * Look up a category by ID.
+   * Look up a category by ID or slug.
    */
   category: categoryDetailQuery_category | null;
 }

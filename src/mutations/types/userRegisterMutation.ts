@@ -8,19 +8,6 @@ import { AccountRegisterInput, AccountErrorCode } from "./../../globalTypes";
 // GraphQL mutation operation: UserRegisterMutation
 // ====================================================
 
-export interface UserRegisterMutation_accountRegister_errors {
-  __typename: "Error";
-  /**
-   * Name of a field that caused the error. A value of `null` indicates that the
-   * error isn't associated with a particular field.
-   */
-  field: string | null;
-  /**
-   * The error message.
-   */
-  message: string | null;
-}
-
 export interface UserRegisterMutation_accountRegister_accountErrors {
   __typename: "AccountError";
   /**
@@ -114,10 +101,6 @@ export interface UserRegisterMutation_accountRegister_user {
 
 export interface UserRegisterMutation_accountRegister {
   __typename: "AccountRegister";
-  /**
-   * List of errors that occurred executing the mutation.
-   */
-  errors: UserRegisterMutation_accountRegister_errors[];
   accountErrors: UserRegisterMutation_accountRegister_accountErrors[];
   user: UserRegisterMutation_accountRegister_user | null;
   /**

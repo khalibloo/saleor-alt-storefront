@@ -7,10 +7,6 @@ export const USER_REGISTER_MUTATION = gql`
   ${ADDRESS_DETAILS_FRAGMENT}
   mutation UserRegisterMutation($input: AccountRegisterInput!) {
     accountRegister(input: $input) {
-      errors {
-        field
-        message
-      }
       accountErrors {
         code
         field

@@ -9,7 +9,7 @@ import {
   Button,
   Modal,
 } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useIntl, connect } from "umi";
 import VSpacing from "@/components/VSpacing";
 import AddAddress from "@/components/AddAddress";
@@ -114,10 +114,16 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                       return (
                         <List.Item key="plus">
                           <AddAddress
-                            id="profile-add-addr"
+                            formId="profile-add-addr"
                             firstName={data?.me?.firstName}
                             lastName={data?.me?.lastName}
-                          />
+                            buttonProps={{
+                              block: true,
+                              style: { height: 120 },
+                            }}
+                          >
+                            <PlusOutlined style={{ fontSize: 36 }} />
+                          </AddAddress>
                         </List.Item>
                       );
                     }

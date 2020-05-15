@@ -9,10 +9,6 @@ export const CART_LINES_UPDATE_MUTATION = gql`
     $checkoutLines: [CheckoutLineInput]!
   ) {
     checkoutLinesUpdate(checkoutId: $checkoutId, lines: $checkoutLines) {
-      errors {
-        field
-        message
-      }
       checkoutErrors {
         code
         field

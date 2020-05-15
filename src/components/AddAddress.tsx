@@ -1,21 +1,29 @@
 import React from "react";
 import { Button, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import clx from "classnames";
 
-import styles from "./AddAddress.less";
 import { useBoolean } from "@umijs/hooks";
 import AddressForm from "./AddressForm";
 import { useIntl, connect } from "umi";
 import { ConnectState, Loading } from "@/models/connect";
+import { ButtonProps } from "antd/lib/button";
 
 interface Props {
-  id: string;
+  formId: string;
   firstName?: string;
   lastName?: string;
   loading: Loading;
+  onClick: () => void;
+  buttonProps: ButtonProps;
 }
-const AddAddress: React.FC<Props> = ({ id, firstName, lastName, loading }) => {
+const AddAddress: React.FC<Props> = ({
+  formId,
+  firstName,
+  lastName,
+  buttonProps,
+  onClick,
+  children,
+  loading,
+}) => {
   const intl = useIntl();
   const {
     state: modalOpen,
@@ -29,23 +37,30 @@ const AddAddress: React.FC<Props> = ({ id, firstName, lastName, loading }) => {
         okText={intl.formatMessage({ id: "misc.save" })}
         okButtonProps={{
           htmlType: "submit",
-          form: id,
+          form: formId,
           loading: loading.effects["auth/createAddress"],
         }}
         onCancel={closeModal}
-        title={intl.formatMessage({ id: "misc.addAddress" })}
+        title={intl.formatMessage({ id: "misc.address.createNew" })}
         visible={modalOpen}
+        zIndex={1100}
       >
         <AddressForm
-          id={id}
+          id={formId}
           firstName={firstName}
           lastName={lastName}
           hideSubmit
           onSubmit={closeModal}
         />
       </Modal>
-      <Button className={clx("full-width", styles.btn)} onClick={openModal}>
-        <PlusOutlined className={styles.icon} />
+      <Button
+        {...buttonProps}
+        onClick={() => {
+          openModal();
+          onClick?.();
+        }}
+      >
+        {children}
       </Button>
     </>
   );

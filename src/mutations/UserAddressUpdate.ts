@@ -7,10 +7,6 @@ export const USER_ADDRESS_UPDATE_MUTATION = gql`
   ${ADDRESS_DETAILS_FRAGMENT}
   mutation UserAddressUpdateMutation($id: ID!, $address: AddressInput!) {
     accountAddressUpdate(id: $id, input: $address) {
-      errors {
-        field
-        message
-      }
       accountErrors {
         code
         field

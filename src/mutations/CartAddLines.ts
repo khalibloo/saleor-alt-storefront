@@ -8,10 +8,6 @@ export const CART_LINES_ADD_MUTATION = gql`
     $checkoutLines: [CheckoutLineInput]!
   ) {
     checkoutLinesAdd(checkoutId: $checkoutId, lines: $checkoutLines) {
-      errors {
-        field
-        message
-      }
       checkoutErrors {
         field
         message

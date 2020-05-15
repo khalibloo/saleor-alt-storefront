@@ -14,14 +14,58 @@ import Logger from "@/utils/logger";
 interface Props {
   address: any;
   loading: Loading;
+  hideActions: boolean;
+  hideCard: boolean;
 }
-const AddressCard: ConnectRC<Props> = ({ address, loading, dispatch }) => {
+const AddressCard: ConnectRC<Props> = ({
+  address,
+  hideActions,
+  hideCard,
+  loading,
+  dispatch,
+}) => {
   const intl = useIntl();
   const {
     state: editAddrModalOpen,
     setTrue: openEditAddrModal,
     setFalse: closeEditAddrModal,
   } = useBoolean(false);
+
+  const content = (
+    <>
+      <div>
+        <Typography.Text>
+          {address.firstName + " " + address.lastName}
+        </Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.streetAddress1}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.streetAddress2}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.cityArea}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.city}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.postalCode}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.countryArea}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>{address.country?.country}</Typography.Text>
+      </div>
+      <div>
+        <Typography.Text>
+          {intl.formatMessage({ id: "profile.phone" })}: {address.phone}
+        </Typography.Text>
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -44,92 +88,73 @@ const AddressCard: ConnectRC<Props> = ({ address, loading, dispatch }) => {
           onSubmit={closeEditAddrModal}
         />
       </Modal>
-      <Card
-        actions={[
-          <Button
-            block
-            className="icon-btn"
-            key="edit"
-            onClick={openEditAddrModal}
-          >
-            <EditOutlined /> {intl.formatMessage({ id: "misc.edit" })}
-          </Button>,
-          <Button
-            block
-            className="icon-btn"
-            key="delete"
-            onClick={() =>
-              Modal.confirm({
-                title: intl.formatMessage({
-                  id: "profile.address.delete.confirm",
-                }),
-                icon: <ExclamationCircleOutlined />,
-                maskClosable: true,
-                okText: intl.formatMessage({
-                  id: "misc.delete",
-                }),
-                onOk: () => {
-                  return new Promise((resolve, reject) => {
-                    dispatch({
-                      type: "auth/deleteAddress",
-                      payload: {
-                        id: address.id,
-                        onCompleted: () => {
-                          notification.success({
-                            message: intl.formatMessage({
-                              id: "misc.save.success",
-                            }),
+      {hideCard ? (
+        content
+      ) : (
+        <Card
+          actions={
+            hideActions
+              ? undefined
+              : [
+                  <Button
+                    block
+                    className="icon-btn"
+                    key="edit"
+                    onClick={openEditAddrModal}
+                  >
+                    <EditOutlined /> {intl.formatMessage({ id: "misc.edit" })}
+                  </Button>,
+                  <Button
+                    block
+                    className="icon-btn"
+                    key="delete"
+                    onClick={() =>
+                      Modal.confirm({
+                        title: intl.formatMessage({
+                          id: "profile.address.delete.confirm",
+                        }),
+                        icon: <ExclamationCircleOutlined />,
+                        maskClosable: true,
+                        okText: intl.formatMessage({
+                          id: "misc.delete",
+                        }),
+                        onOk: () => {
+                          return new Promise((resolve, reject) => {
+                            dispatch({
+                              type: "auth/deleteAddress",
+                              payload: {
+                                id: address.id,
+                                onCompleted: () => {
+                                  notification.success({
+                                    message: intl.formatMessage({
+                                      id: "misc.save.success",
+                                    }),
+                                  });
+                                  resolve();
+                                },
+                                onError: err => reject(err),
+                              },
+                            }).catch(err =>
+                              Logger.log("Failed to delete address"),
+                            );
                           });
-                          resolve();
                         },
-                        onError: err => reject(err),
-                      },
-                    }).catch(err => Logger.log("Failed to delete address"));
-                  });
-                },
-                okButtonProps: {
-                  loading: loading.effects["auth/deleteAddress"],
-                },
-                okType: "danger",
-              })
-            }
-          >
-            <DeleteOutlined /> {intl.formatMessage({ id: "misc.delete" })}
-          </Button>,
-        ]}
-      >
-        <div>
-          <Typography.Text>
-            {address.firstName + " " + address.lastName}
-          </Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.streetAddress1}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.streetAddress2}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.cityArea}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.city}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.postalCode}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.countryArea}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>{address.country?.country}</Typography.Text>
-        </div>
-        <div>
-          <Typography.Text>
-            {intl.formatMessage({ id: "profile.phone" })}: {address.phone}
-          </Typography.Text>
-        </div>
-      </Card>
+                        okButtonProps: {
+                          loading: loading.effects["auth/deleteAddress"],
+                        },
+                        okType: "danger",
+                      })
+                    }
+                  >
+                    <DeleteOutlined />{" "}
+                    {intl.formatMessage({ id: "misc.delete" })}
+                  </Button>,
+                ]
+          }
+        >
+          {content}
+        </Card>
+      )}
     </>
   );
 };

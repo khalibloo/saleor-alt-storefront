@@ -6,6 +6,48 @@
 // GraphQL query operation: cartQuery
 // ====================================================
 
+export interface cartQuery_me_addresses_country {
+  __typename: "CountryDisplay";
+  /**
+   * Country code.
+   */
+  code: string;
+  /**
+   * Country name.
+   */
+  country: string;
+}
+
+export interface cartQuery_me_addresses {
+  __typename: "Address";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
+  /**
+   * Shop's default country.
+   */
+  country: cartQuery_me_addresses_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
+}
+
 export interface cartQuery_me_checkout_shippingMethod_minimumOrderPrice {
   __typename: "Money";
   /**
@@ -110,12 +152,88 @@ export interface cartQuery_me_checkout_availableShippingMethods {
   price: cartQuery_me_checkout_availableShippingMethods_price | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant_stocks {
-  __typename: "Stock";
+export interface cartQuery_me_checkout_shippingAddress_country {
+  __typename: "CountryDisplay";
   /**
-   * Quantity of a product available for sale.
+   * Country code.
    */
-  stockQuantity: number;
+  code: string;
+  /**
+   * Country name.
+   */
+  country: string;
+}
+
+export interface cartQuery_me_checkout_shippingAddress {
+  __typename: "Address";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
+  /**
+   * Shop's default country.
+   */
+  country: cartQuery_me_checkout_shippingAddress_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
+}
+
+export interface cartQuery_me_checkout_billingAddress_country {
+  __typename: "CountryDisplay";
+  /**
+   * Country code.
+   */
+  code: string;
+  /**
+   * Country name.
+   */
+  country: string;
+}
+
+export interface cartQuery_me_checkout_billingAddress {
+  __typename: "Address";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
+  /**
+   * Shop's default country.
+   */
+  country: cartQuery_me_checkout_billingAddress_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
 }
 
 export interface cartQuery_me_checkout_lines_variant_images {
@@ -230,9 +348,9 @@ export interface cartQuery_me_checkout_lines_variant {
   name: string;
   sku: string;
   /**
-   * Stocks for the product variant.
+   * Quantity of a product available for sale in one checkout.
    */
-  stocks: (cartQuery_me_checkout_lines_variant_stocks | null)[] | null;
+  quantityAvailable: number;
   /**
    * List of images for the product variant.
    */
@@ -306,6 +424,8 @@ export interface cartQuery_me_checkout {
    * Shipping methods that can be used with this order.
    */
   availableShippingMethods: (cartQuery_me_checkout_availableShippingMethods | null)[];
+  shippingAddress: cartQuery_me_checkout_shippingAddress | null;
+  billingAddress: cartQuery_me_checkout_billingAddress | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
@@ -318,6 +438,10 @@ export interface cartQuery_me {
    * The ID of the object.
    */
   id: string;
+  /**
+   * List of all user's addresses.
+   */
+  addresses: (cartQuery_me_addresses | null)[] | null;
   /**
    * Returns the last open checkout of this user.
    */

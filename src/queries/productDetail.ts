@@ -94,9 +94,7 @@ export const PRODUCT_DETAIL_PAGE_QUERY = gql`
             }
           }
         }
-        stocks {
-          stockQuantity
-        }
+        quantityAvailable
       }
       category {
         id
