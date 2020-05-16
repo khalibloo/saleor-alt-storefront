@@ -41,12 +41,18 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const shippingPrice = checkout?.shippingPrice?.gross.amount;
   const totalPrice = checkout?.totalPrice?.gross.amount;
   const shippingAddress = checkout?.shippingAddress;
+  const shippingMethod = checkout?.shippingMethod;
   // if there's a matching address in our address book
   const matchingShippingAddr = data?.me?.addresses?.find(a => {
     if (shippingAddress && a) {
       return _.isEqual(addressToInput(shippingAddress), addressToInput(a));
     }
   });
+  // when shipping addr changes, shipping method can become invalid
+  const invalidShippingMethod =
+    checkout?.availableShippingMethods.find(
+      sm => sm?.id === checkout?.shippingMethod?.id,
+    ) === undefined;
   const summary = (
     <Card
       id="summary-card"
@@ -129,6 +135,22 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
             })}
+            onChange={value => {
+              dispatch?.({
+                type: "cart/setShippingMethod",
+                payload: {
+                  shippingMethodId: value.toString(),
+                  onError: (err: APIException) => {
+                    message.error(
+                      intl.formatMessage({
+                        id: "cart.shippingMethod.fail",
+                      }),
+                    );
+                  },
+                },
+              });
+            }}
+            value={invalidShippingMethod ? undefined : shippingMethod?.id}
           >
             {data?.me?.checkout?.availableShippingMethods.map(sm => (
               <Select.Option key={sm.id} value={sm.id}>
@@ -170,7 +192,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       <Button
         id="checkout-btn"
         block
-        disabled={!data?.me?.checkout?.shippingMethod}
+        disabled={invalidShippingMethod}
         size="large"
         shape="round"
         type="primary"

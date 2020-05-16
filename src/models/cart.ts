@@ -23,10 +23,15 @@ import {
 } from "@/mutations/types/CartLineDeleteMutation";
 import { CART_LINE_DELETE_MUTATION } from "@/mutations/CartLineDelete";
 import {
-  CartShippingAddressMutationVariables,
-  CartShippingAddressMutation,
-} from "@/mutations/types/CartShippingAddressMutation";
+  CartShippingAddressUpdateMutationVariables,
+  CartShippingAddressUpdateMutation,
+} from "@/mutations/types/CartShippingAddressUpdateMutation";
 import { CART_SHIPPING_ADDRESS_UPDATE_MUTATION } from "@/mutations/CartShippingAddressUpdate";
+import {
+  CartShippingMethodUpdateMutationVariables,
+  CartShippingMethodUpdateMutation,
+} from "@/mutations/types/CartShippingMethodUpdateMutation";
+import { CART_SHIPPING_METHOD_UPDATE_MUTATION } from "@/mutations/CartShippingMethodUpdate";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
@@ -41,6 +46,7 @@ export interface CartModelType {
     updateItem: Effect;
     deleteItem: Effect;
     setShippingAddress: Effect;
+    setShippingMethod: Effect;
   };
   reducers: {
     saveCheckout: ImmerReducer<CartModelState>;
@@ -189,22 +195,53 @@ const AuthModel: CartModelType = {
         let checkout = yield select(
           (state: ConnectState) => state.cart.checkout,
         );
-        const variables: CartShippingAddressMutationVariables = {
+        const variables: CartShippingAddressUpdateMutationVariables = {
           checkoutId: checkout.id,
           address,
         };
-        const response: { data: CartShippingAddressMutation } = yield call(
-          client.mutate,
-          {
-            mutation: CART_SHIPPING_ADDRESS_UPDATE_MUTATION,
-            variables,
-          },
-        );
+        const response: {
+          data: CartShippingAddressUpdateMutation;
+        } = yield call(client.mutate, {
+          mutation: CART_SHIPPING_ADDRESS_UPDATE_MUTATION,
+          variables,
+        });
         checkout = response.data.checkoutShippingAddressUpdate?.checkout;
         yield put({ type: "saveCheckout", payload: { checkout } });
 
         const errors =
           response.data.checkoutShippingAddressUpdate?.checkoutErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *setShippingMethod({ payload }, { call, put, select, take }) {
+      try {
+        const { shippingMethodId } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        const variables: CartShippingMethodUpdateMutationVariables = {
+          checkoutId: checkout.id,
+          shippingMethodId,
+        };
+        const response: { data: CartShippingMethodUpdateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CART_SHIPPING_METHOD_UPDATE_MUTATION,
+            variables,
+          },
+        );
+        checkout = response.data.checkoutShippingMethodUpdate?.checkout;
+        yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors =
+          response.data.checkoutShippingMethodUpdate?.checkoutErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }

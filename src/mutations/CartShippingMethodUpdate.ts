@@ -1,15 +1,15 @@
 import { gql } from "apollo-boost";
 import { CHECKOUT_DETAILS_FRAGMENT } from "@/fragments/checkout";
 
-export const CART_SHIPPING_ADDRESS_UPDATE_MUTATION = gql`
+export const CART_SHIPPING_METHOD_UPDATE_MUTATION = gql`
   ${CHECKOUT_DETAILS_FRAGMENT}
-  mutation CartShippingAddressUpdateMutation(
+  mutation CartShippingMethodUpdateMutation(
     $checkoutId: ID!
-    $address: AddressInput!
+    $shippingMethodId: ID!
   ) {
-    checkoutShippingAddressUpdate(
+    checkoutShippingMethodUpdate(
       checkoutId: $checkoutId
-      shippingAddress: $address
+      shippingMethodId: $shippingMethodId
     ) {
       checkoutErrors {
         code
