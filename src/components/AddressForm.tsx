@@ -19,12 +19,13 @@ import { ConnectState, Loading } from "@/models/connect";
 import { AddressInput } from "@/globalTypes";
 import { UserAddressCreateMutation } from "@/mutations/types/UserAddressCreateMutation";
 import { APIException } from "@/apollo";
+import { AddressDetails } from "@/fragments/types/AddressDetails";
 
 interface Props {
   id?: string;
   firstName?: string;
   lastName?: string;
-  address?: AddressInput;
+  address?: AddressDetails;
   hideSubmit?: boolean;
   loading: Loading;
   onSubmit?: () => void;
@@ -71,7 +72,25 @@ const AddressForm: ConnectRC<Props> = ({
           });
           onSubmit?.();
         },
-        onError: (err: APIException) => {},
+        onError: (err: APIException) => {
+          if (
+            err.errors?.find(
+              e => e.code === "INVALID" && e.field === "postalCode",
+            )
+          ) {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.postalCode.invalid",
+              }),
+            );
+          } else {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.fail",
+              }),
+            );
+          }
+        },
       },
     });
   };

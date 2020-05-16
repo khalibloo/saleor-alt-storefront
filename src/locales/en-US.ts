@@ -44,6 +44,7 @@ export default {
   "form.address.postalCode.type": "Postal code must be a number",
   "form.address.country": "Country",
   "form.address.country.required": "Please select country",
+  "form.address.fail": "Failed to save address",
 
   // home
   "site.title": config.siteName,
