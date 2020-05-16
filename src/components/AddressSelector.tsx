@@ -1,24 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Select, Menu, Affix, Row } from "antd";
 import { useIntl } from "umi";
 import AddressCard from "./AddressCard";
 import AddAddress from "./AddAddress";
-import { ButtonProps } from "antd/lib/button";
 import { PlusOutlined } from "@ant-design/icons";
 import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 import { profileQuery } from "@/queries/types/profileQuery";
 import { useQuery } from "@apollo/react-hooks";
+import { SelectProps } from "antd/lib/select";
+import { AddressDetails } from "@/fragments/types/AddressDetails";
 
-interface Props extends ButtonProps {
-  value?: any;
+interface Props extends SelectProps<string> {
+  extraAddr?: AddressDetails | null;
 }
-const AddressSelector: React.FC<Props> = ({ value, ...rest }) => {
+const AddressSelector: React.FC<Props> = ({ extraAddr, ...rest }) => {
   const intl = useIntl();
-  const ref = useRef<Select>(null);
   const [container, setContainer] = useState(null);
   const { loading: fetching, error, data } = useQuery<profileQuery>(
     PROFILE_PAGE_QUERY,
   );
+  const profileAddresses = data?.me?.addresses || [];
+  const addresses = extraAddr
+    ? [...profileAddresses, extraAddr]
+    : profileAddresses;
   return (
     <Select
       className="full-width"
@@ -41,9 +45,9 @@ const AddressSelector: React.FC<Props> = ({ value, ...rest }) => {
         </div>
       )}
       placeholder={intl.formatMessage({ id: "misc.pleaseSelect" })}
-      ref={ref}
+      {...rest}
     >
-      {data?.me?.addresses?.map(addr => (
+      {addresses.map(addr => (
         <Select.Option key={addr.id} value={addr.id}>
           <AddressCard address={addr} hideCard />
         </Select.Option>

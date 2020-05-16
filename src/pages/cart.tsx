@@ -10,18 +10,21 @@ import {
   Select,
   Affix,
   notification,
+  message,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link, connect, ConnectRC } from "umi";
 import VSpacing from "@/components/VSpacing";
 import AspectRatio from "@/components/AspectRatio";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, addressToInput } from "@/utils/utils";
 import AddressSelector from "@/components/AddressSelector";
 import { useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
 import { cartQuery } from "@/queries/types/cartQuery";
 import { CART_PAGE_QUERY } from "@/queries/cart";
 import { useQuery } from "@apollo/react-hooks";
+import { APIException } from "@/apollo";
+import _ from "lodash";
 
 interface Props {
   loading: Loading;
@@ -32,10 +35,18 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
   );
-  const currency = data?.me?.checkout?.totalPrice?.gross.currency;
-  const subtotalPrice = data?.me?.checkout?.subtotalPrice?.gross.amount;
-  const shippingPrice = data?.me?.checkout?.shippingPrice?.gross.amount;
-  const totalPrice = data?.me?.checkout?.totalPrice?.gross.amount;
+  const checkout = data?.me?.checkout;
+  const currency = checkout?.totalPrice?.gross.currency;
+  const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
+  const shippingPrice = checkout?.shippingPrice?.gross.amount;
+  const totalPrice = checkout?.totalPrice?.gross.amount;
+  const shippingAddress = checkout?.shippingAddress;
+  // if there's a matching address in our address book
+  const matchingShippingAddr = data?.me?.addresses?.find(a => {
+    if (shippingAddress && a) {
+      return _.isEqual(addressToInput(shippingAddress), addressToInput(a));
+    }
+  });
   const summary = (
     <Card
       id="summary-card"
@@ -63,7 +74,46 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <AddressSelector block value={data?.me?.checkout?.shippingAddress} />
+          <AddressSelector
+            loading={loading.effects["cart/setShippingAddress"]}
+            onChange={value => {
+              const addr = data?.me?.addresses?.find(a => a?.id === value);
+              if (addr) {
+                const address = addressToInput(addr);
+                dispatch?.({
+                  type: "cart/setShippingAddress",
+                  payload: {
+                    address,
+                    onError: (err: APIException) => {
+                      if (
+                        err.errors?.find(
+                          e => e.code === "INVALID" && e.field === "postalCode",
+                        )
+                      ) {
+                        message.error(
+                          intl.formatMessage({
+                            id: "form.address.postalCode.invalid",
+                          }),
+                        );
+                      } else {
+                        message.error(
+                          intl.formatMessage({
+                            id: "cart.shippingAddress.fail",
+                          }),
+                        );
+                      }
+                    },
+                  },
+                });
+              }
+            }}
+            extraAddr={matchingShippingAddr ? undefined : shippingAddress}
+            value={
+              matchingShippingAddr
+                ? matchingShippingAddr.id
+                : shippingAddress?.id
+            }
+          />
         </Col>
       </Row>
       <VSpacing height={8} />
@@ -82,7 +132,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           >
             {data?.me?.checkout?.availableShippingMethods.map(sm => (
               <Select.Option key={sm.id} value={sm.id}>
-                {sm.name} ({formatPrice(currency, sm?.price?.amount)})
+                {sm?.name} ({formatPrice(currency, sm?.price?.amount)})
               </Select.Option>
             ))}
           </Select>

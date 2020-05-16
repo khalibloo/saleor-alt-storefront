@@ -22,6 +22,11 @@ import {
   CartLineDeleteMutation,
 } from "@/mutations/types/CartLineDeleteMutation";
 import { CART_LINE_DELETE_MUTATION } from "@/mutations/CartLineDelete";
+import {
+  CartShippingAddressMutationVariables,
+  CartShippingAddressMutation,
+} from "@/mutations/types/CartShippingAddressMutation";
+import { CART_SHIPPING_ADDRESS_UPDATE_MUTATION } from "@/mutations/CartShippingAddressUpdate";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
@@ -35,6 +40,7 @@ export interface CartModelType {
     addItem: Effect;
     updateItem: Effect;
     deleteItem: Effect;
+    setShippingAddress: Effect;
   };
   reducers: {
     saveCheckout: ImmerReducer<CartModelState>;
@@ -167,6 +173,38 @@ const AuthModel: CartModelType = {
         yield put({ type: "saveCheckout", payload: { checkout } });
 
         const errors = response.data.checkoutLineDelete?.checkoutErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *setShippingAddress({ payload }, { call, put, select, take }) {
+      try {
+        const { address } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        const variables: CartShippingAddressMutationVariables = {
+          checkoutId: checkout.id,
+          address,
+        };
+        const response: { data: CartShippingAddressMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CART_SHIPPING_ADDRESS_UPDATE_MUTATION,
+            variables,
+          },
+        );
+        checkout = response.data.checkoutShippingAddressUpdate?.checkout;
+        yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors =
+          response.data.checkoutShippingAddressUpdate?.checkoutErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }

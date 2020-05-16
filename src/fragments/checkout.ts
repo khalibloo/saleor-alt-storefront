@@ -1,6 +1,7 @@
 import { gql } from "apollo-boost";
+import { ADDRESS_DETAILS_FRAGMENT } from "./address";
 
-export const CHECKOUT_DETAILS_FRAGMENT = gql`
+export const CHECKOUT_PRICING_FRAGMENT = gql`
   fragment CheckoutPricingDetails on Checkout {
     shippingMethod {
       id
@@ -27,6 +28,34 @@ export const CHECKOUT_DETAILS_FRAGMENT = gql`
         currency
         amount
       }
+    }
+  }
+`;
+
+export const CHECKOUT_DETAILS_FRAGMENT = gql`
+  ${CHECKOUT_PRICING_FRAGMENT}
+  ${ADDRESS_DETAILS_FRAGMENT}
+  fragment CheckoutDetails on Checkout {
+    id
+    token
+    ...CheckoutPricingDetails
+    availableShippingMethods {
+      id
+      name
+      price {
+        currency
+        amount
+      }
+    }
+    shippingMethod {
+      id
+      name
+    }
+    shippingAddress {
+      ...AddressDetails
+    }
+    billingAddress {
+      ...AddressDetails
     }
   }
 `;

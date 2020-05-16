@@ -39,6 +39,7 @@ export default {
   "form.address.state.required": "Please enter state",
   "form.address.postalCode": "Postal Code",
   "form.address.postalCode.required": "Please enter postal code",
+  "form.address.postalCode.invalid": "Postal code is invalid",
   "form.address.postalCode.len": "Postal code must be 5 characters long",
   "form.address.postalCode.type": "Postal code must be a number",
   "form.address.country": "Country",
@@ -75,6 +76,7 @@ export default {
   "cart.selectAddress": "Select Address",
   "cart.addItem.success": "Item Added to Cart",
   "cart.deleteItem.success": "Item Removed from Cart",
+  "cart.shippingAddress.fail": "Failed to set shipping address",
 
   // profile
   "profile.title": formatTitle("Profile"),

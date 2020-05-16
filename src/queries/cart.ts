@@ -27,27 +27,7 @@ export const CART_PAGE_QUERY = gql`
         ...AddressDetails
       }
       checkout {
-        id
-        token
-        ...CheckoutPricingDetails
-        availableShippingMethods {
-          id
-          name
-          price {
-            currency
-            amount
-          }
-        }
-        shippingMethod {
-          id
-          name
-        }
-        shippingAddress {
-          ...AddressDetails
-        }
-        billingAddress {
-          ...AddressDetails
-        }
+        ...CheckoutDetails
         lines {
           id
           variant {

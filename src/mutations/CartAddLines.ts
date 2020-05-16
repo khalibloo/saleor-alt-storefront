@@ -14,9 +14,7 @@ export const CART_LINES_ADD_MUTATION = gql`
         code
       }
       checkout {
-        id
-        token
-        ...CheckoutPricingDetails
+        ...CheckoutDetails
         lines {
           id
           quantity
