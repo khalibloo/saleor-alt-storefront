@@ -22,6 +22,10 @@ export default {
   "misc.saveChanges": "Save Changes",
   "misc.save.success": "Changes Saved Successfully",
   "misc.address.createNew": "Create New Address",
+  "misc.showMore": "Show More",
+  "misc.showLess": "Show Less",
+  "misc.expand": "Expand",
+  "misc.collapse": "Collapse",
 
   // forms
   "form.optional": "Optional",
@@ -102,6 +106,12 @@ export default {
   "orders.placedOn": "Placed On",
   "orders.orderID": "Order ID",
   "orders.total": "Total",
+  "orders.status": "Status",
+  "orders.status.draft": "Draft",
+  "orders.status.unfulfilled": "Pending",
+  "orders.status.partially_fulfilled": "Partly Delivered",
+  "orders.status.fulfilled": "Delivered",
+  "orders.status.canceled": "Canceled",
 
   // profile
   "settings.title": formatTitle("Account Settings"),

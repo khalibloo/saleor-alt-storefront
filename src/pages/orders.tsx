@@ -1,14 +1,17 @@
 import React from "react";
-import { Typography, Row, Col, List, Card } from "antd";
+import { Typography, Row, Col, List } from "antd";
 import { useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
-import dayjs from "dayjs";
-import { formatPrice } from "@/utils/utils";
-import { sampleOrder } from "@/sampleData";
-import VariantListItem from "@/components/VariantListItem";
+import { useQuery } from "@apollo/react-hooks";
+import { ORDERS_PAGE_QUERY } from "@/queries/orders";
+import { ordersQuery } from "@/queries/types/ordersQuery";
+import OrderCard from "@/components/OrderCard";
 
 const OrdersPage = () => {
   const intl = useIntl();
+  const { loading: fetching, error, data } = useQuery<ordersQuery>(
+    ORDERS_PAGE_QUERY,
+  );
   return (
     <div>
       <VSpacing height={24} />
@@ -20,69 +23,14 @@ const OrdersPage = () => {
           <Row justify="center">
             <Col span={16} xs={24} sm={24} md={18} lg={16} xl={16} xxl={12}>
               <List
-                dataSource={[
-                  { ...sampleOrder, id: 1 },
-                  { ...sampleOrder, id: 2 },
-                ]}
-                renderItem={order => {
-                  const currency = order.total.gross.currency as string;
-                  const totalPrice = order.total.gross.amount as number;
+                dataSource={data?.me?.orders?.edges}
+                loading={fetching}
+                renderItem={orderEdge => {
+                  const order = orderEdge.node;
                   return (
                     <List.Item className="order-list-items" key={order.id}>
                       <div className="full-width">
-                        <Card
-                          title={
-                            <Row justify="space-between">
-                              <Col>
-                                <div>
-                                  <Typography.Text>
-                                    {intl.formatMessage({
-                                      id: "orders.placedOn",
-                                    })}
-                                    :{" "}
-                                    {dayjs(order.date).format("Do MMMM, YYYY")}
-                                  </Typography.Text>
-                                </div>
-                                <div>
-                                  <Typography.Text>
-                                    {intl.formatMessage({
-                                      id: "orders.total",
-                                    })}
-                                    : {formatPrice(currency, totalPrice)}
-                                  </Typography.Text>
-                                </div>
-                              </Col>
-                              <Col>
-                                <Typography.Text>
-                                  {intl.formatMessage({
-                                    id: "orders.orderID",
-                                  })}
-                                  :{" #"}
-                                  {order.number}
-                                </Typography.Text>
-                              </Col>
-                            </Row>
-                          }
-                        >
-                          <List
-                            dataSource={order.lines}
-                            renderItem={line => {
-                              return (
-                                <List.Item
-                                  className="product-list-items"
-                                  key={line.id}
-                                >
-                                  <div className="full-width">
-                                    <VariantListItem
-                                      variant={line.variant}
-                                      qty={line.quantity}
-                                    />
-                                  </div>
-                                </List.Item>
-                              );
-                            }}
-                          />
-                        </Card>
+                        <OrderCard order={order} />
                         <VSpacing height={24} />
                       </div>
                     </List.Item>
