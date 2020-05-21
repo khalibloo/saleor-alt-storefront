@@ -5,7 +5,6 @@ import {
   Row,
   List,
   Button,
-  InputNumber,
   Card,
   Select,
   Affix,
@@ -25,6 +24,7 @@ import { CART_PAGE_QUERY } from "@/queries/cart";
 import { useQuery } from "@apollo/react-hooks";
 import { APIException } from "@/apollo";
 import _ from "lodash";
+import NumberInput from "@/components/NumberInput";
 
 interface Props {
   loading: Loading;
@@ -153,7 +153,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
             value={invalidShippingMethod ? undefined : shippingMethod?.id}
           >
             {data?.me?.checkout?.availableShippingMethods.map(sm => (
-              <Select.Option key={sm.id} value={sm.id}>
+              <Select.Option key={sm?.id} value={sm.id}>
                 {sm?.name} ({formatPrice(currency, sm?.price?.amount)})
               </Select.Option>
             ))}
@@ -218,8 +218,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                     .currency as string;
                   const price = item?.variant.pricing?.price?.gross
                     .amount as number;
+                  const qtyAvailable = item?.variant.quantityAvailable || 0;
                   return (
-                    <List.Item className="product-list-items" key={item.id}>
+                    <List.Item className="product-list-items" key={item?.id}>
                       <div className="full-width">
                         <Card>
                           <Row gutter={24}>
@@ -232,7 +233,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                               xl={4}
                               xxl={4}
                             >
-                              <Link to={`/products/${item.id}`}>
+                              <Link to={`/products/${item?.id}`}>
                                 <AspectRatio width={1} height={1}>
                                   <img
                                     className="full-width"
@@ -269,27 +270,32 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                               <Typography.Title level={4}>
                                 {formatPrice(currency, price)}
                               </Typography.Title>
-                              <div>
-                                <Typography.Text>Qty: </Typography.Text>
-                                <InputNumber
-                                  value={item?.quantity}
-                                  disabled={
-                                    loading.effects["cart/updateItem"] ||
-                                    loading.effects["cart/deleteItem"]
-                                  }
-                                  min={1}
-                                  max={10}
-                                  onChange={value =>
-                                    dispatch?.({
-                                      type: "cart/updateItem",
-                                      payload: {
-                                        variantId: item?.variant.id,
-                                        quantity: value,
-                                      },
-                                    })
-                                  }
-                                />
-                              </div>
+                              <Row gutter={16}>
+                                <Col>
+                                  <Typography.Text>Qty: </Typography.Text>
+                                </Col>
+                                <Col style={{ width: 160 }}>
+                                  <NumberInput
+                                    value={item?.quantity}
+                                    disabled={
+                                      loading.effects["cart/updateItem"] ||
+                                      loading.effects["cart/deleteItem"]
+                                    }
+                                    min={1}
+                                    max={qtyAvailable}
+                                    maxLength={2}
+                                    onChange={value => {
+                                      dispatch?.({
+                                        type: "cart/updateItem",
+                                        payload: {
+                                          variantId: item?.variant.id,
+                                          quantity: value,
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                              </Row>
                               <Row justify="end">
                                 <Col>
                                   <VSpacing height={8} />
@@ -303,7 +309,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                                       dispatch?.({
                                         type: "cart/deleteItem",
                                         payload: {
-                                          checkoutLineId: item.id,
+                                          checkoutLineId: item?.id,
                                           onCompleted: () => {
                                             notification.info({
                                               message: intl.formatMessage({
