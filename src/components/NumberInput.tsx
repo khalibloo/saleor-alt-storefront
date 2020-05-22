@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Button, Input } from "antd";
+import { Button, Input, InputNumber } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import clx from "classnames";
 import _ from "lodash";
-import InputNumber, { InputNumberProps } from "antd/lib/input-number";
+import { InputNumberProps } from "antd/lib/input-number";
 
 interface Props extends InputNumberProps {
   step?: number;
@@ -18,6 +18,7 @@ const NumberInput: React.FC<Props> = props => {
     precision = 0,
     step = 1,
     onChange,
+    size,
     style,
     value: propsValue,
     ...rest
@@ -33,7 +34,12 @@ const NumberInput: React.FC<Props> = props => {
     }
   };
   return (
-    <Input.Group compact style={{ display: "flex" }}>
+    <Input.Group
+      className="full-width"
+      compact
+      style={{ display: "flex" }}
+      size={size}
+    >
       <Button
         disabled={disabled || value === min}
         onClick={() => {
@@ -61,7 +67,8 @@ const NumberInput: React.FC<Props> = props => {
         precision={precision}
         step={step}
         inputMode={precision === 0 ? "decimal" : "numeric"}
-        style={{ ...style, flexGrow: 1 }}
+        // size={size}
+        // style={{ ...style, flexGrow: 1 }}
       />
       <Button
         disabled={disabled || value === max}

@@ -5,7 +5,6 @@ import {
   Col,
   Button,
   Select,
-  InputNumber,
   List,
   Affix,
   Card,
@@ -35,6 +34,7 @@ import { PRODUCT_DETAIL_PAGE_QUERY } from "@/queries/productDetail";
 import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
 import { ConnectState, Loading } from "@/models/connect";
+import NumberInput from "@/components/NumberInput";
 
 interface AttrValue {
   id: string;
@@ -75,10 +75,12 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   const [imgSize, imgRef] = useSize<HTMLDivElement>();
   const [thumbsColSize, thumbsColRef] = useSize<HTMLDivElement>();
 
+  const product = data?.product;
+
   useEffect(() => {
     // gather variant attributes
     let vAttrs: VariantAttr[] = [];
-    data?.product?.variants?.forEach(v => {
+    product?.variants?.forEach(v => {
       v?.attributes.forEach(attr => {
         // if it's not an empty attribute
         if (attr.values.length > 0) {
@@ -117,7 +119,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   // update selected variant when attribute selection changes
   useEffect(() => {
     setSelectedVariant(null);
-    const variants = data?.product?.variants;
+    const variants = product?.variants;
     if (variants) {
       if (variants.length === 1) {
         setSelectedVariant(variants[0]);
@@ -146,7 +148,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const suggestions = data?.product?.category?.products?.edges;
+  const suggestions = product?.category?.products?.edges;
   const productGrid: ListGridType = {
     gutter: 24,
     xs: 1,
@@ -160,15 +162,15 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   const images =
     selectedVariant && (selectedVariant.images?.length || 0) > 0
       ? selectedVariant.images
-      : data?.product?.images;
-  const currency = data?.product?.pricing?.priceRange?.start?.gross
+      : product?.images;
+  const currency = product?.pricing?.priceRange?.start?.gross
     .currency as string;
   const minPrice = selectedVariant
     ? (selectedVariant.pricing?.price?.gross.amount as number)
-    : (data?.product?.pricing?.priceRange?.start?.gross.amount as number);
+    : (product?.pricing?.priceRange?.start?.gross.amount as number);
   const maxPrice = selectedVariant
     ? undefined
-    : (data?.product?.pricing?.priceRange?.stop?.gross.amount as number);
+    : (product?.pricing?.priceRange?.stop?.gross.amount as number);
 
   const priceLabel = (
     <SkeletonDiv
@@ -193,16 +195,16 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           <Typography.Title level={4}>Qty: </Typography.Title>
         </SkeletonDiv>
       </Col>
-      <Col span={8}>
+      <Col span={10} xs={16} sm={10} md={12} lg={14} xl={12} xxl={10}>
         <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
-          <InputNumber
-            className="full-width"
+          <NumberInput
             value={qty}
-            onChange={value => value && setQty(value)}
             disabled={fetching || !selectedVariant}
-            size="large"
             min={1}
-            max={10}
+            max={selectedVariant?.quantityAvailable}
+            maxLength={2}
+            size="large"
+            onChange={setQty}
           />
         </SkeletonDiv>
       </Col>
@@ -239,9 +241,9 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   );
   return (
     <div className="vflex flex-grow-1">
-      {data?.product?.name && (
+      {product?.name && (
         <Helmet>
-          <title>{formatTitle(data?.product?.name)}</title>
+          <title>{formatTitle(product?.name)}</title>
         </Helmet>
       )}
       <VSpacing height={!responsive.lg ? 8 : 48} />
@@ -369,7 +371,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   className={clx({ ["center-text"]: !responsive.lg })}
                   level={1}
                 >
-                  {data?.product?.name}
+                  {product?.name}
                 </Typography.Title>
               </Skeleton>
               <div id="product-desc">
@@ -381,14 +383,14 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   title={false}
                 >
                   <RichTextContent
-                    contentJson={data?.product?.descriptionJson}
+                    contentJson={product?.descriptionJson}
                     lines={10}
                   />
                 </Skeleton>
               </div>
               <VSpacing height={!responsive.lg ? 8 : 36} />
               <Row justify="center">
-                <Col span={14}>
+                <Col span={14} xs={18} sm={16} md={14} lg={14} xl={12} xxl={10}>
                   {fetching ? (
                     <>
                       <SkeletonDiv
@@ -439,12 +441,16 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   <VSpacing height={24} />
 
                   <Row justify="center">
-                    <Col span={14}>{qtySelector}</Col>
+                    <Col span={14} md={22} lg={14} xl={12} xxl={10}>
+                      {qtySelector}
+                    </Col>
                   </Row>
                   <VSpacing height={24} />
 
                   <Row justify="center">
-                    <Col span={14}>{addToCartBtn}</Col>
+                    <Col span={14} md={22} lg={14} xl={12} xxl={10}>
+                      {addToCartBtn}
+                    </Col>
                   </Row>
                   <VSpacing height={24} />
                 </>
