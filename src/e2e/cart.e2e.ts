@@ -1,12 +1,17 @@
 import { Selector, RequestMock } from "testcafe";
 import page from "./cart.model.e2e";
 import { cartQuery } from "./cart.mock.e2e";
+import { profileQuery } from "./profile.mock.e2e";
 import { anonCartBadgeQuery } from "./index.mock.e2e";
 
 const mock = RequestMock()
   .onRequestTo("http://localhost:8000/graphql/")
   .respond((req, res) => {
-    const opMap = { cartQuery, cartBadgeQuery: anonCartBadgeQuery };
+    const opMap = {
+      cartQuery,
+      profileQuery,
+      cartBadgeQuery: anonCartBadgeQuery,
+    };
     const opName = JSON.parse(req.body?.toString()).operationName;
     const mockData = opMap[opName];
     if (!mockData) {
