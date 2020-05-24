@@ -67,7 +67,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <Typography.Text>
+          <Typography.Text id="subtotal-price">
             {formatPrice(currency, subtotalPrice)}
           </Typography.Text>
         </Col>
@@ -81,6 +81,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
         </Col>
         <Col span={16}>
           <AddressSelector
+            id="shipping-address-select"
             loading={loading.effects["cart/setShippingAddress"]}
             onChange={value => {
               const addr = data?.me?.addresses?.find(a => a?.id === value);
@@ -131,6 +132,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
         </Col>
         <Col span={16}>
           <Select
+            id="shipping-method-select"
             className="full-width"
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
@@ -168,7 +170,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <Typography.Text>
+          <Typography.Text id="shipping-fee-txt">
             {data?.me?.checkout?.shippingMethod
               ? formatPrice(currency, shippingPrice)
               : "--"}
@@ -183,7 +185,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <Typography.Text strong>
+          <Typography.Text id="total-price" strong>
             {formatPrice(currency, totalPrice)}
           </Typography.Text>
         </Col>

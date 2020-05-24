@@ -23,7 +23,7 @@
     "codegen:watch": "npm run codegen -- --watch",
     "prettier": "prettier --write src/**/*.{js,jsx,tsx,ts,less,md,json}",
     "test": "umi-test",
-    "test-e2e:no-build": "testcafe 'chrome:headless' -c 4 src/**/*.e2e.ts",
+    "test-e2e:no-build": "testcafe 'chrome:headless' -c 4 src/**/*.e2e.ts --skip-js-errors",
     "test-e2e": "npm-run-all --serial build:ci test-e2e:no-build",
     "test:coverage": "umi-test --coverage",
     "test:watch": "umi-test --watch"

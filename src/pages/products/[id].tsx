@@ -178,26 +178,29 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
       loading={fetching}
       style={{ height: 21, width: "30%", margin: "auto" }}
     >
-      <Typography.Title className="center-text" level={3}>
+      <Typography.Title id="price-lbl" className="center-text" level={3}>
         {formatPrice(currency, minPrice, maxPrice)}
       </Typography.Title>
     </SkeletonDiv>
   );
 
   const qtySelector = (
-    <Row justify="center" gutter={36}>
+    <Row id="qty-row" justify="center" gutter={36}>
       <Col>
         <SkeletonDiv
           active
           loading={fetching}
           style={{ height: 24, width: 100 }}
         >
-          <Typography.Title level={4}>Qty: </Typography.Title>
+          <Typography.Title id="qty-lbl" level={4}>
+            Qty:{" "}
+          </Typography.Title>
         </SkeletonDiv>
       </Col>
       <Col span={10} xs={16} sm={10} md={12} lg={14} xl={12} xxl={10}>
         <SkeletonDiv active loading={fetching} style={{ height: 40 }}>
           <NumberInput
+            id="qty-fld"
             value={qty}
             disabled={fetching || !selectedVariant}
             min={1}
@@ -205,6 +208,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
             maxLength={2}
             size="large"
             onChange={setQty}
+            decrementBtnProps={{ id: "qty-dec" }}
+            incrementBtnProps={{ id: "qty-inc" }}
           />
         </SkeletonDiv>
       </Col>
@@ -259,10 +264,11 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                       <>
                         <Button
                           block
+                          id="thumbs-scroll-up-btn"
                           className="icon-btn"
                           onClick={() =>
                             document
-                              .getElementById("thumbsContainer")
+                              .getElementById("thumbs-container")
                               ?.scrollBy({
                                 top: -100,
                                 behavior: "smooth",
@@ -275,7 +281,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                       </>
                     )}
                   <div
-                    id="thumbsContainer"
+                    id="thumbs-container"
                     style={{
                       height: imgSize.height ? imgSize.height - 80 : undefined,
                       overflowY: "auto",
@@ -287,8 +293,10 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                           <div key={image?.id || i}>
                             <AspectRatio width={1} height={1} noMask>
                               <Button
+                                id={`thumb-btn-${i}`}
                                 className={clx(
                                   "full-width full-height no-padding",
+                                  "thumb-btns",
                                   {
                                     [styles.selectedBtn]: i === selectedImg,
                                     [styles.unselectedBtn]: i !== selectedImg,
@@ -318,10 +326,11 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                         <VSpacing height={8} />
                         <Button
                           block
+                          id="thumbs-scroll-down-btn"
                           className="icon-btn"
                           onClick={() =>
                             document
-                              .getElementById("thumbsContainer")
+                              .getElementById("thumbs-container")
                               ?.scrollBy({
                                 top: 100,
                                 behavior: "smooth",
@@ -341,10 +350,11 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                           ref={carouselRef}
                           beforeChange={(current, next) => setSelectedImg(next)}
                         >
-                          {images?.map(image => (
+                          {images?.map((image, i) => (
                             <div key={image?.id}>
                               <img
-                                className="full-width"
+                                id={`carousel-img-${i}`}
+                                className="full-width carousel-imgs"
                                 alt={image?.alt as string}
                                 src={image?.url}
                               />
@@ -389,7 +399,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                 </Skeleton>
               </div>
               <VSpacing height={!responsive.lg ? 8 : 36} />
-              <Row justify="center">
+              <Row id="var-select-row" justify="center">
                 <Col span={14} xs={18} sm={16} md={14} lg={14} xl={12} xxl={10}>
                   {fetching ? (
                     <>
@@ -409,7 +419,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                     variantAttrs.map((vAttr, i) => {
                       return (
                         <Select
-                          className="full-width"
+                          id={`var-select-${i}`}
+                          className={clx("full-width", "var-select")}
                           key={vAttr.id}
                           size="large"
                           placeholder={vAttr.name}
@@ -422,6 +433,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                         >
                           {vAttr.values.map(val => (
                             <Select.Option
+                              className={`var-select-${i}-options`}
                               key={val?.id}
                               value={val?.id as string}
                             >

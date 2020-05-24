@@ -2,10 +2,12 @@ const placeholderImg = "https://via.placeholder.com/512";
 
 // hint: regex to replace image urls "http://localhost:8000*(.+)"
 
-export default {
+export const anonCartBadgeQuery = { data: { me: null } };
+
+export const homePageQuery = {
   data: {
     shop: {
-      name: "Saleor e-commerce",
+      name: "Alt Store",
       homepageCollection: {
         id: "Q29sbGVjdGlvbjox",
         name: "Summer collection",
@@ -122,7 +124,7 @@ export default {
                     start: {
                       gross: {
                         currency: "USD",
-                        amount: 3,
+                        amount: 3.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -130,7 +132,89 @@ export default {
                     stop: {
                       gross: {
                         currency: "USD",
-                        amount: 7,
+                        amount: 7.0,
+                        __typename: "Money",
+                      },
+                      __typename: "TaxedMoney",
+                    },
+                    __typename: "TaxedMoneyRange",
+                  },
+                  __typename: "ProductPricingInfo",
+                },
+                __typename: "Product",
+              },
+              __typename: "ProductCountableEdge",
+            },
+            {
+              node: {
+                id: "UHJvZHVjdDoxMTA=",
+                name: "Polo Shirt",
+                slug: "polo-shirt-4",
+                thumbnail: {
+                  url: placeholderImg,
+                  alt: "",
+                  __typename: "Image",
+                },
+                images: [
+                  {
+                    id: "UHJvZHVjdEltYWdlOjM2",
+                    url: placeholderImg,
+                    alt: "",
+                    __typename: "ProductImage",
+                  },
+                ],
+                collections: [
+                  {
+                    id: "Q29sbGVjdGlvbjox",
+                    name: "Summer collection",
+                    __typename: "Collection",
+                  },
+                  {
+                    id: "Q29sbGVjdGlvbjoy",
+                    name: "Winter sale",
+                    __typename: "Collection",
+                  },
+                ],
+                category: {
+                  id: "Q2F0ZWdvcnk6MTE=",
+                  name: "Polo Shirts",
+                  __typename: "Category",
+                },
+                pricing: {
+                  onSale: false,
+                  discount: null,
+                  priceRange: {
+                    start: {
+                      gross: {
+                        currency: "USD",
+                        amount: 30.0,
+                        __typename: "Money",
+                      },
+                      __typename: "TaxedMoney",
+                    },
+                    stop: {
+                      gross: {
+                        currency: "USD",
+                        amount: 30.0,
+                        __typename: "Money",
+                      },
+                      __typename: "TaxedMoney",
+                    },
+                    __typename: "TaxedMoneyRange",
+                  },
+                  priceRangeUndiscounted: {
+                    start: {
+                      gross: {
+                        currency: "USD",
+                        amount: 30.0,
+                        __typename: "Money",
+                      },
+                      __typename: "TaxedMoney",
+                    },
+                    stop: {
+                      gross: {
+                        currency: "USD",
+                        amount: 30.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -191,7 +275,7 @@ export default {
                     start: {
                       gross: {
                         currency: "USD",
-                        amount: 3,
+                        amount: 3.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -199,7 +283,7 @@ export default {
                     stop: {
                       gross: {
                         currency: "USD",
-                        amount: 3,
+                        amount: 3.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -210,7 +294,7 @@ export default {
                     start: {
                       gross: {
                         currency: "USD",
-                        amount: 3,
+                        amount: 3.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -218,89 +302,7 @@ export default {
                     stop: {
                       gross: {
                         currency: "USD",
-                        amount: 3,
-                        __typename: "Money",
-                      },
-                      __typename: "TaxedMoney",
-                    },
-                    __typename: "TaxedMoneyRange",
-                  },
-                  __typename: "ProductPricingInfo",
-                },
-                __typename: "Product",
-              },
-              __typename: "ProductCountableEdge",
-            },
-            {
-              node: {
-                id: "UHJvZHVjdDoxMTA=",
-                name: "Polo Shirt",
-                slug: "polo-shirt-4",
-                thumbnail: {
-                  url: placeholderImg,
-                  alt: "",
-                  __typename: "Image",
-                },
-                images: [
-                  {
-                    id: "UHJvZHVjdEltYWdlOjM2",
-                    url: placeholderImg,
-                    alt: "",
-                    __typename: "ProductImage",
-                  },
-                ],
-                collections: [
-                  {
-                    id: "Q29sbGVjdGlvbjox",
-                    name: "Summer collection",
-                    __typename: "Collection",
-                  },
-                  {
-                    id: "Q29sbGVjdGlvbjoy",
-                    name: "Winter sale",
-                    __typename: "Collection",
-                  },
-                ],
-                category: {
-                  id: "Q2F0ZWdvcnk6MTE=",
-                  name: "Polo Shirts",
-                  __typename: "Category",
-                },
-                pricing: {
-                  onSale: false,
-                  discount: null,
-                  priceRange: {
-                    start: {
-                      gross: {
-                        currency: "USD",
-                        amount: 30,
-                        __typename: "Money",
-                      },
-                      __typename: "TaxedMoney",
-                    },
-                    stop: {
-                      gross: {
-                        currency: "USD",
-                        amount: 30,
-                        __typename: "Money",
-                      },
-                      __typename: "TaxedMoney",
-                    },
-                    __typename: "TaxedMoneyRange",
-                  },
-                  priceRangeUndiscounted: {
-                    start: {
-                      gross: {
-                        currency: "USD",
-                        amount: 30,
-                        __typename: "Money",
-                      },
-                      __typename: "TaxedMoney",
-                    },
-                    stop: {
-                      gross: {
-                        currency: "USD",
-                        amount: 30,
+                        amount: 3.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -349,7 +351,7 @@ export default {
                     currency: "USD",
                     gross: {
                       currency: "USD",
-                      amount: 2,
+                      amount: 2.0,
                       __typename: "Money",
                     },
                     __typename: "TaxedMoney",
@@ -358,7 +360,7 @@ export default {
                     start: {
                       gross: {
                         currency: "USD",
-                        amount: 18,
+                        amount: 18.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -366,7 +368,7 @@ export default {
                     stop: {
                       gross: {
                         currency: "USD",
-                        amount: 18,
+                        amount: 18.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -377,7 +379,7 @@ export default {
                     start: {
                       gross: {
                         currency: "USD",
-                        amount: 20,
+                        amount: 20.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",
@@ -385,7 +387,7 @@ export default {
                     stop: {
                       gross: {
                         currency: "USD",
-                        amount: 20,
+                        amount: 20.0,
                         __typename: "Money",
                       },
                       __typename: "TaxedMoney",

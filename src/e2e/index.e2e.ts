@@ -1,10 +1,16 @@
 import { Selector, RequestMock } from "testcafe";
 import page from "./index.model.e2e";
-import mockData from "./index.mock.e2e";
+import { homePageQuery, anonCartBadgeQuery } from "./index.mock.e2e";
 
 const mock = RequestMock()
   .onRequestTo("http://localhost:8000/graphql/")
   .respond((req, res) => {
+    const opMap = { homePageQuery, cartBadgeQuery: anonCartBadgeQuery };
+    const opName = JSON.parse(req.body?.toString()).operationName;
+    const mockData = opMap[opName];
+    if (!mockData) {
+      console.error(`Missing mock data for ${opName}`);
+    }
     res.setBody(mockData);
     res.statusCode = 200;
     res.headers = {

@@ -82,7 +82,7 @@ const CategoryDetailPage: React.FC = () => {
               </Typography.Title>
             </Col>
             <Col span={18} xs={24} sm={24} md={24} lg={18} xl={18} xxl={16}>
-              <FilterBar hideFilters={responsive.lg} />
+              <FilterBar id="sort-select" hideFilters={responsive.lg} />
               <List
                 dataSource={data?.products?.edges}
                 grid={{ gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }}

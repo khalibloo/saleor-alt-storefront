@@ -7,10 +7,11 @@ import styles from "./FilterBar.less";
 import { ProductOrder, ProductOrderField, OrderDirection } from "@/globalTypes";
 
 interface Props {
+  id?: string;
   hideFilters?: boolean;
   onSortChange?: (val: ProductOrder) => void;
 }
-const FilterBar: React.FC<Props> = ({ hideFilters, onSortChange }) => {
+const FilterBar: React.FC<Props> = ({ id, hideFilters, onSortChange }) => {
   const intl = useIntl();
   return (
     <Row
@@ -32,6 +33,7 @@ const FilterBar: React.FC<Props> = ({ hideFilters, onSortChange }) => {
         </div>
         <div>
           <Select
+            id={id}
             className="full-width"
             defaultValue="RELEVANCE"
             onChange={value => {

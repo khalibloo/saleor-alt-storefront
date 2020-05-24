@@ -2,7 +2,7 @@ const placeholderImg = "https://via.placeholder.com/512";
 
 // hint: regex to replace image urls "http://localhost:8000*(.+)"
 
-export default {
+export const productDetailQuery = {
   data: {
     product: {
       id: "UHJvZHVjdDo3Mw==",
@@ -64,47 +64,27 @@ export default {
         onSale: true,
         discount: {
           currency: "USD",
-          gross: {
-            currency: "USD",
-            amount: 0.3,
-            __typename: "Money",
-          },
+          gross: { currency: "USD", amount: 0.3, __typename: "Money" },
           __typename: "TaxedMoney",
         },
         priceRange: {
           start: {
-            gross: {
-              currency: "USD",
-              amount: 2.7,
-              __typename: "Money",
-            },
+            gross: { currency: "USD", amount: 2.7, __typename: "Money" },
             __typename: "TaxedMoney",
           },
           stop: {
-            gross: {
-              currency: "USD",
-              amount: 6.3,
-              __typename: "Money",
-            },
+            gross: { currency: "USD", amount: 6.3, __typename: "Money" },
             __typename: "TaxedMoney",
           },
           __typename: "TaxedMoneyRange",
         },
         priceRangeUndiscounted: {
           start: {
-            gross: {
-              currency: "USD",
-              amount: 3,
-              __typename: "Money",
-            },
+            gross: { currency: "USD", amount: 3, __typename: "Money" },
             __typename: "TaxedMoney",
           },
           stop: {
-            gross: {
-              currency: "USD",
-              amount: 7,
-              __typename: "Money",
-            },
+            gross: { currency: "USD", amount: 7, __typename: "Money" },
             __typename: "TaxedMoney",
           },
           __typename: "TaxedMoneyRange",
@@ -131,76 +111,13 @@ export default {
       ],
       variants: [
         {
-          id: "UHJvZHVjdFZhcmlhbnQ6MjA1",
-          sku: "67882967",
-          name: "500ml",
-          images: [],
-          pricing: {
-            price: {
-              gross: {
-                amount: 2.7,
-                currency: "USD",
-                __typename: "Money",
-              },
-              __typename: "TaxedMoney",
-            },
-            __typename: "VariantPricingInfo",
-          },
-          attributes: [
-            {
-              values: [
-                {
-                  id: "QXR0cmlidXRlVmFsdWU6NDY=",
-                  name: "500ml",
-                  __typename: "AttributeValue",
-                },
-              ],
-              attribute: {
-                id: "QXR0cmlidXRlOjE1",
-                name: "Bottle Size",
-                values: [
-                  {
-                    id: "QXR0cmlidXRlVmFsdWU6NDY=",
-                    name: "500ml",
-                    __typename: "AttributeValue",
-                  },
-                  {
-                    id: "QXR0cmlidXRlVmFsdWU6NDc=",
-                    name: "1l",
-                    __typename: "AttributeValue",
-                  },
-                  {
-                    id: "QXR0cmlidXRlVmFsdWU6NDg=",
-                    name: "2l",
-                    __typename: "AttributeValue",
-                  },
-                ],
-                __typename: "Attribute",
-              },
-              __typename: "SelectedAttribute",
-            },
-          ],
-          stocks: [
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-          ],
-          __typename: "ProductVariant",
-        },
-        {
           id: "UHJvZHVjdFZhcmlhbnQ6MjA2",
           sku: "14925419",
           name: "1l",
           images: [],
           pricing: {
             price: {
-              gross: {
-                amount: 4.5,
-                currency: "USD",
-                __typename: "Money",
-              },
+              gross: { amount: 4.5, currency: "USD", __typename: "Money" },
               __typename: "TaxedMoney",
             },
             __typename: "VariantPricingInfo",
@@ -239,13 +156,7 @@ export default {
               __typename: "SelectedAttribute",
             },
           ],
-          stocks: [
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-          ],
+          quantityAvailable: 50,
           __typename: "ProductVariant",
         },
         {
@@ -255,11 +166,7 @@ export default {
           images: [],
           pricing: {
             price: {
-              gross: {
-                amount: 6.3,
-                currency: "USD",
-                __typename: "Money",
-              },
+              gross: { amount: 6.3, currency: "USD", __typename: "Money" },
               __typename: "TaxedMoney",
             },
             __typename: "VariantPricingInfo",
@@ -298,13 +205,56 @@ export default {
               __typename: "SelectedAttribute",
             },
           ],
-          stocks: [
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
-            { stockQuantity: 50, __typename: "Stock" },
+          quantityAvailable: 50,
+          __typename: "ProductVariant",
+        },
+        {
+          id: "UHJvZHVjdFZhcmlhbnQ6MjA1",
+          sku: "67882967",
+          name: "500ml",
+          images: [],
+          pricing: {
+            price: {
+              gross: { amount: 2.7, currency: "USD", __typename: "Money" },
+              __typename: "TaxedMoney",
+            },
+            __typename: "VariantPricingInfo",
+          },
+          attributes: [
+            {
+              values: [
+                {
+                  id: "QXR0cmlidXRlVmFsdWU6NDY=",
+                  name: "500ml",
+                  __typename: "AttributeValue",
+                },
+              ],
+              attribute: {
+                id: "QXR0cmlidXRlOjE1",
+                name: "Bottle Size",
+                values: [
+                  {
+                    id: "QXR0cmlidXRlVmFsdWU6NDY=",
+                    name: "500ml",
+                    __typename: "AttributeValue",
+                  },
+                  {
+                    id: "QXR0cmlidXRlVmFsdWU6NDc=",
+                    name: "1l",
+                    __typename: "AttributeValue",
+                  },
+                  {
+                    id: "QXR0cmlidXRlVmFsdWU6NDg=",
+                    name: "2l",
+                    __typename: "AttributeValue",
+                  },
+                ],
+                __typename: "Attribute",
+              },
+              __typename: "SelectedAttribute",
+            },
           ],
+          quantityAvailable: 50,
           __typename: "ProductVariant",
         },
       ],

@@ -121,7 +121,7 @@ const SettingsPage = ({ loading }) => {
                   </div>
                   <Row gutter={24} align="middle">
                     <Col>
-                      <Typography.Text>
+                      <Typography.Text id="email-lbl">
                         {data?.me?.email.toLowerCase()}
                       </Typography.Text>
                     </Col>

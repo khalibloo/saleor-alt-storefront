@@ -4,10 +4,13 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import clx from "classnames";
 import _ from "lodash";
 import { InputNumberProps } from "antd/lib/input-number";
+import { ButtonProps } from "antd/lib/button";
 
 interface Props extends InputNumberProps {
   step?: number;
   onChange?: (value?: number) => void;
+  decrementBtnProps: ButtonProps;
+  incrementBtnProps: ButtonProps;
 }
 const NumberInput: React.FC<Props> = props => {
   const {
@@ -21,6 +24,8 @@ const NumberInput: React.FC<Props> = props => {
     size,
     style,
     value: propsValue,
+    decrementBtnProps,
+    incrementBtnProps,
     ...rest
   } = props;
   const [value, setValue] = React.useState(propsValue);
@@ -41,13 +46,15 @@ const NumberInput: React.FC<Props> = props => {
       size={size}
     >
       <Button
+        {...decrementBtnProps}
         disabled={disabled || value === min}
-        onClick={() => {
+        onClick={e => {
           if (value != null) {
             updateValue(value - step);
           }
+          decrementBtnProps?.onClick?.(e);
         }}
-        style={{ alignItems: "center" }}
+        style={{ ...(decrementBtnProps?.style || {}), alignItems: "center" }}
       >
         <MinusOutlined />
       </Button>
@@ -67,17 +74,17 @@ const NumberInput: React.FC<Props> = props => {
         precision={precision}
         step={step}
         inputMode={precision === 0 ? "decimal" : "numeric"}
-        // size={size}
-        // style={{ ...style, flexGrow: 1 }}
       />
       <Button
+        {...incrementBtnProps}
         disabled={disabled || value === max}
-        onClick={() => {
+        onClick={e => {
           if (value != null) {
             updateValue(value + step);
           }
+          incrementBtnProps?.onClick?.(e);
         }}
-        style={{ alignItems: "center" }}
+        style={{ ...(incrementBtnProps?.style || {}), alignItems: "center" }}
       >
         <PlusOutlined />
       </Button>

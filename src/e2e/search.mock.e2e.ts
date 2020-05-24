@@ -2,9 +2,17 @@ const placeholderImg = "https://via.placeholder.com/512";
 
 // hint: regex to replace image urls "http://localhost:8000*(.+)"
 
-export const categoryDetailQuery = {
+export const searchQuery = {
   data: {
     products: {
+      totalCount: 9,
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: "WyIzLjAwIiwgIkFwcGxlIEp1aWNlIiwgImFwcGxlLWp1aWNlIl0=",
+        endCursor: "WyIzLjAwIiwgIlBvd2VyIEp1aWNlIiwgInBvd2VyLWp1aWNlIl0=",
+        __typename: "PageInfo",
+      },
       edges: [
         {
           node: {
@@ -29,6 +37,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: false,
@@ -84,6 +105,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: true,
@@ -143,6 +177,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: false,
@@ -246,6 +293,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: true,
@@ -305,6 +365,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: false,
@@ -360,6 +433,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: true,
@@ -419,6 +505,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: true,
@@ -478,6 +577,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: false,
@@ -533,6 +645,19 @@ export const categoryDetailQuery = {
               id: "Q2F0ZWdvcnk6MTQ=",
               name: "Juices",
               __typename: "Category",
+              ancestors: {
+                edges: [
+                  {
+                    node: {
+                      id: "Q2F0ZWdvcnk6OA==",
+                      name: "Groceries",
+                      __typename: "Category",
+                    },
+                    __typename: "CategoryCountableEdge",
+                  },
+                ],
+                __typename: "CategoryCountableConnection",
+              },
             },
             pricing: {
               onSale: false,
@@ -567,17 +692,6 @@ export const categoryDetailQuery = {
         },
       ],
       __typename: "ProductCountableConnection",
-    },
-    category: {
-      id: "Q2F0ZWdvcnk6MTQ=",
-      name: "Juices",
-      backgroundImage: {
-        url: placeholderImg,
-        alt: "",
-        __typename: "Image",
-      },
-      level: 1,
-      __typename: "Category",
     },
   },
 };

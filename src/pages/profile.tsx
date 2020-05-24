@@ -95,7 +95,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                     </Typography.Text>
                   </div>
                   <div>
-                    <Typography.Text>
+                    <Typography.Text id="name">
                       {data?.me?.firstName} {data?.me?.lastName}
                     </Typography.Text>
                   </div>
@@ -128,7 +128,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                       );
                     }
                     return (
-                      <List.Item key={item.id}>
+                      <List.Item key={item.id} className="address-list-items">
                         <AddressCard address={item} />
                       </List.Item>
                     );

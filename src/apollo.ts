@@ -113,14 +113,9 @@ export const client: ApolloClient<any> = new ApolloClient({
       isTokenValidOrUndefined: () =>
         !isTokenExpired() || typeof getToken() !== "string",
       fetchAccessToken: async () => {
-        // return client.mutate({
-        //   mutation: TOKEN_REFRESH_MUTATION,
-        //   variables: { token: getToken() },
-        // }) as any;
         const resp = await fetch(config.gqlEndpoint, {
           method: "POST",
           headers: {
-            // Authorization: `JWT ${getToken()}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
