@@ -18,6 +18,19 @@ export interface categoryDetailQuery_products_edges_node_thumbnail {
   alt: string | null;
 }
 
+export interface categoryDetailQuery_products_edges_node_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
+}
+
 export interface categoryDetailQuery_products_edges_node_collections {
   __typename: "Collection";
   /**
@@ -197,6 +210,10 @@ export interface categoryDetailQuery_products_edges_node {
    */
   thumbnail: categoryDetailQuery_products_edges_node_thumbnail | null;
   /**
+   * List of images for the product.
+   */
+  images: (categoryDetailQuery_products_edges_node_images | null)[] | null;
+  /**
    * List of collections for the product.
    */
   collections: (categoryDetailQuery_products_edges_node_collections | null)[] | null;
@@ -249,7 +266,7 @@ export interface categoryDetailQuery {
    */
   products: categoryDetailQuery_products | null;
   /**
-   * Look up a category by ID.
+   * Look up a category by ID or slug.
    */
   category: categoryDetailQuery_category | null;
 }

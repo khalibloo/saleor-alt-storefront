@@ -296,14 +296,6 @@ export interface productDetailQuery_product_variants_attributes {
   attribute: productDetailQuery_product_variants_attributes_attribute;
 }
 
-export interface productDetailQuery_product_variants_stocks {
-  __typename: "Stock";
-  /**
-   * Quantity of a product available for sale.
-   */
-  stockQuantity: number;
-}
-
 export interface productDetailQuery_product_variants {
   __typename: "ProductVariant";
   /**
@@ -325,9 +317,9 @@ export interface productDetailQuery_product_variants {
    */
   attributes: productDetailQuery_product_variants_attributes[];
   /**
-   * Stocks for the product variant.
+   * Quantity of a product available for sale in one checkout.
    */
-  stocks: (productDetailQuery_product_variants_stocks | null)[] | null;
+  quantityAvailable: number;
 }
 
 export interface productDetailQuery_product_category_products_edges_node_thumbnail {
@@ -340,6 +332,19 @@ export interface productDetailQuery_product_category_products_edges_node_thumbna
    * Alt text for an image.
    */
   alt: string | null;
+}
+
+export interface productDetailQuery_product_category_products_edges_node_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
 }
 
 export interface productDetailQuery_product_category_products_edges_node_collections {
@@ -520,6 +525,10 @@ export interface productDetailQuery_product_category_products_edges_node {
    * The main thumbnail for a product.
    */
   thumbnail: productDetailQuery_product_category_products_edges_node_thumbnail | null;
+  /**
+   * List of images for the product.
+   */
+  images: (productDetailQuery_product_category_products_edges_node_images | null)[] | null;
   /**
    * List of collections for the product.
    */

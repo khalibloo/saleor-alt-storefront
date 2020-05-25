@@ -1,5 +1,24 @@
 import config from "@/config";
 import { getIntl } from "umi";
+import { AddressDetails } from "@/fragments/types/AddressDetails";
+import { AddressInput, CountryCode } from "@/globalTypes";
+
+export const addressToInput = (
+  address: AddressDetails,
+): AddressInput | undefined => {
+  if (!address) {
+    return;
+  }
+  const addr = _.omit(address, [
+    "id",
+    "__typename",
+    "isDefaultBillingAddress",
+    "isDefaultShippingAddress",
+    "country",
+  ]) as AddressInput;
+  addr.country = address.country?.code as CountryCode;
+  return addr;
+};
 
 export const getScreenSize = (responsive: {
   xs: boolean;
@@ -37,6 +56,9 @@ export const formatPrice = (
   minPrice: number,
   maxPrice?: number,
 ) => {
+  if (!currency || minPrice == null) {
+    return null;
+  }
   const intl = getIntl();
   const minPriceFormatted = intl.formatNumber(minPrice, {
     style: "currency",

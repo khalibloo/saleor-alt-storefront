@@ -2,9 +2,31 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+import { AttributeInput, ProductOrder } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: searchQuery
 // ====================================================
+
+export interface searchQuery_products_pageInfo {
+  __typename: "PageInfo";
+  /**
+   * When paginating forwards, are there more items?
+   */
+  hasNextPage: boolean;
+  /**
+   * When paginating backwards, are there more items?
+   */
+  hasPreviousPage: boolean;
+  /**
+   * When paginating backwards, the cursor to continue.
+   */
+  startCursor: string | null;
+  /**
+   * When paginating forwards, the cursor to continue.
+   */
+  endCursor: string | null;
+}
 
 export interface searchQuery_products_edges_node_thumbnail {
   __typename: "Image";
@@ -16,6 +38,19 @@ export interface searchQuery_products_edges_node_thumbnail {
    * Alt text for an image.
    */
   alt: string | null;
+}
+
+export interface searchQuery_products_edges_node_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
 }
 
 export interface searchQuery_products_edges_node_collections {
@@ -223,6 +258,10 @@ export interface searchQuery_products_edges_node {
    */
   thumbnail: searchQuery_products_edges_node_thumbnail | null;
   /**
+   * List of images for the product.
+   */
+  images: (searchQuery_products_edges_node_images | null)[] | null;
+  /**
    * List of collections for the product.
    */
   collections: (searchQuery_products_edges_node_collections | null)[] | null;
@@ -247,6 +286,10 @@ export interface searchQuery_products {
    * A total count of items in the collection.
    */
   totalCount: number | null;
+  /**
+   * Pagination data for this connection.
+   */
+  pageInfo: searchQuery_products_pageInfo;
   edges: searchQuery_products_edges[];
 }
 
@@ -259,5 +302,10 @@ export interface searchQuery {
 
 export interface searchQueryVariables {
   query?: string | null;
+  minPrice?: number | null;
+  maxPrice?: number | null;
+  attributes?: (AttributeInput | null)[] | null;
+  sort?: ProductOrder | null;
   count?: number | null;
+  after?: string | null;
 }

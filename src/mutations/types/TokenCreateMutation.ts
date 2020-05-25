@@ -6,8 +6,8 @@
 // GraphQL mutation operation: TokenCreateMutation
 // ====================================================
 
-export interface TokenCreateMutation_tokenCreate_user_meta_clients_metadata {
-  __typename: "MetaItem";
+export interface TokenCreateMutation_tokenCreate_user_metadata {
+  __typename: "MetadataItem";
   /**
    * Key of a metadata item.
    */
@@ -16,30 +16,6 @@ export interface TokenCreateMutation_tokenCreate_user_meta_clients_metadata {
    * Value of a metadata item.
    */
   value: string;
-}
-
-export interface TokenCreateMutation_tokenCreate_user_meta_clients {
-  __typename: "MetaClientStore";
-  /**
-   * Metadata client's name.
-   */
-  name: string;
-  /**
-   * Metadata stored for a client.
-   */
-  metadata: (TokenCreateMutation_tokenCreate_user_meta_clients_metadata | null)[];
-}
-
-export interface TokenCreateMutation_tokenCreate_user_meta {
-  __typename: "MetaStore";
-  /**
-   * Name of metadata client group.
-   */
-  namespace: string;
-  /**
-   * List of clients that stored metadata in a group.
-   */
-  clients: (TokenCreateMutation_tokenCreate_user_meta_clients | null)[];
 }
 
 export interface TokenCreateMutation_tokenCreate_user {
@@ -53,14 +29,17 @@ export interface TokenCreateMutation_tokenCreate_user {
   lastName: string;
   isStaff: boolean;
   /**
-   * List of publicly stored metadata namespaces.
+   * List of public metadata items. Can be accessed without permissions.
    */
-  meta: (TokenCreateMutation_tokenCreate_user_meta | null)[];
+  metadata: (TokenCreateMutation_tokenCreate_user_metadata | null)[];
 }
 
 export interface TokenCreateMutation_tokenCreate {
   __typename: "CreateToken";
   token: string | null;
+  /**
+   * A user instance.
+   */
   user: TokenCreateMutation_tokenCreate_user | null;
 }
 

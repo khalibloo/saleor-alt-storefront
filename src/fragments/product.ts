@@ -9,6 +9,11 @@ export const PRODUCT_CARD_FRAGMENT = gql`
       url
       alt
     }
+    images {
+      id
+      url
+      alt
+    }
     collections {
       id
       name

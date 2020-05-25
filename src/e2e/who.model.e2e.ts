@@ -2,9 +2,9 @@ import { Selector, t } from "testcafe";
 
 class Page {
   pageHeading = Selector("#page-heading");
-  signupForm = Selector("form[id=signup]");
+  signupForm = Selector("form[id=who-signup-form]");
   signupBtn = this.signupForm.find("button[type=submit]");
-  loginForm = Selector("form[id=login]");
+  loginForm = Selector("form[id=who-login-form]");
   loginBtn = this.loginForm.find("button[type=submit]");
 
   signupTabBtn = Selector("#tab-signup");

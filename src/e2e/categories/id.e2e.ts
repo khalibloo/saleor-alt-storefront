@@ -1,14 +1,35 @@
-import { Selector } from "testcafe";
+import { Selector, RequestMock } from "testcafe";
 import page from "./id.model.e2e";
+import { categoryDetailQuery } from "./id.mock.e2e";
+import { anonCartBadgeQuery } from "../index.mock.e2e";
 
-fixture`Category Detail Page`.page`http://localhost:5000/categories/1`;
+const mock = RequestMock()
+  .onRequestTo("http://localhost:8000/graphql/")
+  .respond((req, res) => {
+    const opMap = { categoryDetailQuery, cartBadgeQuery: anonCartBadgeQuery };
+    const opName = JSON.parse(req.body?.toString()).operationName;
+    const mockData = opMap[opName];
+    if (!mockData) {
+      console.error(`Missing mock data for ${opName}`);
+    }
+    res.setBody(mockData);
+    res.statusCode = 200;
+    res.headers = {
+      ...res.headers,
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+    };
+  });
 
-test("loads without error", async t => {
+fixture`Category Detail Page`
+  .page`http://localhost:5000/categories/1`.requestHooks(mock);
+
+test("loads initial page without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
 });
 
-test("shows category name", async t => {
-  await t.expect(page.title.innerText).eql("Sample Category");
+test("fetches query and shows category name", async t => {
+  await t.expect((await page.title.innerText).toLowerCase()).eql("juices");
 });
 
 test("shows filters column", async t => {
@@ -17,6 +38,6 @@ test("shows filters column", async t => {
 
 test("has category name in title", async t => {
   await t
-    .expect(Selector("head").find("title").textContent)
-    .contains("Sample Category");
+    .expect((await Selector("head").find("title").textContent).toLowerCase())
+    .contains("juices");
 });

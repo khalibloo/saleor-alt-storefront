@@ -4,11 +4,14 @@ import { useIntl } from "umi";
 import FilterButton from "./FilterButton";
 
 import styles from "./FilterBar.less";
+import { ProductOrder, ProductOrderField, OrderDirection } from "@/globalTypes";
 
 interface Props {
+  id?: string;
   hideFilters?: boolean;
+  onSortChange?: (val: ProductOrder) => void;
 }
-const FilterBar: React.FC<Props> = ({ hideFilters }) => {
+const FilterBar: React.FC<Props> = ({ id, hideFilters, onSortChange }) => {
   const intl = useIntl();
   return (
     <Row
@@ -29,7 +32,32 @@ const FilterBar: React.FC<Props> = ({ hideFilters }) => {
           </Typography.Text>
         </div>
         <div>
-          <Select className="full-width" defaultValue="RELEVANCE">
+          <Select
+            id={id}
+            className="full-width"
+            defaultValue="RELEVANCE"
+            onChange={value => {
+              const valueMap: { [key: string]: ProductOrder } = {
+                RELEVANCE: {
+                  field: ProductOrderField.NAME,
+                  direction: OrderDirection.ASC,
+                },
+                PRICE_ASC: {
+                  field: ProductOrderField.MINIMAL_PRICE,
+                  direction: OrderDirection.ASC,
+                },
+                PRICE_DESC: {
+                  field: ProductOrderField.MINIMAL_PRICE,
+                  direction: OrderDirection.DESC,
+                },
+                DATE_DESC: {
+                  field: ProductOrderField.DATE,
+                  direction: OrderDirection.DESC,
+                },
+              };
+              onSortChange?.(valueMap[value]);
+            }}
+          >
             <Select.Option value="RELEVANCE">
               {intl.formatMessage({ id: "search.sort.relevance" })}
             </Select.Option>

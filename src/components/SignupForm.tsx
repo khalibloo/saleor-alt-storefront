@@ -1,26 +1,81 @@
 import * as React from "react";
-import { Form, Input, Checkbox, Button, Row, Col } from "antd";
-import { useIntl, Link } from "umi";
+import {
+  Form,
+  Input,
+  Checkbox,
+  Button,
+  Row,
+  Col,
+  notification,
+  message,
+} from "antd";
+import { useIntl, Link, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
+import { ConnectState, Loading } from "@/models/connect";
+import { UserRegisterMutation } from "@/mutations/types/UserRegisterMutation";
+import { APIException } from "@/apollo";
 
 interface Props {
+  id?: string;
+  hideSubmit?: boolean;
+  loading: Loading;
   onSubmit?: () => void;
 }
-const SignupForm: React.FC<Props> = ({ onSubmit }) => {
+const SignupForm: ConnectRC<Props> = ({
+  id,
+  hideSubmit,
+  loading,
+  onSubmit,
+  dispatch,
+}) => {
   const intl = useIntl();
   const responsive = useResponsive();
 
   const onFinish = values => {
     Logger.log("Success:", values);
-    onSubmit?.();
+    dispatch?.({
+      type: "auth/signup",
+      payload: {
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim(),
+        email: values.email.trim().toLowerCase(),
+        password: values.password,
+        remember: values.remember,
+        onCompleted: (data: UserRegisterMutation) => {
+          Logger.log(data);
+          notification.success({
+            message: intl.formatMessage({ id: "who.signup.success" }),
+          });
+          if (data.accountRegister?.requiresConfirmation) {
+            notification.success({
+              message: intl.formatMessage({ id: "who.signup.success.confirm" }),
+              description: intl.formatMessage({
+                id: "who.signup.success.confirm.desc",
+              }),
+              duration: 5,
+            });
+          }
+          onSubmit?.();
+        },
+        onError: (err: APIException) => {
+          if (err.errors?.find(e => e.code === "UNIQUE")) {
+            message.error(
+              intl.formatMessage({ id: "who.signup.email.unique" }),
+            );
+          }
+        },
+      },
+    });
   };
 
   const onFinishFailed = errorInfo => {
     Logger.log("Failed:", errorInfo);
+    message.error(intl.formatMessage({ id: "misc.form.invalid" }));
   };
   return (
     <Form
+      id={id}
       name="signup"
       layout="vertical"
       hideRequiredMark
@@ -40,6 +95,20 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
                   id: "who.signup.fname.required",
                 }),
               },
+              {
+                min: 2,
+                transform: value => value.trim(),
+                message: intl.formatMessage({
+                  id: "who.signup.name.min",
+                }),
+              },
+              {
+                max: 100,
+                transform: value => value.trim(),
+                message: intl.formatMessage({
+                  id: "who.signup.name.max",
+                }),
+              },
             ]}
           >
             <Input />
@@ -55,6 +124,20 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
                 whitespace: true,
                 message: intl.formatMessage({
                   id: "who.signup.lname.required",
+                }),
+              },
+              {
+                min: 2,
+                transform: value => value.trim(),
+                message: intl.formatMessage({
+                  id: "who.signup.name.min",
+                }),
+              },
+              {
+                max: 100,
+                transform: value => value.trim(),
+                message: intl.formatMessage({
+                  id: "who.signup.name.max",
                 }),
               },
             ]}
@@ -147,32 +230,45 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
             { id: "who.signup.agree" },
             {
               terms: (
-                <Link to="/pages/terms">
+                <a
+                  href="/pages/terms"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {intl.formatMessage({ id: "who.terms" })}
-                </Link>
+                </a>
               ),
               priv: (
-                <Link to="/pages/privacy">
+                <a
+                  href="/pages/privacy"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {intl.formatMessage({ id: "who.privacyPolicy" })}
-                </Link>
+                </a>
               ),
             },
           )}
         </Checkbox>
       </Form.Item>
 
-      <Form.Item>
-        <Button
-          block={!responsive.md}
-          type="primary"
-          size="large"
-          htmlType="submit"
-        >
-          {intl.formatMessage({ id: "who.signup" })}
-        </Button>
-      </Form.Item>
+      {!hideSubmit && (
+        <Form.Item>
+          <Button
+            block={!responsive.md}
+            type="primary"
+            size="large"
+            loading={loading.effects["auth/signup"]}
+            htmlType="submit"
+          >
+            {intl.formatMessage({ id: "who.signup" })}
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };
 
-export default SignupForm;
+export default connect((state: ConnectState) => ({ loading: state.loading }))(
+  SignupForm,
+);

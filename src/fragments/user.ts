@@ -7,15 +7,9 @@ export const USER_DETAILS_FRAGMENT = gql`
     firstName
     lastName
     isStaff
-    meta {
-      namespace
-      clients {
-        name
-        metadata {
-          key
-          value
-        }
-      }
+    metadata {
+      key
+      value
     }
   }
 `;

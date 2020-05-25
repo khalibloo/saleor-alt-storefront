@@ -3,12 +3,34 @@ import { gql } from "apollo-boost";
 
 export const SEARCH_PAGE_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
-  query searchQuery($query: String, $count: Int) {
+  query searchQuery(
+    $query: String
+    $minPrice: Float
+    $maxPrice: Float
+    $attributes: [AttributeInput]
+    $sort: ProductOrder
+    $count: Int
+    $after: String
+  ) {
     products(
-      filter: { search: $query, stockAvailability: IN_STOCK, isPublished: true }
+      filter: {
+        search: $query
+        stockAvailability: IN_STOCK
+        isPublished: true
+        minimalPrice: { gte: $minPrice, lte: $maxPrice }
+        attributes: $attributes
+      }
       first: $count
+      after: $after
+      sortBy: $sort
     ) {
       totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       edges {
         node {
           ...ProductCard

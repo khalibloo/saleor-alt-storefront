@@ -11,11 +11,33 @@ import { createUploadLink } from "apollo-upload-client";
 import config from "./config";
 import logger from "./utils/logger";
 import dayjs from "dayjs";
-import { TOKEN_REFRESH_MUTATION } from "./mutations/TokenRefresh";
 
+export interface APIError {
+  field: string | null;
+  message: string | null;
+  code?: string;
+}
+export class APIException {
+  errors: APIError[];
+  constructor(errors: APIError[]) {
+    this.errors = errors;
+  }
+}
+
+interface JWTData {
+  email: string;
+  exp: number;
+  origIat: number;
+  user_id: string;
+  is_staff: boolean;
+  is_superuser: boolean;
+}
+
+const storage = () =>
+  localStorage.getItem("rememberme") ? localStorage : sessionStorage;
 // Apollo client
 const request = operation => {
-  const token = localStorage.getItem("jwt");
+  const token = storage().getItem("jwt");
   operation.setContext({
     headers: {
       authorization: token ? `JWT ${token}` : "",
@@ -56,14 +78,19 @@ const retryLink = new RetryLink({
   },
 });
 
-const getToken = () => localStorage.getItem("jwt");
-const setToken = token => localStorage.setItem("jwt", token);
-const getExpiresIn = () => localStorage.getItem("exp");
-const setExpiresIn = token => localStorage.setItem("exp", token);
+const getToken = () => storage().getItem("jwt");
+const setToken = token => storage().setItem("jwt", token);
+const getTokenData = (): JWTData | null => {
+  const token = getToken();
+  if (token) {
+    return jwtDecode(token);
+  }
+  return null;
+};
 const isTokenExpired = () => {
-  const exp = getExpiresIn();
+  const exp = getTokenData()?.exp;
   if (exp) {
-    return dayjs(parseInt(exp)) <= dayjs();
+    return dayjs(exp * 1000) <= dayjs();
   }
   return false;
 };
@@ -85,16 +112,25 @@ export const client: ApolloClient<any> = new ApolloClient({
     new TokenRefreshLink({
       isTokenValidOrUndefined: () =>
         !isTokenExpired() || typeof getToken() !== "string",
-      fetchAccessToken: () => {
-        return client.mutate({
-          mutation: TOKEN_REFRESH_MUTATION,
-          variables: { token: getToken() },
-        }) as any;
+      fetchAccessToken: async () => {
+        const resp = await fetch(config.gqlEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `mutation TokenRefreshMutation {
+              tokenRefresh(token: "${getToken()}") {
+                token
+                payload
+              }
+            }`,
+          }),
+        });
+        return resp.json();
       },
       handleFetch: accessToken => {
-        const accessTokenDecrypted = jwtDecode(accessToken);
         setToken(accessToken);
-        setExpiresIn(accessTokenDecrypted.exp.toString());
       },
       handleResponse: (operation, accessTokenField) => response => {
         // here you can parse response, handle errors, prepare returned token to

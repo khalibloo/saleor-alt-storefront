@@ -1,4 +1,6 @@
 import { gql } from "apollo-boost";
+import { CHECKOUT_DETAILS_FRAGMENT } from "@/fragments/checkout";
+import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 
 export const CART_BADGE_QUERY = gql`
   query cartBadgeQuery {
@@ -16,19 +18,23 @@ export const CART_BADGE_QUERY = gql`
 `;
 
 export const CART_PAGE_QUERY = gql`
+  ${CHECKOUT_DETAILS_FRAGMENT}
+  ${ADDRESS_DETAILS_FRAGMENT}
   query cartQuery {
     me {
       id
+      addresses {
+        ...AddressDetails
+      }
       checkout {
-        id
+        ...CheckoutDetails
         lines {
           id
           variant {
             id
+            name
             sku
-            stocks {
-              stockQuantity
-            }
+            quantityAvailable
             images {
               id
               url
