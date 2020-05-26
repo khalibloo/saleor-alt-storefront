@@ -65,10 +65,10 @@ $ yarn test-e2e
 ```
 
 # What We're Working On
-Head over to the [Projects](projects) tab to see what tasks are being planned or worked on. Feel free to join the discussions on specific issues to help us cater to different use cases, or just to share ideas.
+Head over to the [Projects](/../../projects) tab to see what tasks are being planned or worked on. Feel free to join the discussions on specific issues to help us cater to different use cases, or just to share ideas.
 
 # Contributing
-Like our work? There are several ways you can contribute. You could help tackle some of our [issues](saleor-alt-storefront/issues) if you're a developer. Issues labeled ["good first issue"](/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) are a good place to start. Be sure to check the [current tasks](/projects) to see if someone's already working on it before making a PR.
+Like our work? There are several ways you can contribute. You could help tackle some of our [issues](/../../issues) if you're a developer. Issues labeled ["good first issue"](/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) are a good place to start. Be sure to check the [current tasks](/projects) to see if someone's already working on it before making a PR.
 You could also help us by playing with the app and reporting bugs to us, or making suggestions for improvements. Just [create an issue](/issues/new).
 
 # License
