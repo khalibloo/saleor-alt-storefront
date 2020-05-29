@@ -1,17 +1,24 @@
 import * as React from "react";
-import { Row, Col, Typography, Select } from "antd";
+import { Row, Col, Typography, Select, Button } from "antd";
 import { useIntl } from "umi";
-import FilterButton from "./FilterButton";
 
 import styles from "./FilterBar.less";
-import { ProductOrder, ProductOrderField, OrderDirection } from "@/globalTypes";
+import { FilterOutlined } from "@ant-design/icons";
 
 interface Props {
   id?: string;
   hideFilters?: boolean;
-  onSortChange?: (val: ProductOrder) => void;
+  onSortChange?: (val: string) => void;
+  onOpenFilterDrawer?: () => void;
+  value?: string;
 }
-const FilterBar: React.FC<Props> = ({ id, hideFilters, onSortChange }) => {
+const FilterBar: React.FC<Props> = ({
+  id,
+  value,
+  hideFilters,
+  onSortChange,
+  onOpenFilterDrawer,
+}) => {
   const intl = useIntl();
   return (
     <Row
@@ -21,7 +28,9 @@ const FilterBar: React.FC<Props> = ({ id, hideFilters, onSortChange }) => {
     >
       {!hideFilters && (
         <Col>
-          <FilterButton />
+          <Button onClick={onOpenFilterDrawer}>
+            <FilterOutlined /> {intl.formatMessage({ id: "search.filters" })}
+          </Button>
         </Col>
       )}
 
@@ -36,27 +45,8 @@ const FilterBar: React.FC<Props> = ({ id, hideFilters, onSortChange }) => {
             id={id}
             className="full-width"
             defaultValue="RELEVANCE"
-            onChange={value => {
-              const valueMap: { [key: string]: ProductOrder } = {
-                RELEVANCE: {
-                  field: ProductOrderField.NAME,
-                  direction: OrderDirection.ASC,
-                },
-                PRICE_ASC: {
-                  field: ProductOrderField.MINIMAL_PRICE,
-                  direction: OrderDirection.ASC,
-                },
-                PRICE_DESC: {
-                  field: ProductOrderField.MINIMAL_PRICE,
-                  direction: OrderDirection.DESC,
-                },
-                DATE_DESC: {
-                  field: ProductOrderField.DATE,
-                  direction: OrderDirection.DESC,
-                },
-              };
-              onSortChange?.(valueMap[value]);
-            }}
+            value={value}
+            onChange={value => onSortChange?.(value)}
           >
             <Select.Option value="RELEVANCE">
               {intl.formatMessage({ id: "search.sort.relevance" })}

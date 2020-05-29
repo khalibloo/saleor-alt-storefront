@@ -6,10 +6,11 @@ import VSpacing from "@/components/VSpacing";
 import ProductListItem from "@/components/ProductListItem";
 import FilterBar from "@/components/FilterBar";
 import { useResponsive } from "@umijs/hooks";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { searchQuery, searchQueryVariables } from "@/queries/types/searchQuery";
 import { SEARCH_PAGE_QUERY } from "@/queries/search";
 import { ProductOrderField, OrderDirection } from "@/globalTypes";
+import Products from "@/components/Products";
 
 const SearchPage = () => {
   const intl = useIntl();
@@ -53,43 +54,7 @@ const SearchPage = () => {
               <i>"{query}"</i>
             </Typography.Title>
           )}
-          <FilterBar
-            hideFilters={responsive.lg}
-            onSortChange={val => setSort(val)}
-          />
-          <Row gutter={24}>
-            <Col
-              id="filters-col"
-              span={6}
-              xs={0}
-              sm={0}
-              md={0}
-              lg={6}
-              xl={6}
-              xxl={8}
-            >
-              <Typography.Title level={3}>
-                {intl.formatMessage({ id: "search.filters" })}...
-              </Typography.Title>
-            </Col>
-
-            <Col span={18} xs={24} sm={24} md={24} lg={18} xl={18} xxl={16}>
-              <List
-                dataSource={query ? data?.products?.edges : []}
-                loading={fetching}
-                renderItem={productEdge => {
-                  const product = productEdge.node;
-                  return (
-                    <List.Item className="product-list-items" key={product.id}>
-                      <div className="full-width">
-                        <ProductListItem product={product} />
-                      </div>
-                    </List.Item>
-                  );
-                }}
-              />
-            </Col>
-          </Row>
+          <Products showCategoryFilter showCollectionFilter />
         </Col>
       </Row>
       <VSpacing height={48} />
