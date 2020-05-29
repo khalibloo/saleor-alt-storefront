@@ -54,7 +54,7 @@ const SearchPage = () => {
               <i>"{query}"</i>
             </Typography.Title>
           )}
-          <Products showCategoryFilter showCollectionFilter />
+          <Products showCategoryFilter showCollectionFilter view="list" />
         </Col>
       </Row>
       <VSpacing height={48} />

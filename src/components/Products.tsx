@@ -43,18 +43,21 @@ import { CATEGORY_TREE_QUERY } from "@/queries/categoryTree";
 import { COLLECTIONS_QUERY } from "@/queries/collections";
 import { collectionsQuery } from "@/queries/types/collectionsQuery";
 import _ from "lodash";
+import ProductListItem from "./ProductListItem";
 
 interface Props {
   showCategoryFilter?: boolean;
   showCollectionFilter?: boolean;
   categoryID?: string;
   collectionID?: string;
+  view?: "grid" | "list";
 }
 const Products: React.FC<Props> = ({
   showCategoryFilter,
   showCollectionFilter,
   categoryID,
   collectionID,
+  view = "grid",
 }) => {
   const intl = useIntl();
   const sortMap: { [key: string]: ProductOrder } = {
@@ -425,18 +428,26 @@ const Products: React.FC<Props> = ({
             <Col span={18} xs={24} sm={24} md={24} lg={18} xl={18} xxl={16}>
               <List
                 dataSource={data?.products?.edges}
-                grid={{ gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }}
+                grid={
+                  view === "grid"
+                    ? { gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }
+                    : undefined
+                }
                 loading={fetching}
                 renderItem={edge => {
                   const product = edge.node;
                   return (
                     <List.Item className="product-list-items" key={product.id}>
                       <div className="full-width">
-                        <Row justify="center">
-                          <Col span={24} style={{ maxWidth: 240 }}>
-                            <ProductCard product={product} />
-                          </Col>
-                        </Row>
+                        {view === "grid" ? (
+                          <Row justify="center">
+                            <Col span={24} style={{ maxWidth: 240 }}>
+                              <ProductCard product={product} />
+                            </Col>
+                          </Row>
+                        ) : (
+                          <ProductListItem product={product} />
+                        )}
                       </div>
                     </List.Item>
                   );
