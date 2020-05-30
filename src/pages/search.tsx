@@ -1,41 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Typography, Row, Col, List } from "antd";
+import React from "react";
+import { Typography, Row, Col } from "antd";
 
 import { useIntl, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
-import ProductListItem from "@/components/ProductListItem";
-import FilterBar from "@/components/FilterBar";
-import { useResponsive } from "@umijs/hooks";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { searchQuery, searchQueryVariables } from "@/queries/types/searchQuery";
-import { SEARCH_PAGE_QUERY } from "@/queries/search";
-import { ProductOrderField, OrderDirection } from "@/globalTypes";
 import Products from "@/components/Products";
 
 const SearchPage = () => {
   const intl = useIntl();
-  const responsive = useResponsive();
   const location = useLocation();
-  const [sort, setSort] = useState({
-    field: ProductOrderField.PRICE,
-    direction: OrderDirection.ASC,
-  });
   const query = location.query?.q || null;
-  const [performSearch, { loading: fetching, data, error }] = useLazyQuery<
-    searchQuery,
-    searchQueryVariables
-  >(SEARCH_PAGE_QUERY);
-  useEffect(() => {
-    if (query) {
-      performSearch({
-        variables: {
-          query,
-          sort,
-          count: 20,
-        },
-      });
-    }
-  }, [query, sort]);
 
   return (
     <div>
