@@ -1,12 +1,23 @@
 import { Selector, RequestMock } from "testcafe";
 import page from "./id.model.e2e";
-import { categoryDetailQuery } from "./id.mock.e2e";
+import {
+  categoryDetailQuery,
+  collectionsQuery,
+  categoryTreeQuery,
+  ProductsQuery,
+} from "./id.mock.e2e";
 import { anonCartBadgeQuery } from "../index.mock.e2e";
 
 const mock = RequestMock()
   .onRequestTo("http://localhost:8000/graphql/")
   .respond((req, res) => {
-    const opMap = { categoryDetailQuery, cartBadgeQuery: anonCartBadgeQuery };
+    const opMap = {
+      categoryDetailQuery,
+      cartBadgeQuery: anonCartBadgeQuery,
+      collectionsQuery,
+      categoryTreeQuery,
+      ProductsQuery,
+    };
     const opName = JSON.parse(req.body?.toString()).operationName;
     const mockData = opMap[opName];
     if (!mockData) {
@@ -22,7 +33,7 @@ const mock = RequestMock()
   });
 
 fixture`Category Detail Page`
-  .page`http://localhost:5000/categories/1`.requestHooks(mock);
+  .page`http://localhost:5000/categories/Q2F0ZWdvcnk6MTQ=`.requestHooks(mock);
 
 test("loads initial page without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
