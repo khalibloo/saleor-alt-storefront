@@ -19,21 +19,6 @@ jobs:
           root: .
           paths:
             - .
-  build:
-    executor:
-      name: node/default
-    steps:
-      - attach_workspace:
-          at: .
-      - node/install:
-          node-version: 13.11.0
-          install-yarn: true
-      - browser-tools/install-browser-tools
-      - run: yarn build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   test:
     executor:
       name: node/default
@@ -54,20 +39,17 @@ jobs:
       - node/install:
           node-version: 13.11.0
           install-yarn: true
-      - run: yarn test-e2e:no-build
+      - run: yarn test-e2e
 workflows:
   build-test-deploy:
     jobs:
       - install
-      - build:
-          requires:
-            - install
       - test:
           requires:
             - install
       - test-e2e:
           requires:
-            - build
+            - install
       - heroku/deploy-via-git:
           requires:
             - test
