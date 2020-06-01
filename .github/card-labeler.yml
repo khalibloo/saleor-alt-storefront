@@ -1,9 +1,11 @@
 Functionality:
   To do:
     - "Status: Pending"
-  In Progress:
+  In progress:
     - "Status: In Progress"
   Review in progress:
     - "Status: In Review"
   Reviewer approved:
     - "Status: Approved"
+  Done:
+    - "Status: Completed"
