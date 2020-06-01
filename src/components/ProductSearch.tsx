@@ -10,13 +10,14 @@ const ProductSearch: React.FC<Props> = ({ onSearch, ...rest }) => {
   const intl = useIntl();
   const [searchQuery, setSearchQuery] = React.useState("");
   const { pathname, query } = useLocation();
+  // monitor the search query in url for changes from other sources
   React.useEffect(() => {
     if (pathname === "/search") {
       setSearchQuery(query.q || "");
     } else {
       setSearchQuery("");
     }
-  }, [pathname]);
+  }, [pathname, query.q]);
   return (
     <Input.Search
       id="product-search-fld"
@@ -26,13 +27,14 @@ const ProductSearch: React.FC<Props> = ({ onSearch, ...rest }) => {
         id: "navbar.search.placeholder",
       })}
       onChange={e => setSearchQuery(e.target.value)}
-      onSearch={query => {
-        if (query.trim().length === 0) {
+      onSearch={search => {
+        if (search.trim().length === 0) {
           return;
         }
         history.push({
           pathname: "/search",
-          query: { q: query.trim() },
+          // preserve query filters if on search page
+          query: { ...(pathname === "/search" ? query : {}), q: search.trim() },
         });
         document.getElementById("product-search-fld")?.blur();
         onSearch?.(query);

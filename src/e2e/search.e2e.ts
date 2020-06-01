@@ -1,12 +1,21 @@
 import { Selector, RequestMock } from "testcafe";
 import page from "./search.model.e2e";
-import { searchQuery } from "./search.mock.e2e";
+import {
+  collectionsQuery,
+  categoryTreeQuery,
+  ProductsQuery,
+} from "./search.mock.e2e";
 import { anonCartBadgeQuery } from "./index.mock.e2e";
 
 const mock = RequestMock()
   .onRequestTo("http://localhost:8000/graphql/")
   .respond((req, res) => {
-    const opMap = { searchQuery, cartBadgeQuery: anonCartBadgeQuery };
+    const opMap = {
+      collectionsQuery,
+      categoryTreeQuery,
+      ProductsQuery,
+      cartBadgeQuery: anonCartBadgeQuery,
+    };
     const opName = JSON.parse(req.body?.toString()).operationName;
     const mockData = opMap[opName];
     if (!mockData) {
@@ -39,6 +48,31 @@ test("shows search query as subheading", async t => {
 
 test("shows search result items", async t => {
   await t.expect(page.productListItems.count).eql(9);
+});
+
+test("shows filters column on default screen", async t => {
+  await t
+    .expect(page.filtersCol.visible)
+    .ok()
+    .expect(page.filtersBtn.exists)
+    .notOk();
+});
+
+test("doesn't show filters column on mobile", async t => {
+  await t
+    .resizeWindowToFitDevice("iphone6", { portraitOrientation: true })
+    .expect(page.filtersCol.visible)
+    .notOk()
+    .expect(page.filtersBtn.exists)
+    .ok();
+});
+
+test("shows categories filter panel", async t => {
+  await t.expect(page.catsFiltersPanel.exists).ok();
+});
+
+test("shows collection filter panel", async t => {
+  await t.expect(page.collsFiltersPanel.exists).ok();
 });
 
 test("has search in title", async t => {

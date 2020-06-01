@@ -1,11 +1,14 @@
 import { PRODUCT_CARD_FRAGMENT } from "@/fragments/product";
 import { gql } from "apollo-boost";
 
-export const COLLECTIONS_PRODUCTS_QUERY = gql`
+export const PRODUCTS_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
-  query CollectionsProducts_Query(
+  query ProductsQuery(
+    $categoryID: ID
+    $categoryList: [ID]
     $collectionID: ID
     $collectionList: [ID]
+    $search: String
     $sortBy: ProductOrder
     $attributes: [AttributeInput]
     $priceGte: Float
@@ -14,11 +17,7 @@ export const COLLECTIONS_PRODUCTS_QUERY = gql`
     $cursor: String
   ) {
     minPrice: products(
-      filter: {
-        collections: $collectionList
-        stockAvailability: IN_STOCK
-        isPublished: true
-      }
+      filter: { stockAvailability: IN_STOCK, isPublished: true }
       first: 1
       sortBy: { field: PRICE, direction: ASC }
     ) {
@@ -39,11 +38,7 @@ export const COLLECTIONS_PRODUCTS_QUERY = gql`
       }
     }
     maxPrice: products(
-      filter: {
-        collections: $collectionList
-        stockAvailability: IN_STOCK
-        isPublished: true
-      }
+      filter: { stockAvailability: IN_STOCK, isPublished: true }
       first: 1
       sortBy: { field: PRICE, direction: DESC }
     ) {
@@ -64,7 +59,11 @@ export const COLLECTIONS_PRODUCTS_QUERY = gql`
       }
     }
     attributes: attributes(
-      filter: { inCollection: $collectionID, filterableInStorefront: true }
+      filter: {
+        inCategory: $categoryID
+        inCollection: $collectionID
+        filterableInStorefront: true
+      }
       first: 100
     ) {
       edges {
@@ -82,6 +81,8 @@ export const COLLECTIONS_PRODUCTS_QUERY = gql`
     }
     products(
       filter: {
+        search: $search
+        categories: $categoryList
         collections: $collectionList
         stockAvailability: IN_STOCK
         isPublished: true

@@ -6,10 +6,15 @@ import AspectRatio from "./AspectRatio";
 import { formatPrice } from "@/utils/utils";
 
 interface Props {
+  id?: string;
+  className?: string;
   product: ProductCardType;
 }
-const ProductListItem: React.FunctionComponent<Props> = props => {
-  const { product } = props;
+const ProductListItem: React.FunctionComponent<Props> = ({
+  product,
+  id,
+  className,
+}) => {
   const currency = product.pricing?.priceRange?.start?.gross.currency as string;
   const minPrice = product.pricing?.priceRange?.start?.gross.amount as number;
   const maxPrice = product.pricing?.priceRange?.stop?.gross.amount as number;
@@ -19,7 +24,7 @@ const ProductListItem: React.FunctionComponent<Props> = props => {
     ?.gross.amount as number;
   const isOnSale = product?.pricing?.onSale;
   return (
-    <Card>
+    <Card className={className} id={id}>
       <Row gutter={24}>
         <Col span={4} xs={8} sm={6} md={6} lg={4} xl={4} xxl={4}>
           <Link to={`/products/${product.id}`}>

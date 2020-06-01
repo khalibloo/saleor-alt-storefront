@@ -7,11 +7,17 @@ import { formatPrice } from "@/utils/utils";
 import SkeletonDiv from "./SkeletonDiv";
 
 interface Props {
+  id?: string;
+  className?: string;
   product?: ProductCardType;
   loading?: boolean;
 }
-const ProductCard: React.FunctionComponent<Props> = props => {
-  const { product, loading } = props;
+const ProductCard: React.FunctionComponent<Props> = ({
+  product,
+  id,
+  className,
+  loading,
+}) => {
   const currency = product?.pricing?.priceRange?.start?.gross
     .currency as string;
   const minPrice = product?.pricing?.priceRange?.start?.gross.amount as number;
@@ -24,6 +30,8 @@ const ProductCard: React.FunctionComponent<Props> = props => {
 
   const card = (
     <Card
+      className={className}
+      id={id}
       hoverable
       cover={
         <AspectRatio width={1} height={1}>
