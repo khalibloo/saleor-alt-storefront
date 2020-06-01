@@ -1,7 +1,9 @@
 import { Selector } from "testcafe";
 import page from "./who.model.e2e";
 
-fixture`Who Page`.page`http://localhost:5000/who`;
+fixture`Who Page`.page`http://localhost:5000/who`.beforeEach(async t =>
+  t.resizeWindow(1536, 864),
+);
 
 test("loads without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");

@@ -33,7 +33,9 @@ const mock = RequestMock()
   });
 
 fixture`Category Detail Page`
-  .page`http://localhost:5000/categories/Q2F0ZWdvcnk6MTQ=`.requestHooks(mock);
+  .page`http://localhost:5000/categories/Q2F0ZWdvcnk6MTQ=`
+  .beforeEach(async t => t.resizeWindow(1536, 864))
+  .requestHooks(mock);
 
 test("loads initial page without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
