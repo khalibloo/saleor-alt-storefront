@@ -54,7 +54,7 @@ jobs:
       - node/install:
           node-version: 13.11.0
           install-yarn: true
-      - run: yarn test-e2e
+      - run: yarn test-e2e:no-build
 workflows:
   build-test-deploy:
     jobs:
@@ -64,7 +64,7 @@ workflows:
             - install
       - test:
           requires:
-            - build
+            - install
       - test-e2e:
           requires:
             - build
