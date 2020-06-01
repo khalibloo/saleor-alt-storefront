@@ -50,6 +50,31 @@ test("shows search result items", async t => {
   await t.expect(page.productListItems.count).eql(9);
 });
 
+test("shows filters column on default screen", async t => {
+  await t
+    .expect(page.filtersCol.visible)
+    .ok()
+    .expect(page.filtersBtn.exists)
+    .notOk();
+});
+
+test("doesn't show filters column on mobile", async t => {
+  await t
+    .resizeWindowToFitDevice("iphone6", { portraitOrientation: true })
+    .expect(page.filtersCol.visible)
+    .notOk()
+    .expect(page.filtersBtn.exists)
+    .ok();
+});
+
+test("shows categories filter panel", async t => {
+  await t.expect(page.catsFiltersPanel.exists).ok();
+});
+
+test("shows collection filter panel", async t => {
+  await t.expect(page.collsFiltersPanel.exists).ok();
+});
+
 test("has search in title", async t => {
   await t.expect(Selector("head").find("title").textContent).contains("Search");
 });

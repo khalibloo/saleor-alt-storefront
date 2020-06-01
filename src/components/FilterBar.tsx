@@ -28,7 +28,7 @@ const FilterBar: React.FC<Props> = ({
     >
       {!hideFilters && (
         <Col>
-          <Button onClick={onOpenFilterDrawer}>
+          <Button id="filters-btn" onClick={onOpenFilterDrawer}>
             <FilterOutlined /> {intl.formatMessage({ id: "search.filters" })}
           </Button>
         </Col>

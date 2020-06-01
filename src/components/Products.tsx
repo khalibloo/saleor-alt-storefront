@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Row,
@@ -26,12 +26,7 @@ import {
   ProductsQueryVariables,
 } from "@/queries/types/ProductsQuery";
 import { PRODUCTS_QUERY } from "@/queries/products";
-import {
-  ProductOrderField,
-  OrderDirection,
-  ProductOrder,
-  AttributeInput,
-} from "@/globalTypes";
+import { ProductOrderField, OrderDirection, ProductOrder } from "@/globalTypes";
 import SkeletonDiv from "./SkeletonDiv";
 import { categoryTreeQuery } from "@/queries/types/categoryTreeQuery";
 import {
@@ -168,6 +163,7 @@ const Products: React.FC<Props> = ({
   const responsive = useResponsive();
 
   useEffect(() => {
+    // fetch categories tree
     if (showCategoryFilter) {
       if (categoryID) {
         fetchCatSubtree();
@@ -178,17 +174,20 @@ const Products: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
+    // fetch collections
     if (showCollectionFilter) {
       fetchCollections();
     }
   }, []);
 
+  // price slider data
   const minPrice =
     data?.minPrice?.edges[0]?.node.pricing?.priceRange?.start?.gross.amount ||
     0;
   const maxPrice =
     data?.maxPrice?.edges[0]?.node.pricing?.priceRange?.start?.gross.amount;
 
+  // transform categories tree to match ant Tree component data structure
   const mapCatTree = catChildren =>
     catChildren.edges.map(catEdge => ({
       title: catEdge.node.name,
@@ -210,9 +209,10 @@ const Products: React.FC<Props> = ({
         defaultActiveKey={["basic", "categories", "collections", "attributes"]}
         expandIconPosition="right"
       >
-        <Collapse.Panel header="Basic" key="basic">
+        <Collapse.Panel id="basic-panel" header="Basic" key="basic">
           <div>
             <Input.Search
+              id="filters-search-fld"
               allowClear
               onChange={e =>
                 history.push({
@@ -233,6 +233,7 @@ const Products: React.FC<Props> = ({
             <div>
               <label>Price Range</label>
               <Slider
+                id="filters-price-sldr"
                 range
                 defaultValue={[priceGte ?? minPrice, priceLte ?? maxPrice]}
                 onAfterChange={value =>
@@ -250,7 +251,11 @@ const Products: React.FC<Props> = ({
         </Collapse.Panel>
         {showCategoryFilter &&
           (categoryTreeData || catTreeFetching || catSubtreeFetching) && (
-            <Collapse.Panel header="Categories" key="categories">
+            <Collapse.Panel
+              id="cats-panel"
+              header="Categories"
+              key="categories"
+            >
               <Skeleton
                 active
                 loading={catTreeFetching || catSubtreeFetching}
@@ -259,6 +264,7 @@ const Products: React.FC<Props> = ({
                 paragraph={{ rows: 10 }}
               >
                 <Tree
+                  className="cats-tree"
                   checkable
                   autoExpandParent
                   treeData={categoryTreeData}
@@ -275,7 +281,11 @@ const Products: React.FC<Props> = ({
             </Collapse.Panel>
           )}
         {showCollectionFilter && (collectionsData || collectionsFetching) && (
-          <Collapse.Panel header="Collections" key="collections">
+          <Collapse.Panel
+            id="colls-panel"
+            header="Collections"
+            key="collections"
+          >
             <Skeleton
               active
               loading={collectionsFetching}
@@ -286,6 +296,7 @@ const Products: React.FC<Props> = ({
               {collectionsData?.collections?.edges.map(collEdge => (
                 <div key={collEdge.node.id}>
                   <Checkbox
+                    id={`colls-checkbox-${collEdge.node.slug}`}
                     checked={collectionList.includes(collEdge.node.id)}
                     onChange={e => {
                       const newSelection = [...collectionList];
@@ -315,13 +326,14 @@ const Products: React.FC<Props> = ({
             </Skeleton>
           </Collapse.Panel>
         )}
-        <Collapse.Panel header="Attributes" key="attributes">
+        <Collapse.Panel id="attrs-panel" header="Attributes" key="attributes">
           {data?.attributes?.edges.map(attrEdge => {
             const attr = attrEdge.node;
             return (
               <div key={attr.id}>
-                <label>{attr.name}</label>
+                <label className="attrs-labels">{attr.name}</label>
                 <Select
+                  id={`attr-select-${attr.slug}`}
                   allowClear
                   autoClearSearchValue
                   className="full-width"
@@ -357,7 +369,11 @@ const Products: React.FC<Props> = ({
                       return null;
                     }
                     return (
-                      <Select.Option key={val.id} value={val.slug as string}>
+                      <Select.Option
+                        id={`attrs-${attr.slug}-${val.slug}`}
+                        key={val.id}
+                        value={val.slug as string}
+                      >
                         {val.name}
                       </Select.Option>
                     );
@@ -385,16 +401,7 @@ const Products: React.FC<Props> = ({
       <Row justify="center">
         <Col span={22}>
           <Row gutter={24} align="bottom">
-            <Col
-              id="filters-col"
-              span={6}
-              xs={0}
-              sm={0}
-              md={0}
-              lg={6}
-              xl={6}
-              xxl={8}
-            >
+            <Col span={6} xs={0} sm={0} md={0} lg={6} xl={6} xxl={8}>
               <VSpacing height={24} />
               <Typography.Title level={4}>
                 {intl.formatMessage({ id: "search.filters" })}
@@ -434,19 +441,29 @@ const Products: React.FC<Props> = ({
                     : undefined
                 }
                 loading={fetching}
-                renderItem={edge => {
+                renderItem={(edge, i) => {
                   const product = edge.node;
                   return (
-                    <List.Item className="product-list-items" key={product.id}>
+                    <List.Item
+                      className="product-list-items"
+                      id={`product-list-item-${i}`}
+                      key={product.id}
+                    >
                       <div className="full-width">
                         {view === "grid" ? (
                           <Row justify="center">
                             <Col span={24} style={{ maxWidth: 240 }}>
-                              <ProductCard product={product} />
+                              <ProductCard
+                                className="product-grid-cards"
+                                product={product}
+                              />
                             </Col>
                           </Row>
                         ) : (
-                          <ProductListItem product={product} />
+                          <ProductListItem
+                            className="product-list-cards"
+                            product={product}
+                          />
                         )}
                       </div>
                     </List.Item>
