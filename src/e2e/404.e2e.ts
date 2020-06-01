@@ -1,7 +1,9 @@
 import { Selector } from "testcafe";
 import page from "./404.model.e2e";
 
-fixture`404 Page`.page`http://localhost:5000/404`;
+fixture`404 Page`.page`http://localhost:5000/404`.beforeEach(async t =>
+  t.resizeWindow(1536, 864),
+);
 
 test("loads without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");

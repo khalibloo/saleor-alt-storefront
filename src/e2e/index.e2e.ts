@@ -20,7 +20,9 @@ const mock = RequestMock()
     };
   });
 
-fixture`Home Page`.page`http://localhost:5000`.requestHooks(mock);
+fixture`Home Page`.page`http://localhost:5000`
+  .beforeEach(async t => t.resizeWindow(1536, 864))
+  .requestHooks(mock);
 
 test("loads initial page without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");

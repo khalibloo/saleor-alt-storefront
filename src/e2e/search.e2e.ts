@@ -30,9 +30,9 @@ const mock = RequestMock()
     };
   });
 
-fixture`Search Page`.page`http://localhost:5000/search?q=juice`.requestHooks(
-  mock,
-);
+fixture`Search Page`.page`http://localhost:5000/search?q=juice`
+  .beforeEach(async t => t.resizeWindow(1536, 864))
+  .requestHooks(mock);
 
 test("loads without error", async t => {
   await t.expect(Selector("body").textContent).contains("Alt Storefront");
@@ -52,6 +52,7 @@ test("shows search result items", async t => {
 
 test("shows filters column on default screen", async t => {
   await t
+    .takeScreenshot("./blah.png")
     .expect(page.filtersCol.visible)
     .ok()
     .expect(page.filtersBtn.exists)
