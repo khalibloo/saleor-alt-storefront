@@ -52,7 +52,6 @@ test("shows search result items", async t => {
 
 test("shows filters column on default screen", async t => {
   await t
-    .takeScreenshot("./blah.png")
     .expect(page.filtersCol.visible)
     .ok()
     .expect(page.filtersBtn.exists)

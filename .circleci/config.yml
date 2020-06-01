@@ -13,7 +13,7 @@ jobs:
           at: .
       - node/install:
           node-version: 13.11.0
-      - node/install-packages
+      - run: yarn
       - persist_to_workspace:
           root: .
           paths:
