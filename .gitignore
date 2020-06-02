@@ -15,6 +15,10 @@
 # misc
 .DS_Store
 /.vscode
+.idea
+.history
+*.log
+*bak
 
 # umi
 /src/.umi

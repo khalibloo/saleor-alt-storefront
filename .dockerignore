@@ -1,29 +1,22 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
+/npm-debug.log*
+/yarn-error.log
+/package-lock.json
 
 # production
-/.vscode
+/dist
+
+# test
+/coverage
 
 # misc
 .DS_Store
-npm-debug.log*
-yarn-error.log
-
-/coverage
+/.vscode
 .idea
-yarn.lock
-package-lock.json
-*bak
-.vscode
-
-# visual studio code
 .history
 *.log
-
-# build
-/dist
+*bak
 
 # umi
 /src/.umi
