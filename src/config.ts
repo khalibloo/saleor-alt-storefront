@@ -1,6 +1,8 @@
 //setup client config data
-console.log("Environment: ", APP_ENV);
-console.log("================");
+if (APP_ENV !== "production") {
+  console.log("Environment: ", APP_ENV);
+  console.log("================");
+}
 
 export default {
   env: APP_ENV,
