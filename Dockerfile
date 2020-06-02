@@ -19,10 +19,10 @@ COPY . .
 ARG UMI_ENV=prod
 RUN UMI_ENV=${UMI_ENV} yarn build
 
-FROM builder AS tester
-WORKDIR /app
-RUN yarn test
-RUN yarn test-e2e
+# FROM builder AS tester
+# WORKDIR /app
+# RUN yarn test
+# RUN yarn test-e2e
 
 FROM nginx:1.16.1-alpine
 WORKDIR /app
