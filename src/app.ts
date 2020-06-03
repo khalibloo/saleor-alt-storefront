@@ -5,6 +5,8 @@
 // import { client } from "./apollo";
 // import { TOKEN_VERIFY_MUTATION } from "./mutations/TokenVerify";
 
+import config from "./config";
+
 export const dva = {
   config: {
     onError(e) {
@@ -12,7 +14,7 @@ export const dva = {
       console.error(e.message);
     },
   },
-  plugins: [require("dva-logger")()],
+  plugins: ["production"].includes(config.env) ? [] : [require("dva-logger")()],
 };
 
 // export async function getInitialState() {

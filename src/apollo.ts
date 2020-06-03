@@ -97,7 +97,7 @@ const isTokenExpired = () => {
 
 export const client: ApolloClient<any> = new ApolloClient({
   link: ApolloLink.from([
-    apolloLogger,
+    ...(["production"].includes(config.env) ? [] : [apolloLogger]),
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.forEach(({ message, locations, path }) =>
