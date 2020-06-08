@@ -69,7 +69,8 @@ jobs:
               default_region: ${AWS_REGION}
               sc: git
             " \
-            > ./.elasticbeanstalk/config.yml
+            > ./.elasticbeanstalk/config.yml \
+            && cat ./.elasticbeanstalk/config.yml
       - run:
           name: Deploying
           command: eb deploy $AWS_EB_APP_NAME
