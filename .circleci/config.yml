@@ -55,7 +55,7 @@ jobs:
             sudo pip install awsebcli --upgrade
       - run:
           name: Deploying
-          command: eb deploy $CIRCLE_BRANCH-my-application
+          command: eb deploy $AWS_EB_APP_NAME
 workflows:
   build-test-deploy:
     jobs:
