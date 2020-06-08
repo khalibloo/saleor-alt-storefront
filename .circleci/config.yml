@@ -57,7 +57,7 @@ jobs:
           name: Create EB config file
           command: |
             mkdir ./.elasticbeanstalk \
-            && echo \
+            && cat > ./elasticbeanstalk/config.yml\
             "\
             branch-defaults:
               master:
