@@ -58,7 +58,7 @@ jobs:
           command: |
             mkdir ./.elasticbeanstalk \
             && echo \
-            " \
+            "\
             branch-defaults:
               master:
                 environment: ${AWS_EB_ENV_NAME}
@@ -68,7 +68,7 @@ jobs:
               default_platform: 64bit Amazon Linux 2017.09 v2.6.2 running Ruby 2.4 (Passenger Standalone)
               default_region: ${AWS_REGION}
               sc: git
-            " \
+            "\
             > ./.elasticbeanstalk/config.yml \
             && cat ./.elasticbeanstalk/config.yml
       - run:
