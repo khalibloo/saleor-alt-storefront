@@ -56,8 +56,7 @@ jobs:
       - run:
           name: Create EB config file
           command: |
-            mkdir ./.elasticbeanstalk \
-            && export AWS_EB_ENV_NAME=$AWS_EB_ENV_NAME \
+            export AWS_EB_ENV_NAME=$AWS_EB_ENV_NAME \
             && export AWS_EB_APP_NAME=$AWS_EB_APP_NAME \
             && export AWS_EB_EC2_KEY_NAME=$AWS_EB_EC2_KEY_NAME \
             && export AWS_REGION=$AWS_REGION \
