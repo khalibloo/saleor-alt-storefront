@@ -40,6 +40,22 @@ jobs:
           node-version: 13.11.0
           install-yarn: true
       - run: yarn test-e2e
+  deploy-eb:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - run:
+          name: Installing eb deployment dependencies
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
+      - run:
+          name: Deploying
+          command: eb deploy $CIRCLE_BRANCH-my-application
 workflows:
   build-test-deploy:
     jobs:
@@ -57,3 +73,10 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy-eb:
+          requires:
+            - test
+            - test-e2e
+          # filters:
+          #   branches:
+          #     only: master
