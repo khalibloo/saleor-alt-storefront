@@ -11,9 +11,11 @@ global:
   default_region: $AWS_REGION
   sc: git
 """
-words: List[str] = [word for word in content.split() if word.startswith("$")]
-for word in words:
-  content = content.replace(word, os.environ.get(word[1:], word))
+env_keys: List[str] = [word for word in content.split() if word.startswith("$")]
+for key in env_keys:
+  value = os.environ.get(key[1:])
+  print(key + ": " + value)
+  content = content.replace(key, value)
 
 with open(os.path.join(os.path.dirname(__file__), "config.yml"), "w+") as file:
     file.write(content)
