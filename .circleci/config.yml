@@ -45,6 +45,12 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - run: |
+          echo $TEST_ENV_VAR
+          mkdir /tmp/testing
+          echo $TEST_ENV_VAR > /tmp/testing/testenv.txt
+      - store_artifacts:
+          path: /tmp/testing
       - run:
           name: Installing eb deployment dependencies
           working_directory: /
