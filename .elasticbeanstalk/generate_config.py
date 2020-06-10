@@ -4,8 +4,6 @@ from typing import List
 content = """branch-defaults:
   master:
     environment: $AWS_EB_ENV_NAME
-  chore/eb:
-    environment: $AWS_EB_ENV_NAME
 global:
   application_name: $AWS_EB_APP_NAME
   default_ec2_keyname: $AWS_EB_EC2_KEY_NAME

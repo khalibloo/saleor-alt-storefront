@@ -59,7 +59,7 @@ jobs:
             python3 ./.elasticbeanstalk/generate_config.py \
       - run:
           name: Deploying
-          command: eb deploy $AWS_EB_APP_NAME
+          command: eb deploy $AWS_EB_ENV_NAME
 workflows:
   build-test-deploy:
     jobs:
