@@ -45,10 +45,8 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - run: |
-          echo "It works!"
       - run:
-          name: Installing eb deployment dependencies
+          name: Installing EB deployment dependencies
           working_directory: /
           command: |
             sudo apt-get -y -qq update
@@ -59,7 +57,6 @@ jobs:
           name: Create EB config file
           command: |
             python3 ./.elasticbeanstalk/generate_config.py \
-            && cat ./.elasticbeanstalk/config.yml
       - run:
           name: Deploying
           command: eb deploy $AWS_EB_APP_NAME
