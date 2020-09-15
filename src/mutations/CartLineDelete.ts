@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { CHECKOUT_DETAILS_FRAGMENT } from "@/fragments/checkout";
 
 export const CART_LINE_DELETE_MUTATION = gql`

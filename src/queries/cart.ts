@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { CHECKOUT_DETAILS_FRAGMENT } from "@/fragments/checkout";
 import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 

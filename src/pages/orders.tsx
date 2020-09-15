@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Row, Col, List } from "antd";
 import { useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { ORDERS_PAGE_QUERY } from "@/queries/orders";
 import { ordersQuery } from "@/queries/types/ordersQuery";
 import OrderCard from "@/components/OrderCard";

@@ -1,5 +1,5 @@
 import { PRODUCT_CARD_FRAGMENT } from "@/fragments/product";
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const PRODUCT_DETAIL_PAGE_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}

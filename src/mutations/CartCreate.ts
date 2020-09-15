@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { CHECKOUT_PRICING_FRAGMENT } from "@/fragments/checkout";
 
 export const CART_CREATE_MUTATION = gql`

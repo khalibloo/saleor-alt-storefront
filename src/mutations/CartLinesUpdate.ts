@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { CHECKOUT_DETAILS_FRAGMENT } from "@/fragments/checkout";
 
 // only updates the lines included in the list

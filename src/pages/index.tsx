@@ -4,7 +4,7 @@ import { useIntl, Link } from "umi";
 import clx from "classnames";
 import ProductCard from "@/components/ProductCard";
 import VSpacing from "@/components/VSpacing";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { useResponsive } from "@umijs/hooks";
 import { getScreenSize } from "@/utils/utils";
 import { ListGridType } from "antd/lib/list";

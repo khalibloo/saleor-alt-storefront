@@ -24,7 +24,7 @@ import ProductCard from "@/components/ProductCard";
 import { ListGridType } from "antd/lib/list";
 import { useResponsive, useSize } from "@umijs/hooks";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import {
   productDetailQuery,
   productDetailQueryVariables,

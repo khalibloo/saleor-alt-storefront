@@ -24,17 +24,16 @@ import clx from "classnames";
 import styles from "./NavBar.less";
 import ProductSearch from "@/components/ProductSearch";
 import { useResponsive, useBoolean } from "@umijs/hooks";
-import { Loading, ConnectState } from "@/models/connect";
+import { ConnectState } from "@/models/connect";
 import AuthTabs from "@/components/AuthTabs";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { CART_BADGE_QUERY } from "@/queries/cart";
 import { cartBadgeQuery } from "@/queries/types/cartBadgeQuery";
 
 interface Props {
   authenticated: boolean;
-  loading: Loading;
 }
-const NavBar: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
+const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
   const intl = useIntl();
   const {
     state: searchDrawerOpen,
@@ -297,5 +296,4 @@ const NavBar: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
 
 export default connect((state: ConnectState) => ({
   authenticated: state.auth.authenticated,
-  loading: state.loading,
 }))(NavBar);

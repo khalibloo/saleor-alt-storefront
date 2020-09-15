@@ -5,7 +5,7 @@ import clx from "classnames";
 import styles from "./index.less";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/client";
 import { client } from "@/apollo";
 import { connect, ConnectRC, Loading } from "umi";
 import { ConnectState } from "@/models/connect";

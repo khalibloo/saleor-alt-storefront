@@ -6,10 +6,10 @@
 import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: UserDeactivateMutation
+// GraphQL mutation operation: RequestPasswordResetMutation
 // ====================================================
 
-export interface UserDeactivateMutation_accountDelete_accountErrors {
+export interface RequestPasswordResetMutation_requestPasswordReset_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -25,18 +25,19 @@ export interface UserDeactivateMutation_accountDelete_accountErrors {
   message: string | null;
 }
 
-export interface UserDeactivateMutation_accountDelete {
-  __typename: "AccountDelete";
-  accountErrors: UserDeactivateMutation_accountDelete_accountErrors[];
+export interface RequestPasswordResetMutation_requestPasswordReset {
+  __typename: "RequestPasswordReset";
+  accountErrors: RequestPasswordResetMutation_requestPasswordReset_accountErrors[];
 }
 
-export interface UserDeactivateMutation {
+export interface RequestPasswordResetMutation {
   /**
-   * Remove user account.
+   * Sends an email with the account password modification link.
    */
-  accountDelete: UserDeactivateMutation_accountDelete | null;
+  requestPasswordReset: RequestPasswordResetMutation_requestPasswordReset | null;
 }
 
-export interface UserDeactivateMutationVariables {
-  token: string;
+export interface RequestPasswordResetMutationVariables {
+  email: string;
+  redirectUrl: string;
 }

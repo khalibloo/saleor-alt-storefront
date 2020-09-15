@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { ADDRESS_DETAILS_FRAGMENT } from "./address";
 
 export const CHECKOUT_PRICING_FRAGMENT = gql`

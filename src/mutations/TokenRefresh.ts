@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const TOKEN_REFRESH_MUTATION = gql`
   mutation TokenRefreshMutation($token: String!) {

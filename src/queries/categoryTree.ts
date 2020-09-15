@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { CATEGORY_BASIC_DETAILS_FRAGMENT } from "@/fragments/category";
 
 export const CATEGORY_TREE_QUERY = gql`

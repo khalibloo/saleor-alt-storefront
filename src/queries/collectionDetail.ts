@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const COLLECTION_DETAIL_PAGE_QUERY = gql`
   query collectionDetailQuery($collection: ID!) {

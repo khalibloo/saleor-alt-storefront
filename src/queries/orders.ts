@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 
 export const ORDERS_PAGE_QUERY = gql`

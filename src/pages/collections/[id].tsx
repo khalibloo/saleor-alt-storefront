@@ -13,7 +13,7 @@ import {
   collectionDetailQueryVariables,
 } from "@/queries/types/collectionDetailQuery";
 import { COLLECTION_DETAIL_PAGE_QUERY } from "@/queries/collectionDetail";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import SkeletonDiv from "@/components/SkeletonDiv";
 import Products from "@/components/Products";
 
