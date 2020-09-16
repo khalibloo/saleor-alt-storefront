@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-  Form,
-  Input,
-  Checkbox,
-  Button,
-  notification,
-  message,
-  Row,
-  Col,
-} from "antd";
+import { Form, Input, Button, notification, message, Row, Alert } from "antd";
 import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
@@ -20,38 +11,48 @@ interface Props {
   hideSubmit?: boolean;
   loading: Loading;
   onSubmit?: () => void;
-  onForgotPwd?: () => void;
 }
-const LoginForm: ConnectRC<Props> = ({
+const ResetPasswordRequestForm: ConnectRC<Props> = ({
   id,
   hideSubmit,
   loading,
   onSubmit,
-  onForgotPwd,
   dispatch,
 }) => {
   const intl = useIntl();
   const responsive = useResponsive();
+  const [form] = Form.useForm();
 
   const onFinish = values => {
     Logger.log("Success:", values);
     dispatch?.({
-      type: "auth/login",
+      type: "auth/requestPasswordReset",
       payload: {
         email: values.email.trim().toLowerCase(),
-        password: values.password,
-        remember: values.remember,
         onCompleted: data => {
           Logger.log(data);
           notification.success({
-            message: intl.formatMessage({ id: "who.login.success" }),
+            message: intl.formatMessage({ id: "who.reqResetPwd.success" }),
+            description: intl.formatMessage({
+              id: "who.reqResetPwd.success.desc",
+            }),
           });
+          form.resetFields();
           onSubmit?.();
         },
         onError: (err: APIException) => {
-          if (err.errors?.find(e => e.code === "INVALID_CREDENTIALS")) {
-            message.error(intl.formatMessage({ id: "who.login.incorrect" }));
+          if (err.errors?.find(e => e.code === "NOT_FOUND")) {
+            notification.success({
+              message: intl.formatMessage({ id: "who.reqResetPwd.success" }),
+              description: intl.formatMessage({
+                id: "who.reqResetPwd.success.desc",
+              }),
+            });
+            form.resetFields();
+            onSubmit?.();
+            return;
           }
+          message.error(intl.formatMessage({ id: "misc.error.generic" }));
         },
       },
     });
@@ -64,12 +65,17 @@ const LoginForm: ConnectRC<Props> = ({
   return (
     <Form
       id={id}
-      name="login"
+      form={form}
+      name="reset-pwd"
       layout="vertical"
       hideRequiredMark
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
+      <Alert
+        type="info"
+        message={intl.formatMessage({ id: "who.reqResetPwd.info" })}
+      />
       <Form.Item
         label={intl.formatMessage({ id: "who.email" })}
         name="email"
@@ -79,38 +85,14 @@ const LoginForm: ConnectRC<Props> = ({
             whitespace: true,
             message: intl.formatMessage({ id: "who.signup.email.required" }),
           },
+          {
+            type: "email",
+            message: intl.formatMessage({ id: "who.signup.email.invalid" }),
+          },
         ]}
       >
         <Input />
       </Form.Item>
-
-      <Form.Item
-        label={intl.formatMessage({ id: "who.pwd" })}
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: "who.signup.pwd.required" }),
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Row justify="space-between" gutter={24}>
-        <Col>
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>
-              {intl.formatMessage({ id: "who.login.remember" })}
-            </Checkbox>
-          </Form.Item>
-        </Col>
-        <Col>
-          <Button type="link" onClick={onForgotPwd}>
-            {intl.formatMessage({ id: "who.login.forgotPwd" })}
-          </Button>
-        </Col>
-      </Row>
 
       {!hideSubmit && (
         <Row justify="end">
@@ -119,10 +101,10 @@ const LoginForm: ConnectRC<Props> = ({
               block={!responsive.md}
               type="primary"
               size="large"
-              loading={loading.effects["auth/login"]}
+              loading={loading.effects["auth/requestPasswordReset"]}
               htmlType="submit"
             >
-              {intl.formatMessage({ id: "who.login" })}
+              {intl.formatMessage({ id: "who.resetPwd" })}
             </Button>
           </Form.Item>
         </Row>
@@ -132,5 +114,5 @@ const LoginForm: ConnectRC<Props> = ({
 };
 
 export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  LoginForm,
+  ResetPasswordRequestForm,
 );

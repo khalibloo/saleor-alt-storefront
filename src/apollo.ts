@@ -1,7 +1,10 @@
 import jwtDecode from "jwt-decode";
-import { ApolloLink, Observable } from "apollo-link";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+  Observable,
+} from "@apollo/client";
 import { onError } from "apollo-link-error";
 import apolloLogger from "apollo-link-logger";
 import { RetryLink } from "apollo-link-retry";

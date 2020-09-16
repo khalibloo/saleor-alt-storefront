@@ -1,15 +1,16 @@
-import React from "react";
-import { Typography, Row, Col, Card, Tabs } from "antd";
+import React, { useState } from "react";
+import { Typography, Row, Col, Card, Tabs, Button } from "antd";
 import { useIntl, connect, Redirect, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
-import LoginForm from "@/components/LoginForm";
-import SignupForm from "@/components/SignupForm";
 import { ConnectState } from "@/models/connect";
 import AuthTabs from "@/components/AuthTabs";
+import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
+import { LeftOutlined } from "@ant-design/icons";
 
 const WhoPage = ({ authenticated }) => {
   const intl = useIntl();
   const loc = useLocation();
+  const [activeTab, setActiveTab] = useState("0");
   if (authenticated) {
     const redirect = loc?.query?.redirect || "/";
     return <Redirect to={redirect} />;
@@ -25,10 +26,24 @@ const WhoPage = ({ authenticated }) => {
           <Row justify="center">
             <Col span={8} xs={24} sm={24} md={16} lg={12} xl={10} xxl={8}>
               <Card>
-                <AuthTabs
-                  loginFormId="who-login-form"
-                  signupFormId="who-signup-form"
-                />
+                <Tabs activeKey={activeTab}>
+                  <Tabs.TabPane key="0">
+                    <AuthTabs
+                      loginFormId="who-login-form"
+                      signupFormId="who-signup-form"
+                      onForgotPwd={() => setActiveTab("1")}
+                    />
+                  </Tabs.TabPane>
+                  <Tabs.TabPane key="1">
+                    <Row>
+                      <Button onClick={() => setActiveTab("0")}>
+                        <LeftOutlined /> Back
+                      </Button>
+                    </Row>
+                    <VSpacing height={24} />
+                    <ResetPasswordRequestForm />
+                  </Tabs.TabPane>
+                </Tabs>
               </Card>
             </Col>
           </Row>

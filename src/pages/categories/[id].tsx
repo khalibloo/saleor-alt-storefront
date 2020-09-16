@@ -8,7 +8,7 @@ import VSpacing from "@/components/VSpacing";
 
 import styles from "./id.less";
 import { formatTitle } from "@/utils/utils";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import {
   categoryDetailQuery,
   categoryDetailQueryVariables,

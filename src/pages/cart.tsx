@@ -21,7 +21,7 @@ import { useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
 import { cartQuery } from "@/queries/types/cartQuery";
 import { CART_PAGE_QUERY } from "@/queries/cart";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { APIException } from "@/apollo";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";

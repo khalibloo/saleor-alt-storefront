@@ -55,6 +55,16 @@ import {
   UserRequestDeactivationMutation,
 } from "@/mutations/types/UserRequestDeactivationMutation";
 import { USER_REQUEST_DEACTIVATION_MUTATION } from "@/mutations/UserRequestDeactivation";
+import {
+  RequestPasswordResetMutation,
+  RequestPasswordResetMutationVariables,
+} from "@/mutations/types/RequestPasswordResetMutation";
+import { USER_REQUEST_PASSWORD_RESET_MUTATION } from "@/mutations/UserRequestPasswordReset";
+import {
+  PasswordResetMutation,
+  PasswordResetMutationVariables,
+} from "@/mutations/types/PasswordResetMutation";
+import { USER_PASSWORD_RESET_MUTATION } from "@/mutations/UserPasswordReset";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -70,6 +80,8 @@ export interface AuthModelType {
     updateName: Effect;
     changeEmail: Effect;
     changePassword: Effect;
+    requestPasswordReset: Effect;
+    resetPassword: Effect;
     createAddress: Effect;
     updateAddress: Effect;
     deleteAddress: Effect;
@@ -268,6 +280,54 @@ const AuthModel: AuthModelType = {
           },
         );
         const errors = response.data.passwordChange?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *requestPasswordReset({ payload }, { call, put }) {
+      try {
+        const { email } = payload;
+        const variables: RequestPasswordResetMutationVariables = {
+          email,
+          redirectUrl: window.location.origin + "/account/resetpwd",
+        };
+        const response: { data: RequestPasswordResetMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_REQUEST_PASSWORD_RESET_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.requestPasswordReset?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *resetPassword({ payload }, { call, put }) {
+      try {
+        const { email, password, token } = payload;
+        const variables: PasswordResetMutationVariables = {
+          email,
+          password,
+          token,
+        };
+        const response: { data: PasswordResetMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_PASSWORD_RESET_MUTATION,
+            variables: variables,
+          },
+        );
+
+        const errors = response.data.setPassword?.accountErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }

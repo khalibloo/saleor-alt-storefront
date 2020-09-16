@@ -20,7 +20,7 @@ import ProductCard from "@/components/ProductCard";
 
 import FilterBar from "@/components/FilterBar";
 import { useResponsive, useBoolean } from "@umijs/hooks";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import {
   ProductsQuery,
   ProductsQueryVariables,

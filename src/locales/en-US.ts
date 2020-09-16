@@ -26,6 +26,7 @@ export default {
   "misc.showLess": "Show Less",
   "misc.expand": "Expand",
   "misc.collapse": "Collapse",
+  "misc.error.generic": "An Error Occurred",
 
   // forms
   "form.optional": "Optional",
@@ -162,13 +163,25 @@ export default {
   "who.signup.email.unique": "Email already registered",
   "who.login": "Log In",
   "who.login.remember": "Remember me",
+  "who.login.forgotPwd": "Forgot password?",
+  "who.login.success": "Successfully Logged In",
   "who.login.incorrect": "Incorrect email or password",
+  "who.resetPwd": "Reset Password",
+  "who.reqResetPwd.info":
+    "Enter your email below. If it has been registered on this site, we will send you further instructions to reset your password.",
+  "who.resetPwd.success": "Password Has Been Reset",
+  "who.resetPwd.success.desc": "You may now log in with your new password.",
+  "who.reqResetPwd.success": "Please Check Your Email",
+  "who.reqResetPwd.success.desc":
+    "If email is registered on this site, you should receive reset instructions shortly.",
+  "who.resetPwd.invalidUrl": "The url is invalid.",
 
   // 404
   "404.title": formatTitle("Page Not Found"),
   "404.heading": "Page Not Found",
 
   // account deactivation
+  "account.deactivate.title": formatTitle("Deactivate Account"),
   "account.deactivate.challenge.info":
     "If you have any concerns or difficulties with our service, please " +
     "contact support and let us know. If you still wish to proceed with " +
@@ -181,4 +194,8 @@ export default {
     "We've sent you an email containing further instructions",
   "account.deactivate.success": "Account Deactivated",
   "account.deactivate.success.desc": "We're sad to see you go",
+
+  // reset pwd
+  "account.resetpwd.title": formatTitle("Reset Password"),
+  "account.resetpwd.heading": "Reset Password",
 };

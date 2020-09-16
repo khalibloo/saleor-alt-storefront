@@ -6,7 +6,7 @@ import AddAddress from "./AddAddress";
 import { PlusOutlined } from "@ant-design/icons";
 import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 import { profileQuery } from "@/queries/types/profileQuery";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { SelectProps } from "antd/lib/select";
 import { AddressDetails } from "@/fragments/types/AddressDetails";
 

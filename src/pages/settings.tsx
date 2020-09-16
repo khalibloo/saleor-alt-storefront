@@ -3,7 +3,7 @@ import { Typography, Row, Col, Card, Button, Skeleton, Modal } from "antd";
 import { useIntl, Loading, connect } from "umi";
 import VSpacing from "@/components/VSpacing";
 import { useBoolean } from "@umijs/hooks";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { profileQuery } from "@/queries/types/profileQuery";
 import { PROFILE_PAGE_QUERY } from "@/queries/profile";
 import ChangeEmailForm from "@/components/ChangeEmailForm";
