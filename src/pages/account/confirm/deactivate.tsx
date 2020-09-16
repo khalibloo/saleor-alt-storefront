@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useIntl, useLocation, history, connect, ConnectRC } from "umi";
+import { useIntl, useLocation, history, connect, ConnectRC, Link } from "umi";
 import Loader from "@/components/Loader";
-import { Alert, notification } from "antd";
+import { Button, notification, Result } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import { APIException } from "@/apollo";
+import VSpacing from "@/components/VSpacing";
 
 const AccountDeactivatePage: ConnectRC = ({ dispatch }) => {
   const intl = useIntl();
@@ -36,10 +37,24 @@ const AccountDeactivatePage: ConnectRC = ({ dispatch }) => {
 
   if (!token) {
     return (
-      <Alert
-        type="error"
-        message={intl.formatMessage({ id: "who.resetPwd.invalidUrl" })}
-      />
+      <>
+        <VSpacing height={48} />
+        <Result
+          status="error"
+          extra={[
+            <Link to="/">
+              <Button type="primary" key="0">
+                {intl.formatMessage({ id: "misc.backToHome" })}
+              </Button>
+            </Link>,
+          ]}
+          title={intl.formatMessage({ id: "account.confirm.invalidUrl" })}
+          subTitle={intl.formatMessage({
+            id: "account.confirm.invalidUrl.desc",
+          })}
+        />
+        <VSpacing height={48} />
+      </>
     );
   }
 
