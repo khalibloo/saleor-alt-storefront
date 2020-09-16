@@ -70,6 +70,11 @@ import {
   UserRequestPasswordResetMutation,
   UserRequestPasswordResetMutationVariables,
 } from "@/mutations/types/UserRequestPasswordResetMutation";
+import {
+  UserSetDefaultAddressMutation,
+  UserSetDefaultAddressMutationVariables,
+} from "@/mutations/types/UserSetDefaultAddressMutation";
+import { USER_SET_DEFAULT_ADDRESS_MUTATION } from "@/mutations/UserSetDefaultAddress";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -90,6 +95,7 @@ export interface AuthModelType {
     confirmPasswordReset: Effect;
     createAddress: Effect;
     updateAddress: Effect;
+    setDefaultAddress: Effect;
     deleteAddress: Effect;
     logout: Effect;
     requestAccountDeactivation: Effect;
@@ -401,6 +407,29 @@ const AuthModel: AuthModelType = {
           },
         );
         const errors = response.data.accountAddressUpdate?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *setDefaultAddress({ payload }, { call, put }) {
+      try {
+        const { id, type } = payload;
+        const variables: UserSetDefaultAddressMutationVariables = {
+          id,
+          type,
+        };
+        const response: { data: UserSetDefaultAddressMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_SET_DEFAULT_ADDRESS_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.accountSetDefaultAddress?.accountErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }

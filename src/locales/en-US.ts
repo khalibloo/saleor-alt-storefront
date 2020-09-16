@@ -95,6 +95,8 @@ export default {
   "profile.email": "Email",
   "profile.phone": "Phone",
   "profile.addresses": "Addresses",
+  "profile.addresses.defaultShipping": "Default Shipping Address",
+  "profile.addresses.defaultBilling": "Default Billing Address",
   "profile.editName": "Edit Name",
   "profile.editAddress": "Edit Address",
   "profile.address.delete.confirm": "Do you want to delete this address?",

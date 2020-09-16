@@ -49,7 +49,7 @@ const AddressSelector: React.FC<Props> = ({ extraAddr, ...rest }) => {
     >
       {addresses.map(addr => (
         <Select.Option key={addr.id} value={addr.id}>
-          <AddressCard address={addr} hideCard />
+          <AddressCard address={addr} hideCard hideActions />
         </Select.Option>
       ))}
     </Select>

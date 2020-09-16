@@ -1,5 +1,13 @@
 import React from "react";
-import { Card, Typography, Button, Modal, notification } from "antd";
+import {
+  Card,
+  Typography,
+  Button,
+  Modal,
+  notification,
+  Switch,
+  Space,
+} from "antd";
 import { useIntl, connect, ConnectRC } from "umi";
 import {
   EditOutlined,
@@ -10,9 +18,12 @@ import { useBoolean } from "@umijs/hooks";
 import { Loading, ConnectState } from "@/models/connect";
 import AddressForm from "./AddressForm";
 import Logger from "@/utils/logger";
+import { AddressDetails } from "@/fragments/types/AddressDetails";
+import VSpacing from "./VSpacing";
+import { AddressTypeEnum } from "@/globalTypes";
 
 interface Props {
-  address: any;
+  address: AddressDetails;
   loading: Loading;
   hideActions: boolean;
   hideCard: boolean;
@@ -64,6 +75,74 @@ const AddressCard: ConnectRC<Props> = ({
           {intl.formatMessage({ id: "profile.phone" })}: {address.phone}
         </Typography.Text>
       </div>
+      {!hideActions && (
+        <>
+          <VSpacing height={16} />
+          <div>
+            <Space>
+              <Switch
+                checked={Boolean(address.isDefaultShippingAddress)}
+                disabled={Boolean(address.isDefaultShippingAddress)}
+                loading={loading.effects["auth/setDefaultAddress"]}
+                onChange={checked => {
+                  if (checked) {
+                    dispatch?.({
+                      type: "auth/setDefaultAddress",
+                      payload: {
+                        id: address.id,
+                        type: AddressTypeEnum.SHIPPING,
+                        onCompleted: () => {
+                          notification.success({
+                            message: intl.formatMessage({
+                              id: "misc.save.success",
+                            }),
+                          });
+                        },
+                      },
+                    });
+                  }
+                }}
+              />
+              <Typography.Text>
+                {intl.formatMessage({
+                  id: "profile.addresses.defaultShipping",
+                })}
+              </Typography.Text>
+            </Space>
+          </div>
+          <VSpacing height={8} />
+          <div>
+            <Space>
+              <Switch
+                checked={Boolean(address.isDefaultBillingAddress)}
+                disabled={Boolean(address.isDefaultBillingAddress)}
+                loading={loading.effects["auth/setDefaultAddress"]}
+                onChange={checked => {
+                  if (checked) {
+                    dispatch?.({
+                      type: "auth/setDefaultAddress",
+                      payload: {
+                        id: address.id,
+                        type: AddressTypeEnum.BILLING,
+                        onCompleted: () => {
+                          notification.success({
+                            message: intl.formatMessage({
+                              id: "misc.save.success",
+                            }),
+                          });
+                        },
+                      },
+                    });
+                  }
+                }}
+              />
+              <Typography.Text>
+                {intl.formatMessage({ id: "profile.addresses.defaultBilling" })}
+              </Typography.Text>
+            </Space>
+          </div>
+        </>
+      )}
     </>
   );
 
