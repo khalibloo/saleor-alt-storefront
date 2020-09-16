@@ -12,7 +12,7 @@ import {
 import { TOKEN_VERIFY_MUTATION } from "@/mutations/TokenVerify";
 import { USER_REGISTER_MUTATION } from "@/mutations/UserRegister";
 import { USER_NAME_UPDATE_MUTATION } from "@/mutations/UserNameUpdate";
-import { USER_EMAIL_CHANGE_MUTATION } from "@/mutations/UserEmailChange";
+import { USER_CONFIRM_EMAIL_CHANGE_MUTATION } from "@/mutations/UserConfirmEmailChange";
 import { USER_ADDRESS_CREATE_MUTATION } from "@/mutations/UserAddressCreate";
 import { USER_ADDRESS_UPDATE_MUTATION } from "@/mutations/UserAddressUpdate";
 import { USER_ADDRESS_DELETE_MUTATION } from "@/mutations/UserAddressDelete";
@@ -24,10 +24,6 @@ import {
   UserNameUpdateMutationVariables,
   UserNameUpdateMutation,
 } from "@/mutations/types/userNameUpdateMutation";
-import {
-  UserEmailChangeMutationVariables,
-  UserEmailChangeMutation,
-} from "@/mutations/types/UserEmailChangeMutation";
 import {
   UserAddressCreateMutationVariables,
   UserAddressCreateMutation,
@@ -45,26 +41,35 @@ import {
   PasswordChangeMutation,
 } from "@/mutations/types/PasswordChangeMutation";
 import { USER_PASSWORD_CHANGE_MUTATION } from "@/mutations/UserPasswordChange";
-import {
-  UserDeactivateMutationVariables,
-  UserDeactivateMutation,
-} from "@/mutations/types/UserDeactivateMutation";
-import { USER_DEACTIVATE_MUTATION } from "@/mutations/UserDeactivate";
+import { USER_CONFIRM_DEACTIVATION_MUTATION } from "@/mutations/UserConfirmDeactivation";
 import {
   UserRequestDeactivationMutationVariables,
   UserRequestDeactivationMutation,
 } from "@/mutations/types/UserRequestDeactivationMutation";
 import { USER_REQUEST_DEACTIVATION_MUTATION } from "@/mutations/UserRequestDeactivation";
-import {
-  RequestPasswordResetMutation,
-  RequestPasswordResetMutationVariables,
-} from "@/mutations/types/RequestPasswordResetMutation";
 import { USER_REQUEST_PASSWORD_RESET_MUTATION } from "@/mutations/UserRequestPasswordReset";
+import { USER_CONFIRM_PASSWORD_RESET_MUTATION } from "@/mutations/UserConfirmPasswordReset";
 import {
-  PasswordResetMutation,
-  PasswordResetMutationVariables,
-} from "@/mutations/types/PasswordResetMutation";
-import { USER_PASSWORD_RESET_MUTATION } from "@/mutations/UserPasswordReset";
+  UserRequestEmailChangeMutation,
+  UserRequestEmailChangeMutationVariables,
+} from "@/mutations/types/UserRequestEmailChangeMutation";
+import { USER_REQUEST_EMAIL_CHANGE_MUTATION } from "@/mutations/UserRequestEmailChange";
+import {
+  UserConfirmEmailChangeMutation,
+  UserConfirmEmailChangeMutationVariables,
+} from "@/mutations/types/UserConfirmEmailChangeMutation";
+import {
+  UserConfirmPasswordResetMutation,
+  UserConfirmPasswordResetMutationVariables,
+} from "@/mutations/types/UserConfirmPasswordResetMutation";
+import {
+  UserConfirmDeactivationMutation,
+  UserConfirmDeactivationMutationVariables,
+} from "@/mutations/types/UserConfirmDeactivationMutation";
+import {
+  UserRequestPasswordResetMutation,
+  UserRequestPasswordResetMutationVariables,
+} from "@/mutations/types/UserRequestPasswordResetMutation";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -78,16 +83,17 @@ export interface AuthModelType {
     login: Effect;
     signup: Effect;
     updateName: Effect;
-    changeEmail: Effect;
+    requestEmailChange: Effect;
+    confirmEmailChange: Effect;
     changePassword: Effect;
     requestPasswordReset: Effect;
-    resetPassword: Effect;
+    confirmPasswordReset: Effect;
     createAddress: Effect;
     updateAddress: Effect;
     deleteAddress: Effect;
     logout: Effect;
     requestAccountDeactivation: Effect;
-    deactivateAccount: Effect;
+    confirmAccountDeactivation: Effect;
   };
   reducers: {
     setLoggedIn: ImmerReducer<AuthModelState>;
@@ -241,22 +247,44 @@ const AuthModel: AuthModelType = {
         payload?.onError?.(err);
       }
     },
-    *changeEmail({ payload }, { call, put }) {
+    *requestEmailChange({ payload }, { call, put }) {
       try {
         const { email, password } = payload;
-        const variables: UserEmailChangeMutationVariables = {
+        const variables: UserRequestEmailChangeMutationVariables = {
           newEmail: email,
           password,
-          redirectUrl: window.location.origin + "/profile",
+          redirectUrl: window.location.origin + "/account/confirm/emailchange",
         };
-        const response: { data: UserEmailChangeMutation } = yield call(
+        const response: { data: UserRequestEmailChangeMutation } = yield call(
           client.mutate,
           {
-            mutation: USER_EMAIL_CHANGE_MUTATION,
+            mutation: USER_REQUEST_EMAIL_CHANGE_MUTATION,
             variables: variables,
           },
         );
         const errors = response.data.requestEmailChange?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *confirmEmailChange({ payload }, { call, put }) {
+      try {
+        const { token } = payload;
+        const variables: UserConfirmEmailChangeMutationVariables = {
+          token,
+        };
+        const response: { data: UserConfirmEmailChangeMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_CONFIRM_EMAIL_CHANGE_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.confirmEmailChange?.accountErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
@@ -291,11 +319,11 @@ const AuthModel: AuthModelType = {
     *requestPasswordReset({ payload }, { call, put }) {
       try {
         const { email } = payload;
-        const variables: RequestPasswordResetMutationVariables = {
+        const variables: UserRequestPasswordResetMutationVariables = {
           email,
-          redirectUrl: window.location.origin + "/account/resetpwd",
+          redirectUrl: window.location.origin + "/account/confirm/resetpwd",
         };
-        const response: { data: RequestPasswordResetMutation } = yield call(
+        const response: { data: UserRequestPasswordResetMutation } = yield call(
           client.mutate,
           {
             mutation: USER_REQUEST_PASSWORD_RESET_MUTATION,
@@ -311,18 +339,18 @@ const AuthModel: AuthModelType = {
         payload?.onError?.(err);
       }
     },
-    *resetPassword({ payload }, { call, put }) {
+    *confirmPasswordReset({ payload }, { call, put }) {
       try {
         const { email, password, token } = payload;
-        const variables: PasswordResetMutationVariables = {
+        const variables: UserConfirmPasswordResetMutationVariables = {
           email,
           password,
           token,
         };
-        const response: { data: PasswordResetMutation } = yield call(
+        const response: { data: UserConfirmPasswordResetMutation } = yield call(
           client.mutate,
           {
-            mutation: USER_PASSWORD_RESET_MUTATION,
+            mutation: USER_CONFIRM_PASSWORD_RESET_MUTATION,
             variables: variables,
           },
         );
@@ -413,7 +441,7 @@ const AuthModel: AuthModelType = {
     *requestAccountDeactivation({ payload }, { call, put }) {
       try {
         const variables: UserRequestDeactivationMutationVariables = {
-          redirectUrl: window.location.origin + "/account/deactivate",
+          redirectUrl: window.location.origin + "/account/confirm/deactivate",
         };
         const response: { data: UserRequestDeactivationMutation } = yield call(
           client.mutate,
@@ -431,15 +459,15 @@ const AuthModel: AuthModelType = {
         payload?.onError?.(err);
       }
     },
-    *deactivateAccount({ payload }, { call, put }) {
+    *confirmAccountDeactivation({ payload }, { call, put }) {
       try {
-        const variables: UserDeactivateMutationVariables = {
+        const variables: UserConfirmDeactivationMutationVariables = {
           token: payload.token,
         };
-        const response: { data: UserDeactivateMutation } = yield call(
+        const response: { data: UserConfirmDeactivationMutation } = yield call(
           client.mutate,
           {
-            mutation: USER_DEACTIVATE_MUTATION,
+            mutation: USER_CONFIRM_DEACTIVATION_MUTATION,
             variables: variables,
           },
         );

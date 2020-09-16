@@ -6,10 +6,10 @@
 import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: PasswordResetMutation
+// GraphQL mutation operation: UserConfirmPasswordResetMutation
 // ====================================================
 
-export interface PasswordResetMutation_setPassword_accountErrors {
+export interface UserConfirmPasswordResetMutation_setPassword_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -25,7 +25,7 @@ export interface PasswordResetMutation_setPassword_accountErrors {
   message: string | null;
 }
 
-export interface PasswordResetMutation_setPassword_user_metadata {
+export interface UserConfirmPasswordResetMutation_setPassword_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -37,7 +37,7 @@ export interface PasswordResetMutation_setPassword_user_metadata {
   value: string;
 }
 
-export interface PasswordResetMutation_setPassword_user {
+export interface UserConfirmPasswordResetMutation_setPassword_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -50,30 +50,30 @@ export interface PasswordResetMutation_setPassword_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (PasswordResetMutation_setPassword_user_metadata | null)[];
+  metadata: (UserConfirmPasswordResetMutation_setPassword_user_metadata | null)[];
 }
 
-export interface PasswordResetMutation_setPassword {
+export interface UserConfirmPasswordResetMutation_setPassword {
   __typename: "SetPassword";
   /**
    * List of errors that occurred executing the mutation.
    */
-  accountErrors: PasswordResetMutation_setPassword_accountErrors[];
+  accountErrors: UserConfirmPasswordResetMutation_setPassword_accountErrors[];
   token: string | null;
   /**
    * A user instance.
    */
-  user: PasswordResetMutation_setPassword_user | null;
+  user: UserConfirmPasswordResetMutation_setPassword_user | null;
 }
 
-export interface PasswordResetMutation {
+export interface UserConfirmPasswordResetMutation {
   /**
    * Sets the user's password from the token sent by email using the RequestPasswordReset mutation.
    */
-  setPassword: PasswordResetMutation_setPassword | null;
+  setPassword: UserConfirmPasswordResetMutation_setPassword | null;
 }
 
-export interface PasswordResetMutationVariables {
+export interface UserConfirmPasswordResetMutationVariables {
   email: string;
   password: string;
   token: string;

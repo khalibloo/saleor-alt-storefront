@@ -6,10 +6,10 @@
 import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: UserEmailChangeMutation
+// GraphQL mutation operation: UserConfirmEmailChangeMutation
 // ====================================================
 
-export interface UserEmailChangeMutation_requestEmailChange_accountErrors {
+export interface UserConfirmEmailChangeMutation_confirmEmailChange_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -25,7 +25,7 @@ export interface UserEmailChangeMutation_requestEmailChange_accountErrors {
   message: string | null;
 }
 
-export interface UserEmailChangeMutation_requestEmailChange_user_metadata {
+export interface UserConfirmEmailChangeMutation_confirmEmailChange_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -37,7 +37,7 @@ export interface UserEmailChangeMutation_requestEmailChange_user_metadata {
   value: string;
 }
 
-export interface UserEmailChangeMutation_requestEmailChange_user_addresses_country {
+export interface UserConfirmEmailChangeMutation_confirmEmailChange_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -49,7 +49,7 @@ export interface UserEmailChangeMutation_requestEmailChange_user_addresses_count
   country: string;
 }
 
-export interface UserEmailChangeMutation_requestEmailChange_user_addresses {
+export interface UserConfirmEmailChangeMutation_confirmEmailChange_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -66,7 +66,7 @@ export interface UserEmailChangeMutation_requestEmailChange_user_addresses {
   /**
    * Shop's default country.
    */
-  country: UserEmailChangeMutation_requestEmailChange_user_addresses_country;
+  country: UserConfirmEmailChangeMutation_confirmEmailChange_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -79,7 +79,7 @@ export interface UserEmailChangeMutation_requestEmailChange_user_addresses {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface UserEmailChangeMutation_requestEmailChange_user {
+export interface UserConfirmEmailChangeMutation_confirmEmailChange_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -92,31 +92,29 @@ export interface UserEmailChangeMutation_requestEmailChange_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (UserEmailChangeMutation_requestEmailChange_user_metadata | null)[];
+  metadata: (UserConfirmEmailChangeMutation_confirmEmailChange_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (UserEmailChangeMutation_requestEmailChange_user_addresses | null)[] | null;
+  addresses: (UserConfirmEmailChangeMutation_confirmEmailChange_user_addresses | null)[] | null;
 }
 
-export interface UserEmailChangeMutation_requestEmailChange {
-  __typename: "RequestEmailChange";
-  accountErrors: UserEmailChangeMutation_requestEmailChange_accountErrors[];
+export interface UserConfirmEmailChangeMutation_confirmEmailChange {
+  __typename: "ConfirmEmailChange";
+  accountErrors: UserConfirmEmailChangeMutation_confirmEmailChange_accountErrors[];
   /**
-   * A user instance.
+   * A user instance with a new email.
    */
-  user: UserEmailChangeMutation_requestEmailChange_user | null;
+  user: UserConfirmEmailChangeMutation_confirmEmailChange_user | null;
 }
 
-export interface UserEmailChangeMutation {
+export interface UserConfirmEmailChangeMutation {
   /**
-   * Request email change of the logged in user.
+   * Confirm the email change of the logged-in user.
    */
-  requestEmailChange: UserEmailChangeMutation_requestEmailChange | null;
+  confirmEmailChange: UserConfirmEmailChangeMutation_confirmEmailChange | null;
 }
 
-export interface UserEmailChangeMutationVariables {
-  newEmail: string;
-  password: string;
-  redirectUrl: string;
+export interface UserConfirmEmailChangeMutationVariables {
+  token: string;
 }

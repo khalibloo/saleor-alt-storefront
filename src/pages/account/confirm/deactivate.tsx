@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useIntl, useLocation, history, connect, ConnectRC } from "umi";
 import Loader from "@/components/Loader";
-import { notification } from "antd";
+import { Alert, notification } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import { APIException } from "@/apollo";
 
@@ -12,7 +12,7 @@ const AccountDeactivatePage: ConnectRC = ({ dispatch }) => {
   useEffect(() => {
     if (token) {
       dispatch?.({
-        type: "auth/deactivateAccount",
+        type: "auth/confirmAccountDeactivation",
         payload: {
           token,
           onCompleted: () => {
@@ -33,6 +33,15 @@ const AccountDeactivatePage: ConnectRC = ({ dispatch }) => {
       });
     }
   }, []);
+
+  if (!token) {
+    return (
+      <Alert
+        type="error"
+        message={intl.formatMessage({ id: "who.resetPwd.invalidUrl" })}
+      />
+    );
+  }
 
   return <Loader />;
 };

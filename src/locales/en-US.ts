@@ -27,6 +27,8 @@ export default {
   "misc.expand": "Expand",
   "misc.collapse": "Collapse",
   "misc.error.generic": "An Error Occurred",
+  "misc.back": "Back",
+  "misc.backToHome": "Back To Home",
 
   // forms
   "form.optional": "Optional",
@@ -174,11 +176,14 @@ export default {
   "who.reqResetPwd.success": "Please Check Your Email",
   "who.reqResetPwd.success.desc":
     "If email is registered on this site, you should receive reset instructions shortly.",
-  "who.resetPwd.invalidUrl": "The url is invalid.",
 
   // 404
   "404.title": formatTitle("Page Not Found"),
   "404.heading": "Page Not Found",
+
+  // account confirm
+  "account.confirm.invalidUrl": "Invalid URL",
+  "account.confirm.invalidUrl.desc": "Please use the link sent to your email.",
 
   // account deactivation
   "account.deactivate.title": formatTitle("Deactivate Account"),
@@ -193,9 +198,14 @@ export default {
   "account.deactivate.request.success.desc":
     "We've sent you an email containing further instructions",
   "account.deactivate.success": "Account Deactivated",
-  "account.deactivate.success.desc": "We're sad to see you go",
+  "account.deactivate.success.desc": "We're sad to see you go.",
 
   // reset pwd
   "account.resetpwd.title": formatTitle("Reset Password"),
   "account.resetpwd.heading": "Reset Password",
+
+  // reset pwd
+  "account.emailchange.title": formatTitle("Change Email Confirmation"),
+  "account.emailchange.success": "Email Changed",
+  "account.emailchange.success.desc": "Your email address has been updated.",
 };

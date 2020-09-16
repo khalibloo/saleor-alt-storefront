@@ -37,7 +37,8 @@ const WhoPage = ({ authenticated }) => {
                   <Tabs.TabPane key="1">
                     <Row>
                       <Button onClick={() => setActiveTab("0")}>
-                        <LeftOutlined /> Back
+                        <LeftOutlined />{" "}
+                        {intl.formatMessage({ id: "misc.back" })}
                       </Button>
                     </Row>
                     <VSpacing height={24} />
