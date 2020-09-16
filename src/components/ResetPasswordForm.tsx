@@ -1,33 +1,27 @@
 import * as React from "react";
-import {
-  Form,
-  Input,
-  Checkbox,
-  Button,
-  notification,
-  message,
-  Row,
-  Col,
-} from "antd";
+import { Form, Input, Button, notification, message, Row } from "antd";
 import { useIntl, ConnectRC, connect } from "umi";
 import { useResponsive } from "@umijs/hooks";
 import Logger from "@/utils/logger";
 import { ConnectState, Loading } from "@/models/connect";
+import { PasswordResetMutation } from "@/mutations/types/PasswordResetMutation";
 import { APIException } from "@/apollo";
 
 interface Props {
+  email: string;
+  token: string;
   id?: string;
   hideSubmit?: boolean;
   loading: Loading;
   onSubmit?: () => void;
-  onForgotPwd?: () => void;
 }
-const LoginForm: ConnectRC<Props> = ({
+const ResetPasswordForm: ConnectRC<Props> = ({
+  email,
+  token,
   id,
   hideSubmit,
   loading,
   onSubmit,
-  onForgotPwd,
   dispatch,
 }) => {
   const intl = useIntl();
@@ -36,22 +30,23 @@ const LoginForm: ConnectRC<Props> = ({
   const onFinish = values => {
     Logger.log("Success:", values);
     dispatch?.({
-      type: "auth/login",
+      type: "auth/resetPassword",
       payload: {
-        email: values.email.trim().toLowerCase(),
+        email,
         password: values.password,
-        remember: values.remember,
-        onCompleted: data => {
+        token,
+        onCompleted: (data: PasswordResetMutation) => {
           Logger.log(data);
           notification.success({
-            message: intl.formatMessage({ id: "who.login.success" }),
+            message: intl.formatMessage({ id: "who.resetPwd.success" }),
+            description: intl.formatMessage({
+              id: "who.resetPwd.success.desc",
+            }),
           });
           onSubmit?.();
         },
         onError: (err: APIException) => {
-          if (err.errors?.find(e => e.code === "INVALID_CREDENTIALS")) {
-            message.error(intl.formatMessage({ id: "who.login.incorrect" }));
-          }
+          message.error(intl.formatMessage({ id: "misc.error.generic" }));
         },
       },
     });
@@ -64,53 +59,52 @@ const LoginForm: ConnectRC<Props> = ({
   return (
     <Form
       id={id}
-      name="login"
+      name="reset-password"
       layout="vertical"
       hideRequiredMark
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label={intl.formatMessage({ id: "who.email" })}
-        name="email"
-        rules={[
-          {
-            required: true,
-            whitespace: true,
-            message: intl.formatMessage({ id: "who.signup.email.required" }),
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label={intl.formatMessage({ id: "who.pwd" })}
         name="password"
+        label={intl.formatMessage({ id: "settings.changePwd.newPwd" })}
         rules={[
           {
             required: true,
             message: intl.formatMessage({ id: "who.signup.pwd.required" }),
+          },
+          {
+            min: 8,
+            message: intl.formatMessage({ id: "who.signup.pwd.minLength" }),
           },
         ]}
       >
         <Input.Password />
       </Form.Item>
 
-      <Row justify="space-between" gutter={24}>
-        <Col>
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>
-              {intl.formatMessage({ id: "who.login.remember" })}
-            </Checkbox>
-          </Form.Item>
-        </Col>
-        <Col>
-          <Button type="link" onClick={onForgotPwd}>
-            {intl.formatMessage({ id: "who.login.forgotPwd" })}
-          </Button>
-        </Col>
-      </Row>
+      <Form.Item
+        name="confirm"
+        label={intl.formatMessage({ id: "who.signup.pwd2" })}
+        dependencies={["password"]}
+        rules={[
+          {
+            required: true,
+            message: intl.formatMessage({ id: "who.signup.pwd2.required" }),
+          },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue("password") === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                intl.formatMessage({ id: "who.signup.pwd2.match" }),
+              );
+            },
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
 
       {!hideSubmit && (
         <Row justify="end">
@@ -119,10 +113,10 @@ const LoginForm: ConnectRC<Props> = ({
               block={!responsive.md}
               type="primary"
               size="large"
-              loading={loading.effects["auth/login"]}
+              loading={loading.effects["auth/resetPassword"]}
               htmlType="submit"
             >
-              {intl.formatMessage({ id: "who.login" })}
+              {intl.formatMessage({ id: "misc.saveChanges" })}
             </Button>
           </Form.Item>
         </Row>
@@ -132,5 +126,5 @@ const LoginForm: ConnectRC<Props> = ({
 };
 
 export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  LoginForm,
+  ResetPasswordForm,
 );

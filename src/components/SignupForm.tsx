@@ -253,17 +253,19 @@ const SignupForm: ConnectRC<Props> = ({
       </Form.Item>
 
       {!hideSubmit && (
-        <Form.Item>
-          <Button
-            block={!responsive.md}
-            type="primary"
-            size="large"
-            loading={loading.effects["auth/signup"]}
-            htmlType="submit"
-          >
-            {intl.formatMessage({ id: "who.signup" })}
-          </Button>
-        </Form.Item>
+        <Row justify="end">
+          <Form.Item>
+            <Button
+              block={!responsive.md}
+              type="primary"
+              size="large"
+              loading={loading.effects["auth/signup"]}
+              htmlType="submit"
+            >
+              {intl.formatMessage({ id: "who.signup" })}
+            </Button>
+          </Form.Item>
+        </Row>
       )}
     </Form>
   );

@@ -29,6 +29,7 @@ import AuthTabs from "@/components/AuthTabs";
 import { useQuery } from "@apollo/client";
 import { CART_BADGE_QUERY } from "@/queries/cart";
 import { cartBadgeQuery } from "@/queries/types/cartBadgeQuery";
+import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
 
 interface Props {
   authenticated: boolean;
@@ -44,6 +45,11 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
     state: authModalOpen,
     setTrue: openAuthModal,
     setFalse: closeAuthModal,
+  } = useBoolean(false);
+  const {
+    state: pwdResetModalOpen,
+    setTrue: openPwdResetModal,
+    setFalse: closePwdResetModal,
   } = useBoolean(false);
   const {
     state: menuDrawerOpen,
@@ -113,16 +119,29 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
   return (
     <>
       <Modal
-        title={null}
-        onCancel={closeAuthModal}
-        visible={authModalOpen}
         footer={null}
+        onCancel={closeAuthModal}
+        title={null}
+        visible={authModalOpen}
       >
         <AuthTabs
           loginFormId="nav-login-form"
           signupFormId="nav-signup-form"
           onAuth={closeAuthModal}
+          onForgotPwd={() => {
+            closeAuthModal();
+            openPwdResetModal();
+          }}
         />
+      </Modal>
+      <Modal
+        destroyOnClose
+        footer={null}
+        onCancel={closePwdResetModal}
+        title={intl.formatMessage({ id: "who.resetPwd" })}
+        visible={pwdResetModalOpen}
+      >
+        <ResetPasswordRequestForm onSubmit={closePwdResetModal} />
       </Modal>
       <Drawer
         visible={searchDrawerOpen}
