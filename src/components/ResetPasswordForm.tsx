@@ -30,7 +30,7 @@ const ResetPasswordForm: ConnectRC<Props> = ({
   const onFinish = values => {
     Logger.log("Success:", values);
     dispatch?.({
-      type: "auth/resetPassword",
+      type: "auth/confirmPasswordReset",
       payload: {
         email,
         password: values.password,
@@ -113,7 +113,7 @@ const ResetPasswordForm: ConnectRC<Props> = ({
               block={!responsive.md}
               type="primary"
               size="large"
-              loading={loading.effects["auth/resetPassword"]}
+              loading={loading.effects["auth/confirmPasswordReset"]}
               htmlType="submit"
             >
               {intl.formatMessage({ id: "misc.saveChanges" })}

@@ -28,7 +28,7 @@ const ChangeEmailForm: ConnectRC<Props> = ({
   const onFinish = values => {
     Logger.log("Success:", values);
     dispatch?.({
-      type: "auth/changeEmail",
+      type: "auth/requestEmailChange",
       payload: {
         email: values.email.trim().toLowerCase(),
         password: values.password,
@@ -119,7 +119,7 @@ const ChangeEmailForm: ConnectRC<Props> = ({
             block={!responsive.md}
             type="primary"
             size="large"
-            loading={loading.effects["auth/changeEmail"]}
+            loading={loading.effects["auth/requestEmailChange"]}
             htmlType="submit"
           >
             {intl.formatMessage({ id: "misc.saveChanges" })}

@@ -6,10 +6,10 @@
 import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: RequestPasswordResetMutation
+// GraphQL mutation operation: UserRequestPasswordResetMutation
 // ====================================================
 
-export interface RequestPasswordResetMutation_requestPasswordReset_accountErrors {
+export interface UserRequestPasswordResetMutation_requestPasswordReset_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -25,19 +25,19 @@ export interface RequestPasswordResetMutation_requestPasswordReset_accountErrors
   message: string | null;
 }
 
-export interface RequestPasswordResetMutation_requestPasswordReset {
+export interface UserRequestPasswordResetMutation_requestPasswordReset {
   __typename: "RequestPasswordReset";
-  accountErrors: RequestPasswordResetMutation_requestPasswordReset_accountErrors[];
+  accountErrors: UserRequestPasswordResetMutation_requestPasswordReset_accountErrors[];
 }
 
-export interface RequestPasswordResetMutation {
+export interface UserRequestPasswordResetMutation {
   /**
    * Sends an email with the account password modification link.
    */
-  requestPasswordReset: RequestPasswordResetMutation_requestPasswordReset | null;
+  requestPasswordReset: UserRequestPasswordResetMutation_requestPasswordReset | null;
 }
 
-export interface RequestPasswordResetMutationVariables {
+export interface UserRequestPasswordResetMutationVariables {
   email: string;
   redirectUrl: string;
 }
