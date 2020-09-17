@@ -1,17 +1,6 @@
 import React, { useEffect } from "react";
 import { useIntl, useLocation, history, connect, ConnectRC, Link } from "umi";
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  message,
-  notification,
-  Result,
-  Row,
-  Typography,
-} from "antd";
-import ResetPasswordForm from "@/components/ResetPasswordForm";
+import { Button, message, notification, Result } from "antd";
 import { ConnectState } from "@/models/connect";
 import VSpacing from "@/components/VSpacing";
 import Loader from "@/components/Loader";
@@ -52,7 +41,7 @@ const EmailChangePage: ConnectRC<Props> = ({ authenticated, dispatch }) => {
   if (!token) {
     return (
       <>
-        <VSpacing height={48} />
+        <VSpacing height={24} />
         <Result
           status="error"
           extra={[

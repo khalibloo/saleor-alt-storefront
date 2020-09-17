@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useIntl, useLocation, history, connect, ConnectRC } from "umi";
-import { Alert, Card, Col, Row, Typography } from "antd";
+import { useIntl, useLocation, history, connect, ConnectRC, Link } from "umi";
+import { Button, Card, Col, Result, Row, Typography } from "antd";
 import ResetPasswordForm from "@/components/ResetPasswordForm";
 import { ConnectState } from "@/models/connect";
 import VSpacing from "@/components/VSpacing";
@@ -21,10 +21,24 @@ const PasswordResetPage: ConnectRC<Props> = ({ authenticated, dispatch }) => {
 
   if (!token || !email) {
     return (
-      <Alert
-        type="error"
-        message={intl.formatMessage({ id: "who.resetPwd.invalidUrl" })}
-      />
+      <>
+        <VSpacing height={24} />
+        <Result
+          status="error"
+          extra={[
+            <Link to="/">
+              <Button type="primary" key="0">
+                {intl.formatMessage({ id: "misc.backToHome" })}
+              </Button>
+            </Link>,
+          ]}
+          title={intl.formatMessage({ id: "account.confirm.invalidUrl" })}
+          subTitle={intl.formatMessage({
+            id: "account.confirm.invalidUrl.desc",
+          })}
+        />
+        <VSpacing height={48} />
+      </>
     );
   }
 
