@@ -178,6 +178,8 @@ export default {
   "who.reqResetPwd.success": "Please Check Your Email",
   "who.reqResetPwd.success.desc":
     "If email is registered on this site, you should receive reset instructions shortly.",
+  "who.emailVerify.success": "Email Verified",
+  "who.emailVerify.success.desc": "You're now logged in.",
 
   // 404
   "404.title": formatTitle("Page Not Found"),
@@ -210,4 +212,7 @@ export default {
   "account.emailchange.title": formatTitle("Change Email Confirmation"),
   "account.emailchange.success": "Email Changed",
   "account.emailchange.success.desc": "Your email address has been updated.",
+
+  // verify email
+  "account.emailverify.title": formatTitle("Verifying Email Address"),
 };

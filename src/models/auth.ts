@@ -75,6 +75,11 @@ import {
   UserSetDefaultAddressMutationVariables,
 } from "@/mutations/types/UserSetDefaultAddressMutation";
 import { USER_SET_DEFAULT_ADDRESS_MUTATION } from "@/mutations/UserSetDefaultAddress";
+import {
+  UserVerifyEmailMutation,
+  UserVerifyEmailMutationVariables,
+} from "@/mutations/types/UserVerifyEmailMutation";
+import { USER_VERIFY_EMAIL_MUTATION } from "@/mutations/UserVerifyEmail";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -87,6 +92,7 @@ export interface AuthModelType {
     initialize: Effect;
     login: Effect;
     signup: Effect;
+    verifyEmail: Effect;
     updateName: Effect;
     requestEmailChange: Effect;
     confirmEmailChange: Effect;
@@ -183,7 +189,8 @@ const AuthModel: AuthModelType = {
           input: {
             email,
             password,
-            redirectUrl: window.location.origin,
+            redirectUrl:
+              window.location.origin + "/account/confirm/emailverify",
           },
         };
         const response: { data: UserRegisterMutation } = yield call(
@@ -199,7 +206,7 @@ const AuthModel: AuthModelType = {
           throw new APIException(errors);
         }
 
-        if (response.data.accountRegister?.requiresConfirmation === false) {
+        if (!response.data.accountRegister?.requiresConfirmation) {
           // login
           yield put({
             type: "login",
@@ -223,7 +230,30 @@ const AuthModel: AuthModelType = {
           });
         }
         yield call(client.resetStore);
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *verifyEmail({ payload }, { call, put }) {
+      try {
+        const { email, token } = payload;
+        const variables: UserVerifyEmailMutationVariables = {
+          email,
+          token,
+        };
+        const response: { data: UserVerifyEmailMutation } = yield call(
+          client.mutate,
+          {
+            mutation: USER_VERIFY_EMAIL_MUTATION,
+            variables: variables,
+          },
+        );
+        const errors = response.data.confirmAccount?.accountErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -248,7 +278,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -272,7 +302,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -294,7 +324,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -317,7 +347,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -340,7 +370,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -365,7 +395,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -387,7 +417,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -410,7 +440,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -433,7 +463,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -455,7 +485,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -483,7 +513,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -505,7 +535,7 @@ const AuthModel: AuthModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
-        payload?.onCompleted(response.data);
+        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }

@@ -3,13 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { AccountRegisterInput, AccountErrorCode } from "./../../globalTypes";
+import { AccountErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: UserRegisterMutation
+// GraphQL mutation operation: UserVerifyEmailMutation
 // ====================================================
 
-export interface UserRegisterMutation_accountRegister_accountErrors {
+export interface UserVerifyEmailMutation_confirmAccount_accountErrors {
   __typename: "AccountError";
   /**
    * The error code.
@@ -25,7 +25,7 @@ export interface UserRegisterMutation_accountRegister_accountErrors {
   message: string | null;
 }
 
-export interface UserRegisterMutation_accountRegister_user_metadata {
+export interface UserVerifyEmailMutation_confirmAccount_user_metadata {
   __typename: "MetadataItem";
   /**
    * Key of a metadata item.
@@ -37,7 +37,7 @@ export interface UserRegisterMutation_accountRegister_user_metadata {
   value: string;
 }
 
-export interface UserRegisterMutation_accountRegister_user_addresses_country {
+export interface UserVerifyEmailMutation_confirmAccount_user_addresses_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -49,7 +49,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses_country {
   country: string;
 }
 
-export interface UserRegisterMutation_accountRegister_user_addresses {
+export interface UserVerifyEmailMutation_confirmAccount_user_addresses {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -66,7 +66,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses {
   /**
    * Shop's default country.
    */
-  country: UserRegisterMutation_accountRegister_user_addresses_country;
+  country: UserVerifyEmailMutation_confirmAccount_user_addresses_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -79,7 +79,7 @@ export interface UserRegisterMutation_accountRegister_user_addresses {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface UserRegisterMutation_accountRegister_user {
+export interface UserVerifyEmailMutation_confirmAccount_user {
   __typename: "User";
   /**
    * The ID of the object.
@@ -92,31 +92,30 @@ export interface UserRegisterMutation_accountRegister_user {
   /**
    * List of public metadata items. Can be accessed without permissions.
    */
-  metadata: (UserRegisterMutation_accountRegister_user_metadata | null)[];
-  isActive: boolean;
+  metadata: (UserVerifyEmailMutation_confirmAccount_user_metadata | null)[];
   /**
    * List of all user's addresses.
    */
-  addresses: (UserRegisterMutation_accountRegister_user_addresses | null)[] | null;
+  addresses: (UserVerifyEmailMutation_confirmAccount_user_addresses | null)[] | null;
 }
 
-export interface UserRegisterMutation_accountRegister {
-  __typename: "AccountRegister";
-  accountErrors: UserRegisterMutation_accountRegister_accountErrors[];
-  user: UserRegisterMutation_accountRegister_user | null;
+export interface UserVerifyEmailMutation_confirmAccount {
+  __typename: "ConfirmAccount";
+  accountErrors: UserVerifyEmailMutation_confirmAccount_accountErrors[];
   /**
-   * Informs whether users need to confirm their email address.
+   * An activated user account.
    */
-  requiresConfirmation: boolean | null;
+  user: UserVerifyEmailMutation_confirmAccount_user | null;
 }
 
-export interface UserRegisterMutation {
+export interface UserVerifyEmailMutation {
   /**
-   * Register a new user.
+   * Confirm user account with token sent by email during registration.
    */
-  accountRegister: UserRegisterMutation_accountRegister | null;
+  confirmAccount: UserVerifyEmailMutation_confirmAccount | null;
 }
 
-export interface UserRegisterMutationVariables {
-  input: AccountRegisterInput;
+export interface UserVerifyEmailMutationVariables {
+  email: string;
+  token: string;
 }
