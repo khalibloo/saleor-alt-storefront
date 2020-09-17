@@ -29,6 +29,8 @@ export default {
   "misc.error.generic": "An Error Occurred",
   "misc.back": "Back",
   "misc.backToHome": "Back To Home",
+  "misc.offline.msg": "You are now offline",
+  "misc.online.msg": "You are back online",
 
   // forms
   "form.optional": "Optional",
