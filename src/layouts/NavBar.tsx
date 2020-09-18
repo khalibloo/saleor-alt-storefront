@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Row,
@@ -57,9 +57,15 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
     setFalse: closeMenuDrawer,
   } = useBoolean(false);
   const responsive = useResponsive();
-  const { loading: fetching, data: cartData, error: cartError } = useQuery<
-    cartBadgeQuery
-  >(CART_BADGE_QUERY);
+  const {
+    loading: fetching,
+    data: cartData,
+    error: cartError,
+    refetch,
+  } = useQuery<cartBadgeQuery>(CART_BADGE_QUERY);
+  useEffect(() => {
+    refetch();
+  }, [window.location.pathname]);
 
   const logout = () => dispatch?.({ type: "auth/logout" });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Col,
@@ -10,14 +10,16 @@ import {
   Affix,
   notification,
   message,
+  Modal,
+  Result,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useIntl, Link, connect, ConnectRC } from "umi";
+import { useIntl, Link, connect, ConnectRC, history } from "umi";
 import VSpacing from "@/components/VSpacing";
 import AspectRatio from "@/components/AspectRatio";
 import { formatPrice, addressToInput } from "@/utils/utils";
 import AddressSelector from "@/components/AddressSelector";
-import { useResponsive } from "@umijs/hooks";
+import { useBoolean, useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
 import { cartQuery } from "@/queries/types/cartQuery";
 import { CART_PAGE_QUERY } from "@/queries/cart";
@@ -25,34 +27,65 @@ import { useQuery } from "@apollo/client";
 import { APIException } from "@/apollo";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
+import altConfig from "@/../.altrc";
 
 interface Props {
   loading: Loading;
 }
 const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const intl = useIntl();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>();
+  const { state: thanksOpen, setTrue: openThanks } = useBoolean();
   const responsive = useResponsive();
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
   );
+  const addresses = data?.me?.addresses;
+  const defaultShippingAddr = addresses?.find(a => a?.isDefaultShippingAddress);
+  const defaultBillingAddr = addresses?.find(a => a?.isDefaultBillingAddress);
   const checkout = data?.me?.checkout;
+  const checkoutLines = checkout?.lines;
   const currency = checkout?.totalPrice?.gross.currency;
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
   const shippingPrice = checkout?.shippingPrice?.gross.amount;
   const totalPrice = checkout?.totalPrice?.gross.amount;
   const shippingAddress = checkout?.shippingAddress;
+  const billingAddress = checkout?.billingAddress;
   const shippingMethod = checkout?.shippingMethod;
+  const paymentMethods = checkout?.availablePaymentGateways;
+  const availableShippingMethods = checkout?.availableShippingMethods;
+  useEffect(() => {
+    if (!shippingAddress && defaultShippingAddr) {
+      const address = addressToInput(defaultShippingAddr);
+      dispatch?.({
+        type: "cart/setShippingAddress",
+        payload: { address },
+      });
+    }
+    if (!billingAddress && defaultBillingAddr) {
+      const address = addressToInput(defaultBillingAddr);
+      dispatch?.({
+        type: "cart/setBillingAddress",
+        payload: { address },
+      });
+    }
+  }, []);
   // if there's a matching address in our address book
-  const matchingShippingAddr = data?.me?.addresses?.find(a => {
+  const matchingShippingAddr = addresses?.find(a => {
     if (shippingAddress && a) {
       return _.isEqual(addressToInput(shippingAddress), addressToInput(a));
     }
   });
+  // if there's a matching address in our address book
+  const matchingBillingAddr = addresses?.find(a => {
+    if (billingAddress && a) {
+      return _.isEqual(addressToInput(billingAddress), addressToInput(a));
+    }
+  });
   // when shipping addr changes, shipping method can become invalid
   const invalidShippingMethod =
-    checkout?.availableShippingMethods.find(
-      sm => sm?.id === checkout?.shippingMethod?.id,
-    ) === undefined;
+    availableShippingMethods?.find(sm => sm?.id === shippingMethod?.id) ===
+    undefined;
   const summary = (
     <Card
       id="summary-card"
@@ -84,7 +117,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
             id="shipping-address-select"
             loading={loading.effects["cart/setShippingAddress"]}
             onChange={value => {
-              const addr = data?.me?.addresses?.find(a => a?.id === value);
+              const addr = addresses?.find(a => a?.id === value);
               if (addr) {
                 const address = addressToInput(addr);
                 dispatch?.({
@@ -127,6 +160,55 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
+            {intl.formatMessage({ id: "cart.billingAddress" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <AddressSelector
+            id="billing-address-select"
+            loading={loading.effects["cart/setBillingAddress"]}
+            onChange={value => {
+              const addr = addresses?.find(a => a?.id === value);
+              if (addr) {
+                const address = addressToInput(addr);
+                dispatch?.({
+                  type: "cart/setBillingAddress",
+                  payload: {
+                    address,
+                    onError: (err: APIException) => {
+                      if (
+                        err.errors?.find(
+                          e => e.code === "INVALID" && e.field === "postalCode",
+                        )
+                      ) {
+                        message.error(
+                          intl.formatMessage({
+                            id: "form.address.postalCode.invalid",
+                          }),
+                        );
+                      } else {
+                        message.error(
+                          intl.formatMessage({
+                            id: "cart.billingAddress.fail",
+                          }),
+                        );
+                      }
+                    },
+                  },
+                });
+              }
+            }}
+            extraAddr={matchingBillingAddr ? undefined : billingAddress}
+            value={
+              matchingBillingAddr ? matchingBillingAddr.id : billingAddress?.id
+            }
+          />
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
             {intl.formatMessage({ id: "cart.shippingMethod" })}:
           </Typography.Text>
         </Col>
@@ -154,7 +236,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
             }}
             value={invalidShippingMethod ? undefined : shippingMethod?.id}
           >
-            {data?.me?.checkout?.availableShippingMethods.map(sm => (
+            {availableShippingMethods?.map(sm => (
               <Select.Option key={sm?.id} value={sm.id}>
                 {sm?.name} ({formatPrice(currency, sm?.price?.amount)})
               </Select.Option>
@@ -171,9 +253,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
         </Col>
         <Col span={16}>
           <Typography.Text id="shipping-fee-txt">
-            {data?.me?.checkout?.shippingMethod
-              ? formatPrice(currency, shippingPrice)
-              : "--"}
+            {shippingMethod ? formatPrice(currency, shippingPrice) : "--"}
           </Typography.Text>
         </Col>
       </Row>
@@ -190,11 +270,71 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
       </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
+            {intl.formatMessage({ id: "cart.paymentMethod" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <Select
+            id="payment-method-select"
+            className="full-width"
+            placeholder={intl.formatMessage({
+              id: "misc.pleaseSelect",
+            })}
+            onChange={value =>
+              setSelectedPaymentMethod(
+                paymentMethods?.find(pm => pm.id === value)?.id,
+              )
+            }
+            value={selectedPaymentMethod}
+          >
+            {paymentMethods?.map(pm => (
+              <Select.Option key={pm?.id} value={pm.id}>
+                {pm?.name}
+              </Select.Option>
+            ))}
+          </Select>
+        </Col>
+      </Row>
       <VSpacing height={24} />
       <Button
         id="checkout-btn"
         block
-        disabled={invalidShippingMethod}
+        disabled={
+          invalidShippingMethod || !billingAddress || !selectedPaymentMethod
+        }
+        loading={loading.effects["cart/createPayment"]}
+        onClick={() => {
+          const gateway = altConfig.paymentGateways.find(
+            gw => gw.id === selectedPaymentMethod,
+          );
+          gateway?.onPay?.(
+            totalPrice,
+            checkout?.token,
+            (token, billingAddr) => {
+              dispatch?.({
+                type: "cart/createPayment",
+                payload: {
+                  gateway: selectedPaymentMethod,
+                  token,
+                  billingAddress: billingAddr,
+                  onCompleted: () => {
+                    openThanks();
+                    dispatch?.({ type: "cart/create" });
+                  },
+                  onError: err => console.log(err),
+                },
+              });
+            },
+            errMsg => {
+              message.error(errMsg, 10);
+            },
+            () => {},
+          );
+        }}
         size="large"
         shape="round"
         type="primary"
@@ -206,6 +346,23 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   return (
     <div className="vflex flex-grow-1">
       <VSpacing height={24} />
+      <Modal
+        onCancel={() => history.push("/")}
+        footer={
+          <Row justify="space-between">
+            <Link to="/orders">
+              <Button>View Orders</Button>
+            </Link>
+            <Link to="/">
+              <Button type="primary">Continue Shopping</Button>
+            </Link>
+          </Row>
+        }
+        title="Order Placed"
+        visible={thanksOpen}
+      >
+        <Result status="success" title="Thank You For Shopping With Us" />
+      </Modal>
       <Row justify="center" className="flex-grow-1">
         <Col span={22}>
           <Typography.Title id="page-heading" className="center-text" level={1}>
@@ -214,7 +371,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           <Row gutter={24} justify="center">
             <Col span={16} xs={24} sm={24} md={20} lg={16} xl={16} xxl={12}>
               <List
-                dataSource={data?.me?.checkout?.lines || []}
+                dataSource={checkoutLines || []}
                 renderItem={item => {
                   const currency = item?.variant.pricing?.price?.gross
                     .currency as string;
@@ -235,7 +392,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                               xl={4}
                               xxl={4}
                             >
-                              <Link to={`/products/${item?.id}`}>
+                              <Link
+                                to={`/products/${item?.variant.product.id}`}
+                              >
                                 <AspectRatio width={1} height={1}>
                                   <img
                                     className="full-width"

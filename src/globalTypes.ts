@@ -343,6 +343,34 @@ export enum OrderStatus {
   UNFULFILLED = "UNFULFILLED",
 }
 
+/**
+ * An enumeration.
+ */
+export enum PaymentChargeStatusEnum {
+  FULLY_CHARGED = "FULLY_CHARGED",
+  FULLY_REFUNDED = "FULLY_REFUNDED",
+  NOT_CHARGED = "NOT_CHARGED",
+  PARTIALLY_CHARGED = "PARTIALLY_CHARGED",
+  PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
+}
+
+/**
+ * An enumeration.
+ */
+export enum PaymentErrorCode {
+  BILLING_ADDRESS_NOT_SET = "BILLING_ADDRESS_NOT_SET",
+  GRAPHQL_ERROR = "GRAPHQL_ERROR",
+  INVALID = "INVALID",
+  INVALID_SHIPPING_METHOD = "INVALID_SHIPPING_METHOD",
+  NOT_FOUND = "NOT_FOUND",
+  PARTIAL_PAYMENT_NOT_ALLOWED = "PARTIAL_PAYMENT_NOT_ALLOWED",
+  PAYMENT_ERROR = "PAYMENT_ERROR",
+  REQUIRED = "REQUIRED",
+  SHIPPING_ADDRESS_NOT_SET = "SHIPPING_ADDRESS_NOT_SET",
+  SHIPPING_METHOD_NOT_SET = "SHIPPING_METHOD_NOT_SET",
+  UNIQUE = "UNIQUE",
+}
+
 export enum ProductOrderField {
   DATE = "DATE",
   MINIMAL_PRICE = "MINIMAL_PRICE",
@@ -395,6 +423,13 @@ export interface CheckoutCreateInput {
 export interface CheckoutLineInput {
   quantity: number;
   variantId: string;
+}
+
+export interface PaymentInput {
+  gateway: string;
+  token: string;
+  amount?: any | null;
+  billingAddress?: AddressInput | null;
 }
 
 export interface ProductOrder {

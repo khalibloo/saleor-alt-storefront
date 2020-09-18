@@ -213,6 +213,34 @@ export interface CartLineDeleteMutation_checkoutLineDelete_checkout_billingAddre
   isDefaultBillingAddress: boolean | null;
 }
 
+export interface CartLineDeleteMutation_checkoutLineDelete_checkout_availablePaymentGateways_config {
+  __typename: "GatewayConfigLine";
+  /**
+   * Gateway config key.
+   */
+  field: string;
+  /**
+   * Gateway config value for key.
+   */
+  value: string | null;
+}
+
+export interface CartLineDeleteMutation_checkoutLineDelete_checkout_availablePaymentGateways {
+  __typename: "PaymentGateway";
+  /**
+   * Payment gateway ID.
+   */
+  id: string;
+  /**
+   * Payment gateway name.
+   */
+  name: string;
+  /**
+   * Payment gateway client configuration.
+   */
+  config: CartLineDeleteMutation_checkoutLineDelete_checkout_availablePaymentGateways_config[];
+}
+
 export interface CartLineDeleteMutation_checkoutLineDelete_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -248,6 +276,10 @@ export interface CartLineDeleteMutation_checkoutLineDelete_checkout {
   availableShippingMethods: (CartLineDeleteMutation_checkoutLineDelete_checkout_availableShippingMethods | null)[];
   shippingAddress: CartLineDeleteMutation_checkoutLineDelete_checkout_shippingAddress | null;
   billingAddress: CartLineDeleteMutation_checkoutLineDelete_checkout_billingAddress | null;
+  /**
+   * List of available payment gateways.
+   */
+  availablePaymentGateways: CartLineDeleteMutation_checkoutLineDelete_checkout_availablePaymentGateways[];
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
