@@ -32,6 +32,21 @@ import {
   CartShippingMethodUpdateMutation,
 } from "@/mutations/types/CartShippingMethodUpdateMutation";
 import { CART_SHIPPING_METHOD_UPDATE_MUTATION } from "@/mutations/CartShippingMethodUpdate";
+import {
+  CartPaymentCreateMutation,
+  CartPaymentCreateMutationVariables,
+} from "@/mutations/types/CartPaymentCreateMutation";
+import { CART_PAYMENT_CREATE_MUTATION } from "@/mutations/CartPaymentCreate";
+import {
+  CartCompleteMutation,
+  CartCompleteMutationVariables,
+} from "@/mutations/types/CartCompleteMutation";
+import { CART_COMPLETE_MUTATION } from "@/mutations/CartComplete";
+import {
+  CartBillingAddressUpdateMutation,
+  CartBillingAddressUpdateMutationVariables,
+} from "@/mutations/types/CartBillingAddressUpdateMutation";
+import { CART_BILLING_ADDRESS_UPDATE_MUTATION } from "@/mutations/CartBillingAddressUpdate";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
@@ -45,8 +60,10 @@ export interface CartModelType {
     addItem: Effect;
     updateItem: Effect;
     deleteItem: Effect;
+    setBillingAddress: Effect;
     setShippingAddress: Effect;
     setShippingMethod: Effect;
+    createPayment: Effect;
   };
   reducers: {
     saveCheckout: ImmerReducer<CartModelState>;
@@ -58,7 +75,7 @@ const defaultState: CartModelState = {
   checkout: null,
 };
 
-const AuthModel: CartModelType = {
+const CartModel: CartModelType = {
   namespace: "cart",
 
   state: {
@@ -187,6 +204,37 @@ const AuthModel: CartModelType = {
         payload?.onError?.(err);
       }
     },
+    *setBillingAddress({ payload }, { call, put, select, take }) {
+      try {
+        const { address } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        const variables: CartBillingAddressUpdateMutationVariables = {
+          checkoutId: checkout.id,
+          address,
+        };
+        const response: {
+          data: CartBillingAddressUpdateMutation;
+        } = yield call(client.mutate, {
+          mutation: CART_BILLING_ADDRESS_UPDATE_MUTATION,
+          variables,
+        });
+        checkout = response.data.checkoutBillingAddressUpdate?.checkout;
+        yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors =
+          response.data.checkoutBillingAddressUpdate?.checkoutErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
     *setShippingAddress({ payload }, { call, put, select, take }) {
       try {
         const { address } = payload;
@@ -250,6 +298,59 @@ const AuthModel: CartModelType = {
         payload?.onError?.(err);
       }
     },
+    *createPayment({ payload }, { call, put, select, take }) {
+      try {
+        const { gateway, token, amount, billingAddress } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        // pay
+        const variables: CartPaymentCreateMutationVariables = {
+          checkoutId: checkout.id,
+          paymentDetails: {
+            gateway,
+            token,
+            amount,
+            billingAddress,
+          },
+        };
+        const response: { data: CartPaymentCreateMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CART_PAYMENT_CREATE_MUTATION,
+            variables,
+          },
+        );
+        // checkout = response.data.checkoutPaymentCreate?.checkout;
+        // yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors = response.data.checkoutPaymentCreate?.paymentErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+
+        // complete
+        const vars: CartCompleteMutationVariables = {
+          checkoutId: checkout.id,
+          redirectUrl: window.location.origin + "/orders",
+          storeSource: false,
+        };
+        const res: { data: CartCompleteMutation } = yield call(client.mutate, {
+          mutation: CART_COMPLETE_MUTATION,
+          variables: vars,
+        });
+
+        const errs = res.data.checkoutComplete?.checkoutErrors;
+        if (errs && errs.length > 0) {
+          throw new APIException(errs);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
   },
   reducers: {
     saveCheckout(state, { payload }) {
@@ -261,4 +362,4 @@ const AuthModel: CartModelType = {
   },
 };
 
-export default AuthModel;
+export default CartModel;

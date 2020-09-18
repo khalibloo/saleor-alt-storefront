@@ -195,6 +195,34 @@ export interface CheckoutDetails_billingAddress {
   isDefaultBillingAddress: boolean | null;
 }
 
+export interface CheckoutDetails_availablePaymentGateways_config {
+  __typename: "GatewayConfigLine";
+  /**
+   * Gateway config key.
+   */
+  field: string;
+  /**
+   * Gateway config value for key.
+   */
+  value: string | null;
+}
+
+export interface CheckoutDetails_availablePaymentGateways {
+  __typename: "PaymentGateway";
+  /**
+   * Payment gateway ID.
+   */
+  id: string;
+  /**
+   * Payment gateway name.
+   */
+  name: string;
+  /**
+   * Payment gateway client configuration.
+   */
+  config: CheckoutDetails_availablePaymentGateways_config[];
+}
+
 export interface CheckoutDetails {
   __typename: "Checkout";
   /**
@@ -221,4 +249,8 @@ export interface CheckoutDetails {
   availableShippingMethods: (CheckoutDetails_availableShippingMethods | null)[];
   shippingAddress: CheckoutDetails_shippingAddress | null;
   billingAddress: CheckoutDetails_billingAddress | null;
+  /**
+   * List of available payment gateways.
+   */
+  availablePaymentGateways: CheckoutDetails_availablePaymentGateways[];
 }

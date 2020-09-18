@@ -57,5 +57,13 @@ export const CHECKOUT_DETAILS_FRAGMENT = gql`
     billingAddress {
       ...AddressDetails
     }
+    availablePaymentGateways {
+      id
+      name
+      config {
+        field
+        value
+      }
+    }
   }
 `;

@@ -213,6 +213,34 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
   isDefaultBillingAddress: boolean | null;
 }
 
+export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways_config {
+  __typename: "GatewayConfigLine";
+  /**
+   * Gateway config key.
+   */
+  field: string;
+  /**
+   * Gateway config value for key.
+   */
+  value: string | null;
+}
+
+export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways {
+  __typename: "PaymentGateway";
+  /**
+   * Payment gateway ID.
+   */
+  id: string;
+  /**
+   * Payment gateway name.
+   */
+  name: string;
+  /**
+   * Payment gateway client configuration.
+   */
+  config: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways_config[];
+}
+
 export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -248,6 +276,10 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
   availableShippingMethods: (CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availableShippingMethods | null)[];
   shippingAddress: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_shippingAddress | null;
   billingAddress: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_billingAddress | null;
+  /**
+   * List of available payment gateways.
+   */
+  availablePaymentGateways: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways[];
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

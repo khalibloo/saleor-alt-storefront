@@ -79,14 +79,17 @@ export default {
   "cart.summary": "Cart Summary",
   "cart.subtotal": "Subtotal",
   "cart.shippingAddress": "Shipping Address",
+  "cart.billingAddress": "Billing Address",
   "cart.shippingMethod": "Shipping Method",
   "cart.shippingFee": "Shipping Fee",
   "cart.total": "Total",
+  "cart.paymentMethod": "Payment Method",
   "cart.checkout": "Checkout",
   "cart.selectAddress": "Select Address",
   "cart.addItem.success": "Item Added to Cart",
   "cart.deleteItem.success": "Item Removed from Cart",
   "cart.shippingAddress.fail": "Failed to set shipping address",
+  "cart.billingAddress.fail": "Failed to set billing address",
 
   // profile
   "profile.title": formatTitle("Profile"),
