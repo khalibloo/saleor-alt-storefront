@@ -28,6 +28,7 @@ import { APIException } from "@/apollo";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
 import altConfig from "@/../.altrc";
+import VoucherCodeForm from "@/components/VoucherCodeForm";
 
 interface Props {
   loading: Loading;
@@ -48,6 +49,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const currency = checkout?.totalPrice?.gross.currency;
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
   const shippingPrice = checkout?.shippingPrice?.gross.amount;
+  const discountPrice = checkout?.discount?.amount;
   const totalPrice = checkout?.totalPrice?.gross.amount;
   const shippingAddress = checkout?.shippingAddress;
   const billingAddress = checkout?.billingAddress;
@@ -93,19 +95,6 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       bordered={false}
       title={intl.formatMessage({ id: "cart.summary" })}
     >
-      <Row gutter={16}>
-        <Col span={8}>
-          <Typography.Text>
-            {intl.formatMessage({ id: "cart.subtotal" })}:
-          </Typography.Text>
-        </Col>
-        <Col span={16}>
-          <Typography.Text id="subtotal-price">
-            {formatPrice(currency, subtotalPrice)}
-          </Typography.Text>
-        </Col>
-      </Row>
-      <VSpacing height={8} />
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
@@ -248,12 +237,49 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
+            {intl.formatMessage({ id: "cart.vouchers" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <VoucherCodeForm />
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
+            {intl.formatMessage({ id: "cart.subtotal" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <Typography.Text id="subtotal-price">
+            {formatPrice(currency, subtotalPrice)}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
             {intl.formatMessage({ id: "cart.shippingFee" })}:
           </Typography.Text>
         </Col>
         <Col span={16}>
           <Typography.Text id="shipping-fee-txt">
             {shippingMethod ? formatPrice(currency, shippingPrice) : "--"}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
+            {intl.formatMessage({ id: "cart.discount" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <Typography.Text id="shipping-fee-txt">
+            {shippingMethod ? `-${formatPrice(currency, discountPrice)}` : "--"}
           </Typography.Text>
         </Col>
       </Row>

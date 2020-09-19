@@ -47,6 +47,16 @@ import {
   CartBillingAddressUpdateMutationVariables,
 } from "@/mutations/types/CartBillingAddressUpdateMutation";
 import { CART_BILLING_ADDRESS_UPDATE_MUTATION } from "@/mutations/CartBillingAddressUpdate";
+import {
+  CartVoucherAddMutation,
+  CartVoucherAddMutationVariables,
+} from "@/mutations/types/CartVoucherAddMutation";
+import { CART_VOUCHER_ADD_MUTATION } from "@/mutations/CartVoucherAdd";
+import {
+  CartVoucherRemoveMutation,
+  CartVoucherRemoveMutationVariables,
+} from "@/mutations/types/CartVoucherRemoveMutation";
+import { CART_VOUCHER_REMOVE_MUTATION } from "@/mutations/CartVoucherRemove";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
@@ -63,6 +73,8 @@ export interface CartModelType {
     setBillingAddress: Effect;
     setShippingAddress: Effect;
     setShippingMethod: Effect;
+    addVoucher: Effect;
+    removeVoucher: Effect;
     createPayment: Effect;
   };
   reducers: {
@@ -290,6 +302,68 @@ const CartModel: CartModelType = {
 
         const errors =
           response.data.checkoutShippingMethodUpdate?.checkoutErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *addVoucher({ payload }, { call, put, select, take }) {
+      try {
+        const { voucherCode } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        const variables: CartVoucherAddMutationVariables = {
+          checkoutId: checkout.id,
+          voucherCode,
+        };
+        const response: { data: CartVoucherAddMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CART_VOUCHER_ADD_MUTATION,
+            variables,
+          },
+        );
+        checkout = response.data.checkoutAddPromoCode?.checkout;
+        yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors = response.data.checkoutAddPromoCode?.checkoutErrors;
+        if (errors && errors.length > 0) {
+          throw new APIException(errors);
+        }
+        payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *removeVoucher({ payload }, { call, put, select, take }) {
+      try {
+        const { voucherCode } = payload;
+        yield put({ type: "create" });
+        yield take("saveCheckout");
+        let checkout = yield select(
+          (state: ConnectState) => state.cart.checkout,
+        );
+        const variables: CartVoucherRemoveMutationVariables = {
+          checkoutId: checkout.id,
+          voucherCode,
+        };
+        const response: { data: CartVoucherRemoveMutation } = yield call(
+          client.mutate,
+          {
+            mutation: CART_VOUCHER_REMOVE_MUTATION,
+            variables,
+          },
+        );
+        checkout = response.data.checkoutRemovePromoCode?.checkout;
+        yield put({ type: "saveCheckout", payload: { checkout } });
+
+        const errors = response.data.checkoutRemovePromoCode?.checkoutErrors;
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }

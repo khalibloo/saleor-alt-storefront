@@ -241,6 +241,18 @@ export interface CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_c
   config: CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_checkout_availablePaymentGateways_config[];
 }
 
+export interface CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -280,6 +292,7 @@ export interface CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_c
    * List of available payment gateways.
    */
   availablePaymentGateways: CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_checkout_availablePaymentGateways[];
+  discount: CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_checkout_discount | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

@@ -3,13 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CheckoutLineInput, CheckoutErrorCode } from "./../../globalTypes";
+import { CheckoutErrorCode } from "./../../globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: CartLinesUpdateMutation
+// GraphQL mutation operation: CartVoucherAddMutation
 // ====================================================
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkoutErrors {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkoutErrors {
   __typename: "CheckoutError";
   /**
    * The error code.
@@ -25,7 +25,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkoutErrors {
   message: string | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingMethod_minimumOrderPrice {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingMethod_minimumOrderPrice {
   __typename: "Money";
   /**
    * Currency code.
@@ -37,17 +37,17 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingMe
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingMethod {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingMethod {
   __typename: "ShippingMethod";
   /**
    * The ID of the object.
    */
   id: string;
   name: string;
-  minimumOrderPrice: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingMethod_minimumOrderPrice | null;
+  minimumOrderPrice: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingMethod_minimumOrderPrice | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingPrice_gross {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -59,15 +59,15 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingPr
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingPrice {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingPrice_gross;
+  gross: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingPrice_gross;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_subtotalPrice_gross {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_subtotalPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -79,15 +79,15 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_subtotalPr
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_subtotalPrice {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_subtotalPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_subtotalPrice_gross;
+  gross: CartVoucherAddMutation_checkoutAddPromoCode_checkout_subtotalPrice_gross;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_totalPrice_gross {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_totalPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -99,15 +99,15 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_totalPrice
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_totalPrice {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_totalPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_totalPrice_gross;
+  gross: CartVoucherAddMutation_checkoutAddPromoCode_checkout_totalPrice_gross;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableShippingMethods_price {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_availableShippingMethods_price {
   __typename: "Money";
   /**
    * Currency code.
@@ -119,17 +119,17 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableS
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableShippingMethods {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_availableShippingMethods {
   __typename: "ShippingMethod";
   /**
    * The ID of the object.
    */
   id: string;
   name: string;
-  price: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableShippingMethods_price | null;
+  price: CartVoucherAddMutation_checkoutAddPromoCode_checkout_availableShippingMethods_price | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAddress_country {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingAddress_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -141,7 +141,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAd
   country: string;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAddress {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingAddress {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -158,7 +158,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAd
   /**
    * Shop's default country.
    */
-  country: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAddress_country;
+  country: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingAddress_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -171,7 +171,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAd
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAddress_country {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_billingAddress_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -183,7 +183,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAdd
   country: string;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAddress {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_billingAddress {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -200,7 +200,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAdd
   /**
    * Shop's default country.
    */
-  country: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAddress_country;
+  country: CartVoucherAddMutation_checkoutAddPromoCode_checkout_billingAddress_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -213,7 +213,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAdd
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availablePaymentGateways_config {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_availablePaymentGateways_config {
   __typename: "GatewayConfigLine";
   /**
    * Gateway config key.
@@ -225,7 +225,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableP
   value: string | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availablePaymentGateways {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_availablePaymentGateways {
   __typename: "PaymentGateway";
   /**
    * Payment gateway ID.
@@ -238,10 +238,10 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableP
   /**
    * Payment gateway client configuration.
    */
-  config: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availablePaymentGateways_config[];
+  config: CartVoucherAddMutation_checkoutAddPromoCode_checkout_availablePaymentGateways_config[];
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_discount {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_discount {
   __typename: "Money";
   /**
    * Currency code.
@@ -253,7 +253,7 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_discount {
   amount: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_lines {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout_lines {
   __typename: "CheckoutLine";
   /**
    * The ID of the object.
@@ -262,60 +262,60 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout_lines {
   quantity: number;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout {
+export interface CartVoucherAddMutation_checkoutAddPromoCode_checkout {
   __typename: "Checkout";
   /**
    * The ID of the object.
    */
   id: string;
   token: any;
-  shippingMethod: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingMethod | null;
+  shippingMethod: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingMethod | null;
   /**
    * The price of the shipping, with all the taxes included.
    */
-  shippingPrice: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingPrice | null;
+  shippingPrice: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingPrice | null;
   /**
    * The price of the checkout before shipping, with taxes included.
    */
-  subtotalPrice: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_subtotalPrice | null;
+  subtotalPrice: CartVoucherAddMutation_checkoutAddPromoCode_checkout_subtotalPrice | null;
   /**
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
-  totalPrice: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_totalPrice | null;
+  totalPrice: CartVoucherAddMutation_checkoutAddPromoCode_checkout_totalPrice | null;
   /**
    * Shipping methods that can be used with this order.
    */
-  availableShippingMethods: (CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availableShippingMethods | null)[];
-  shippingAddress: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_shippingAddress | null;
-  billingAddress: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_billingAddress | null;
+  availableShippingMethods: (CartVoucherAddMutation_checkoutAddPromoCode_checkout_availableShippingMethods | null)[];
+  shippingAddress: CartVoucherAddMutation_checkoutAddPromoCode_checkout_shippingAddress | null;
+  billingAddress: CartVoucherAddMutation_checkoutAddPromoCode_checkout_billingAddress | null;
   /**
    * List of available payment gateways.
    */
-  availablePaymentGateways: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_availablePaymentGateways[];
-  discount: CartLinesUpdateMutation_checkoutLinesUpdate_checkout_discount | null;
+  availablePaymentGateways: CartVoucherAddMutation_checkoutAddPromoCode_checkout_availablePaymentGateways[];
+  discount: CartVoucherAddMutation_checkoutAddPromoCode_checkout_discount | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
-  lines: (CartLinesUpdateMutation_checkoutLinesUpdate_checkout_lines | null)[] | null;
+  lines: (CartVoucherAddMutation_checkoutAddPromoCode_checkout_lines | null)[] | null;
 }
 
-export interface CartLinesUpdateMutation_checkoutLinesUpdate {
-  __typename: "CheckoutLinesUpdate";
-  checkoutErrors: CartLinesUpdateMutation_checkoutLinesUpdate_checkoutErrors[];
+export interface CartVoucherAddMutation_checkoutAddPromoCode {
+  __typename: "CheckoutAddPromoCode";
+  checkoutErrors: CartVoucherAddMutation_checkoutAddPromoCode_checkoutErrors[];
   /**
-   * An updated checkout.
+   * The checkout with the added gift card or voucher.
    */
-  checkout: CartLinesUpdateMutation_checkoutLinesUpdate_checkout | null;
+  checkout: CartVoucherAddMutation_checkoutAddPromoCode_checkout | null;
 }
 
-export interface CartLinesUpdateMutation {
+export interface CartVoucherAddMutation {
   /**
-   * Updates checkout line in the existing checkout.
+   * Adds a gift card or a voucher to a checkout.
    */
-  checkoutLinesUpdate: CartLinesUpdateMutation_checkoutLinesUpdate | null;
+  checkoutAddPromoCode: CartVoucherAddMutation_checkoutAddPromoCode | null;
 }
 
-export interface CartLinesUpdateMutationVariables {
+export interface CartVoucherAddMutationVariables {
   checkoutId: string;
-  checkoutLines: (CheckoutLineInput | null)[];
+  voucherCode: string;
 }
