@@ -32,6 +32,7 @@ export default {
   "misc.backToHome": "Back To Home",
   "misc.offline.msg": "You are now offline",
   "misc.online.msg": "You are back online",
+  "misc.qty": "Qty",
 
   // forms
   "form.optional": "Optional",
@@ -87,6 +88,7 @@ export default {
   "cart.total": "Total",
   "cart.paymentMethod": "Payment Method",
   "cart.checkout": "Checkout",
+  "cart.proceedToCheckout": "Proceed To Checkout",
   "cart.selectAddress": "Select Address",
   "cart.addItem.success": "Item Added to Cart",
   "cart.deleteItem.success": "Item Removed from Cart",
