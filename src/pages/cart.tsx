@@ -50,6 +50,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
   const shippingPrice = checkout?.shippingPrice?.gross.amount;
   const discountPrice = checkout?.discount?.amount;
+  const voucherCode = checkout?.voucherCode;
   const totalPrice = checkout?.totalPrice?.gross.amount;
   const shippingAddress = checkout?.shippingAddress;
   const billingAddress = checkout?.billingAddress;
@@ -88,6 +89,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const invalidShippingMethod =
     availableShippingMethods?.find(sm => sm?.id === shippingMethod?.id) ===
     undefined;
+  const isSummaryCompact = !responsive.lg;
   const summary = (
     <Card
       id="summary-card"
@@ -279,7 +281,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
         </Col>
         <Col span={16}>
           <Typography.Text id="shipping-fee-txt">
-            {shippingMethod ? `-${formatPrice(currency, discountPrice)}` : "--"}
+            {shippingMethod
+              ? `-${formatPrice(currency, discountPrice)} (${voucherCode})`
+              : "--"}
           </Typography.Text>
         </Col>
       </Row>
@@ -528,7 +532,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
         </Col>
       </Row>
       <VSpacing height={48} />
-      {!responsive.lg && <Affix offsetBottom={0}>{summary}</Affix>}
+      {isSummaryCompact && <Affix offsetBottom={0}>{summary}</Affix>}
     </div>
   );
 };

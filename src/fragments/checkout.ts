@@ -69,5 +69,6 @@ export const CHECKOUT_DETAILS_FRAGMENT = gql`
       currency
       amount
     }
+    voucherCode
   }
 `;

@@ -293,6 +293,7 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
    */
   availablePaymentGateways: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways[];
   discount: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

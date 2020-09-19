@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  height: number;
+  height: number | string;
 }
 const VSpacing: React.FC<Props> = props => {
   const { height, style, ...rest } = props;

@@ -266,4 +266,5 @@ export interface CheckoutDetails {
    */
   availablePaymentGateways: CheckoutDetails_availablePaymentGateways[];
   discount: CheckoutDetails_discount | null;
+  voucherCode: string | null;
 }

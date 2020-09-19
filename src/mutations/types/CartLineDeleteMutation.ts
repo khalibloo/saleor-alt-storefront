@@ -293,6 +293,7 @@ export interface CartLineDeleteMutation_checkoutLineDelete_checkout {
    */
   availablePaymentGateways: CartLineDeleteMutation_checkoutLineDelete_checkout_availablePaymentGateways[];
   discount: CartLineDeleteMutation_checkoutLineDelete_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
