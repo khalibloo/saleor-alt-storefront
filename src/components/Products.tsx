@@ -14,11 +14,12 @@ import {
   Skeleton,
 } from "antd";
 import { useIntl, useLocation, history } from "umi";
+import InfiniteScroll from "react-infinite-scroller";
 
 import VSpacing from "@/components/VSpacing";
 import ProductCard from "@/components/ProductCard";
-
 import FilterBar from "@/components/FilterBar";
+
 import { useResponsive, useBoolean } from "@umijs/hooks";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import {
@@ -39,6 +40,7 @@ import { COLLECTIONS_QUERY } from "@/queries/collections";
 import { collectionsQuery } from "@/queries/types/collectionsQuery";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";
+import Loader from "./Loader";
 
 interface Props {
   showCategoryFilter?: boolean;
@@ -109,23 +111,24 @@ const Products: React.FC<Props> = ({
   } catch {}
 
   // fetch products
-  const { loading: fetching, error, data } = useQuery<
+  const fetchProductsVars = {
+    categoryID,
+    collectionID,
+    categoryList,
+    collectionList,
+    search,
+    priceGte,
+    priceLte,
+    attributes,
+    sortBy: sortMap[sortBy],
+    prodsPerPage: 50,
+    cursor: undefined,
+  };
+  const { loading: fetching, error, data, fetchMore } = useQuery<
     ProductsQuery,
     ProductsQueryVariables
   >(PRODUCTS_QUERY, {
-    variables: {
-      categoryID,
-      collectionID,
-      categoryList,
-      collectionList,
-      search,
-      priceGte,
-      priceLte,
-      attributes,
-      sortBy: sortMap[sortBy],
-      prodsPerPage: 50,
-      cursor: undefined,
-    },
+    variables: fetchProductsVars,
   });
 
   // categories filter data
@@ -433,43 +436,85 @@ const Products: React.FC<Props> = ({
               {filters}
             </Col>
             <Col span={18} xs={24} sm={24} md={24} lg={18} xl={18} xxl={16}>
-              <List
-                dataSource={data?.products?.edges}
-                grid={
-                  view === "grid"
-                    ? { gutter: 24, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }
-                    : undefined
-                }
-                loading={fetching}
-                renderItem={(edge, i) => {
-                  const product = edge.node;
-                  return (
-                    <List.Item
-                      className="product-list-items"
-                      id={`product-list-item-${i}`}
-                      key={product.id}
-                    >
-                      <div className="full-width">
-                        {view === "grid" ? (
-                          <Row justify="center">
-                            <Col span={24} style={{ maxWidth: 240 }}>
-                              <ProductCard
-                                className="product-grid-cards"
-                                product={product}
-                              />
-                            </Col>
-                          </Row>
-                        ) : (
-                          <ProductListItem
-                            className="product-list-cards"
-                            product={product}
-                          />
-                        )}
-                      </div>
-                    </List.Item>
-                  );
+              <InfiniteScroll
+                initialLoad={false}
+                pageStart={0}
+                loadMore={() => {
+                  console.log("fetch more");
+                  fetchMore({
+                    variables: {
+                      ...fetchProductsVars,
+                      cursor: _.last(data?.products?.edges)?.cursor,
+                    },
+                    updateQuery: (prev: ProductsQuery, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev;
+                      const prevProds = prev.products?.edges;
+                      return {
+                        ...fetchMoreResult,
+                        products: {
+                          ...fetchMoreResult.products,
+                          edges: [
+                            ...(prevProds || []),
+                            ...(fetchMoreResult.products?.edges || []),
+                          ],
+                        },
+                      };
+                    },
+                  });
                 }}
-              />
+                hasMore={!fetching && data?.products?.pageInfo.hasNextPage}
+                useWindow
+              >
+                <List
+                  dataSource={data?.products?.edges}
+                  grid={
+                    view === "grid"
+                      ? {
+                          gutter: 24,
+                          xs: 1,
+                          sm: 2,
+                          md: 3,
+                          lg: 3,
+                          xl: 4,
+                          xxl: 6,
+                        }
+                      : undefined
+                  }
+                  loading={fetching}
+                  renderItem={(edge, i) => {
+                    const product = edge.node;
+                    return (
+                      <List.Item
+                        className="product-list-items"
+                        id={`product-list-item-${i}`}
+                        key={product.id}
+                      >
+                        <div className="full-width">
+                          {view === "grid" ? (
+                            <Row justify="center">
+                              <Col span={24} style={{ maxWidth: 240 }}>
+                                <ProductCard
+                                  className="product-grid-cards"
+                                  product={product}
+                                />
+                              </Col>
+                            </Row>
+                          ) : (
+                            <ProductListItem
+                              className="product-list-cards"
+                              product={product}
+                            />
+                          )}
+                        </div>
+                      </List.Item>
+                    );
+                  }}
+                >
+                  {fetching && data?.products?.pageInfo.hasNextPage && (
+                    <Loader />
+                  )}
+                </List>
+              </InfiniteScroll>
             </Col>
           </Row>
         </Col>
