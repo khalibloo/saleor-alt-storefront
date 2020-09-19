@@ -12,6 +12,7 @@ import {
   message,
   Modal,
   Result,
+  Drawer,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link, connect, ConnectRC, history } from "umi";
@@ -28,6 +29,7 @@ import { APIException } from "@/apollo";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
 import altConfig from "@/../.altrc";
+import VoucherCodeForm from "@/components/VoucherCodeForm";
 
 interface Props {
   loading: Loading;
@@ -36,6 +38,11 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const intl = useIntl();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>();
   const { state: thanksOpen, setTrue: openThanks } = useBoolean();
+  const {
+    state: mobileCheckoutOpen,
+    setTrue: openMobileCheckout,
+    setFalse: closeMobileCheckout,
+  } = useBoolean();
   const responsive = useResponsive();
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
@@ -48,6 +55,8 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const currency = checkout?.totalPrice?.gross.currency;
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
   const shippingPrice = checkout?.shippingPrice?.gross.amount;
+  const discountPrice = checkout?.discount?.amount;
+  const voucherCode = checkout?.voucherCode;
   const totalPrice = checkout?.totalPrice?.gross.amount;
   const shippingAddress = checkout?.shippingAddress;
   const billingAddress = checkout?.billingAddress;
@@ -86,26 +95,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const invalidShippingMethod =
     availableShippingMethods?.find(sm => sm?.id === shippingMethod?.id) ===
     undefined;
+  const isSummaryCompact = !responsive.lg;
   const summary = (
-    <Card
-      id="summary-card"
-      className="shadow"
-      bordered={false}
-      title={intl.formatMessage({ id: "cart.summary" })}
-    >
-      <Row gutter={16}>
-        <Col span={8}>
-          <Typography.Text>
-            {intl.formatMessage({ id: "cart.subtotal" })}:
-          </Typography.Text>
-        </Col>
-        <Col span={16}>
-          <Typography.Text id="subtotal-price">
-            {formatPrice(currency, subtotalPrice)}
-          </Typography.Text>
-        </Col>
-      </Row>
-      <VSpacing height={8} />
+    <>
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
@@ -248,12 +240,51 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text>
+            {intl.formatMessage({ id: "cart.vouchers" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <VoucherCodeForm />
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
+            {intl.formatMessage({ id: "cart.subtotal" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <Typography.Text id="subtotal-price">
+            {formatPrice(currency, subtotalPrice)}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
             {intl.formatMessage({ id: "cart.shippingFee" })}:
           </Typography.Text>
         </Col>
         <Col span={16}>
           <Typography.Text id="shipping-fee-txt">
             {shippingMethod ? formatPrice(currency, shippingPrice) : "--"}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <VSpacing height={8} />
+      <Row gutter={16}>
+        <Col span={8}>
+          <Typography.Text>
+            {intl.formatMessage({ id: "cart.discount" })}:
+          </Typography.Text>
+        </Col>
+        <Col span={16}>
+          <Typography.Text id="shipping-fee-txt">
+            {shippingMethod
+              ? `-${formatPrice(currency, discountPrice)} (${voucherCode})`
+              : "--"}
           </Typography.Text>
         </Col>
       </Row>
@@ -341,7 +372,7 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
       >
         {intl.formatMessage({ id: "cart.checkout" })}
       </Button>
-    </Card>
+    </>
   );
   return (
     <div className="vflex flex-grow-1">
@@ -425,7 +456,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                               >
                                 <Typography.Title level={4}>
                                   {item?.variant.product.name}{" "}
-                                  <i>({item?.variant.name})</i>
+                                  {item?.variant.name && (
+                                    <i>({item?.variant.name})</i>
+                                  )}
                                 </Typography.Title>
                               </Link>
                               <Typography.Title level={4}>
@@ -433,7 +466,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                               </Typography.Title>
                               <Row gutter={16}>
                                 <Col>
-                                  <Typography.Text>Qty: </Typography.Text>
+                                  <Typography.Text>
+                                    {intl.formatMessage({ id: "misc.qty" })}:{" "}
+                                  </Typography.Text>
                                 </Col>
                                 <Col style={{ width: 160 }}>
                                   <NumberInput
@@ -482,7 +517,8 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                                       });
                                     }}
                                   >
-                                    <DeleteOutlined /> Delete
+                                    <DeleteOutlined />{" "}
+                                    {intl.formatMessage({ id: "misc.delete" })}
                                   </Button>
                                 </Col>
                               </Row>
@@ -496,13 +532,42 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
               />
             </Col>
             <Col span={8} xs={0} sm={0} md={0} lg={8} xl={8} xxl={8}>
-              {summary}
+              <Card
+                id="summary-card"
+                className="shadow"
+                bordered={false}
+                title={intl.formatMessage({ id: "cart.summary" })}
+              >
+                {summary}
+              </Card>
             </Col>
           </Row>
         </Col>
       </Row>
       <VSpacing height={48} />
-      {!responsive.lg && <Affix offsetBottom={0}>{summary}</Affix>}
+      {isSummaryCompact && (
+        <>
+          <Drawer
+            title={intl.formatMessage({ id: "cart.summary" })}
+            visible={mobileCheckoutOpen}
+            onClose={closeMobileCheckout}
+            placement="bottom"
+            height="auto"
+          >
+            {summary}
+          </Drawer>
+          <Affix offsetBottom={0}>
+            <Button
+              block
+              type="primary"
+              size="large"
+              onClick={openMobileCheckout}
+            >
+              {intl.formatMessage({ id: "cart.proceedToCheckout" })}
+            </Button>
+          </Affix>
+        </>
+      )}
     </div>
   );
 };

@@ -265,6 +265,18 @@ export interface cartQuery_me_checkout_availablePaymentGateways {
   config: cartQuery_me_checkout_availablePaymentGateways_config[];
 }
 
+export interface cartQuery_me_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface cartQuery_me_checkout_lines_variant_images {
   __typename: "ProductImage";
   /**
@@ -459,6 +471,8 @@ export interface cartQuery_me_checkout {
    * List of available payment gateways.
    */
   availablePaymentGateways: cartQuery_me_checkout_availablePaymentGateways[];
+  discount: cartQuery_me_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

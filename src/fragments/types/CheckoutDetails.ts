@@ -223,6 +223,18 @@ export interface CheckoutDetails_availablePaymentGateways {
   config: CheckoutDetails_availablePaymentGateways_config[];
 }
 
+export interface CheckoutDetails_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CheckoutDetails {
   __typename: "Checkout";
   /**
@@ -253,4 +265,6 @@ export interface CheckoutDetails {
    * List of available payment gateways.
    */
   availablePaymentGateways: CheckoutDetails_availablePaymentGateways[];
+  discount: CheckoutDetails_discount | null;
+  voucherCode: string | null;
 }

@@ -241,6 +241,18 @@ export interface CartLinesAddMutation_checkoutLinesAdd_checkout_availablePayment
   config: CartLinesAddMutation_checkoutLinesAdd_checkout_availablePaymentGateways_config[];
 }
 
+export interface CartLinesAddMutation_checkoutLinesAdd_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CartLinesAddMutation_checkoutLinesAdd_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -280,6 +292,8 @@ export interface CartLinesAddMutation_checkoutLinesAdd_checkout {
    * List of available payment gateways.
    */
   availablePaymentGateways: CartLinesAddMutation_checkoutLinesAdd_checkout_availablePaymentGateways[];
+  discount: CartLinesAddMutation_checkoutLinesAdd_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

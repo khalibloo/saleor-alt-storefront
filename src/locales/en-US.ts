@@ -21,6 +21,7 @@ export default {
   "misc.save": "Save",
   "misc.saveChanges": "Save Changes",
   "misc.save.success": "Changes Saved Successfully",
+  "misc.apply": "Apply",
   "misc.address.createNew": "Create New Address",
   "misc.showMore": "Show More",
   "misc.showLess": "Show Less",
@@ -31,6 +32,7 @@ export default {
   "misc.backToHome": "Back To Home",
   "misc.offline.msg": "You are now offline",
   "misc.online.msg": "You are back online",
+  "misc.qty": "Qty",
 
   // forms
   "form.optional": "Optional",
@@ -82,14 +84,23 @@ export default {
   "cart.billingAddress": "Billing Address",
   "cart.shippingMethod": "Shipping Method",
   "cart.shippingFee": "Shipping Fee",
+  "cart.discount": "Discount",
   "cart.total": "Total",
   "cart.paymentMethod": "Payment Method",
   "cart.checkout": "Checkout",
+  "cart.proceedToCheckout": "Proceed To Checkout",
   "cart.selectAddress": "Select Address",
   "cart.addItem.success": "Item Added to Cart",
   "cart.deleteItem.success": "Item Removed from Cart",
   "cart.shippingAddress.fail": "Failed to set shipping address",
   "cart.billingAddress.fail": "Failed to set billing address",
+  "cart.vouchers": "Vouchers",
+  "cart.voucherCode": "Voucher Code",
+  "cart.voucherCode.required": "Please enter voucher code",
+  "cart.voucherCode.invalid": "Voucher code is invalid or has expired",
+  "cart.voucherCode.inapplicable":
+    "Cart has not met minimum requirements for this voucher",
+  "cart.voucherCode.success": "Voucher Applied",
 
   // profile
   "profile.title": formatTitle("Profile"),
