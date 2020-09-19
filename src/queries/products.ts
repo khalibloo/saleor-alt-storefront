@@ -93,6 +93,9 @@ export const PRODUCTS_QUERY = gql`
       first: $prodsPerPage
       after: $cursor
     ) {
+      pageInfo {
+        hasNextPage
+      }
       edges {
         cursor
         node {

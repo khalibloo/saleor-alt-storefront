@@ -180,6 +180,14 @@ export interface ProductsQuery_attributes {
   edges: ProductsQuery_attributes_edges[];
 }
 
+export interface ProductsQuery_products_pageInfo {
+  __typename: "PageInfo";
+  /**
+   * When paginating forwards, are there more items?
+   */
+  hasNextPage: boolean;
+}
+
 export interface ProductsQuery_products_edges_node_thumbnail {
   __typename: "Image";
   /**
@@ -412,6 +420,10 @@ export interface ProductsQuery_products_edges {
 
 export interface ProductsQuery_products {
   __typename: "ProductCountableConnection";
+  /**
+   * Pagination data for this connection.
+   */
+  pageInfo: ProductsQuery_products_pageInfo;
   edges: ProductsQuery_products_edges[];
 }
 
