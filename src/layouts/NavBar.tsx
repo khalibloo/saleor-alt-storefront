@@ -175,8 +175,13 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
         <Menu mode="inline" defaultOpenKeys={["accmenu"]} selectable={false}>
           <Menu.Item onClick={closeMenuDrawer}>
             <Link to="/cart">
-              <ShoppingCartOutlined />{" "}
-              {intl.formatMessage({ id: "navbar.cart" })}
+              <Badge
+                count={cartData?.me?.checkout?.lines?.length}
+                offset={[12, 0]}
+              >
+                <ShoppingCartOutlined />{" "}
+                {intl.formatMessage({ id: "navbar.cart" })}
+              </Badge>
             </Link>
           </Menu.Item>
           {authenticated && (
