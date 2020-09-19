@@ -148,7 +148,9 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const suggestions = product?.category?.products?.edges;
+  const suggestions = product?.category?.products?.edges.filter(
+    e => e.node.id !== product.id,
+  );
   const productGrid: ListGridType = {
     gutter: 24,
     xs: 1,
