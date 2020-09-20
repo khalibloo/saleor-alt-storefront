@@ -207,11 +207,7 @@ export const ProductsQuery = {
             pricing: {
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -233,11 +229,7 @@ export const ProductsQuery = {
             pricing: {
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 59,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 59, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -642,6 +634,7 @@ export const ProductsQuery = {
       __typename: "AttributeCountableConnection",
     },
     products: {
+      pageInfo: { hasNextPage: false, __typename: "PageInfo" },
       edges: [
         {
           cursor: "WyJBcHBsZSBKdWljZSIsICJhcHBsZS1qdWljZSJd",
@@ -673,38 +666,22 @@ export const ProductsQuery = {
               discount: null,
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -744,47 +721,27 @@ export const ProductsQuery = {
               onSale: true,
               discount: {
                 currency: "USD",
-                gross: {
-                  currency: "USD",
-                  amount: 0.9,
-                  __typename: "Money",
-                },
+                gross: { currency: "USD", amount: 0.9, __typename: "Money" },
                 __typename: "TaxedMoney",
               },
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 2.1,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 2.1, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 4.9,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 4.9, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -825,38 +782,22 @@ export const ProductsQuery = {
               discount: null,
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -944,47 +885,27 @@ export const ProductsQuery = {
               onSale: true,
               discount: {
                 currency: "USD",
-                gross: {
-                  currency: "USD",
-                  amount: 0.3,
-                  __typename: "Money",
-                },
+                gross: { currency: "USD", amount: 0.3, __typename: "Money" },
                 __typename: "TaxedMoney",
               },
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 2.7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 2.7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 6.3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 6.3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -1025,38 +946,22 @@ export const ProductsQuery = {
               discount: null,
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -1096,47 +1001,27 @@ export const ProductsQuery = {
               onSale: true,
               discount: {
                 currency: "USD",
-                gross: {
-                  currency: "USD",
-                  amount: 1.5,
-                  __typename: "Money",
-                },
+                gross: { currency: "USD", amount: 1.5, __typename: "Money" },
                 __typename: "TaxedMoney",
               },
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 1.5,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 1.5, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3.5,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3.5, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -1176,47 +1061,27 @@ export const ProductsQuery = {
               onSale: true,
               discount: {
                 currency: "USD",
-                gross: {
-                  currency: "USD",
-                  amount: 0.9,
-                  __typename: "Money",
-                },
+                gross: { currency: "USD", amount: 0.9, __typename: "Money" },
                 __typename: "TaxedMoney",
               },
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 2.1,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 2.1, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 4.9,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 4.9, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -1257,38 +1122,22 @@ export const ProductsQuery = {
               discount: null,
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
@@ -1329,38 +1178,22 @@ export const ProductsQuery = {
               discount: null,
               priceRange: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
               },
               priceRangeUndiscounted: {
                 start: {
-                  gross: {
-                    currency: "USD",
-                    amount: 3,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 stop: {
-                  gross: {
-                    currency: "USD",
-                    amount: 7,
-                    __typename: "Money",
-                  },
+                  gross: { currency: "USD", amount: 7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "TaxedMoneyRange",
