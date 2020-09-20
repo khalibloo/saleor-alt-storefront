@@ -24,8 +24,8 @@ export const cartQuery = {
           },
           countryArea: "",
           phone: "+23058432123",
-          isDefaultShippingAddress: false,
-          isDefaultBillingAddress: false,
+          isDefaultShippingAddress: true,
+          isDefaultBillingAddress: true,
           __typename: "Address",
         },
         {
@@ -51,28 +51,19 @@ export const cartQuery = {
         },
       ],
       checkout: {
-        id: "Q2hlY2tvdXQ6OTM0NGI3NDktNjU3Ni00NzkzLThkZjctNjFmNzJlOWJkYjNj",
-        token: "9344b749-6576-4793-8df7-61f72e9bdb3c",
-        shippingMethod: {
-          id: "U2hpcHBpbmdNZXRob2Q6OTk=",
-          name: "DB Schenker",
-          minimumOrderPrice: {
-            currency: "USD",
-            amount: 0,
-            __typename: "Money",
-          },
-          __typename: "ShippingMethod",
-        },
+        id: "Q2hlY2tvdXQ6ODVmMjYyOWMtMDBlMi00NjY4LWJiNmItNmM1YjFmNzliYmRh",
+        token: "85f2629c-00e2-4668-bb6b-6c5b1f79bbda",
+        shippingMethod: null,
         shippingPrice: {
-          gross: { currency: "USD", amount: 6.11, __typename: "Money" },
+          gross: { currency: "USD", amount: 0, __typename: "Money" },
           __typename: "TaxedMoney",
         },
         subtotalPrice: {
-          gross: { currency: "USD", amount: 122.6, __typename: "Money" },
+          gross: { currency: "USD", amount: 16.5, __typename: "Money" },
           __typename: "TaxedMoney",
         },
         totalPrice: {
-          gross: { currency: "USD", amount: 128.71, __typename: "Money" },
+          gross: { currency: "USD", amount: 16.5, __typename: "Money" },
           __typename: "TaxedMoney",
         },
         __typename: "Checkout",
@@ -247,7 +238,7 @@ export const cartQuery = {
           },
         ],
         shippingAddress: {
-          id: "QWRkcmVzczo3Mg==",
+          id: "QWRkcmVzczoxMDA=",
           firstName: "Peach",
           lastName: "Toadstool",
           companyName: "",
@@ -267,10 +258,83 @@ export const cartQuery = {
           isDefaultBillingAddress: null,
           __typename: "Address",
         },
-        billingAddress: null,
+        billingAddress: {
+          id: "QWRkcmVzczo5OQ==",
+          firstName: "Peach",
+          lastName: "Toadstool",
+          companyName: "",
+          streetAddress1: "123 Castle Street",
+          streetAddress2: "Dungeon Floor",
+          city: "COOPA ISLAND",
+          cityArea: "",
+          postalCode: "54321",
+          country: {
+            code: "FI",
+            country: "Finland",
+            __typename: "CountryDisplay",
+          },
+          countryArea: "",
+          phone: "+23058432123",
+          isDefaultShippingAddress: null,
+          isDefaultBillingAddress: null,
+          __typename: "Address",
+        },
+        availablePaymentGateways: [
+          {
+            id: "mirumee.payments.dummy",
+            name: "Dummy",
+            config: [
+              {
+                field: "store_customer_card",
+                value: "false",
+                __typename: "GatewayConfigLine",
+              },
+            ],
+            __typename: "PaymentGateway",
+          },
+        ],
+        discount: { currency: "USD", amount: 0, __typename: "Money" },
+        voucherCode: null,
         lines: [
           {
-            id: "Q2hlY2tvdXRMaW5lOjE=",
+            id: "Q2hlY2tvdXRMaW5lOjEz",
+            variant: {
+              id: "UHJvZHVjdFZhcmlhbnQ6MTk1",
+              name: "",
+              sku: "98616712",
+              quantityAvailable: 50,
+              images: [],
+              attributes: [],
+              pricing: {
+                price: {
+                  gross: { currency: "USD", amount: 3, __typename: "Money" },
+                  __typename: "TaxedMoney",
+                },
+                __typename: "VariantPricingInfo",
+              },
+              product: {
+                id: "UHJvZHVjdDo4Mw==",
+                name: "Seaman Lager",
+                descriptionJson:
+                  '{"blocks": [{"key": "", "data": {}, "text": "Find your sea legs and then lose the power to use them with extra strong seaman\\u2019s lager. Don\\u2019t drink and sail, me hearties!", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}',
+                thumbnail: {
+                  url: placeholderImg,
+                  alt: "",
+                  __typename: "Image",
+                },
+                __typename: "Product",
+              },
+              __typename: "ProductVariant",
+            },
+            quantity: 1,
+            totalPrice: {
+              gross: { amount: 3, currency: "USD", __typename: "Money" },
+              __typename: "TaxedMoney",
+            },
+            __typename: "CheckoutLine",
+          },
+          {
+            id: "Q2hlY2tvdXRMaW5lOjE0",
             variant: {
               id: "UHJvZHVjdFZhcmlhbnQ6MjA2",
               name: "1l",
@@ -315,15 +379,15 @@ export const cartQuery = {
               },
               __typename: "ProductVariant",
             },
-            quantity: 12,
+            quantity: 1,
             totalPrice: {
-              gross: { amount: 54, currency: "USD", __typename: "Money" },
+              gross: { amount: 4.5, currency: "USD", __typename: "Money" },
               __typename: "TaxedMoney",
             },
             __typename: "CheckoutLine",
           },
           {
-            id: "Q2hlY2tvdXRMaW5lOjQ=",
+            id: "Q2hlY2tvdXRMaW5lOjE1",
             variant: {
               id: "UHJvZHVjdFZhcmlhbnQ6MjA3",
               name: "2l",
@@ -368,32 +432,32 @@ export const cartQuery = {
               },
               __typename: "ProductVariant",
             },
-            quantity: 2,
+            quantity: 1,
             totalPrice: {
-              gross: { amount: 12.6, currency: "USD", __typename: "Money" },
+              gross: { amount: 6.3, currency: "USD", __typename: "Money" },
               __typename: "TaxedMoney",
             },
             __typename: "CheckoutLine",
           },
           {
-            id: "Q2hlY2tvdXRMaW5lOjU=",
+            id: "Q2hlY2tvdXRMaW5lOjE2",
             variant: {
-              id: "UHJvZHVjdFZhcmlhbnQ6MjAw",
-              name: "55cm x 55cm",
-              sku: "998223590",
+              id: "UHJvZHVjdFZhcmlhbnQ6MjA1",
+              name: "500ml",
+              sku: "67882967",
               quantityAvailable: 50,
               images: [],
               attributes: [
                 {
                   attribute: {
-                    id: "QXR0cmlidXRlOjIy",
-                    name: "Cushion Size",
+                    id: "QXR0cmlidXRlOjE1",
+                    name: "Bottle Size",
                     __typename: "Attribute",
                   },
                   values: [
                     {
-                      id: "QXR0cmlidXRlVmFsdWU6NzE=",
-                      name: "55cm x 55cm",
+                      id: "QXR0cmlidXRlVmFsdWU6NDY=",
+                      name: "500ml",
                       __typename: "AttributeValue",
                     },
                   ],
@@ -402,69 +466,16 @@ export const cartQuery = {
               ],
               pricing: {
                 price: {
-                  gross: { currency: "USD", amount: 18, __typename: "Money" },
+                  gross: { currency: "USD", amount: 2.7, __typename: "Money" },
                   __typename: "TaxedMoney",
                 },
                 __typename: "VariantPricingInfo",
               },
               product: {
-                id: "UHJvZHVjdDo4Ng==",
-                name: "White Parrot Cushion",
+                id: "UHJvZHVjdDo3Mw==",
+                name: "Carrot Juice",
                 descriptionJson:
-                  '{"blocks": [{"key": "", "data": {}, "text": "Minimalist interiors need simple, sleek soft furnishings. Don\\u2019t parrot what others do, set your own monochrome trends with Saleor designs.", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}',
-                thumbnail: {
-                  url: placeholderImg,
-                  alt: "",
-                  __typename: "Image",
-                },
-                __typename: "Product",
-              },
-              __typename: "ProductVariant",
-            },
-            quantity: 2,
-            totalPrice: {
-              gross: { amount: 36, currency: "USD", __typename: "Money" },
-              __typename: "TaxedMoney",
-            },
-            __typename: "CheckoutLine",
-          },
-          {
-            id: "Q2hlY2tvdXRMaW5lOjY=",
-            variant: {
-              id: "UHJvZHVjdFZhcmlhbnQ6MTk4",
-              name: "55cm x 55cm",
-              sku: "698223581",
-              quantityAvailable: 50,
-              images: [],
-              attributes: [
-                {
-                  attribute: {
-                    id: "QXR0cmlidXRlOjIy",
-                    name: "Cushion Size",
-                    __typename: "Attribute",
-                  },
-                  values: [
-                    {
-                      id: "QXR0cmlidXRlVmFsdWU6NzE=",
-                      name: "55cm x 55cm",
-                      __typename: "AttributeValue",
-                    },
-                  ],
-                  __typename: "SelectedAttribute",
-                },
-              ],
-              pricing: {
-                price: {
-                  gross: { currency: "USD", amount: 20, __typename: "Money" },
-                  __typename: "TaxedMoney",
-                },
-                __typename: "VariantPricingInfo",
-              },
-              product: {
-                id: "UHJvZHVjdDo4NQ==",
-                name: "Colored Parrot Cushion",
-                descriptionJson:
-                  '{"blocks": [{"key": "", "data": {}, "text": "Add a little color to your life with a Saleor parrot cushion. Turns any old sofa into a rainbow of classy interior design.", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}',
+                  '{"blocks": [{"key": "", "data": {}, "text": "Improve your eyesight the natural way with 100% pure, squeezed carrot juice. The sweet, orange nectar of Mother Earth.", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}',
                 thumbnail: {
                   url: placeholderImg,
                   alt: "",
@@ -476,7 +487,7 @@ export const cartQuery = {
             },
             quantity: 1,
             totalPrice: {
-              gross: { amount: 20, currency: "USD", __typename: "Money" },
+              gross: { amount: 2.7, currency: "USD", __typename: "Money" },
               __typename: "TaxedMoney",
             },
             __typename: "CheckoutLine",

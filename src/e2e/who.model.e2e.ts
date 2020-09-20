@@ -7,8 +7,8 @@ class Page {
   loginForm = Selector("form[id=who-login-form]");
   loginBtn = this.loginForm.find("button[type=submit]");
 
-  signupTabBtn = Selector("#tab-signup");
-  loginTabBtn = Selector("#tab-login");
+  signupTabBtn = Selector("#rc-tabs-0-tab-signup");
+  loginTabBtn = Selector("#rc-tabs-0-tab-login");
 
   async openLoginTab() {
     await t.click(this.loginTabBtn);

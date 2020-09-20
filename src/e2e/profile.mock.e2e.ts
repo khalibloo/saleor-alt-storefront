@@ -30,8 +30,8 @@ export const profileQuery = {
           },
           countryArea: "",
           phone: "+23058432123",
-          isDefaultShippingAddress: false,
-          isDefaultBillingAddress: false,
+          isDefaultShippingAddress: true,
+          isDefaultBillingAddress: true,
           __typename: "Address",
         },
         {
