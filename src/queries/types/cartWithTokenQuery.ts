@@ -4,52 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: cartQuery
+// GraphQL query operation: cartWithTokenQuery
 // ====================================================
 
-export interface cartQuery_me_addresses_country {
-  __typename: "CountryDisplay";
-  /**
-   * Country code.
-   */
-  code: string;
-  /**
-   * Country name.
-   */
-  country: string;
-}
-
-export interface cartQuery_me_addresses {
-  __typename: "Address";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  firstName: string;
-  lastName: string;
-  companyName: string;
-  streetAddress1: string;
-  streetAddress2: string;
-  city: string;
-  cityArea: string;
-  postalCode: string;
-  /**
-   * Shop's default country.
-   */
-  country: cartQuery_me_addresses_country;
-  countryArea: string;
-  phone: string | null;
-  /**
-   * Address is user's default shipping address.
-   */
-  isDefaultShippingAddress: boolean | null;
-  /**
-   * Address is user's default billing address.
-   */
-  isDefaultBillingAddress: boolean | null;
-}
-
-export interface cartQuery_me_checkout_shippingMethod_minimumOrderPrice {
+export interface cartWithTokenQuery_checkout_shippingMethod_minimumOrderPrice {
   __typename: "Money";
   /**
    * Currency code.
@@ -61,17 +19,17 @@ export interface cartQuery_me_checkout_shippingMethod_minimumOrderPrice {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_shippingMethod {
+export interface cartWithTokenQuery_checkout_shippingMethod {
   __typename: "ShippingMethod";
   /**
    * The ID of the object.
    */
   id: string;
   name: string;
-  minimumOrderPrice: cartQuery_me_checkout_shippingMethod_minimumOrderPrice | null;
+  minimumOrderPrice: cartWithTokenQuery_checkout_shippingMethod_minimumOrderPrice | null;
 }
 
-export interface cartQuery_me_checkout_shippingPrice_gross {
+export interface cartWithTokenQuery_checkout_shippingPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -83,15 +41,15 @@ export interface cartQuery_me_checkout_shippingPrice_gross {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_shippingPrice {
+export interface cartWithTokenQuery_checkout_shippingPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: cartQuery_me_checkout_shippingPrice_gross;
+  gross: cartWithTokenQuery_checkout_shippingPrice_gross;
 }
 
-export interface cartQuery_me_checkout_subtotalPrice_gross {
+export interface cartWithTokenQuery_checkout_subtotalPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -103,15 +61,15 @@ export interface cartQuery_me_checkout_subtotalPrice_gross {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_subtotalPrice {
+export interface cartWithTokenQuery_checkout_subtotalPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: cartQuery_me_checkout_subtotalPrice_gross;
+  gross: cartWithTokenQuery_checkout_subtotalPrice_gross;
 }
 
-export interface cartQuery_me_checkout_totalPrice_gross {
+export interface cartWithTokenQuery_checkout_totalPrice_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -123,15 +81,15 @@ export interface cartQuery_me_checkout_totalPrice_gross {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_totalPrice {
+export interface cartWithTokenQuery_checkout_totalPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: cartQuery_me_checkout_totalPrice_gross;
+  gross: cartWithTokenQuery_checkout_totalPrice_gross;
 }
 
-export interface cartQuery_me_checkout_discount {
+export interface cartWithTokenQuery_checkout_discount {
   __typename: "Money";
   /**
    * Currency code.
@@ -143,7 +101,7 @@ export interface cartQuery_me_checkout_discount {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_availableShippingMethods_price {
+export interface cartWithTokenQuery_checkout_availableShippingMethods_price {
   __typename: "Money";
   /**
    * Currency code.
@@ -155,17 +113,17 @@ export interface cartQuery_me_checkout_availableShippingMethods_price {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_availableShippingMethods {
+export interface cartWithTokenQuery_checkout_availableShippingMethods {
   __typename: "ShippingMethod";
   /**
    * The ID of the object.
    */
   id: string;
   name: string;
-  price: cartQuery_me_checkout_availableShippingMethods_price | null;
+  price: cartWithTokenQuery_checkout_availableShippingMethods_price | null;
 }
 
-export interface cartQuery_me_checkout_shippingAddress_country {
+export interface cartWithTokenQuery_checkout_shippingAddress_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -177,7 +135,7 @@ export interface cartQuery_me_checkout_shippingAddress_country {
   country: string;
 }
 
-export interface cartQuery_me_checkout_shippingAddress {
+export interface cartWithTokenQuery_checkout_shippingAddress {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -194,7 +152,7 @@ export interface cartQuery_me_checkout_shippingAddress {
   /**
    * Shop's default country.
    */
-  country: cartQuery_me_checkout_shippingAddress_country;
+  country: cartWithTokenQuery_checkout_shippingAddress_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -207,7 +165,7 @@ export interface cartQuery_me_checkout_shippingAddress {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface cartQuery_me_checkout_billingAddress_country {
+export interface cartWithTokenQuery_checkout_billingAddress_country {
   __typename: "CountryDisplay";
   /**
    * Country code.
@@ -219,7 +177,7 @@ export interface cartQuery_me_checkout_billingAddress_country {
   country: string;
 }
 
-export interface cartQuery_me_checkout_billingAddress {
+export interface cartWithTokenQuery_checkout_billingAddress {
   __typename: "Address";
   /**
    * The ID of the object.
@@ -236,7 +194,7 @@ export interface cartQuery_me_checkout_billingAddress {
   /**
    * Shop's default country.
    */
-  country: cartQuery_me_checkout_billingAddress_country;
+  country: cartWithTokenQuery_checkout_billingAddress_country;
   countryArea: string;
   phone: string | null;
   /**
@@ -249,7 +207,7 @@ export interface cartQuery_me_checkout_billingAddress {
   isDefaultBillingAddress: boolean | null;
 }
 
-export interface cartQuery_me_checkout_availablePaymentGateways_config {
+export interface cartWithTokenQuery_checkout_availablePaymentGateways_config {
   __typename: "GatewayConfigLine";
   /**
    * Gateway config key.
@@ -261,7 +219,7 @@ export interface cartQuery_me_checkout_availablePaymentGateways_config {
   value: string | null;
 }
 
-export interface cartQuery_me_checkout_availablePaymentGateways {
+export interface cartWithTokenQuery_checkout_availablePaymentGateways {
   __typename: "PaymentGateway";
   /**
    * Payment gateway ID.
@@ -274,10 +232,10 @@ export interface cartQuery_me_checkout_availablePaymentGateways {
   /**
    * Payment gateway client configuration.
    */
-  config: cartQuery_me_checkout_availablePaymentGateways_config[];
+  config: cartWithTokenQuery_checkout_availablePaymentGateways_config[];
 }
 
-export interface cartQuery_me_checkout_lines_variant_images {
+export interface cartWithTokenQuery_checkout_lines_variant_images {
   __typename: "ProductImage";
   /**
    * The ID of the object.
@@ -290,7 +248,7 @@ export interface cartQuery_me_checkout_lines_variant_images {
   alt: string;
 }
 
-export interface cartQuery_me_checkout_lines_variant_attributes_attribute {
+export interface cartWithTokenQuery_checkout_lines_variant_attributes_attribute {
   __typename: "Attribute";
   /**
    * The ID of the object.
@@ -302,7 +260,7 @@ export interface cartQuery_me_checkout_lines_variant_attributes_attribute {
   name: string | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant_attributes_values {
+export interface cartWithTokenQuery_checkout_lines_variant_attributes_values {
   __typename: "AttributeValue";
   /**
    * The ID of the object.
@@ -314,19 +272,19 @@ export interface cartQuery_me_checkout_lines_variant_attributes_values {
   name: string | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant_attributes {
+export interface cartWithTokenQuery_checkout_lines_variant_attributes {
   __typename: "SelectedAttribute";
   /**
    * Name of an attribute displayed in the interface.
    */
-  attribute: cartQuery_me_checkout_lines_variant_attributes_attribute;
+  attribute: cartWithTokenQuery_checkout_lines_variant_attributes_attribute;
   /**
    * Values of an attribute.
    */
-  values: (cartQuery_me_checkout_lines_variant_attributes_values | null)[];
+  values: (cartWithTokenQuery_checkout_lines_variant_attributes_values | null)[];
 }
 
-export interface cartQuery_me_checkout_lines_variant_pricing_price_gross {
+export interface cartWithTokenQuery_checkout_lines_variant_pricing_price_gross {
   __typename: "Money";
   /**
    * Currency code.
@@ -338,23 +296,23 @@ export interface cartQuery_me_checkout_lines_variant_pricing_price_gross {
   amount: number;
 }
 
-export interface cartQuery_me_checkout_lines_variant_pricing_price {
+export interface cartWithTokenQuery_checkout_lines_variant_pricing_price {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: cartQuery_me_checkout_lines_variant_pricing_price_gross;
+  gross: cartWithTokenQuery_checkout_lines_variant_pricing_price_gross;
 }
 
-export interface cartQuery_me_checkout_lines_variant_pricing {
+export interface cartWithTokenQuery_checkout_lines_variant_pricing {
   __typename: "VariantPricingInfo";
   /**
    * The price, with any discount subtracted.
    */
-  price: cartQuery_me_checkout_lines_variant_pricing_price | null;
+  price: cartWithTokenQuery_checkout_lines_variant_pricing_price | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant_product_thumbnail {
+export interface cartWithTokenQuery_checkout_lines_variant_product_thumbnail {
   __typename: "Image";
   /**
    * The URL of the image.
@@ -366,7 +324,7 @@ export interface cartQuery_me_checkout_lines_variant_product_thumbnail {
   alt: string | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant_product {
+export interface cartWithTokenQuery_checkout_lines_variant_product {
   __typename: "Product";
   /**
    * The ID of the object.
@@ -377,10 +335,10 @@ export interface cartQuery_me_checkout_lines_variant_product {
   /**
    * The main thumbnail for a product.
    */
-  thumbnail: cartQuery_me_checkout_lines_variant_product_thumbnail | null;
+  thumbnail: cartWithTokenQuery_checkout_lines_variant_product_thumbnail | null;
 }
 
-export interface cartQuery_me_checkout_lines_variant {
+export interface cartWithTokenQuery_checkout_lines_variant {
   __typename: "ProductVariant";
   /**
    * The ID of the object.
@@ -395,19 +353,19 @@ export interface cartQuery_me_checkout_lines_variant {
   /**
    * List of images for the product variant.
    */
-  images: (cartQuery_me_checkout_lines_variant_images | null)[] | null;
+  images: (cartWithTokenQuery_checkout_lines_variant_images | null)[] | null;
   /**
    * List of attributes assigned to this variant.
    */
-  attributes: cartQuery_me_checkout_lines_variant_attributes[];
+  attributes: cartWithTokenQuery_checkout_lines_variant_attributes[];
   /**
    * Lists the storefront variant's pricing, the current price and discounts, only meant for displaying.
    */
-  pricing: cartQuery_me_checkout_lines_variant_pricing | null;
-  product: cartQuery_me_checkout_lines_variant_product;
+  pricing: cartWithTokenQuery_checkout_lines_variant_pricing | null;
+  product: cartWithTokenQuery_checkout_lines_variant_product;
 }
 
-export interface cartQuery_me_checkout_lines_totalPrice_gross {
+export interface cartWithTokenQuery_checkout_lines_totalPrice_gross {
   __typename: "Money";
   /**
    * Amount of money.
@@ -419,29 +377,29 @@ export interface cartQuery_me_checkout_lines_totalPrice_gross {
   currency: string;
 }
 
-export interface cartQuery_me_checkout_lines_totalPrice {
+export interface cartWithTokenQuery_checkout_lines_totalPrice {
   __typename: "TaxedMoney";
   /**
    * Amount of money including taxes.
    */
-  gross: cartQuery_me_checkout_lines_totalPrice_gross;
+  gross: cartWithTokenQuery_checkout_lines_totalPrice_gross;
 }
 
-export interface cartQuery_me_checkout_lines {
+export interface cartWithTokenQuery_checkout_lines {
   __typename: "CheckoutLine";
   /**
    * The ID of the object.
    */
   id: string;
-  variant: cartQuery_me_checkout_lines_variant;
+  variant: cartWithTokenQuery_checkout_lines_variant;
   quantity: number;
   /**
    * The sum of the checkout line price, taxes and discounts.
    */
-  totalPrice: cartQuery_me_checkout_lines_totalPrice | null;
+  totalPrice: cartWithTokenQuery_checkout_lines_totalPrice | null;
 }
 
-export interface cartQuery_me_checkout {
+export interface cartWithTokenQuery_checkout {
   __typename: "Checkout";
   /**
    * The ID of the object.
@@ -452,56 +410,44 @@ export interface cartQuery_me_checkout {
    * Email of a customer.
    */
   email: string;
-  shippingMethod: cartQuery_me_checkout_shippingMethod | null;
+  shippingMethod: cartWithTokenQuery_checkout_shippingMethod | null;
   /**
    * The price of the shipping, with all the taxes included.
    */
-  shippingPrice: cartQuery_me_checkout_shippingPrice | null;
+  shippingPrice: cartWithTokenQuery_checkout_shippingPrice | null;
   /**
    * The price of the checkout before shipping, with taxes included.
    */
-  subtotalPrice: cartQuery_me_checkout_subtotalPrice | null;
+  subtotalPrice: cartWithTokenQuery_checkout_subtotalPrice | null;
   /**
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
-  totalPrice: cartQuery_me_checkout_totalPrice | null;
-  discount: cartQuery_me_checkout_discount | null;
+  totalPrice: cartWithTokenQuery_checkout_totalPrice | null;
+  discount: cartWithTokenQuery_checkout_discount | null;
   voucherCode: string | null;
   /**
    * Shipping methods that can be used with this order.
    */
-  availableShippingMethods: (cartQuery_me_checkout_availableShippingMethods | null)[];
-  shippingAddress: cartQuery_me_checkout_shippingAddress | null;
-  billingAddress: cartQuery_me_checkout_billingAddress | null;
+  availableShippingMethods: (cartWithTokenQuery_checkout_availableShippingMethods | null)[];
+  shippingAddress: cartWithTokenQuery_checkout_shippingAddress | null;
+  billingAddress: cartWithTokenQuery_checkout_billingAddress | null;
   /**
    * List of available payment gateways.
    */
-  availablePaymentGateways: cartQuery_me_checkout_availablePaymentGateways[];
+  availablePaymentGateways: cartWithTokenQuery_checkout_availablePaymentGateways[];
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
-  lines: (cartQuery_me_checkout_lines | null)[] | null;
+  lines: (cartWithTokenQuery_checkout_lines | null)[] | null;
 }
 
-export interface cartQuery_me {
-  __typename: "User";
+export interface cartWithTokenQuery {
   /**
-   * The ID of the object.
+   * Look up a checkout by token.
    */
-  id: string;
-  /**
-   * List of all user's addresses.
-   */
-  addresses: (cartQuery_me_addresses | null)[] | null;
-  /**
-   * Returns the last open checkout of this user.
-   */
-  checkout: cartQuery_me_checkout | null;
+  checkout: cartWithTokenQuery_checkout | null;
 }
 
-export interface cartQuery {
-  /**
-   * Return the currently authenticated user.
-   */
-  me: cartQuery_me | null;
+export interface cartWithTokenQueryVariables {
+  token: any;
 }

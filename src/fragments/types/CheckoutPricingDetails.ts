@@ -89,6 +89,18 @@ export interface CheckoutPricingDetails_totalPrice {
   gross: CheckoutPricingDetails_totalPrice_gross;
 }
 
+export interface CheckoutPricingDetails_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CheckoutPricingDetails {
   __typename: "Checkout";
   shippingMethod: CheckoutPricingDetails_shippingMethod | null;
@@ -104,4 +116,6 @@ export interface CheckoutPricingDetails {
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
   totalPrice: CheckoutPricingDetails_totalPrice | null;
+  discount: CheckoutPricingDetails_discount | null;
+  voucherCode: string | null;
 }

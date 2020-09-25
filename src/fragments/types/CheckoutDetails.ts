@@ -89,6 +89,18 @@ export interface CheckoutDetails_totalPrice {
   gross: CheckoutDetails_totalPrice_gross;
 }
 
+export interface CheckoutDetails_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CheckoutDetails_availableShippingMethods_price {
   __typename: "Money";
   /**
@@ -223,18 +235,6 @@ export interface CheckoutDetails_availablePaymentGateways {
   config: CheckoutDetails_availablePaymentGateways_config[];
 }
 
-export interface CheckoutDetails_discount {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
 export interface CheckoutDetails {
   __typename: "Checkout";
   /**
@@ -242,6 +242,10 @@ export interface CheckoutDetails {
    */
   id: string;
   token: any;
+  /**
+   * Email of a customer.
+   */
+  email: string;
   shippingMethod: CheckoutDetails_shippingMethod | null;
   /**
    * The price of the shipping, with all the taxes included.
@@ -255,6 +259,8 @@ export interface CheckoutDetails {
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
   totalPrice: CheckoutDetails_totalPrice | null;
+  discount: CheckoutDetails_discount | null;
+  voucherCode: string | null;
   /**
    * Shipping methods that can be used with this order.
    */
@@ -265,6 +271,4 @@ export interface CheckoutDetails {
    * List of available payment gateways.
    */
   availablePaymentGateways: CheckoutDetails_availablePaymentGateways[];
-  discount: CheckoutDetails_discount | null;
-  voucherCode: string | null;
 }

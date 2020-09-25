@@ -195,7 +195,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           style={{ height: 24, width: 100 }}
         >
           <Typography.Title id="qty-lbl" level={4}>
-            Qty:{" "}
+            {intl.formatMessage({ id: "misc.qty" })}:{" "}
           </Typography.Title>
         </SkeletonDiv>
       </Col>

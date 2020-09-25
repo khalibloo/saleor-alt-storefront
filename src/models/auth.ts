@@ -1,5 +1,6 @@
 import { Effect, ImmerReducer, Subscription, Reducer } from "umi";
 import { client, APIException } from "@/apollo";
+import lf from "localforage";
 import { TOKEN_CREATE_MUTATION } from "@/mutations/TokenCreate";
 import {
   TokenCreateMutationVariables,
@@ -80,9 +81,11 @@ import {
   UserVerifyEmailMutationVariables,
 } from "@/mutations/types/UserVerifyEmailMutation";
 import { USER_VERIFY_EMAIL_MUTATION } from "@/mutations/UserVerifyEmail";
+import { ConnectState } from "./connect";
 
 export interface AuthModelState {
   authenticated: boolean;
+  authModalOpen: boolean;
 }
 
 export interface AuthModelType {
@@ -93,6 +96,7 @@ export interface AuthModelType {
     login: Effect;
     signup: Effect;
     verifyEmail: Effect;
+    setGuestEmail: Effect;
     updateName: Effect;
     requestEmailChange: Effect;
     confirmEmailChange: Effect;
@@ -109,6 +113,7 @@ export interface AuthModelType {
   };
   reducers: {
     setLoggedIn: ImmerReducer<AuthModelState>;
+    setAuthModalOpen: ImmerReducer<AuthModelState>;
     clear: Reducer<AuthModelState>;
   };
   subscriptions: { setup: Subscription };
@@ -116,6 +121,7 @@ export interface AuthModelType {
 
 const defaultState: AuthModelState = {
   authenticated: false,
+  authModalOpen: false,
 };
 
 const AuthModel: AuthModelType = {
@@ -147,7 +153,7 @@ const AuthModel: AuthModelType = {
         payload?.onError?.(err);
       }
     },
-    *login({ payload }, { call, put }) {
+    *login({ payload }, { call, put, select }) {
       try {
         const { email, password, remember } = payload;
         const variables: TokenCreateMutationVariables = {
@@ -175,6 +181,17 @@ const AuthModel: AuthModelType = {
           throw new APIException([
             { field: null, message: null, code: "INVALID_CREDENTIALS" },
           ]);
+        }
+        yield lf.removeItem("guest_email");
+        yield lf.removeItem("guest_cart_token");
+        const guestCartEntry = yield select(
+          (state: ConnectState) => state.cart.guestCartEntry,
+        );
+        if (guestCartEntry) {
+          yield put({
+            type: "cart/addItem",
+            payload: { ...guestCartEntry },
+          });
         }
         payload?.onCompleted?.(response.data);
       } catch (err) {
@@ -254,6 +271,19 @@ const AuthModel: AuthModelType = {
           throw new APIException(errors);
         }
         payload?.onCompleted?.(response.data);
+      } catch (err) {
+        payload?.onError?.(err);
+      }
+    },
+    *setGuestEmail({ payload }, { call, put, select }) {
+      try {
+        const { email } = payload;
+        yield lf.setItem("guest_email", email);
+        const guestCartEntry = yield select(
+          (state: ConnectState) => state.cart.guestCartEntry,
+        );
+        yield put({ type: "cart/addItem", payload: { ...guestCartEntry } });
+        payload?.onCompleted?.();
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -544,6 +574,9 @@ const AuthModel: AuthModelType = {
   reducers: {
     setLoggedIn(state, { payload }) {
       state.authenticated = payload.authenticated;
+    },
+    setAuthModalOpen(state: AuthModelState, { payload }) {
+      state.authModalOpen = payload.open;
     },
     clear(state, { payload }) {
       return { ...defaultState };

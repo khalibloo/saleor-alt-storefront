@@ -29,6 +29,11 @@ export const CHECKOUT_PRICING_FRAGMENT = gql`
         amount
       }
     }
+    discount {
+      currency
+      amount
+    }
+    voucherCode
   }
 `;
 
@@ -38,6 +43,7 @@ export const CHECKOUT_DETAILS_FRAGMENT = gql`
   fragment CheckoutDetails on Checkout {
     id
     token
+    email
     ...CheckoutPricingDetails
     availableShippingMethods {
       id
@@ -65,10 +71,58 @@ export const CHECKOUT_DETAILS_FRAGMENT = gql`
         value
       }
     }
-    discount {
-      currency
-      amount
+  }
+`;
+
+export const CHECKOUT_LINES_DETAILS_FRAGMENT = gql`
+  fragment CheckoutLinesDetails on Checkout {
+    lines {
+      id
+      variant {
+        id
+        name
+        sku
+        quantityAvailable
+        images {
+          id
+          url
+          alt
+        }
+        attributes {
+          attribute {
+            id
+            name
+          }
+          values {
+            id
+            name
+          }
+        }
+        pricing {
+          price {
+            gross {
+              currency
+              amount
+            }
+          }
+        }
+        product {
+          id
+          name
+          descriptionJson
+          thumbnail {
+            url
+            alt
+          }
+        }
+      }
+      quantity
+      totalPrice {
+        gross {
+          amount
+          currency
+        }
+      }
     }
-    voucherCode
   }
 `;

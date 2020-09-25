@@ -155,6 +155,7 @@ export default {
   // who
   "who.title": formatTitle("Log In or Sign Up"),
   "who.heading": "Log In or Sign Up",
+  "who.loginOrSignup": "Log In or Sign Up",
   "who.signup": "Sign Up",
   "who.email": "Email",
   "who.pwd": "Password",

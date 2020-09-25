@@ -23,18 +23,22 @@ import AddressSelector from "@/components/AddressSelector";
 import { useBoolean, useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
 import { cartQuery } from "@/queries/types/cartQuery";
-import { CART_PAGE_QUERY } from "@/queries/cart";
-import { useQuery } from "@apollo/client";
+import { CART_PAGE_QUERY, CART_PAGE_WITH_TOKEN_QUERY } from "@/queries/cart";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { APIException } from "@/apollo";
+import lf from "localforage";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
 import altConfig from "@/../.altrc";
 import VoucherCodeForm from "@/components/VoucherCodeForm";
+import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
+import { cartWithTokenQuery } from "@/queries/types/cartWithTokenQuery";
 
 interface Props {
+  authenticated: boolean;
   loading: Loading;
 }
-const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
+const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   const intl = useIntl();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>();
   const { state: thanksOpen, setTrue: openThanks } = useBoolean();
@@ -47,10 +51,19 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
   );
+  const [
+    fetchGuestCart,
+    { loading: guestCartFetching, error: guestCartError, data: guestCartData },
+  ] = useLazyQuery<cartWithTokenQuery>(CART_PAGE_WITH_TOKEN_QUERY);
+  useEffect(() => {
+    lf.getItem("guest_cart_token").then(guestCartToken => {
+      fetchGuestCart({ variables: { token: guestCartToken } });
+    });
+  }, []);
   const addresses = data?.me?.addresses;
   const defaultShippingAddr = addresses?.find(a => a?.isDefaultShippingAddress);
   const defaultBillingAddr = addresses?.find(a => a?.isDefaultBillingAddress);
-  const checkout = data?.me?.checkout;
+  const checkout = authenticated ? data?.me?.checkout : guestCartData?.checkout;
   const checkoutLines = checkout?.lines;
   const currency = checkout?.totalPrice?.gross.currency;
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
@@ -573,6 +586,8 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
 };
 
 const ConnectedPage = connect((state: ConnectState) => ({
+  authenticated: state.auth.authenticated,
+  localCheckout: state.cart.checkout,
   loading: state.loading,
 }))(CartPage);
 ConnectedPage.title = "cart.title";
