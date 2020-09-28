@@ -8,6 +8,7 @@ import {
   Drawer,
   Modal,
   Badge,
+  Button,
 } from "antd";
 import { useIntl, Link, connect, ConnectRC } from "umi";
 import {
@@ -30,21 +31,28 @@ import { useQuery } from "@apollo/client";
 import { CART_BADGE_QUERY } from "@/queries/cart";
 import { cartBadgeQuery } from "@/queries/types/cartBadgeQuery";
 import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
+import GuestForm from "@/components/GuestForm";
+import VSpacing from "@/components/VSpacing";
+import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
 
 interface Props {
   authenticated: boolean;
+  localCheckout: CartCreateMutation_checkoutCreate_checkout | null;
+  authModalOpen: boolean;
+  guestCartModalOpen: boolean;
 }
-const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
+const NavBar: ConnectRC<Props> = ({
+  authenticated,
+  localCheckout,
+  authModalOpen,
+  guestCartModalOpen,
+  dispatch,
+}) => {
   const intl = useIntl();
   const {
     state: searchDrawerOpen,
     setTrue: openSearchDrawer,
     setFalse: closeSearchDrawer,
-  } = useBoolean(false);
-  const {
-    state: authModalOpen,
-    setTrue: openAuthModal,
-    setFalse: closeAuthModal,
   } = useBoolean(false);
   const {
     state: pwdResetModalOpen,
@@ -57,6 +65,9 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
     setFalse: closeMenuDrawer,
   } = useBoolean(false);
   const responsive = useResponsive();
+  useEffect(() => {
+    dispatch?.({ type: "cart/create" });
+  }, []);
   const {
     loading: fetching,
     data: cartData,
@@ -67,7 +78,18 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
     refetch();
   }, [window.location.pathname]);
 
+  const checkout = authenticated ? cartData?.me?.checkout : localCheckout;
+
   const logout = () => dispatch?.({ type: "auth/logout" });
+  const closeAuthModal = () =>
+    dispatch?.({ type: "auth/setAuthModalOpen", payload: { open: false } });
+  const openAuthModal = () =>
+    dispatch?.({ type: "auth/setAuthModalOpen", payload: { open: true } });
+  const closeGuestCartModal = () =>
+    dispatch?.({
+      type: "cart/setGuestCartModalOpen",
+      payload: { open: false },
+    });
 
   const langMenu = (
     <Menu>
@@ -149,6 +171,37 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
       >
         <ResetPasswordRequestForm onSubmit={closePwdResetModal} />
       </Modal>
+      <Modal
+        footer={null}
+        onCancel={closeGuestCartModal}
+        title={null}
+        visible={guestCartModalOpen}
+      >
+        <Typography.Title level={4} className="center-text">
+          Would you like to log in and grab a cart?
+        </Typography.Title>
+        <VSpacing height={24} />
+        <div className="center-text">
+          <Button
+            shape="round"
+            type="primary"
+            size="large"
+            onClick={() => {
+              closeGuestCartModal();
+              openAuthModal();
+            }}
+          >
+            {intl.formatMessage({ id: "who.loginOrSignup" })}
+          </Button>
+        </div>
+        <VSpacing height={24} />
+        <Typography.Title level={4} className="center-text">
+          Or continue as a Guest
+        </Typography.Title>
+        <div className="center-text">
+          <GuestForm />
+        </div>
+      </Modal>
       <Drawer
         visible={searchDrawerOpen}
         onClose={closeSearchDrawer}
@@ -175,10 +228,7 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
         <Menu mode="inline" defaultOpenKeys={["accmenu"]} selectable={false}>
           <Menu.Item onClick={closeMenuDrawer}>
             <Link to="/cart">
-              <Badge
-                count={cartData?.me?.checkout?.lines?.length}
-                offset={[12, 0]}
-              >
+              <Badge count={checkout?.lines?.length} offset={[12, 0]}>
                 <ShoppingCartOutlined />{" "}
                 {intl.formatMessage({ id: "navbar.cart" })}
               </Badge>
@@ -303,7 +353,7 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
               hidden={!responsive.sm}
             >
               <Link to="/cart">
-                <Badge count={cartData?.me?.checkout?.lines?.length}>
+                <Badge count={checkout?.lines?.length}>
                   <ShoppingCartOutlined className={styles.navrightIcon} />
                 </Badge>
               </Link>
@@ -326,4 +376,7 @@ const NavBar: ConnectRC<Props> = ({ authenticated, dispatch }) => {
 
 export default connect((state: ConnectState) => ({
   authenticated: state.auth.authenticated,
+  localCheckout: state.cart.checkout,
+  authModalOpen: state.auth.authModalOpen,
+  guestCartModalOpen: state.cart.guestCartModalOpen,
 }))(NavBar);

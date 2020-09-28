@@ -8,9 +8,10 @@ import { ButtonProps } from "antd/lib/button";
 
 interface Props extends InputNumberProps {
   step?: number;
-  onChange?: (value?: number) => void;
-  decrementBtnProps: ButtonProps;
-  incrementBtnProps: ButtonProps;
+  groupSize?: "small" | "default" | "large";
+  onChange?: (value?: number | string) => void;
+  decrementBtnProps?: ButtonProps;
+  incrementBtnProps?: ButtonProps;
 }
 const NumberInput: React.FC<Props> = props => {
   const {
@@ -21,7 +22,7 @@ const NumberInput: React.FC<Props> = props => {
     precision = 0,
     step = 1,
     onChange,
-    size,
+    groupSize,
     style,
     value: propsValue,
     decrementBtnProps,
@@ -43,7 +44,7 @@ const NumberInput: React.FC<Props> = props => {
       className="full-width"
       compact
       style={{ display: "flex" }}
-      size={size}
+      size={groupSize}
     >
       <Button
         {...decrementBtnProps}

@@ -107,6 +107,18 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
   gross: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_totalPrice_gross;
 }
 
+export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availableShippingMethods_price {
   __typename: "Money";
   /**
@@ -241,18 +253,6 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
   config: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways_config[];
 }
 
-export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_discount {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
 export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -269,6 +269,10 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
    */
   id: string;
   token: any;
+  /**
+   * Email of a customer.
+   */
+  email: string;
   shippingMethod: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_shippingMethod | null;
   /**
    * The price of the shipping, with all the taxes included.
@@ -282,6 +286,8 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
   totalPrice: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_totalPrice | null;
+  discount: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * Shipping methods that can be used with this order.
    */
@@ -292,8 +298,6 @@ export interface CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_c
    * List of available payment gateways.
    */
   availablePaymentGateways: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_availablePaymentGateways[];
-  discount: CartShippingMethodUpdateMutation_checkoutShippingMethodUpdate_checkout_discount | null;
-  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

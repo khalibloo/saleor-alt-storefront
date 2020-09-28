@@ -107,6 +107,18 @@ export interface CartCreateMutation_checkoutCreate_checkout_totalPrice {
   gross: CartCreateMutation_checkoutCreate_checkout_totalPrice_gross;
 }
 
+export interface CartCreateMutation_checkoutCreate_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CartCreateMutation_checkoutCreate_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -136,6 +148,8 @@ export interface CartCreateMutation_checkoutCreate_checkout {
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
   totalPrice: CartCreateMutation_checkoutCreate_checkout_totalPrice | null;
+  discount: CartCreateMutation_checkoutCreate_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

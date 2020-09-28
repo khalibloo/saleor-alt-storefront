@@ -1,5 +1,6 @@
 import { Effect, ImmerReducer, Reducer } from "umi";
 import { client, APIException } from "@/apollo";
+import lf from "localforage";
 import {
   CartLinesAddMutationVariables,
   CartLinesAddMutation,
@@ -57,9 +58,18 @@ import {
   CartVoucherRemoveMutationVariables,
 } from "@/mutations/types/CartVoucherRemoveMutation";
 import { CART_VOUCHER_REMOVE_MUTATION } from "@/mutations/CartVoucherRemove";
+import config from "@/config";
+import { CART_BADGE_WITH_TOKEN_QUERY } from "@/queries/cart";
+import {
+  cartBadgeWithTokenQuery,
+  cartBadgeWithTokenQueryVariables,
+} from "@/queries/types/cartBadgeWithTokenQuery";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
+  guestCartModalOpen: boolean;
+  guestCartEntry: { variantId: string; quantity: number } | null;
+  onAddItem: Function | undefined;
 }
 
 export interface CartModelType {
@@ -79,12 +89,18 @@ export interface CartModelType {
   };
   reducers: {
     saveCheckout: ImmerReducer<CartModelState>;
+    setGuestCartModalOpen: ImmerReducer<CartModelState>;
+    saveGuestCartEntry: ImmerReducer<CartModelState>;
+    setOnAddItemCallback: ImmerReducer<CartModelState>;
     clear: Reducer<CartModelState>;
   };
 }
 
 const defaultState: CartModelState = {
   checkout: null,
+  guestCartModalOpen: false,
+  guestCartEntry: null,
+  onAddItem: undefined,
 };
 
 const CartModel: CartModelType = {
@@ -95,30 +111,60 @@ const CartModel: CartModelType = {
   },
 
   effects: {
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call, put, select }) {
       try {
-        const variables: CartCreateMutationVariables = {
-          input: {
-            email: payload?.email,
-            lines: [],
-          },
-        };
-        const response: { data: CartCreateMutation } = yield call(
-          client.mutate,
-          {
-            mutation: CART_CREATE_MUTATION,
-            variables,
-          },
+        const authenticated = yield select(
+          (state: ConnectState) => state.auth.authenticated,
         );
+        const guestCartToken = yield lf.getItem("guest_cart_token");
+        let checkout;
+        if (!authenticated && guestCartToken) {
+          const variables: cartBadgeWithTokenQueryVariables = {
+            token: guestCartToken,
+          };
+          const response: {
+            data: cartBadgeWithTokenQuery;
+          } = yield call(client.query, {
+            query: CART_BADGE_WITH_TOKEN_QUERY,
+            variables,
+          });
+          const errors = response.data.error?.errors;
+          if (errors && errors.length > 0) {
+            throw new APIException(errors);
+          }
 
-        const checkout = response.data.checkoutCreate?.checkout;
-        yield put({ type: "saveCheckout", payload: { checkout } });
+          checkout = response.data.checkout;
+        } else {
+          const guestEmail = yield lf.getItem("guest_email");
+          const email = authenticated
+            ? undefined
+            : payload?.email || guestEmail;
+          const variables: CartCreateMutationVariables = {
+            input: {
+              email,
+              lines: [],
+            },
+          };
+          const response: { data: CartCreateMutation } = yield call(
+            client.mutate,
+            {
+              mutation: CART_CREATE_MUTATION,
+              variables,
+            },
+          );
+          const errors = response.data.checkoutCreate?.checkoutErrors;
+          if (errors && errors.length > 0) {
+            throw new APIException(errors);
+          }
 
-        const errors = response.data.checkoutCreate?.checkoutErrors;
-        if (errors && errors.length > 0) {
-          throw new APIException(errors);
+          checkout = response.data.checkoutCreate?.checkout;
         }
-        payload?.onCompleted?.(response.data);
+        yield put({ type: "saveCheckout", payload: { checkout } });
+        if (!authenticated) {
+          yield lf.setItem("guest_cart_token", checkout?.token);
+        }
+
+        payload?.onCompleted?.(checkout);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -126,30 +172,70 @@ const CartModel: CartModelType = {
     *addItem({ payload }, { call, put, select, take }) {
       try {
         const { variantId, quantity } = payload;
-        yield put({ type: "create" });
-        yield take("saveCheckout");
-        let checkout = yield select(
-          (state: ConnectState) => state.cart.checkout,
+        const authenticated = yield select(
+          (state: ConnectState) => state.auth.authenticated,
         );
-        const variables: CartLinesAddMutationVariables = {
-          checkoutId: checkout.id,
-          checkoutLines: [{ variantId, quantity }],
-        };
-        const response: { data: CartLinesAddMutation } = yield call(
-          client.mutate,
-          {
-            mutation: CART_LINES_ADD_MUTATION,
-            variables,
-          },
-        );
-        checkout = response.data.checkoutLinesAdd?.checkout;
-        yield put({ type: "saveCheckout", payload: { checkout } });
+        const localEmail = yield lf.getItem("guest_email");
+        if (!authenticated && !localEmail) {
+          // save cart line
+          yield put({
+            type: "saveGuestCartEntry",
+            payload: { line: { variantId, quantity } },
+          });
+          if (config.altConfig.allowAnonCheckout) {
+            yield put({
+              type: "setGuestCartModalOpen",
+              payload: { open: true },
+            });
+          } else {
+            yield put({
+              type: "auth/setAuthModalOpen",
+              payload: { open: true, line: { variantId, quantity } },
+            });
+          }
+          yield put({
+            type: "setOnAddItemCallback",
+            payload: { onAddItem: payload?.onCompleted },
+          });
+          // payload?.onCompleted?.();
+        } else {
+          yield put({ type: "create" });
+          yield take("saveCheckout");
+          let checkout = yield select(
+            (state: ConnectState) => state.cart.checkout,
+          );
+          const variables: CartLinesAddMutationVariables = {
+            checkoutId: checkout.id,
+            checkoutLines: [{ variantId, quantity }],
+          };
+          const response: { data: CartLinesAddMutation } = yield call(
+            client.mutate,
+            {
+              mutation: CART_LINES_ADD_MUTATION,
+              variables,
+            },
+          );
+          checkout = response.data.checkoutLinesAdd?.checkout;
+          yield put({ type: "saveCheckout", payload: { checkout } });
 
-        const errors = response.data.checkoutLinesAdd?.checkoutErrors;
-        if (errors && errors.length > 0) {
-          throw new APIException(errors);
+          const errors = response.data.checkoutLinesAdd?.checkoutErrors;
+          if (errors && errors.length > 0) {
+            throw new APIException(errors);
+          }
+          yield put({
+            type: "saveGuestCartEntry",
+            payload: { line: null },
+          });
+          payload?.onCompleted?.(response.data);
+          const savedCallback = yield select(
+            (state: ConnectState) => state.cart.onAddItem,
+          );
+          savedCallback?.();
+          yield put({
+            type: "setOnAddItemCallback",
+            payload: { onAddItem: undefined },
+          });
         }
-        payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -420,6 +506,10 @@ const CartModel: CartModelType = {
         if (errs && errs.length > 0) {
           throw new APIException(errs);
         }
+
+        yield lf.removeItem("guest_cart_token");
+        yield put({ type: "cart/create" });
+
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -429,6 +519,15 @@ const CartModel: CartModelType = {
   reducers: {
     saveCheckout(state, { payload }) {
       state.checkout = payload.checkout;
+    },
+    setGuestCartModalOpen(state: CartModelState, { payload }) {
+      state.guestCartModalOpen = payload.open;
+    },
+    saveGuestCartEntry(state: CartModelState, { payload }) {
+      state.guestCartEntry = payload.line;
+    },
+    setOnAddItemCallback(state: CartModelState, { payload }) {
+      state.onAddItem = payload.onAddItem;
     },
     clear(state, { payload }) {
       return { ...defaultState };

@@ -1,3 +1,5 @@
+import altConfig from "../.altrc";
+
 //setup client config data
 if (APP_ENV !== "production") {
   console.log("Environment: ", APP_ENV);
@@ -6,7 +8,7 @@ if (APP_ENV !== "production") {
 
 export default {
   env: APP_ENV,
-  endpoint: ENDPOINT,
-  gqlEndpoint: ENDPOINT + "/graphql/",
+  apiEndpoint: ENDPOINT,
   siteName: SITE_NAME,
+  altConfig,
 };

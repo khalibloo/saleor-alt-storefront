@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: cartBadgeQuery
+// GraphQL query operation: cartBadgeWithTokenQuery
 // ====================================================
 
-export interface cartBadgeQuery_me_checkout_lines {
+export interface cartBadgeWithTokenQuery_checkout_lines {
   __typename: "CheckoutLine";
   /**
    * The ID of the object.
@@ -16,7 +16,7 @@ export interface cartBadgeQuery_me_checkout_lines {
   quantity: number;
 }
 
-export interface cartBadgeQuery_me_checkout {
+export interface cartBadgeWithTokenQuery_checkout {
   __typename: "Checkout";
   /**
    * The ID of the object.
@@ -26,24 +26,16 @@ export interface cartBadgeQuery_me_checkout {
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */
-  lines: (cartBadgeQuery_me_checkout_lines | null)[] | null;
+  lines: (cartBadgeWithTokenQuery_checkout_lines | null)[] | null;
 }
 
-export interface cartBadgeQuery_me {
-  __typename: "User";
+export interface cartBadgeWithTokenQuery {
   /**
-   * The ID of the object.
+   * Look up a checkout by token.
    */
-  id: string;
-  /**
-   * Returns the last open checkout of this user.
-   */
-  checkout: cartBadgeQuery_me_checkout | null;
+  checkout: cartBadgeWithTokenQuery_checkout | null;
 }
 
-export interface cartBadgeQuery {
-  /**
-   * Return the currently authenticated user.
-   */
-  me: cartBadgeQuery_me | null;
+export interface cartBadgeWithTokenQueryVariables {
+  token: any;
 }

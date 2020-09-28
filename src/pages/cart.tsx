@@ -13,6 +13,7 @@ import {
   Modal,
   Result,
   Drawer,
+  Checkbox,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link, connect, ConnectRC, history } from "umi";
@@ -23,18 +24,23 @@ import AddressSelector from "@/components/AddressSelector";
 import { useBoolean, useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
 import { cartQuery } from "@/queries/types/cartQuery";
-import { CART_PAGE_QUERY } from "@/queries/cart";
-import { useQuery } from "@apollo/client";
+import { CART_PAGE_QUERY, CART_PAGE_WITH_TOKEN_QUERY } from "@/queries/cart";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { APIException } from "@/apollo";
+import lf from "localforage";
 import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
 import altConfig from "@/../.altrc";
 import VoucherCodeForm from "@/components/VoucherCodeForm";
+import { cartWithTokenQuery } from "@/queries/types/cartWithTokenQuery";
+import { AddressInput } from "@/globalTypes";
+import Logger from "@/utils/logger";
 
 interface Props {
+  authenticated: boolean;
   loading: Loading;
 }
-const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
+const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   const intl = useIntl();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>();
   const { state: thanksOpen, setTrue: openThanks } = useBoolean();
@@ -47,10 +53,19 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
   );
+  const [
+    fetchGuestCart,
+    { loading: guestCartFetching, error: guestCartError, data: guestCartData },
+  ] = useLazyQuery<cartWithTokenQuery>(CART_PAGE_WITH_TOKEN_QUERY);
+  useEffect(() => {
+    lf.getItem("guest_cart_token").then(guestCartToken => {
+      fetchGuestCart({ variables: { token: guestCartToken } });
+    });
+  }, []);
   const addresses = data?.me?.addresses;
   const defaultShippingAddr = addresses?.find(a => a?.isDefaultShippingAddress);
   const defaultBillingAddr = addresses?.find(a => a?.isDefaultBillingAddress);
-  const checkout = data?.me?.checkout;
+  const checkout = authenticated ? data?.me?.checkout : guestCartData?.checkout;
   const checkoutLines = checkout?.lines;
   const currency = checkout?.totalPrice?.gross.currency;
   const subtotalPrice = checkout?.subtotalPrice?.gross.amount;
@@ -63,6 +78,20 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
   const shippingMethod = checkout?.shippingMethod;
   const paymentMethods = checkout?.availablePaymentGateways;
   const availableShippingMethods = checkout?.availableShippingMethods;
+
+  const [sameAddr, setSameAddr] = useState(false);
+  useEffect(() => {
+    setSameAddr(
+      Boolean(
+        shippingAddress &&
+          billingAddress &&
+          _.isEqual(
+            addressToInput(shippingAddress),
+            addressToInput(billingAddress),
+          ),
+      ),
+    );
+  }, [shippingAddress, billingAddress]);
   useEffect(() => {
     if (!shippingAddress && defaultShippingAddr) {
       const address = addressToInput(defaultShippingAddr);
@@ -96,6 +125,61 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
     availableShippingMethods?.find(sm => sm?.id === shippingMethod?.id) ===
     undefined;
   const isSummaryCompact = !responsive.lg;
+
+  const setShippingAddress = (address: AddressInput) => {
+    dispatch?.({
+      type: "cart/setShippingAddress",
+      payload: {
+        address,
+        onError: (err: APIException) => {
+          if (
+            err.errors?.find(
+              e => e.code === "INVALID" && e.field === "postalCode",
+            )
+          ) {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.postalCode.invalid",
+              }),
+            );
+          } else {
+            message.error(
+              intl.formatMessage({
+                id: "cart.shippingAddress.fail",
+              }),
+            );
+          }
+        },
+      },
+    });
+  };
+  const setBillingAddress = (address: AddressInput) => {
+    dispatch?.({
+      type: "cart/setBillingAddress",
+      payload: {
+        address,
+        onError: (err: APIException) => {
+          if (
+            err.errors?.find(
+              e => e.code === "INVALID" && e.field === "postalCode",
+            )
+          ) {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.postalCode.invalid",
+              }),
+            );
+          } else {
+            message.error(
+              intl.formatMessage({
+                id: "cart.billingAddress.fail",
+              }),
+            );
+          }
+        },
+      },
+    });
+  };
   const summary = (
     <>
       <Row gutter={16}>
@@ -108,38 +192,26 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           <AddressSelector
             id="shipping-address-select"
             loading={loading.effects["cart/setShippingAddress"]}
+            onAddOrEdit={addr => {
+              setShippingAddress(addr);
+              if (sameAddr) {
+                setBillingAddress(addr);
+              }
+            }}
             onChange={value => {
               const addr = addresses?.find(a => a?.id === value);
               if (addr) {
                 const address = addressToInput(addr);
-                dispatch?.({
-                  type: "cart/setShippingAddress",
-                  payload: {
-                    address,
-                    onError: (err: APIException) => {
-                      if (
-                        err.errors?.find(
-                          e => e.code === "INVALID" && e.field === "postalCode",
-                        )
-                      ) {
-                        message.error(
-                          intl.formatMessage({
-                            id: "form.address.postalCode.invalid",
-                          }),
-                        );
-                      } else {
-                        message.error(
-                          intl.formatMessage({
-                            id: "cart.shippingAddress.fail",
-                          }),
-                        );
-                      }
-                    },
-                  },
-                });
+                if (address) {
+                  setShippingAddress(address);
+                  if (sameAddr) {
+                    setBillingAddress(address);
+                  }
+                }
               }
             }}
             extraAddr={matchingShippingAddr ? undefined : shippingAddress}
+            editMode={Boolean(!authenticated && shippingAddress)}
             value={
               matchingShippingAddr
                 ? matchingShippingAddr.id
@@ -156,45 +228,55 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <AddressSelector
-            id="billing-address-select"
-            loading={loading.effects["cart/setBillingAddress"]}
-            onChange={value => {
-              const addr = addresses?.find(a => a?.id === value);
-              if (addr) {
-                const address = addressToInput(addr);
-                dispatch?.({
-                  type: "cart/setBillingAddress",
-                  payload: {
-                    address,
-                    onError: (err: APIException) => {
-                      if (
-                        err.errors?.find(
-                          e => e.code === "INVALID" && e.field === "postalCode",
-                        )
-                      ) {
-                        message.error(
-                          intl.formatMessage({
-                            id: "form.address.postalCode.invalid",
-                          }),
-                        );
-                      } else {
-                        message.error(
-                          intl.formatMessage({
-                            id: "cart.billingAddress.fail",
-                          }),
-                        );
-                      }
-                    },
-                  },
-                });
-              }
-            }}
-            extraAddr={matchingBillingAddr ? undefined : billingAddress}
-            value={
-              matchingBillingAddr ? matchingBillingAddr.id : billingAddress?.id
-            }
-          />
+          <div>
+            <Checkbox
+              checked={sameAddr}
+              onChange={e => {
+                setSameAddr(e.target.checked);
+                if (
+                  e.target.checked &&
+                  shippingAddress &&
+                  (!billingAddress ||
+                    !_.isEqual(
+                      addressToInput(shippingAddress),
+                      addressToInput(billingAddress),
+                    ))
+                ) {
+                  setBillingAddress(
+                    addressToInput(shippingAddress) as AddressInput,
+                  );
+                }
+              }}
+            >
+              {intl.formatMessage({ id: "cart.billingAddress.same" })}
+            </Checkbox>
+          </div>
+          {!sameAddr && (
+            <>
+              <VSpacing height={8} />
+              <div>
+                <AddressSelector
+                  id="billing-address-select"
+                  loading={loading.effects["cart/setBillingAddress"]}
+                  editMode={Boolean(!authenticated && billingAddress)}
+                  onAddOrEdit={addr => setBillingAddress(addr)}
+                  onChange={value => {
+                    const addr = addresses?.find(a => a?.id === value);
+                    if (addr) {
+                      const address = addressToInput(addr);
+                      address && setBillingAddress(address);
+                    }
+                  }}
+                  extraAddr={matchingBillingAddr ? undefined : billingAddress}
+                  value={
+                    matchingBillingAddr
+                      ? matchingBillingAddr.id
+                      : billingAddress?.id
+                  }
+                />
+              </div>
+            </>
+          )}
         </Col>
       </Row>
       <VSpacing height={8} />
@@ -208,6 +290,9 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           <Select
             id="shipping-method-select"
             className="full-width"
+            disabled={
+              shippingAddress === null && availableShippingMethods?.length === 0
+            }
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
             })}
@@ -273,22 +358,24 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
           </Typography.Text>
         </Col>
       </Row>
-      <VSpacing height={8} />
-      <Row gutter={16}>
-        <Col span={8}>
-          <Typography.Text>
-            {intl.formatMessage({ id: "cart.discount" })}:
-          </Typography.Text>
-        </Col>
-        <Col span={16}>
-          <Typography.Text id="shipping-fee-txt">
-            {shippingMethod
-              ? `-${formatPrice(currency, discountPrice)} (${voucherCode})`
-              : "--"}
-          </Typography.Text>
-        </Col>
-      </Row>
-      <VSpacing height={24} />
+      {voucherCode && (
+        <>
+          <VSpacing height={8} />
+          <Row gutter={16}>
+            <Col span={8}>
+              <Typography.Text>
+                {intl.formatMessage({ id: "cart.discount" })}:
+              </Typography.Text>
+            </Col>
+            <Col span={16}>
+              <Typography.Text id="discount-fee-txt">
+                {`-${formatPrice(currency, discountPrice)} (${voucherCode})`}
+              </Typography.Text>
+            </Col>
+          </Row>
+        </>
+      )}
+      <VSpacing height={16} />
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text strong>
@@ -354,9 +441,8 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
                   billingAddress: billingAddr,
                   onCompleted: () => {
                     openThanks();
-                    dispatch?.({ type: "cart/create" });
                   },
-                  onError: err => console.log(err),
+                  onError: err => Logger.log(err),
                 },
               });
             },
@@ -573,6 +659,8 @@ const CartPage: ConnectRC<Props> = ({ loading, dispatch }) => {
 };
 
 const ConnectedPage = connect((state: ConnectState) => ({
+  authenticated: state.auth.authenticated,
+  localCheckout: state.cart.checkout,
   loading: state.loading,
 }))(CartPage);
 ConnectedPage.title = "cart.title";

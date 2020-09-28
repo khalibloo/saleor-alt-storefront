@@ -195,7 +195,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           style={{ height: 24, width: 100 }}
         >
           <Typography.Title id="qty-lbl" level={4}>
-            Qty:{" "}
+            {intl.formatMessage({ id: "misc.qty" })}:{" "}
           </Typography.Title>
         </SkeletonDiv>
       </Col>
@@ -254,7 +254,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
         </Helmet>
       )}
       <VSpacing height={!responsive.lg ? 8 : 48} />
-      <Row justify="center" gutter={24}>
+      <Row justify="center">
         <Col span={22}>
           <Row justify="center" gutter={24}>
             <Col span={12} xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>

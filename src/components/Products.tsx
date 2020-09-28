@@ -440,7 +440,6 @@ const Products: React.FC<Props> = ({
                 initialLoad={false}
                 pageStart={0}
                 loadMore={() => {
-                  console.log("fetch more");
                   fetchMore({
                     variables: {
                       ...fetchProductsVars,

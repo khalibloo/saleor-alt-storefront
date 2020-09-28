@@ -119,6 +119,18 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_totalP
   gross: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_totalPrice_gross;
 }
 
+export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_discount {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
 export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_availableShippingMethods_price {
   __typename: "Money";
   /**
@@ -253,18 +265,6 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_availa
   config: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_availablePaymentGateways_config[];
 }
 
-export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_discount {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
 export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout_lines {
   __typename: "CheckoutLine";
   /**
@@ -281,6 +281,10 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout {
    */
   id: string;
   token: any;
+  /**
+   * Email of a customer.
+   */
+  email: string;
   shippingMethod: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_shippingMethod | null;
   /**
    * The price of the shipping, with all the taxes included.
@@ -294,6 +298,8 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout {
    * The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.
    */
   totalPrice: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_totalPrice | null;
+  discount: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_discount | null;
+  voucherCode: string | null;
   /**
    * Shipping methods that can be used with this order.
    */
@@ -304,8 +310,6 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout {
    * List of available payment gateways.
    */
   availablePaymentGateways: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_availablePaymentGateways[];
-  discount: CartPaymentCreateMutation_checkoutPaymentCreate_checkout_discount | null;
-  voucherCode: string | null;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.
    */

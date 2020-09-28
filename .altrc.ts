@@ -2,6 +2,8 @@ import { AddressInput, CountryCode } from "@/globalTypes";
 
 interface AltConfig {
   name: String;
+  // allow users to checkout without logging in?
+  allowAnonCheckout: boolean;
   paymentGateways: {
     id: String;
     onPay: (
@@ -16,6 +18,7 @@ interface AltConfig {
 
 const altConfig: AltConfig = {
   name: "Alt Storefront",
+  allowAnonCheckout: true,
   paymentGateways: [
     {
       id: "mirumee.payments.dummy",

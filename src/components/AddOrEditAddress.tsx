@@ -4,25 +4,30 @@ import { Button, Modal } from "antd";
 import { useBoolean } from "@umijs/hooks";
 import AddressForm from "./AddressForm";
 import { useIntl, connect } from "umi";
-import { ConnectState, Loading } from "@/models/connect";
 import { ButtonProps } from "antd/lib/button";
+import { AddressInput } from "@/globalTypes";
+import { AddressDetails } from "@/fragments/types/AddressDetails";
 
 interface Props {
   formId: string;
+  address?: AddressDetails;
   firstName?: string;
   lastName?: string;
-  loading: Loading;
+  isLoading?: boolean;
   onClick: () => void;
+  onAddOrEdit?: (address: AddressInput) => void;
   buttonProps: ButtonProps;
 }
-const AddAddress: React.FC<Props> = ({
+const AddOrEditAddress: React.FC<Props> = ({
   formId,
+  address,
   firstName,
   lastName,
   buttonProps,
+  onAddOrEdit,
   onClick,
   children,
-  loading,
+  isLoading,
 }) => {
   const intl = useIntl();
   const {
@@ -38,19 +43,22 @@ const AddAddress: React.FC<Props> = ({
         okButtonProps={{
           htmlType: "submit",
           form: formId,
-          loading: loading.effects["auth/createAddress"],
+          loading: isLoading,
         }}
         onCancel={closeModal}
         title={intl.formatMessage({ id: "misc.address.createNew" })}
         visible={modalOpen}
-        zIndex={1100}
       >
         <AddressForm
           id={formId}
+          address={address}
           firstName={firstName}
           lastName={lastName}
           hideSubmit
-          onSubmit={closeModal}
+          onSubmit={(addr: AddressInput) => {
+            closeModal();
+            onAddOrEdit?.(addr);
+          }}
         />
       </Modal>
       <Button
@@ -66,6 +74,4 @@ const AddAddress: React.FC<Props> = ({
   );
 };
 
-export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  AddAddress,
-);
+export default connect()(AddOrEditAddress);
