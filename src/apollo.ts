@@ -116,7 +116,7 @@ export const client: ApolloClient<any> = new ApolloClient({
       isTokenValidOrUndefined: () =>
         !isTokenExpired() || typeof getToken() !== "string",
       fetchAccessToken: async () => {
-        const resp = await fetch(config.gqlEndpoint, {
+        const resp = await fetch(config.apiEndpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export const client: ApolloClient<any> = new ApolloClient({
       },
     }),
     createUploadLink({
-      uri: config.gqlEndpoint,
+      uri: config.apiEndpoint,
       credentials: "same-origin",
     }),
   ]),

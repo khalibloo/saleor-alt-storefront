@@ -12,7 +12,7 @@ import {
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useIntl, connect } from "umi";
 import VSpacing from "@/components/VSpacing";
-import AddAddress from "@/components/AddAddress";
+import AddOrEditAddress from "@/components/AddOrEditAddress";
 import AddressCard from "@/components/AddressCard";
 import { useQuery } from "@apollo/client";
 import { profileQuery } from "@/queries/types/profileQuery";
@@ -113,7 +113,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                     if (!item.id) {
                       return (
                         <List.Item key="plus">
-                          <AddAddress
+                          <AddOrEditAddress
                             formId="profile-add-addr"
                             firstName={data?.me?.firstName}
                             lastName={data?.me?.lastName}
@@ -123,7 +123,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                             }}
                           >
                             <PlusOutlined style={{ fontSize: 36 }} />
-                          </AddAddress>
+                          </AddOrEditAddress>
                         </List.Item>
                       );
                     }

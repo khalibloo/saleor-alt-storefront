@@ -506,6 +506,10 @@ const CartModel: CartModelType = {
         if (errs && errs.length > 0) {
           throw new APIException(errs);
         }
+
+        yield lf.removeItem("guest_cart_token");
+        yield put({ type: "cart/create" });
+
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);

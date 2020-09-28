@@ -46,7 +46,7 @@
     "@umijs/hooks": "^1.9.2",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.0.14",
-    "antd": "^4.6.4",
+    "antd": "^4.6.5",
     "apollo-link-logger": "^1.2.3",
     "apollo-link-retry": "^2.2.16",
     "apollo-link-token-refresh": "^0.3.2",

@@ -13,6 +13,7 @@ import {
   Modal,
   Result,
   Drawer,
+  Checkbox,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link, connect, ConnectRC, history } from "umi";
@@ -31,8 +32,9 @@ import _ from "lodash";
 import NumberInput from "@/components/NumberInput";
 import altConfig from "@/../.altrc";
 import VoucherCodeForm from "@/components/VoucherCodeForm";
-import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
 import { cartWithTokenQuery } from "@/queries/types/cartWithTokenQuery";
+import { AddressInput } from "@/globalTypes";
+import Logger from "@/utils/logger";
 
 interface Props {
   authenticated: boolean;
@@ -76,6 +78,20 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   const shippingMethod = checkout?.shippingMethod;
   const paymentMethods = checkout?.availablePaymentGateways;
   const availableShippingMethods = checkout?.availableShippingMethods;
+
+  const [sameAddr, setSameAddr] = useState(false);
+  useEffect(() => {
+    setSameAddr(
+      Boolean(
+        shippingAddress &&
+          billingAddress &&
+          _.isEqual(
+            addressToInput(shippingAddress),
+            addressToInput(billingAddress),
+          ),
+      ),
+    );
+  }, [shippingAddress, billingAddress]);
   useEffect(() => {
     if (!shippingAddress && defaultShippingAddr) {
       const address = addressToInput(defaultShippingAddr);
@@ -109,6 +125,61 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
     availableShippingMethods?.find(sm => sm?.id === shippingMethod?.id) ===
     undefined;
   const isSummaryCompact = !responsive.lg;
+
+  const setShippingAddress = (address: AddressInput) => {
+    dispatch?.({
+      type: "cart/setShippingAddress",
+      payload: {
+        address,
+        onError: (err: APIException) => {
+          if (
+            err.errors?.find(
+              e => e.code === "INVALID" && e.field === "postalCode",
+            )
+          ) {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.postalCode.invalid",
+              }),
+            );
+          } else {
+            message.error(
+              intl.formatMessage({
+                id: "cart.shippingAddress.fail",
+              }),
+            );
+          }
+        },
+      },
+    });
+  };
+  const setBillingAddress = (address: AddressInput) => {
+    dispatch?.({
+      type: "cart/setBillingAddress",
+      payload: {
+        address,
+        onError: (err: APIException) => {
+          if (
+            err.errors?.find(
+              e => e.code === "INVALID" && e.field === "postalCode",
+            )
+          ) {
+            message.error(
+              intl.formatMessage({
+                id: "form.address.postalCode.invalid",
+              }),
+            );
+          } else {
+            message.error(
+              intl.formatMessage({
+                id: "cart.billingAddress.fail",
+              }),
+            );
+          }
+        },
+      },
+    });
+  };
   const summary = (
     <>
       <Row gutter={16}>
@@ -121,38 +192,26 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
           <AddressSelector
             id="shipping-address-select"
             loading={loading.effects["cart/setShippingAddress"]}
+            onAddOrEdit={addr => {
+              setShippingAddress(addr);
+              if (sameAddr) {
+                setBillingAddress(addr);
+              }
+            }}
             onChange={value => {
               const addr = addresses?.find(a => a?.id === value);
               if (addr) {
                 const address = addressToInput(addr);
-                dispatch?.({
-                  type: "cart/setShippingAddress",
-                  payload: {
-                    address,
-                    onError: (err: APIException) => {
-                      if (
-                        err.errors?.find(
-                          e => e.code === "INVALID" && e.field === "postalCode",
-                        )
-                      ) {
-                        message.error(
-                          intl.formatMessage({
-                            id: "form.address.postalCode.invalid",
-                          }),
-                        );
-                      } else {
-                        message.error(
-                          intl.formatMessage({
-                            id: "cart.shippingAddress.fail",
-                          }),
-                        );
-                      }
-                    },
-                  },
-                });
+                if (address) {
+                  setShippingAddress(address);
+                  if (sameAddr) {
+                    setBillingAddress(address);
+                  }
+                }
               }
             }}
             extraAddr={matchingShippingAddr ? undefined : shippingAddress}
+            editMode={Boolean(!authenticated && shippingAddress)}
             value={
               matchingShippingAddr
                 ? matchingShippingAddr.id
@@ -169,45 +228,55 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <AddressSelector
-            id="billing-address-select"
-            loading={loading.effects["cart/setBillingAddress"]}
-            onChange={value => {
-              const addr = addresses?.find(a => a?.id === value);
-              if (addr) {
-                const address = addressToInput(addr);
-                dispatch?.({
-                  type: "cart/setBillingAddress",
-                  payload: {
-                    address,
-                    onError: (err: APIException) => {
-                      if (
-                        err.errors?.find(
-                          e => e.code === "INVALID" && e.field === "postalCode",
-                        )
-                      ) {
-                        message.error(
-                          intl.formatMessage({
-                            id: "form.address.postalCode.invalid",
-                          }),
-                        );
-                      } else {
-                        message.error(
-                          intl.formatMessage({
-                            id: "cart.billingAddress.fail",
-                          }),
-                        );
-                      }
-                    },
-                  },
-                });
-              }
-            }}
-            extraAddr={matchingBillingAddr ? undefined : billingAddress}
-            value={
-              matchingBillingAddr ? matchingBillingAddr.id : billingAddress?.id
-            }
-          />
+          <div>
+            <Checkbox
+              checked={sameAddr}
+              onChange={e => {
+                setSameAddr(e.target.checked);
+                if (
+                  e.target.checked &&
+                  shippingAddress &&
+                  (!billingAddress ||
+                    !_.isEqual(
+                      addressToInput(shippingAddress),
+                      addressToInput(billingAddress),
+                    ))
+                ) {
+                  setBillingAddress(
+                    addressToInput(shippingAddress) as AddressInput,
+                  );
+                }
+              }}
+            >
+              {intl.formatMessage({ id: "cart.billingAddress.same" })}
+            </Checkbox>
+          </div>
+          {!sameAddr && (
+            <>
+              <VSpacing height={8} />
+              <div>
+                <AddressSelector
+                  id="billing-address-select"
+                  loading={loading.effects["cart/setBillingAddress"]}
+                  editMode={Boolean(!authenticated && billingAddress)}
+                  onAddOrEdit={addr => setBillingAddress(addr)}
+                  onChange={value => {
+                    const addr = addresses?.find(a => a?.id === value);
+                    if (addr) {
+                      const address = addressToInput(addr);
+                      address && setBillingAddress(address);
+                    }
+                  }}
+                  extraAddr={matchingBillingAddr ? undefined : billingAddress}
+                  value={
+                    matchingBillingAddr
+                      ? matchingBillingAddr.id
+                      : billingAddress?.id
+                  }
+                />
+              </div>
+            </>
+          )}
         </Col>
       </Row>
       <VSpacing height={8} />
@@ -221,6 +290,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
           <Select
             id="shipping-method-select"
             className="full-width"
+            disabled={
+              shippingAddress === null && availableShippingMethods?.length === 0
+            }
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
             })}
@@ -286,22 +358,24 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
           </Typography.Text>
         </Col>
       </Row>
-      <VSpacing height={8} />
-      <Row gutter={16}>
-        <Col span={8}>
-          <Typography.Text>
-            {intl.formatMessage({ id: "cart.discount" })}:
-          </Typography.Text>
-        </Col>
-        <Col span={16}>
-          <Typography.Text id="shipping-fee-txt">
-            {shippingMethod
-              ? `-${formatPrice(currency, discountPrice)} (${voucherCode})`
-              : "--"}
-          </Typography.Text>
-        </Col>
-      </Row>
-      <VSpacing height={24} />
+      {voucherCode && (
+        <>
+          <VSpacing height={8} />
+          <Row gutter={16}>
+            <Col span={8}>
+              <Typography.Text>
+                {intl.formatMessage({ id: "cart.discount" })}:
+              </Typography.Text>
+            </Col>
+            <Col span={16}>
+              <Typography.Text id="discount-fee-txt">
+                {`-${formatPrice(currency, discountPrice)} (${voucherCode})`}
+              </Typography.Text>
+            </Col>
+          </Row>
+        </>
+      )}
+      <VSpacing height={16} />
       <Row gutter={16}>
         <Col span={8}>
           <Typography.Text strong>
@@ -367,9 +441,8 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                   billingAddress: billingAddr,
                   onCompleted: () => {
                     openThanks();
-                    dispatch?.({ type: "cart/create" });
                   },
-                  onError: err => console.log(err),
+                  onError: err => Logger.log(err),
                 },
               });
             },

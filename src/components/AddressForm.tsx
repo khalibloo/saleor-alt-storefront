@@ -22,15 +22,17 @@ import { APIException } from "@/apollo";
 import { AddressDetails } from "@/fragments/types/AddressDetails";
 
 interface Props {
+  authenticated: boolean;
   id?: string;
   firstName?: string;
   lastName?: string;
   address?: AddressDetails;
   hideSubmit?: boolean;
   loading: Loading;
-  onSubmit?: () => void;
+  onSubmit?: (address: AddressInput) => void;
 }
 const AddressForm: ConnectRC<Props> = ({
+  authenticated,
   id,
   firstName,
   lastName,
@@ -42,7 +44,6 @@ const AddressForm: ConnectRC<Props> = ({
 }) => {
   const intl = useIntl();
   const responsive = useResponsive();
-
   const isEditing = address?.id != null;
 
   const onFinish = values => {
@@ -55,11 +56,15 @@ const AddressForm: ConnectRC<Props> = ({
       streetAddress1: values.streetAddress1,
       streetAddress2: values.streetAddress2,
       city: values.city,
-      cityArea: values.cityArea,
       postalCode: values.postalCode,
       country: values.country,
+      countryArea: values.countryArea,
     };
 
+    if (!authenticated) {
+      onSubmit?.(addressData);
+      return;
+    }
     dispatch?.({
       type: isEditing ? "auth/updateAddress" : "auth/createAddress",
       payload: {
@@ -70,7 +75,7 @@ const AddressForm: ConnectRC<Props> = ({
           notification.success({
             message: intl.formatMessage({ id: "misc.save.success" }),
           });
-          onSubmit?.();
+          onSubmit?.(addressData);
         },
         onError: (err: APIException) => {
           if (
@@ -258,7 +263,7 @@ const AddressForm: ConnectRC<Props> = ({
         <Col span={12} xs={24} sm={12} md={12} lg={12} xl={12} xxl={12}>
           <Form.Item
             label={intl.formatMessage({ id: "form.address.state" })}
-            name="cityArea"
+            name="countryArea"
             rules={[
               {
                 required: true,
@@ -354,6 +359,7 @@ const AddressForm: ConnectRC<Props> = ({
   );
 };
 
-export default connect((state: ConnectState) => ({ loading: state.loading }))(
-  AddressForm,
-);
+export default connect((state: ConnectState) => ({
+  authenticated: state.auth.authenticated,
+  loading: state.loading,
+}))(AddressForm);

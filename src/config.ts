@@ -8,8 +8,7 @@ if (APP_ENV !== "production") {
 
 export default {
   env: APP_ENV,
-  endpoint: ENDPOINT,
-  gqlEndpoint: ENDPOINT + "/graphql/",
+  apiEndpoint: ENDPOINT,
   siteName: SITE_NAME,
   altConfig,
 };
