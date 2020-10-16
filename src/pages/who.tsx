@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Typography, Row, Col, Card, Tabs, Button } from "antd";
+import { Helmet } from "react-helmet";
 import { useIntl, connect, Redirect, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
 import { ConnectState } from "@/models/connect";
@@ -17,6 +18,12 @@ const WhoPage = ({ authenticated }) => {
   }
   return (
     <div>
+      <Helmet>
+        <meta
+          name="description"
+          content={intl.formatMessage({ id: "who.meta" })}
+        />
+      </Helmet>
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>

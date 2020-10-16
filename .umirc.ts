@@ -38,6 +38,8 @@ export default defineConfig({
     APP_ENV: "default",
     ENDPOINT: "",
     SITE_NAME: "Alt Storefront",
+    SITE_DESCRIPTION:
+      "An alternate storefront for the saleor ecommerce platform",
   },
   theme: useDark
     ? {}

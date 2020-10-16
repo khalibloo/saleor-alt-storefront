@@ -8,17 +8,28 @@ interface IProps {
   lines?: number;
 }
 
-const RichTextContent: React.FC<IProps> = ({ contentJson, lines }) => (
-  <>
-    {contentJson && (
-      <Truncate
-        lines={lines}
-        dangerouslySetInnerHTML={{
-          __html: sanitize(draftToHtml(JSON.parse(contentJson))),
-        }}
-      />
-    )}
-  </>
-);
+const RichTextContent: React.FC<IProps> = ({ contentJson, lines }) => {
+  if (!contentJson) {
+    return null;
+  }
+  return (
+    <>
+      {lines ? (
+        <Truncate
+          lines={lines}
+          dangerouslySetInnerHTML={{
+            __html: sanitize(draftToHtml(JSON.parse(contentJson))),
+          }}
+        />
+      ) : (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: sanitize(draftToHtml(JSON.parse(contentJson))),
+          }}
+        />
+      )}
+    </>
+  );
+};
 
 export default RichTextContent;

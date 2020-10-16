@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import { Helmet } from "react-helmet";
 
 import HomeBannerSection from "@/components/HomeBannerSection";
 import HomeProductListSection from "@/components/HomeProductListSection";
@@ -8,11 +9,19 @@ import VSpacing from "@/components/VSpacing";
 import config from "@/config";
 import HomeCatalogListSection from "@/components/HomeCatalogListSection";
 import HomeSplitBannerSection from "@/components/HomeSplitBannerSection";
+import { useIntl } from "umi";
 
 const HomePage = () => {
+  const intl = useIntl();
   const homeLayout = config.altConfig.homeLayout;
   return (
     <div>
+      <Helmet>
+        <meta
+          name="description"
+          content={intl.formatMessage({ id: "site.meta" })}
+        />
+      </Helmet>
       {homeLayout.map((section, i) => {
         if (section.type === "banner") {
           return <HomeBannerSection key={i} {...section} />;

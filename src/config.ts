@@ -10,5 +10,6 @@ export default {
   env: APP_ENV,
   apiEndpoint: ENDPOINT,
   siteName: SITE_NAME,
+  siteDescription: SITE_DESCRIPTION,
   altConfig,
 };

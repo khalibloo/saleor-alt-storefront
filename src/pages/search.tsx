@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Row, Col } from "antd";
+import { Helmet } from "react-helmet";
 
 import { useIntl, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
@@ -12,6 +13,12 @@ const SearchPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <meta
+          name="description"
+          content={intl.formatMessage({ id: "search.meta" })}
+        />
+      </Helmet>
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
