@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Row, Col } from "antd";
 import { Helmet } from "react-helmet";
-import { useIntl, useParams } from "umi";
+import { useParams } from "umi";
 import clx from "classnames";
 
 import VSpacing from "@/components/VSpacing";
@@ -18,8 +18,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import Products from "@/components/Products";
 
 const CategoryDetailPage: React.FC = () => {
-  const intl = useIntl();
-  const { id } = useParams();
+  const { id } = useParams<{id: string}>();
   const { loading: fetching, error, data } = useQuery<
     categoryDetailQuery,
     categoryDetailQueryVariables
@@ -32,7 +31,8 @@ const CategoryDetailPage: React.FC = () => {
     <div>
       {data?.category?.name && (
         <Helmet>
-          <title>{formatTitle(data?.category?.name)}</title>
+          <title>{formatTitle(data.category.name)}</title>
+          <meta name="description" content={data.category.name} />
         </Helmet>
       )}
       <div className={styles.bannerContainer}>
@@ -59,7 +59,11 @@ const CategoryDetailPage: React.FC = () => {
           </Row>
         )}
       </div>
-      <Products categoryID={data?.category?.id} showCollectionFilter showCategoryFilter />
+      <Products
+        categoryID={data?.category?.id}
+        showCollectionFilter
+        showCategoryFilter
+      />
       <VSpacing height={48} />
     </div>
   );

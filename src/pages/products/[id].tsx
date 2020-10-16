@@ -54,7 +54,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams<{id: string}>();
   const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
     productDetailQueryVariables
@@ -250,7 +250,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     <div className="vflex flex-grow-1">
       {product?.name && (
         <Helmet>
-          <title>{formatTitle(product?.name)}</title>
+          <title>{formatTitle(product.name)}</title>
+          <meta name="description" content={product.name} />
         </Helmet>
       )}
       <VSpacing height={!responsive.lg ? 8 : 48} />

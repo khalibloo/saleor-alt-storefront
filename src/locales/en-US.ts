@@ -60,9 +60,11 @@ export default {
 
   // home
   "site.title": config.siteName,
+  "site.meta": config.siteDescription,
 
   // search
   "search.title": formatTitle("Search Results"),
+  "search.meta": "Search for products in our catalog",
   "search.heading": "Search Results",
   "search.sortby": "Sort By",
   "search.sort.relevance": "Relevance",
@@ -156,6 +158,7 @@ export default {
 
   // who
   "who.title": formatTitle("Log In or Sign Up"),
+  "who.meta": "Log in to our store or sign up for a new account",
   "who.heading": "Log In or Sign Up",
   "who.loginOrSignup": "Log In or Sign Up",
   "who.signup": "Sign Up",
