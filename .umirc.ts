@@ -11,6 +11,10 @@ export default defineConfig({
   antd: {
     dark: useDark,
   },
+  analytics: {
+    ga: process.env.GA_CODE,
+    // baidu: process.env.BAIDU_CODE,
+  },
   dva: {
     immer: true,
     hmr: true,
