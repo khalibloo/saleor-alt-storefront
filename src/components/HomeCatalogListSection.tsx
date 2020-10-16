@@ -81,7 +81,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
           style={{ justifyContent: justify || "center", gap: gap || 32 }}
         >
           {collections?.map(item => (
-            <Link to={item.url}>
+            <Link key={item.id} to={item.url}>
               <Card
                 hoverable
                 className="full-width"

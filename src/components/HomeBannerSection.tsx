@@ -1,54 +1,14 @@
 import React, { useEffect } from "react";
-import { Typography, Row, Col, Carousel } from "antd";
-import { useIntl, Link } from "umi";
-import clx from "classnames";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { Row, Col, Carousel } from "antd";
+import { useLazyQuery } from "@apollo/client";
 import { useResponsive } from "@umijs/hooks";
 import { getScreenSize } from "@/utils/utils";
 
-import styles from "./HomeBannerSection.less";
 import SkeletonDiv from "@/components/SkeletonDiv";
-import _ from "lodash";
 import { HomeBannerConfig } from ".altrc";
 import { homeBannerSectionQuery } from "@/queries/types/homeBannerSectionQuery";
 import { HOME_BANNER_SECTION_QUERY } from "@/queries/homeBannerSection";
-
-const BannerItem = ({ item }) => {
-  const content = (
-    <div className={clx("full-height", styles.bannerItem)}>
-      <img
-        className={clx("full-width full-height", styles.bannerImg)}
-        src={item.imageUrl}
-        alt={item.alt}
-      />
-      {item.title && (
-        <Row
-          className={clx("full-width full-height", styles.bannerOverlay)}
-          justify="center"
-          align="middle"
-        >
-          <Col className={styles.bannerTitleBG}>
-            <Typography.Title
-              id="banner-title"
-              className="center-text no-margin inverse-text"
-              level={1}
-            >
-              {item.title}
-            </Typography.Title>
-          </Col>
-        </Row>
-      )}
-    </div>
-  );
-  if (item.linkUrl.startsWith("/")) {
-    return <Link to={item.linkUrl}>{content}</Link>;
-  }
-  return (
-    <a href={item.linkUrl} target="_blank">
-      {content}
-    </a>
-  );
-};
+import HomeBannerItem from "./HomeBannerItem";
 
 const HomeBannerSection: React.FC<HomeBannerConfig> = ({
   fullWidth,
@@ -100,21 +60,20 @@ const HomeBannerSection: React.FC<HomeBannerConfig> = ({
   return (
     <Row justify="center">
       <Col
-        id="banner-container"
         span={24}
         md={fullWidth ? 24 : 20}
-        className={styles.bannerContainer}
+        className="mask relative"
         style={{ height: h || 500 }}
       >
         <SkeletonDiv active loading={fetching}>
           {items?.length === 1 ? (
-            <BannerItem item={items[0]} />
+            <HomeBannerItem {...items[0]} />
           ) : (
             <Carousel autoplay className="full-height">
               {items?.map(item => (
                 <div key={item.id}>
                   <div style={{ height: h }}>
-                    <BannerItem item={item} />
+                    <HomeBannerItem {...item} />
                   </div>
                 </div>
               ))}

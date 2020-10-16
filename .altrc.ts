@@ -25,6 +25,39 @@ export interface HomeBannerConfig {
     title?: string;
   }[];
 }
+export interface HomeSplitBannerConfig {
+  type: "split-banner";
+  height:
+    | string
+    | {
+        xs: string;
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
+        xxl: string;
+      };
+  layout: {
+    // xs: ""; // unused. will break into 2 rows
+    // sm: ""; // unused. will break into 2 rows
+    md: "1-2" | "1-1" | "2-1";
+    lg: "1-2" | "1-1" | "2-1";
+    xl: "1-2" | "1-1" | "2-1";
+    xxl: "1-2" | "1-1" | "2-1";
+  };
+  gap?: number;
+  // if using saleor menu, overlay the menu item name on the image
+  showTitleOverlay?: boolean;
+  // name of saleor menu to use
+  menuName?: string;
+  // images can be used instead of a saleor menu
+  images?: {
+    imageUrl: string;
+    linkUrl?: string;
+    alt?: string;
+    title?: string;
+  }[];
+}
 export interface HomeProductListConfig {
   type: "product-list";
   rows: {
@@ -84,6 +117,7 @@ interface AltConfig {
   }[];
   homeLayout: (
     | HomeBannerConfig
+    | HomeSplitBannerConfig
     | HomeProductListConfig
     | HomeCatalogListConfig
     | HomeSignupConfig
@@ -151,6 +185,35 @@ const altConfig: AltConfig = {
       type: "banner",
       fullWidth: false,
       height: "300px",
+      images: [
+        {
+          imageUrl: "https://via.placeholder.com/256",
+          alt: "sample image",
+          linkUrl: "https://saleor-alt.com",
+          title: "External Image Example",
+        },
+        {
+          imageUrl: "https://via.placeholder.com/300",
+          alt: "sample image",
+          linkUrl: "https://saleor-alt.com",
+          title: "Placeholder 2",
+        },
+      ],
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 24,
+    },
+    {
+      type: "split-banner",
+      height: "300px",
+      layout: {
+        md: "1-1",
+        lg: "1-2",
+        xl: "1-2",
+        xxl: "1-1",
+      },
+      gap: 32,
       images: [
         {
           imageUrl: "https://via.placeholder.com/256",

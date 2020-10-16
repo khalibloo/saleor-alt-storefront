@@ -7,22 +7,25 @@ import HomeSignupSection from "@/components/HomeSignupSection";
 import VSpacing from "@/components/VSpacing";
 import config from "@/config";
 import HomeCatalogListSection from "@/components/HomeCatalogListSection";
+import HomeSplitBannerSection from "@/components/HomeSplitBannerSection";
 
 const HomePage = () => {
   const homeLayout = config.altConfig.homeLayout;
   return (
     <div>
-      {homeLayout.map(section => {
+      {homeLayout.map((section, i) => {
         if (section.type === "banner") {
-          return <HomeBannerSection {...section} />;
+          return <HomeBannerSection key={i} {...section} />;
+        } else if (section.type === "split-banner") {
+          return <HomeSplitBannerSection key={i} {...section} />;
         } else if (section.type === "product-list") {
-          return <HomeProductListSection {...section} />;
+          return <HomeProductListSection key={i} {...section} />;
         } else if (section.type === "collection-list") {
-          return <HomeCatalogListSection {...section} />;
+          return <HomeCatalogListSection key={i} {...section} />;
         } else if (section.type === "signup") {
-          return <HomeSignupSection {...section} />;
+          return <HomeSignupSection key={i} {...section} />;
         } else if (section.type === "vertical-spacing") {
-          return <VSpacing height={section.spacing} />;
+          return <VSpacing key={i} height={section.spacing} />;
         }
       })}
     </div>
