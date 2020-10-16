@@ -39,11 +39,11 @@ const HomeBannerItem: React.FC<Props> = ({ imageUrl, linkUrl, alt, title }) => {
       )}
     </div>
   );
-  if (linkUrl.startsWith("/")) {
+  if (linkUrl?.startsWith("/")) {
     return <Link to={linkUrl}>{content}</Link>;
   }
   return (
-    <a href={linkUrl} target="_blank">
+    <a href={linkUrl} target="_blank" rel="noreferrer noopener">
       {content}
     </a>
   );

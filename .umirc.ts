@@ -28,6 +28,12 @@ export default defineConfig({
     //   href: "https://via.placeholder.com",
     // },
   ],
+  metas: [
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1",
+    },
+  ],
   define: {
     APP_ENV: "default",
     ENDPOINT: "",
@@ -39,6 +45,7 @@ export default defineConfig({
         "layout-header-background": "#fff",
         "layout-body-background": "#fff",
         "layout-footer-background": "#eee",
+        "text-color-secondary": "#0009",
       },
   chainWebpack: (memo, {}) => {
     memo.plugin("dayjs").use(AntdDayjsWebpackPlugin);

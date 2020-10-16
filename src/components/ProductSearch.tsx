@@ -23,6 +23,9 @@ const ProductSearch: React.FC<Props> = ({ onSearch, ...rest }) => {
       id="product-search-fld"
       size="large"
       className="full-width"
+      aria-label={intl.formatMessage({
+        id: "navbar.search.placeholder",
+      })}
       placeholder={intl.formatMessage({
         id: "navbar.search.placeholder",
       })}
