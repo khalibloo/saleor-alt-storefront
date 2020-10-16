@@ -23,10 +23,10 @@ export default defineConfig({
     baseSeparator: "-",
   },
   links: [
-    // {
-    //   rel: "preconnect",
-    //   href: "https://via.placeholder.com",
-    // },
+    {
+      rel: "preconnect",
+      href: process.env.ENDPOINT_ORIGIN,
+    },
   ],
   metas: [
     {
@@ -36,7 +36,7 @@ export default defineConfig({
   ],
   define: {
     APP_ENV: "default",
-    ENDPOINT: "",
+    ENDPOINT: process.env.ENDPOINT,
     SITE_NAME: "Alt Storefront",
     SITE_DESCRIPTION:
       "An alternate storefront for the saleor ecommerce platform",
