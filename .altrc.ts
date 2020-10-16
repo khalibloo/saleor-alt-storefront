@@ -1,5 +1,51 @@
 import { AddressInput, CountryCode } from "@/globalTypes";
 
+export interface HomeBannerConfig {
+  type: "banner";
+  height:
+    | string
+    | {
+        xs: string;
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
+        xxl: string;
+      };
+  fullWidth: boolean;
+  // if using saleor menu, overlay the menu item name on the image
+  showTitleOverlay?: boolean;
+  // name of saleor menu to use
+  menuName?: string;
+  // images can be used instead of a saleor menu
+  images?: {
+    imageUrl: string;
+    linkUrl?: string;
+    alt?: string;
+    title?: string;
+  }[];
+}
+export interface HomeProductListConfig {
+  type: "product-list";
+  rows: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xxl: number;
+  };
+  shuffle: boolean;
+  firstNProducts: number;
+  collectionSlug?: string;
+  categorySlug?: string;
+  title?: string;
+  showTitle: boolean;
+}
+export interface HomeVSpacingConfig {
+  type: "vertical-spacing";
+  spacing: number | string;
+}
 interface AltConfig {
   name: String;
   // allow users to checkout without logging in?
@@ -14,11 +60,68 @@ interface AltConfig {
       onCancel: () => void,
     ) => void;
   }[];
+  homeLayout: (HomeBannerConfig | HomeProductListConfig | HomeVSpacingConfig)[];
 }
 
 const altConfig: AltConfig = {
   name: "Alt Storefront",
   allowAnonCheckout: true,
+  homeLayout: [
+    {
+      type: "banner",
+      fullWidth: true,
+      height: "400px",
+      menuName: "navbar",
+      showTitleOverlay: true,
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 24,
+    },
+    {
+      type: "product-list",
+      categorySlug: "groceries",
+      firstNProducts: 10,
+      shuffle: true,
+      title: "Go Groceries",
+      showTitle: true,
+      rows: {
+        xs: 4,
+        sm: 3,
+        md: 2,
+        lg: 2,
+        xl: 1,
+        xxl: 1,
+      },
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 24,
+    },
+    {
+      type: "banner",
+      fullWidth: false,
+      height: "300px",
+      images: [
+        {
+          imageUrl: "https://via.placeholder.com/256",
+          alt: "sample image",
+          linkUrl: "https://saleor-alt.com",
+          title: "External Image Example",
+        },
+        {
+          imageUrl: "https://via.placeholder.com/300",
+          alt: "sample image",
+          linkUrl: "https://saleor-alt.com",
+          title: "Placeholder 2",
+        },
+      ],
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 48,
+    },
+  ],
   paymentGateways: [
     {
       id: "mirumee.payments.dummy",
