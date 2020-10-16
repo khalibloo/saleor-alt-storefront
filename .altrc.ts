@@ -214,20 +214,7 @@ const altConfig: AltConfig = {
         xxl: "1-1",
       },
       gap: 32,
-      images: [
-        {
-          imageUrl: "https://via.placeholder.com/256",
-          alt: "sample image",
-          linkUrl: "https://saleor-alt.com",
-          title: "External Image Example",
-        },
-        {
-          imageUrl: "https://via.placeholder.com/300",
-          alt: "sample image",
-          linkUrl: "https://saleor-alt.com",
-          title: "Placeholder 2",
-        },
-      ],
+      menuName: "navbar",
     },
     {
       type: "vertical-spacing",
