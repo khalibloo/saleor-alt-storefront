@@ -42,6 +42,7 @@ const CollectionDetailPage: React.FC = () => {
             className={clx("full-width full-height", styles.bannerImg)}
             src={data?.collection?.backgroundImage?.url}
             alt={data?.collection?.backgroundImage?.alt || ""}
+            loading="lazy"
           />
         </SkeletonDiv>
         {data?.collection?.name && (

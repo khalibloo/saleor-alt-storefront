@@ -91,6 +91,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
                       className="full-width full-height img-cover"
                       src={item.backgroundImage.url}
                       alt={item.backgroundImage.alt}
+                      loading="lazy"
                     />
                   </AspectRatio>
                 }

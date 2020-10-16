@@ -40,6 +40,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
               className="full-width"
               alt={product?.thumbnail?.alt as string}
               src={product?.thumbnail?.url}
+              loading="lazy"
             />
           </SkeletonDiv>
         </AspectRatio>

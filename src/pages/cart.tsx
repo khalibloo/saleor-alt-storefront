@@ -524,6 +524,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                       item?.variant.images?.[0]?.url ||
                                       item?.variant.product?.thumbnail?.url
                                     }
+                                    loading="lazy"
                                   />
                                 </AspectRatio>
                               </Link>
