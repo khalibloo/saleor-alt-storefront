@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import HomeBannerSection from "@/components/HomeBannerSection";
 import HomeProductListSection from "@/components/HomeProductListSection";
+import HomeSignupSection from "@/components/HomeSignupSection";
 import VSpacing from "@/components/VSpacing";
 import config from "@/config";
 
@@ -15,6 +16,8 @@ const HomePage = () => {
           return <HomeBannerSection {...section} />;
         } else if (section.type === "product-list") {
           return <HomeProductListSection {...section} />;
+        } else if (section.type === "signup") {
+          return <HomeSignupSection {...section} />;
         } else if (section.type === "vertical-spacing") {
           return <VSpacing height={section.spacing} />;
         }

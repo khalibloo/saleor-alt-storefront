@@ -70,8 +70,7 @@ const HomeBannerSection: React.FC<HomeBannerConfig> = ({
     }
   }, []);
 
-  let content;
-  let items = images?.map((image, i) => ({ ...image, id: i }));
+  let items = images?.map((image, i) => ({ ...image, id: `${i}` }));
   if (menuName) {
     items = data?.menu?.items
       ?.map(item => {

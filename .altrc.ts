@@ -42,6 +42,11 @@ export interface HomeProductListConfig {
   title?: string;
   showTitle: boolean;
 }
+export interface HomeSignupConfig {
+  type: "signup";
+  message?: string;
+  buttonText?: string;
+}
 export interface HomeVSpacingConfig {
   type: "vertical-spacing";
   spacing: number | string;
@@ -60,7 +65,12 @@ interface AltConfig {
       onCancel: () => void,
     ) => void;
   }[];
-  homeLayout: (HomeBannerConfig | HomeProductListConfig | HomeVSpacingConfig)[];
+  homeLayout: (
+    | HomeBannerConfig
+    | HomeProductListConfig
+    | HomeSignupConfig
+    | HomeVSpacingConfig
+  )[];
 }
 
 const altConfig: AltConfig = {
@@ -116,6 +126,15 @@ const altConfig: AltConfig = {
           title: "Placeholder 2",
         },
       ],
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 24,
+    },
+    {
+      type: "signup",
+      message: "Join Us Today",
+      buttonText: "Join",
     },
     {
       type: "vertical-spacing",
