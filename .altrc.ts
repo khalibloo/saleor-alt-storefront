@@ -42,6 +42,23 @@ export interface HomeProductListConfig {
   title?: string;
   showTitle: boolean;
 }
+export interface HomeCatalogListConfig {
+  type: "collection-list";
+  rows: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xxl: number;
+  };
+  menuName: string;
+  title?: string;
+  useMenuNameAsTitle?: boolean;
+  showNames: boolean;
+  justify?: "start" | "end" | "center" | "space-around" | "space-between";
+  gap?: number | string;
+}
 export interface HomeSignupConfig {
   type: "signup";
   message?: string;
@@ -68,6 +85,7 @@ interface AltConfig {
   homeLayout: (
     | HomeBannerConfig
     | HomeProductListConfig
+    | HomeCatalogListConfig
     | HomeSignupConfig
     | HomeVSpacingConfig
   )[];
@@ -109,6 +127,27 @@ const altConfig: AltConfig = {
       spacing: 24,
     },
     {
+      type: "collection-list",
+      menuName: "navbar",
+      title: "Featured Collections",
+      useMenuNameAsTitle: false,
+      rows: {
+        xs: 2,
+        sm: 2,
+        md: 2,
+        lg: 1,
+        xl: 1,
+        xxl: 1,
+      },
+      showNames: true,
+      justify: "center",
+      gap: 48,
+    },
+    {
+      type: "vertical-spacing",
+      spacing: 48,
+    },
+    {
       type: "banner",
       fullWidth: false,
       height: "300px",
@@ -134,7 +173,7 @@ const altConfig: AltConfig = {
     {
       type: "signup",
       message: "Join Us Today",
-      buttonText: "Join",
+      buttonText: "Create Your Account",
     },
     {
       type: "vertical-spacing",

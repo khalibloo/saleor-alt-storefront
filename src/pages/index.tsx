@@ -6,6 +6,7 @@ import HomeProductListSection from "@/components/HomeProductListSection";
 import HomeSignupSection from "@/components/HomeSignupSection";
 import VSpacing from "@/components/VSpacing";
 import config from "@/config";
+import HomeCatalogListSection from "@/components/HomeCatalogListSection";
 
 const HomePage = () => {
   const homeLayout = config.altConfig.homeLayout;
@@ -16,6 +17,8 @@ const HomePage = () => {
           return <HomeBannerSection {...section} />;
         } else if (section.type === "product-list") {
           return <HomeProductListSection {...section} />;
+        } else if (section.type === "collection-list") {
+          return <HomeCatalogListSection {...section} />;
         } else if (section.type === "signup") {
           return <HomeSignupSection {...section} />;
         } else if (section.type === "vertical-spacing") {
