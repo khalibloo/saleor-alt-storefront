@@ -24,6 +24,7 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
                 className="full-width"
                 alt={thumbnail?.alt}
                 src={thumbnail?.url}
+                loading="lazy"
               />
             </AspectRatio>
           </Link>

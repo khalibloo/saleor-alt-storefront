@@ -42,6 +42,7 @@ const CategoryDetailPage: React.FC = () => {
             className={clx("full-width full-height", styles.bannerImg)}
             src={data?.category?.backgroundImage?.url}
             alt={data?.category?.backgroundImage?.alt || ""}
+            loading="lazy"
           />
         </SkeletonDiv>
         {data?.category?.name && (

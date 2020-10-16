@@ -18,6 +18,7 @@ const HomeBannerItem: React.FC<Props> = ({ imageUrl, linkUrl, alt, title }) => {
         className={clx("full-width full-height", styles.bannerImg)}
         src={imageUrl}
         alt={alt}
+        loading="lazy"
       />
       {title && (
         <Row

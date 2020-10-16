@@ -311,6 +311,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                                     className="full-width"
                                     alt={image?.alt || ""}
                                     src={image?.url}
+                                    loading="lazy"
                                   />
                                 </SkeletonDiv>
                               </Button>
@@ -359,6 +360,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                                 className="full-width carousel-imgs"
                                 alt={image?.alt as string}
                                 src={image?.url}
+                                loading="lazy"
                               />
                             </div>
                           ))}
