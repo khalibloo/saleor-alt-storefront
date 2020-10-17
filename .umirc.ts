@@ -42,6 +42,7 @@ export default defineConfig({
   define: {
     APP_ENV: "default",
     ENDPOINT: process.env.ENDPOINT,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     SITE_NAME: "Alt Storefront",
     SITE_DESCRIPTION:
       "An alternate storefront for the saleor ecommerce platform",

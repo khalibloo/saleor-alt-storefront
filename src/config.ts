@@ -11,5 +11,6 @@ export default {
   apiEndpoint: ENDPOINT,
   siteName: SITE_NAME,
   siteDescription: SITE_DESCRIPTION,
+  sentryDSN: SENTRY_DSN,
   altConfig,
 };
