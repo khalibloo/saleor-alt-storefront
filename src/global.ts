@@ -4,6 +4,7 @@ import { message } from "antd";
 import { getIntl } from "umi";
 
 import config from "./config";
+import "./regSW";
 
 export { client } from "./apollo";
 

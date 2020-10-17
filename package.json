@@ -68,6 +68,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-lazyload": "^2.6.6",
     "react-truncate-html": "^0.1.7",
+    "register-service-worker": "^1.7.1",
     "umi": "^3.2.23",
     "yorkie": "^2.0.0"
   },
