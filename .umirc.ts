@@ -2,6 +2,7 @@ import { defineConfig } from "umi";
 import path from "path";
 import HtmlCriticalWebpackPlugin from "html-critical-webpack-plugin";
 import AntdDayjsWebpackPlugin from "antd-dayjs-webpack-plugin";
+import { GenerateSW } from "workbox-webpack-plugin";
 
 const useDark = false;
 // uncomment to use dark theme for users who prefer dark
@@ -33,10 +34,10 @@ export default defineConfig({
     },
   ],
   metas: [
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1",
-    },
+    // {
+    //   name: "viewport",
+    //   content: "width=device-width, initial-scale=1",
+    // },
   ],
   define: {
     APP_ENV: "default",
@@ -74,5 +75,6 @@ export default defineConfig({
             },
           }),
       );
+    memo.plugin("workbox").use(GenerateSW);
   },
 });
