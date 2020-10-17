@@ -2,6 +2,7 @@ import { defineConfig } from "umi";
 import path from "path";
 import HtmlCriticalWebpackPlugin from "html-critical-webpack-plugin";
 import AntdDayjsWebpackPlugin from "antd-dayjs-webpack-plugin";
+import { GenerateSW } from "workbox-webpack-plugin";
 
 const useDark = false;
 // uncomment to use dark theme for users who prefer dark
@@ -10,6 +11,10 @@ export default defineConfig({
   title: "Alt Storefront",
   antd: {
     dark: useDark,
+  },
+  analytics: {
+    ga: process.env.GA_CODE,
+    // baidu: process.env.BAIDU_CODE,
   },
   dva: {
     immer: true,
@@ -23,20 +28,20 @@ export default defineConfig({
     baseSeparator: "-",
   },
   links: [
-    // {
-    //   rel: "preconnect",
-    //   href: "https://via.placeholder.com",
-    // },
+    {
+      rel: "preconnect",
+      href: process.env.ENDPOINT_ORIGIN,
+    },
   ],
   metas: [
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1",
-    },
+    // {
+    //   name: "viewport",
+    //   content: "width=device-width, initial-scale=1",
+    // },
   ],
   define: {
     APP_ENV: "default",
-    ENDPOINT: "",
+    ENDPOINT: process.env.ENDPOINT,
     SITE_NAME: "Alt Storefront",
     SITE_DESCRIPTION:
       "An alternate storefront for the saleor ecommerce platform",
@@ -70,5 +75,6 @@ export default defineConfig({
             },
           }),
       );
+    memo.plugin("workbox").use(GenerateSW);
   },
 });
