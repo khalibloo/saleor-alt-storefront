@@ -206,6 +206,7 @@ export default {
   // 404
   "404.title": formatTitle("Page Not Found"),
   "404.heading": "Page Not Found",
+  "404.subheading": "Sorry, the page you visited does not exist.",
 
   // account confirm
   "account.confirm.invalidUrl": "Invalid URL",

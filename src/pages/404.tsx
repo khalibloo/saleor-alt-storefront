@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Row, Typography } from "antd";
+import { Button, Col, Result, Row, Typography } from "antd";
 import { Link, useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
 
@@ -7,25 +7,24 @@ const NotFoundPage = () => {
   const intl = useIntl();
   return (
     <div>
-      <VSpacing height={160} />
-      <Row justify="center">
+      <VSpacing height={24} />
+      <Row justify="center" align="middle" className="full-heighst">
         <Col span={22} md={20} xl={18}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
-            {intl.formatMessage({ id: "404.heading" })}
-          </Typography.Title>
-          <VSpacing height={64} />
-          <Row justify="center">
-            <Col>
+          <Result
+            status="404"
+            title="404"
+            subTitle={intl.formatMessage({ id: "404.subheading" })}
+            extra={
               <Link to="/">
                 <Button size="large" type="primary">
                   {intl.formatMessage({ id: "misc.backToHome" })}
                 </Button>
               </Link>
-            </Col>
-          </Row>
+            }
+          />
         </Col>
       </Row>
-      <VSpacing height={160} />
+      <VSpacing height={48} />
     </div>
   );
 };
