@@ -29,7 +29,7 @@ const HomePage = () => {
           return <HomeSplitBannerSection key={i} {...section} />;
         } else if (section.type === "product-list") {
           return <HomeProductListSection key={i} {...section} />;
-        } else if (section.type === "collection-list") {
+        } else if (section.type === "catalog-list") {
           return <HomeCatalogListSection key={i} {...section} />;
         } else if (section.type === "signup") {
           return <HomeSignupSection key={i} {...section} />;

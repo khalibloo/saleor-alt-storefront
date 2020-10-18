@@ -13,7 +13,7 @@ export interface HomeBannerConfig {
         xxl: string;
       };
   fullWidth: boolean;
-  // if using saleor menu, overlay the menu item name on the image
+  // overlay the menu item name on the image
   showTitleOverlay?: boolean;
   // name of saleor menu to use
   menuName?: string;
@@ -76,7 +76,7 @@ export interface HomeProductListConfig {
   showTitle: boolean;
 }
 export interface HomeCatalogListConfig {
-  type: "collection-list";
+  type: "catalog-list";
   rows: {
     xs: number;
     sm: number;
@@ -126,7 +126,7 @@ interface AltConfig {
 }
 
 const altConfig: AltConfig = {
-  name: "Alt Storefront",
+  name: SITE_NAME,
   allowAnonCheckout: true,
   homeLayout: [
     {
@@ -161,7 +161,7 @@ const altConfig: AltConfig = {
       spacing: 24,
     },
     {
-      type: "collection-list",
+      type: "catalog-list",
       menuName: "navbar",
       title: "Featured Collections",
       useMenuNameAsTitle: false,
