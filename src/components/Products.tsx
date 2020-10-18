@@ -48,6 +48,7 @@ interface Props {
   categoryID?: string;
   collectionID?: string;
   view?: "grid" | "list";
+  listName: string;
 }
 const Products: React.FC<Props> = ({
   showCategoryFilter,
@@ -55,6 +56,7 @@ const Products: React.FC<Props> = ({
   categoryID,
   collectionID,
   view = "grid",
+  listName,
 }) => {
   const intl = useIntl();
   const sortMap: { [key: string]: ProductOrder } = {
@@ -182,6 +184,32 @@ const Products: React.FC<Props> = ({
       fetchCollections();
     }
   }, []);
+
+  useEffect(() => {
+    // Google Ecommerce
+    if (!Boolean(data?.products?.edges.length)) {
+      // no products fetched
+      return;
+    }
+    const items = data?.products?.edges.map((edge, i) => {
+      const p = edge.node;
+      return {
+        item_name: p.name, // Name or ID is required.
+        item_id: p.id,
+        price: p.pricing?.priceRange?.start?.gross.amount.toString(),
+        item_category: p.category?.name,
+        item_list_name: listName,
+        item_list_id: categoryID || collectionID,
+        index: i,
+      };
+    });
+    window.dataLayer.push({
+      event: "view_item_list",
+      ecommerce: {
+        items,
+      },
+    });
+  }, [data?.products?.edges]);
 
   // price slider data
   const minPrice =
