@@ -67,8 +67,13 @@ declare global {
         | "view_cart"
         | "view_item"
         | "view_item_list"
-        | "view_promotion";
-      ecommerce: {
+        | "view_promotion"
+        | "sign_up"
+        | "login"
+        | "search";
+      method?: string;
+      search_term?: string;
+      ecommerce?: {
         // currency code
         currency?: string;
         // total value

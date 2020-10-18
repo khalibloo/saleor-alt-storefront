@@ -82,6 +82,7 @@ import {
 } from "@/mutations/types/UserVerifyEmailMutation";
 import { USER_VERIFY_EMAIL_MUTATION } from "@/mutations/UserVerifyEmail";
 import { ConnectState } from "./connect";
+import config from "@/config";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -193,6 +194,10 @@ const AuthModel: AuthModelType = {
             payload: { ...guestCartEntry },
           });
         }
+
+        if (config.gtmEnabled) {
+          window.dataLayer.push({ event: "login", method: "Default" });
+        }
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -247,6 +252,9 @@ const AuthModel: AuthModelType = {
           });
         }
         yield call(client.resetStore);
+        if (config.gtmEnabled) {
+          window.dataLayer.push({ event: "sign_up", method: "Default" });
+        }
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
