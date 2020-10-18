@@ -35,6 +35,7 @@ import VoucherCodeForm from "@/components/VoucherCodeForm";
 import { cartWithTokenQuery } from "@/queries/types/cartWithTokenQuery";
 import { AddressInput } from "@/globalTypes";
 import Logger from "@/utils/logger";
+import config from "@/config";
 
 interface Props {
   authenticated: boolean;
@@ -107,6 +108,28 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
       dispatch?.({
         type: "cart/setBillingAddress",
         payload: { address },
+      });
+    }
+  }, []);
+
+  // Google Ecommerce
+  useEffect(() => {
+    if (config.gtmEnabled && checkout) {
+      window.dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          currency: checkout.totalPrice?.gross.currency,
+          coupon: checkout.voucherCode || undefined,
+          value: checkout.totalPrice?.gross.amount,
+          items: checkout.lines?.map(line => ({
+            item_id: line?.variant.sku,
+            item_name: line?.variant.product.name,
+            item_category: line?.variant.product.category?.name,
+            item_variant: line?.variant.name,
+            price: line?.variant.pricing?.price?.gross.amount,
+            quantity: line?.quantity,
+          })),
+        },
       });
     }
   }, []);
