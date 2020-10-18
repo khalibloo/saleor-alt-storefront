@@ -1,7 +1,7 @@
 # Alt Storefront
 This project aims to provide a more customizable storefront for the Saleor
 e-commerce platform. It's based on Ant Design and Umi in order to make it easy to extend and customize, and also to reduce the complexity of the codebase. This project is still in its infancy and definitely not ready for
-use, but you're welcome to experiment with it and give feedback and suggestions.
+use in production, but you're welcome to experiment with it and give feedback and suggestions.
 
 # Stack
 To simplify development and to allow for easy customization, we've chosen
@@ -14,6 +14,9 @@ the following tools.
 - 🌊 DvaJS (based on redux) as a supporting data framework
 
 # Getting Started
+Follow the [Getting Started guide](https://github.com/khalibloo/saleor-alt-storefront/wiki/Getting-Started) on the wiki.
+
+Here are the commands for running and building the project.
 Install dependencies
 
 ```bash
@@ -33,10 +36,10 @@ $ yarn build
 ```
 
 # Configuration
-Not yet available. Configuration options will be added here as they become available. These include settings such as API url and so on.
+Refer to the [Configuration page](https://github.com/khalibloo/saleor-alt-storefront/wiki/Configuration-Options) on the wiki.
 
 # Customization
-Not yet available. Options for theming and setting UI preferences will be added here as they become available.
+Refer to [Theming](https://github.com/khalibloo/saleor-alt-storefront/wiki/Theming) and [Customizing the Home Page](https://github.com/khalibloo/saleor-alt-storefront/wiki/Customizing-The-Home-Page) on the wiki.
 
 # Translating
 All visible UI strings are set up in locale files to enable easy translation of the UI to different languages. Currently, only English is available. Other languages will be slowly added after reaching a stable version. When that time comes, we'll likely need your help with the translations 😉
@@ -76,4 +79,4 @@ MIT Licensed. We provide no guarantees and take no liabilities. If you're cool w
 We haven't quite set up channels for this yet. Hang in there. For the time being, you may open an issue for help requests and we'll do our best to respond to them on time.
 
 # Support Us
-Give us stars, talk about us, ...or just send us cat pictures. They motivate us.
+Give us stars, talk about us, ...or just send us cat pictures over here in our [Nuclear Cat Reactor](https://github.com/khalibloo/saleor-alt-storefront/issues/89). They motivate us.
