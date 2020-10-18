@@ -560,6 +560,7 @@ export interface productDetailQuery_product_category {
    * The ID of the object.
    */
   id: string;
+  name: string;
   /**
    * List of products in the category.
    */

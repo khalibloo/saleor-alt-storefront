@@ -54,7 +54,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
   const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
     productDetailQueryVariables
@@ -147,6 +147,30 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  useEffect(() => {
+    // Google Ecommerce
+    if (!product) {
+      return;
+    }
+    window.dataLayer.push({
+      event: "view_item",
+      ecommerce: {
+        items: [
+          {
+            item_name: product.name,
+            item_id: product.id,
+            price:
+              selectedVariant?.pricing?.price?.gross.amount.toString() ||
+              product.pricing?.priceRange?.start?.gross.amount.toString(),
+            item_category: product.category?.name,
+            item_variant: selectedVariant?.name,
+            quantity: qty,
+          },
+        ],
+      },
+    });
+  }, [product, selectedVariant]);
 
   const suggestions = product?.category?.products?.edges.filter(
     e => e.node.id !== product.id,
