@@ -109,6 +109,10 @@ export const CHECKOUT_LINES_DETAILS_FRAGMENT = gql`
         product {
           id
           name
+          category {
+            id
+            name
+          }
           descriptionJson
           thumbnail {
             url

@@ -49,7 +49,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
         items: [
           {
             item_name: product.name,
-            item_id: product.id,
+            // item_id: product.id,
             item_category: product.category?.name,
             item_list_name: listName,
             item_list_id: listID,

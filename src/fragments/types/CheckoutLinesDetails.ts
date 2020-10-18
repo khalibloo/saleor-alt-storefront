@@ -84,6 +84,15 @@ export interface CheckoutLinesDetails_lines_variant_pricing {
   price: CheckoutLinesDetails_lines_variant_pricing_price | null;
 }
 
+export interface CheckoutLinesDetails_lines_variant_product_category {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface CheckoutLinesDetails_lines_variant_product_thumbnail {
   __typename: "Image";
   /**
@@ -103,6 +112,7 @@ export interface CheckoutLinesDetails_lines_variant_product {
    */
   id: string;
   name: string;
+  category: CheckoutLinesDetails_lines_variant_product_category | null;
   descriptionJson: any;
   /**
    * The main thumbnail for a product.

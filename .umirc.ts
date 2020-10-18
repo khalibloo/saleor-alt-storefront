@@ -47,7 +47,7 @@ export default defineConfig({
     APP_ENV: "default",
     ENDPOINT: process.env.ENDPOINT,
     SENTRY_DSN: process.env.SENTRY_DSN,
-    GTM_ID: process.env.GTM_CODE,
+    GTM_CODE: process.env.GTM_CODE,
     SITE_NAME: process.env.SITE_NAME || "Alt Storefront",
     SITE_DESCRIPTION:
       process.env.SITE_DESCRIPTION ||

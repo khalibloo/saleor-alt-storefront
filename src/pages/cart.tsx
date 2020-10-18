@@ -573,6 +573,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                         payload: {
                                           variantId: item?.variant.id,
                                           quantity: value,
+                                          variant: item?.variant,
+                                          product: item?.variant.product,
+                                          oldQuantity: item?.quantity,
                                         },
                                       });
                                     }}
@@ -593,6 +596,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                         type: "cart/deleteItem",
                                         payload: {
                                           checkoutLineId: item?.id,
+                                          product: item?.variant.product,
+                                          variant: item?.variant,
+                                          quantity: item?.quantity,
                                           onCompleted: () => {
                                             notification.info({
                                               message: intl.formatMessage({

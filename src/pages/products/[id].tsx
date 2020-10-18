@@ -163,7 +163,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
         items: [
           {
             item_name: product.name,
-            item_id: product.id,
+            item_id: selectedVariant?.sku,
             price:
               selectedVariant?.pricing?.price?.gross.amount.toString() ||
               product.pricing?.priceRange?.start?.gross.amount.toString(),
@@ -204,7 +204,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           const p = edge.node;
           return {
             item_name: p.name,
-            item_id: p.id,
+            // item_id: p.id,
             price: p.pricing?.priceRange?.start?.gross.amount.toString(),
             item_category: p.category?.name,
             item_list_name: "Product Suggestions",
@@ -285,6 +285,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           payload: {
             variantId: selectedVariant?.id,
             quantity: qty,
+            product: product,
+            variant: selectedVariant,
             onCompleted: () => {
               notification.success({
                 message: intl.formatMessage({ id: "cart.addItem.success" }),

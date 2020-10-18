@@ -312,6 +312,15 @@ export interface cartWithTokenQuery_checkout_lines_variant_pricing {
   price: cartWithTokenQuery_checkout_lines_variant_pricing_price | null;
 }
 
+export interface cartWithTokenQuery_checkout_lines_variant_product_category {
+  __typename: "Category";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface cartWithTokenQuery_checkout_lines_variant_product_thumbnail {
   __typename: "Image";
   /**
@@ -331,6 +340,7 @@ export interface cartWithTokenQuery_checkout_lines_variant_product {
    */
   id: string;
   name: string;
+  category: cartWithTokenQuery_checkout_lines_variant_product_category | null;
   descriptionJson: any;
   /**
    * The main thumbnail for a product.
