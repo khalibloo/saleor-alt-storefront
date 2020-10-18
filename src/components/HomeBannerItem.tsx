@@ -20,11 +20,7 @@ const HomeBannerItem: React.FC<HomeBannerImage> = ({
       window.dataLayer.push({
         event: "view_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }
@@ -35,11 +31,7 @@ const HomeBannerItem: React.FC<HomeBannerImage> = ({
       window.dataLayer.push({
         event: "select_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }

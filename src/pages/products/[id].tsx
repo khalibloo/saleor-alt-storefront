@@ -35,7 +35,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
 import { ConnectState, Loading } from "@/models/connect";
 import NumberInput from "@/components/NumberInput";
-import config from '@/config';
+import config from "@/config";
 
 interface AttrValue {
   id: string;
@@ -151,7 +151,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   useEffect(() => {
     // Google Ecommerce - track detail view
-    if(!config.gtmEnabled){
+    if (!config.gtmEnabled) {
       return;
     }
     if (!product) {
@@ -160,13 +160,14 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     window.dataLayer.push({
       event: "view_item",
       ecommerce: {
+        currency: product.pricing?.priceRange?.start?.gross.currency,
         items: [
           {
             item_name: product.name,
             item_id: selectedVariant?.sku,
             price:
-              selectedVariant?.pricing?.price?.gross.amount.toString() ||
-              product.pricing?.priceRange?.start?.gross.amount.toString(),
+              selectedVariant?.pricing?.price?.gross.amount ||
+              product.pricing?.priceRange?.start?.gross.amount,
             item_category: product.category?.name,
             item_variant: selectedVariant?.name,
             quantity: qty,
@@ -191,7 +192,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   useEffect(() => {
     // Google Ecommerce - track suggestions view
-    if(!config.gtmEnabled){
+    if (!config.gtmEnabled) {
       return;
     }
     if (!suggestions) {
@@ -200,6 +201,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     window.dataLayer.push({
       event: "view_item_list",
       ecommerce: {
+        currency: product?.pricing?.priceRange?.start?.gross.currency,
         items: suggestions.map((edge, i) => {
           const p = edge.node;
           return {

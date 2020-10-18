@@ -199,7 +199,6 @@ const Products: React.FC<Props> = ({
       const p = edge.node;
       return {
         item_name: p.name,
-        // item_id: p.id,
         price: p.pricing?.priceRange?.start?.gross.amount.toString(),
         item_category: p.category?.name,
         item_list_name: listName,
@@ -210,6 +209,9 @@ const Products: React.FC<Props> = ({
     window.dataLayer.push({
       event: "view_item_list",
       ecommerce: {
+        currency:
+          data.products.edges[0].node.pricing?.priceRange?.start?.gross
+            .currency,
         items,
       },
     });

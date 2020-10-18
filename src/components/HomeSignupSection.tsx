@@ -24,11 +24,7 @@ const HomeSignupSection: React.FC<Props> = ({
       window.dataLayer.push({
         event: "view_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }
@@ -39,11 +35,7 @@ const HomeSignupSection: React.FC<Props> = ({
       window.dataLayer.push({
         event: "select_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }

@@ -257,11 +257,12 @@ const CartModel: CartModelType = {
           window.dataLayer.push({
             event: "add_to_cart",
             ecommerce: {
+              currency: variant.pricing?.price?.gross.currency,
               items: [
                 {
                   item_name: product.name,
                   item_id: variant.sku,
-                  price: variant.pricing?.price?.gross.amount.toString(),
+                  price: variant.pricing?.price?.gross.amount,
                   item_category: product.category?.name,
                   item_variant: variant.name,
                   quantity: quantity,
@@ -308,6 +309,7 @@ const CartModel: CartModelType = {
             window.dataLayer.push({
               event: "add_to_cart",
               ecommerce: {
+                currency: variant.pricing?.price?.gross.currency,
                 items: [
                   {
                     item_name: product.name,
@@ -325,6 +327,7 @@ const CartModel: CartModelType = {
             window.dataLayer.push({
               event: "remove_from_cart",
               ecommerce: {
+                currency: variant.pricing?.price?.gross.currency,
                 items: [
                   {
                     item_name: product.name,
@@ -378,6 +381,7 @@ const CartModel: CartModelType = {
           window.dataLayer.push({
             event: "remove_from_cart",
             ecommerce: {
+              currency: variant.pricing?.price?.gross.currency,
               items: [
                 {
                   item_name: product.name,

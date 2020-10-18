@@ -48,10 +48,10 @@ const ProductCard: React.FunctionComponent<Props> = ({
     window.dataLayer.push({
       event: "select_item",
       ecommerce: {
+        currency: product.pricing?.priceRange?.start?.gross.currency,
         items: [
           {
             item_name: product.name,
-            // item_id: product.id,
             item_category: product.category?.name,
             item_list_name: listName,
             item_list_id: listID,

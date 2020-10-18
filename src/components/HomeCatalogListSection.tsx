@@ -42,11 +42,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
       window.dataLayer.push({
         event: "view_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }
@@ -57,11 +53,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
       window.dataLayer.push({
         event: "select_promotion",
         ecommerce: {
-          items: [
-            {
-              ...googleAnalyticsPromoData,
-            },
-          ],
+          ...googleAnalyticsPromoData,
         },
       });
     }
