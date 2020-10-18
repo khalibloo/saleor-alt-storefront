@@ -63,6 +63,7 @@ const CategoryDetailPage: React.FC = () => {
         categoryID={data?.category?.id}
         showCollectionFilter
         showCategoryFilter
+        listName={data?.category?.name}
       />
       <VSpacing height={48} />
     </div>

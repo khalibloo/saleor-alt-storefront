@@ -98,6 +98,7 @@ export const PRODUCT_DETAIL_PAGE_QUERY = gql`
       }
       category {
         id
+        name
         products(first: 10) {
           edges {
             node {

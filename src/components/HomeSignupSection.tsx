@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Row, Col, Button } from "antd";
 import { connect, Dispatch, useIntl } from "umi";
-import clx from "classnames";
-import _ from "lodash";
 import { HomeSignupConfig } from ".altrc";
 import { ConnectState } from "@/models/connect";
 import VSpacing from "./VSpacing";
+import config from "@/config";
 
 interface Props extends HomeSignupConfig {
   authenticated: boolean;
@@ -16,8 +15,31 @@ const HomeSignupSection: React.FC<Props> = ({
   buttonText,
   message,
   dispatch,
+  googleAnalyticsPromoData,
 }) => {
   const intl = useIntl();
+  // Google Ecommerce - track promo view
+  useEffect(() => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "view_promotion",
+        ecommerce: {
+          ...googleAnalyticsPromoData,
+        },
+      });
+    }
+  }, []);
+  // Google Ecommerce - track promo click
+  const trackPromoClick = () => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "select_promotion",
+        ecommerce: {
+          ...googleAnalyticsPromoData,
+        },
+      });
+    }
+  };
   if (authenticated) {
     return null;
   }
@@ -33,9 +55,13 @@ const HomeSignupSection: React.FC<Props> = ({
         <VSpacing height={32} />
         <Button
           type="primary"
-          onClick={() =>
-            dispatch({ type: "auth/setAuthModalOpen", payload: { open: true } })
-          }
+          onClick={() => {
+            dispatch({
+              type: "auth/setAuthModalOpen",
+              payload: { open: true },
+            });
+            trackPromoClick();
+          }}
           shape="round"
           size="large"
         >

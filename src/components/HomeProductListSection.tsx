@@ -16,6 +16,7 @@ import { featuredCollectionProducts } from "@/queries/types/featuredCollectionPr
 import { FEATURED_CATEGORY_PRODUCTS_QUERY } from "@/queries/featuredCategoryProducts";
 import { FEATURED_COLLECTION_PRODUCTS_QUERY } from "@/queries/featuredCollectionProducts";
 import ProductCard from "./ProductCard";
+import config from "@/config";
 
 const HomeProductListSection: React.FC<HomeProductListConfig> = ({
   categorySlug,
@@ -25,6 +26,7 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
   showTitle,
   shuffle,
   title,
+  googleAnalyticsPromoData,
 }) => {
   const [
     fetchCategory,
@@ -39,7 +41,6 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
     FEATURED_COLLECTION_PRODUCTS_QUERY,
     { variables: { slug: collectionSlug, first: firstNProducts } },
   );
-  const intl = useIntl();
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
 
@@ -50,6 +51,29 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
       fetchCollection();
     }
   }, []);
+
+  // Google Ecommerce - track promo view
+  useEffect(() => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "view_promotion",
+        ecommerce: {
+          ...googleAnalyticsPromoData,
+        },
+      });
+    }
+  }, []);
+  // Google Ecommerce - track promo click
+  const trackPromoClick = () => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "select_promotion",
+        ecommerce: {
+          ...googleAnalyticsPromoData,
+        },
+      });
+    }
+  };
 
   if (!categorySlug && !collectionSlug) {
     // improperly configured section
@@ -98,7 +122,7 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
     <Row justify="center">
       <Col span={22} lg={20}>
         {showTitle && titleText && (
-          <Link to={titleUrl}>
+          <Link to={titleUrl} onClick={trackPromoClick}>
             <Typography.Title className="center-text" level={1}>
               {titleText}
             </Typography.Title>
@@ -123,6 +147,9 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
                         <ProductCard
                           className="product-grid-cards"
                           product={product}
+                          listName="Featured Products"
+                          listIndex={i}
+                          onClick={trackPromoClick}
                         />
                       </Col>
                     </Row>

@@ -1,5 +1,19 @@
 import { AddressInput, CountryCode } from "@/globalTypes";
 
+interface GoogleAnalyticsPromo {
+  promotion_id?: string;
+  promotion_name?: string;
+  creative_name?: string;
+  creative_slot?: string;
+  location_id?: string;
+}
+export interface HomeBannerImage {
+  imageUrl: string;
+  linkUrl?: string;
+  alt?: string;
+  title?: string;
+  googleAnalyticsPromoData?: GoogleAnalyticsPromo;
+}
 export interface HomeBannerConfig {
   type: "banner";
   height:
@@ -13,17 +27,12 @@ export interface HomeBannerConfig {
         xxl: string;
       };
   fullWidth: boolean;
-  // if using saleor menu, overlay the menu item name on the image
+  // overlay the menu item name on the image
   showTitleOverlay?: boolean;
   // name of saleor menu to use
   menuName?: string;
   // images can be used instead of a saleor menu
-  images?: {
-    imageUrl: string;
-    linkUrl?: string;
-    alt?: string;
-    title?: string;
-  }[];
+  images?: HomeBannerImage[];
 }
 export interface HomeSplitBannerConfig {
   type: "split-banner";
@@ -51,12 +60,7 @@ export interface HomeSplitBannerConfig {
   // name of saleor menu to use
   menuName?: string;
   // images can be used instead of a saleor menu
-  images?: {
-    imageUrl: string;
-    linkUrl?: string;
-    alt?: string;
-    title?: string;
-  }[];
+  images?: HomeBannerImage[];
 }
 export interface HomeProductListConfig {
   type: "product-list";
@@ -74,9 +78,10 @@ export interface HomeProductListConfig {
   categorySlug?: string;
   title?: string;
   showTitle: boolean;
+  googleAnalyticsPromoData?: GoogleAnalyticsPromo;
 }
 export interface HomeCatalogListConfig {
-  type: "collection-list";
+  type: "catalog-list";
   rows: {
     xs: number;
     sm: number;
@@ -91,11 +96,13 @@ export interface HomeCatalogListConfig {
   showNames: boolean;
   justify?: "start" | "end" | "center" | "space-around" | "space-between";
   gap?: number | string;
+  googleAnalyticsPromoData?: GoogleAnalyticsPromo;
 }
 export interface HomeSignupConfig {
   type: "signup";
   message?: string;
   buttonText?: string;
+  googleAnalyticsPromoData?: GoogleAnalyticsPromo;
 }
 export interface HomeVSpacingConfig {
   type: "vertical-spacing";
@@ -126,7 +133,7 @@ interface AltConfig {
 }
 
 const altConfig: AltConfig = {
-  name: "Alt Storefront",
+  name: SITE_NAME,
   allowAnonCheckout: true,
   homeLayout: [
     {
@@ -161,7 +168,7 @@ const altConfig: AltConfig = {
       spacing: 24,
     },
     {
-      type: "collection-list",
+      type: "catalog-list",
       menuName: "navbar",
       title: "Featured Collections",
       useMenuNameAsTitle: false,
@@ -191,12 +198,26 @@ const altConfig: AltConfig = {
           alt: "sample image",
           linkUrl: "https://saleor-alt.com",
           title: "External Image Example",
+          googleAnalyticsPromoData: {
+            promotion_id: "demo123",
+            promotion_name: "demo promotion",
+            creative_name: "Launch the Demo",
+            creative_slot: "1",
+            location_id: "split_banner",
+          },
         },
         {
           imageUrl: "https://via.placeholder.com/300",
           alt: "sample image",
           linkUrl: "https://saleor-alt.com",
           title: "Placeholder 2",
+          googleAnalyticsPromoData: {
+            promotion_id: "pwa123",
+            promotion_name: "pwa promotion",
+            creative_name: "Install the PWA",
+            creative_slot: "2",
+            location_id: "split_banner",
+          },
         },
       ],
     },

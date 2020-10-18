@@ -35,6 +35,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
 import { ConnectState, Loading } from "@/models/connect";
 import NumberInput from "@/components/NumberInput";
+import config from "@/config";
 
 interface AttrValue {
   id: string;
@@ -54,7 +55,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
   const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
     productDetailQueryVariables
@@ -148,9 +149,34 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const suggestions = product?.category?.products?.edges.filter(
-    e => e.node.id !== product.id,
-  );
+  useEffect(() => {
+    // Google Ecommerce - track detail view
+    if (!config.gtmEnabled) {
+      return;
+    }
+    if (!product) {
+      return;
+    }
+    window.dataLayer.push({
+      event: "view_item",
+      ecommerce: {
+        currency: product.pricing?.priceRange?.start?.gross.currency,
+        items: [
+          {
+            item_name: product.name,
+            item_id: selectedVariant?.sku,
+            price:
+              selectedVariant?.pricing?.price?.gross.amount ||
+              product.pricing?.priceRange?.start?.gross.amount,
+            item_category: product.category?.name,
+            item_variant: selectedVariant?.name,
+            quantity: qty,
+          },
+        ],
+      },
+    });
+  }, [product, selectedVariant]);
+
   const productGrid: ListGridType = {
     gutter: 24,
     xs: 1,
@@ -160,6 +186,37 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     xl: 4,
     xxl: 6,
   };
+  const suggestions = product?.category?.products?.edges
+    .filter(e => e.node.id !== product.id)
+    .slice(0, productGrid[screenSize]);
+
+  useEffect(() => {
+    // Google Ecommerce - track suggestions view
+    if (!config.gtmEnabled) {
+      return;
+    }
+    if (!suggestions) {
+      return;
+    }
+    window.dataLayer.push({
+      event: "view_item_list",
+      ecommerce: {
+        currency: product?.pricing?.priceRange?.start?.gross.currency,
+        items: suggestions.map((edge, i) => {
+          const p = edge.node;
+          return {
+            item_name: p.name,
+            // item_id: p.id,
+            price: p.pricing?.priceRange?.start?.gross.amount.toString(),
+            item_category: p.category?.name,
+            item_list_name: "Product Suggestions",
+            item_list_id: data?.product?.category?.id,
+            index: i,
+          };
+        }),
+      },
+    });
+  }, [suggestions]);
 
   const images =
     selectedVariant && (selectedVariant.images?.length || 0) > 0
@@ -230,6 +287,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           payload: {
             variantId: selectedVariant?.id,
             quantity: qty,
+            product: product,
+            variant: selectedVariant,
             onCompleted: () => {
               notification.success({
                 message: intl.formatMessage({ id: "cart.addItem.success" }),
@@ -498,10 +557,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
             </SkeletonDiv>
           </Row>
           <List
-            dataSource={(fetching ? (_.range(4) as any[]) : suggestions)?.slice(
-              0,
-              productGrid[screenSize],
-            )}
+            dataSource={fetching ? (_.range(4) as any[]) : suggestions}
             grid={productGrid}
             renderItem={(edge, i) => {
               const productItem = edge.node;
@@ -513,7 +569,12 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   <div className="full-width">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
-                        <ProductCard loading={fetching} product={productItem} />
+                        <ProductCard
+                          loading={fetching}
+                          product={productItem}
+                          listName="Product Suggestions"
+                          listIndex={i}
+                        />
                       </Col>
                     </Row>
                   </div>

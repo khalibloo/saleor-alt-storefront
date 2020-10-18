@@ -18,7 +18,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import Products from "@/components/Products";
 
 const CollectionDetailPage: React.FC = () => {
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
   const { loading: fetching, error, data } = useQuery<
     collectionDetailQuery,
     collectionDetailQueryVariables
@@ -59,7 +59,11 @@ const CollectionDetailPage: React.FC = () => {
           </Row>
         )}
       </div>
-      <Products collectionID={data?.collection?.id} showCategoryFilter />
+      <Products
+        collectionID={data?.collection?.id}
+        showCategoryFilter
+        listName={data?.collection?.name}
+      />
       <VSpacing height={48} />
     </div>
   );

@@ -5,18 +5,27 @@ import { Card, Typography, Skeleton } from "antd";
 import AspectRatio from "./AspectRatio";
 import { formatPrice } from "@/utils/utils";
 import SkeletonDiv from "./SkeletonDiv";
+import config from "@/config";
 
 interface Props {
   id?: string;
   className?: string;
   product?: ProductCardType;
+  listName?: string;
+  listID?: string;
+  listIndex?: number;
   loading?: boolean;
+  onClick?: () => void;
 }
 const ProductCard: React.FunctionComponent<Props> = ({
   product,
   id,
   className,
+  listName,
+  listID,
+  listIndex,
   loading,
+  onClick,
 }) => {
   const currency = product?.pricing?.priceRange?.start?.gross
     .currency as string;
@@ -27,6 +36,32 @@ const ProductCard: React.FunctionComponent<Props> = ({
   const maxUndiscountedPrice = product?.pricing?.priceRangeUndiscounted?.stop
     ?.gross.amount as number;
   const isOnSale = product?.pricing?.onSale;
+
+  // Google Ecommerce - track product clicks
+  const trackClick = () => {
+    if (!config.gtmEnabled) {
+      return;
+    }
+    if (!product) {
+      return;
+    }
+    window.dataLayer.push({
+      event: "select_item",
+      ecommerce: {
+        currency: product.pricing?.priceRange?.start?.gross.currency,
+        items: [
+          {
+            item_name: product.name,
+            item_category: product.category?.name,
+            item_list_name: listName,
+            item_list_id: listID,
+            index: listIndex,
+            price: minPrice.toString(),
+          },
+        ],
+      },
+    });
+  };
 
   const card = (
     <Card
@@ -103,7 +138,17 @@ const ProductCard: React.FunctionComponent<Props> = ({
   if (loading) {
     return card;
   }
-  return <Link to={`/products/${product?.id}`}>{card}</Link>;
+  return (
+    <Link
+      to={`/products/${product?.id}`}
+      onClick={() => {
+        trackClick();
+        onClick?.();
+      }}
+    >
+      {card}
+    </Link>
+  );
 };
 
 export default ProductCard;

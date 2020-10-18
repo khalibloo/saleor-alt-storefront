@@ -41,6 +41,7 @@ import { collectionsQuery } from "@/queries/types/collectionsQuery";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Loader from "./Loader";
+import config from "@/config";
 
 interface Props {
   showCategoryFilter?: boolean;
@@ -48,6 +49,7 @@ interface Props {
   categoryID?: string;
   collectionID?: string;
   view?: "grid" | "list";
+  listName: string;
 }
 const Products: React.FC<Props> = ({
   showCategoryFilter,
@@ -55,6 +57,7 @@ const Products: React.FC<Props> = ({
   categoryID,
   collectionID,
   view = "grid",
+  listName,
 }) => {
   const intl = useIntl();
   const sortMap: { [key: string]: ProductOrder } = {
@@ -182,6 +185,37 @@ const Products: React.FC<Props> = ({
       fetchCollections();
     }
   }, []);
+
+  useEffect(() => {
+    // Google Ecommerce - track product list view
+    if (!config.gtmEnabled) {
+      return;
+    }
+    if (!data?.products?.edges || data.products.edges.length === 0) {
+      // no products fetched
+      return;
+    }
+    const items = data.products.edges.map((edge, i) => {
+      const p = edge.node;
+      return {
+        item_name: p.name,
+        price: p.pricing?.priceRange?.start?.gross.amount.toString(),
+        item_category: p.category?.name,
+        item_list_name: listName,
+        item_list_id: categoryID || collectionID,
+        index: i,
+      };
+    });
+    window.dataLayer.push({
+      event: "view_item_list",
+      ecommerce: {
+        currency:
+          data.products.edges[0].node.pricing?.priceRange?.start?.gross
+            .currency,
+        items,
+      },
+    });
+  }, [data?.products?.edges]);
 
   // price slider data
   const minPrice =
@@ -495,6 +529,9 @@ const Products: React.FC<Props> = ({
                                 <ProductCard
                                   className="product-grid-cards"
                                   product={product}
+                                  listName={listName}
+                                  listID={categoryID || collectionID}
+                                  listIndex={i}
                                 />
                               </Col>
                             </Row>

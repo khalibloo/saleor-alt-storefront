@@ -8,7 +8,7 @@ const useDark = false;
 // uncomment to use dark theme for users who prefer dark
 // const useDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 export default defineConfig({
-  title: "Alt Storefront",
+  title: process.env.SITE_NAME || "Alt Storefront",
   antd: {
     dark: useDark,
   },
@@ -32,6 +32,10 @@ export default defineConfig({
       rel: "preconnect",
       href: process.env.ENDPOINT_ORIGIN,
     },
+    {
+      rel: "preconnect",
+      href: process.env.STORAGE_ORIGIN,
+    },
   ],
   metas: [
     // {
@@ -43,8 +47,10 @@ export default defineConfig({
     APP_ENV: "default",
     ENDPOINT: process.env.ENDPOINT,
     SENTRY_DSN: process.env.SENTRY_DSN,
-    SITE_NAME: "Alt Storefront",
+    GTM_CODE: process.env.GTM_CODE,
+    SITE_NAME: process.env.SITE_NAME || "Alt Storefront",
     SITE_DESCRIPTION:
+      process.env.SITE_DESCRIPTION ||
       "An alternate storefront for the saleor ecommerce platform",
   },
   theme: useDark

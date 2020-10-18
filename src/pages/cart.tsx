@@ -35,6 +35,8 @@ import VoucherCodeForm from "@/components/VoucherCodeForm";
 import { cartWithTokenQuery } from "@/queries/types/cartWithTokenQuery";
 import { AddressInput } from "@/globalTypes";
 import Logger from "@/utils/logger";
+import config from "@/config";
+import { CartCompleteMutation_checkoutComplete } from "@/mutations/types/CartCompleteMutation";
 
 interface Props {
   authenticated: boolean;
@@ -49,6 +51,10 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
     setTrue: openMobileCheckout,
     setFalse: closeMobileCheckout,
   } = useBoolean();
+  const {
+    state: hasTrackedBeginCheckout,
+    setTrue: setHasTrackedBeginCheckout,
+  } = useBoolean();
   const responsive = useResponsive();
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
@@ -59,7 +65,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   ] = useLazyQuery<cartWithTokenQuery>(CART_PAGE_WITH_TOKEN_QUERY);
   useEffect(() => {
     lf.getItem("guest_cart_token").then(guestCartToken => {
-      fetchGuestCart({ variables: { token: guestCartToken } });
+      if (guestCartToken) {
+        fetchGuestCart({ variables: { token: guestCartToken } });
+      }
     });
   }, []);
   const addresses = data?.me?.addresses;
@@ -108,6 +116,76 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
       });
     }
   }, []);
+
+  // Google Ecommerce - track cart view
+  useEffect(() => {
+    if (config.gtmEnabled && checkout) {
+      window.dataLayer.push({
+        event: "view_cart",
+        ecommerce: {
+          currency: checkout.totalPrice?.gross.currency,
+          value: checkout.totalPrice?.gross.amount,
+          items: checkout.lines?.map(line => ({
+            item_id: line?.variant.sku,
+            item_name: line?.variant.product.name,
+            item_category: line?.variant.product.category?.name,
+            item_variant: line?.variant.name,
+            price: line?.variant.pricing?.price?.gross.amount,
+            quantity: line?.quantity,
+          })),
+        },
+      });
+    }
+  }, []);
+
+  // Google Ecommerce - track begin checkout
+  const trackBeginCheckout = () => {
+    // track when checkout options are modified, but only once
+    if (config.gtmEnabled && checkout && !hasTrackedBeginCheckout) {
+      alert("tracked");
+      window.dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          currency: checkout.totalPrice?.gross.currency,
+          coupon: checkout.voucherCode || undefined,
+          value: checkout.totalPrice?.gross.amount,
+          items: checkout.lines?.map(line => ({
+            item_id: line?.variant.sku,
+            item_name: line?.variant.product.name,
+            item_category: line?.variant.product.category?.name,
+            item_variant: line?.variant.name,
+            price: line?.variant.pricing?.price?.gross.amount,
+            quantity: line?.quantity,
+          })),
+        },
+      });
+      setHasTrackedBeginCheckout();
+    }
+  };
+
+  // Google Ecommerce - track add shipping info
+  useEffect(() => {
+    if (config.gtmEnabled && checkout) {
+      window.dataLayer.push({
+        event: "add_shipping_info",
+        ecommerce: {
+          shipping_tier: shippingMethod?.name,
+          currency: currency,
+          coupon: voucherCode || undefined,
+          value: totalPrice,
+          items: checkout.lines?.map(line => ({
+            item_id: line?.variant.sku,
+            item_name: line?.variant.product.name,
+            item_category: line?.variant.product.category?.name,
+            item_variant: line?.variant.name,
+            price: line?.variant.pricing?.price?.gross.amount,
+            quantity: line?.quantity,
+          })),
+        },
+      });
+    }
+  }, [shippingMethod]);
+
   // if there's a matching address in our address book
   const matchingShippingAddr = addresses?.find(a => {
     if (shippingAddress && a) {
@@ -131,6 +209,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
       type: "cart/setShippingAddress",
       payload: {
         address,
+        onCompleted: () => {
+          trackBeginCheckout();
+        },
         onError: (err: APIException) => {
           if (
             err.errors?.find(
@@ -158,6 +239,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
       type: "cart/setBillingAddress",
       payload: {
         address,
+        onCompleted: () => {
+          trackBeginCheckout();
+        },
         onError: (err: APIException) => {
           if (
             err.errors?.find(
@@ -246,6 +330,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                     addressToInput(shippingAddress) as AddressInput,
                   );
                 }
+                trackBeginCheckout();
               }}
             >
               {intl.formatMessage({ id: "cart.billingAddress.same" })}
@@ -301,6 +386,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                 type: "cart/setShippingMethod",
                 payload: {
                   shippingMethodId: value.toString(),
+                  onCompleted: () => {
+                    trackBeginCheckout();
+                  },
                   onError: (err: APIException) => {
                     message.error(
                       intl.formatMessage({
@@ -329,7 +417,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
           </Typography.Text>
         </Col>
         <Col span={16}>
-          <VoucherCodeForm />
+          <VoucherCodeForm onSubmit={trackBeginCheckout} />
         </Col>
       </Row>
       <VSpacing height={8} />
@@ -402,11 +490,12 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
             })}
-            onChange={value =>
+            onChange={value => {
               setSelectedPaymentMethod(
                 paymentMethods?.find(pm => pm.id === value)?.id,
-              )
-            }
+              );
+              trackBeginCheckout();
+            }}
             value={selectedPaymentMethod}
           >
             {paymentMethods?.map(pm => (
@@ -430,7 +519,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
             gw => gw.id === selectedPaymentMethod,
           );
           gateway?.onPay?.(
-            totalPrice,
+            totalPrice as number,
             checkout?.token,
             (token, billingAddr) => {
               dispatch?.({
@@ -439,8 +528,29 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                   gateway: selectedPaymentMethod,
                   token,
                   billingAddress: billingAddr,
-                  onCompleted: () => {
+                  onCompleted: (res: CartCompleteMutation_checkoutComplete) => {
                     openThanks();
+                    if (config.gtmEnabled && checkout) {
+                      window.dataLayer.push({
+                        event: "purchase",
+                        ecommerce: {
+                          shipping_tier: shippingMethod?.name,
+                          shipping: shippingPrice,
+                          currency: currency,
+                          coupon: voucherCode || undefined,
+                          value: totalPrice,
+                          transaction_id: res.order?.number || undefined,
+                          items: checkout.lines?.map(line => ({
+                            item_id: line?.variant.sku,
+                            item_name: line?.variant.product.name,
+                            item_category: line?.variant.product.category?.name,
+                            item_variant: line?.variant.name,
+                            price: line?.variant.pricing?.price?.gross.amount,
+                            quantity: line?.quantity,
+                          })),
+                        },
+                      });
+                    }
                   },
                   onError: err => Logger.log(err),
                 },
@@ -573,6 +683,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                         payload: {
                                           variantId: item?.variant.id,
                                           quantity: value,
+                                          variant: item?.variant,
+                                          product: item?.variant.product,
+                                          oldQuantity: item?.quantity,
                                         },
                                       });
                                     }}
@@ -593,6 +706,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                         type: "cart/deleteItem",
                                         payload: {
                                           checkoutLineId: item?.id,
+                                          product: item?.variant.product,
+                                          variant: item?.variant,
+                                          quantity: item?.quantity,
                                           onCompleted: () => {
                                             notification.info({
                                               message: intl.formatMessage({

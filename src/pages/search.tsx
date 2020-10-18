@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Row, Col } from "antd";
 import { Helmet } from "react-helmet";
 
 import { useIntl, useLocation } from "umi";
 import VSpacing from "@/components/VSpacing";
 import Products from "@/components/Products";
+import config from "@/config";
 
 const SearchPage = () => {
   const intl = useIntl();
   const location = useLocation();
   const query = location.query?.q || null;
+
+  useEffect(() => {
+    if (config.gtmEnabled && query) {
+      window.dataLayer.push({ event: "search", search_term: query });
+    }
+  }, [query]);
 
   return (
     <div>
@@ -34,7 +41,12 @@ const SearchPage = () => {
               <i>"{query}"</i>
             </Typography.Title>
           )}
-          <Products showCategoryFilter showCollectionFilter view="list" />
+          <Products
+            showCategoryFilter
+            showCollectionFilter
+            view="list"
+            listName="Search Results"
+          />
         </Col>
       </Row>
       <VSpacing height={48} />

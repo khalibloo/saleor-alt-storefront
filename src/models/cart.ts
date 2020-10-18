@@ -64,11 +64,20 @@ import {
   cartBadgeWithTokenQuery,
   cartBadgeWithTokenQueryVariables,
 } from "@/queries/types/cartBadgeWithTokenQuery";
+import {
+  productDetailQuery_product,
+  productDetailQuery_product_variants,
+} from "@/queries/types/productDetailQuery";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
   guestCartModalOpen: boolean;
-  guestCartEntry: { variantId: string; quantity: number } | null;
+  guestCartEntry: {
+    variantId: string;
+    quantity: number;
+    variant: productDetailQuery_product_variants;
+    product: productDetailQuery_product;
+  } | null;
   onAddItem: Function | undefined;
 }
 
@@ -128,10 +137,6 @@ const CartModel: CartModelType = {
             query: CART_BADGE_WITH_TOKEN_QUERY,
             variables,
           });
-          const errors = response.data.error?.errors;
-          if (errors && errors.length > 0) {
-            throw new APIException(errors);
-          }
 
           checkout = response.data.checkout;
         } else {
@@ -171,7 +176,17 @@ const CartModel: CartModelType = {
     },
     *addItem({ payload }, { call, put, select, take }) {
       try {
-        const { variantId, quantity } = payload;
+        const {
+          variantId,
+          quantity,
+          variant,
+          product,
+        }: {
+          variantId: string;
+          quantity: number;
+          variant: productDetailQuery_product_variants;
+          product: productDetailQuery_product;
+        } = payload;
         const authenticated = yield select(
           (state: ConnectState) => state.auth.authenticated,
         );
@@ -180,7 +195,7 @@ const CartModel: CartModelType = {
           // save cart line
           yield put({
             type: "saveGuestCartEntry",
-            payload: { line: { variantId, quantity } },
+            payload: { line: { variantId, quantity, variant, product } },
           });
           if (config.altConfig.allowAnonCheckout) {
             yield put({
@@ -236,13 +251,33 @@ const CartModel: CartModelType = {
             payload: { onAddItem: undefined },
           });
         }
+
+        // Google Commerce - track add to cart
+        if (config.gtmEnabled && product && variant) {
+          window.dataLayer.push({
+            event: "add_to_cart",
+            ecommerce: {
+              currency: variant.pricing?.price?.gross.currency,
+              items: [
+                {
+                  item_name: product.name,
+                  item_id: variant.sku,
+                  price: variant.pricing?.price?.gross.amount,
+                  item_category: product.category?.name,
+                  item_variant: variant.name,
+                  quantity: quantity,
+                },
+              ],
+            },
+          });
+        }
       } catch (err) {
         payload?.onError?.(err);
       }
     },
     *updateItem({ payload }, { call, put, select, take }) {
       try {
-        const { variantId, quantity } = payload;
+        const { variantId, quantity, variant, product, oldQuantity } = payload;
         yield put({ type: "create" });
         yield take("saveCheckout");
         let checkout = yield select(
@@ -266,6 +301,48 @@ const CartModel: CartModelType = {
         if (errors && errors.length > 0) {
           throw new APIException(errors);
         }
+
+        // Google Commerce - track cart qty adjustments
+        if (config.gtmEnabled && product && variant) {
+          if (quantity > oldQuantity) {
+            // item qty has been increased
+            window.dataLayer.push({
+              event: "add_to_cart",
+              ecommerce: {
+                currency: variant.pricing?.price?.gross.currency,
+                items: [
+                  {
+                    item_name: product.name,
+                    item_id: variant.sku,
+                    price: variant.pricing?.price?.gross.amount.toString(),
+                    item_category: product.category?.name,
+                    item_variant: variant.name,
+                    quantity: quantity - oldQuantity,
+                  },
+                ],
+              },
+            });
+          } else if (quantity < oldQuantity) {
+            // item qty has been decreased
+            window.dataLayer.push({
+              event: "remove_from_cart",
+              ecommerce: {
+                currency: variant.pricing?.price?.gross.currency,
+                items: [
+                  {
+                    item_name: product.name,
+                    item_id: variant.sku,
+                    price: variant.pricing?.price?.gross.amount.toString(),
+                    item_category: product.category?.name,
+                    item_variant: variant.name,
+                    quantity: oldQuantity - quantity,
+                  },
+                ],
+              },
+            });
+          }
+        }
+
         payload?.onCompleted?.(response.data);
       } catch (err) {
         payload?.onError?.(err);
@@ -273,7 +350,7 @@ const CartModel: CartModelType = {
     },
     *deleteItem({ payload }, { call, put, select, take }) {
       try {
-        const { checkoutLineId } = payload;
+        const { checkoutLineId, variant, product, quantity } = payload;
         yield put({ type: "create" });
         yield take("saveCheckout");
         let checkout = yield select(
@@ -298,6 +375,26 @@ const CartModel: CartModelType = {
           throw new APIException(errors);
         }
         payload?.onCompleted?.(response.data);
+
+        // Google Commerce - track add to cart
+        if (config.gtmEnabled && product && variant) {
+          window.dataLayer.push({
+            event: "remove_from_cart",
+            ecommerce: {
+              currency: variant.pricing?.price?.gross.currency,
+              items: [
+                {
+                  item_name: product.name,
+                  item_id: variant.sku,
+                  price: variant.pricing?.price?.gross.amount.toString(),
+                  item_category: product.category?.name,
+                  item_variant: variant.name,
+                  quantity: quantity,
+                },
+              ],
+            },
+          });
+        }
       } catch (err) {
         payload?.onError?.(err);
       }
@@ -510,7 +607,7 @@ const CartModel: CartModelType = {
         yield lf.removeItem("guest_cart_token");
         yield put({ type: "cart/create" });
 
-        payload?.onCompleted?.(response.data);
+        payload?.onCompleted?.(res.data);
       } catch (err) {
         payload?.onError?.(err);
       }
