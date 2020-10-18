@@ -206,8 +206,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           const p = edge.node;
           return {
             item_name: p.name,
-            // item_id: p.id,
-            price: p.pricing?.priceRange?.start?.gross.amount.toString(),
+            price: p.pricing?.priceRange?.start?.gross.amount,
             item_category: p.category?.name,
             item_list_name: "Product Suggestions",
             item_list_id: data?.product?.category?.id,

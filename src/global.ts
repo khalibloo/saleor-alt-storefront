@@ -103,6 +103,7 @@ declare global {
           // sku
           item_id?: string;
           price?: number | string;
+          discount?: number | string;
           item_brand?: string;
           item_category?: string;
           item_category_2?: string;
