@@ -15,6 +15,7 @@ interface Props {
   listID?: string;
   listIndex?: number;
   loading?: boolean;
+  onClick?: () => void;
 }
 const ProductCard: React.FunctionComponent<Props> = ({
   product,
@@ -24,6 +25,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
   listID,
   listIndex,
   loading,
+  onClick,
 }) => {
   const currency = product?.pricing?.priceRange?.start?.gross
     .currency as string;
@@ -137,7 +139,13 @@ const ProductCard: React.FunctionComponent<Props> = ({
     return card;
   }
   return (
-    <Link to={`/products/${product?.id}`} onClick={trackClick}>
+    <Link
+      to={`/products/${product?.id}`}
+      onClick={() => {
+        trackClick();
+        onClick?.();
+      }}
+    >
       {card}
     </Link>
   );

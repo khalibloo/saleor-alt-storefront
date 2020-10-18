@@ -11,6 +11,7 @@ import AspectRatio from "./AspectRatio";
 import { homeBannerSectionQuery } from "@/queries/types/homeBannerSectionQuery";
 import { HOME_BANNER_SECTION_QUERY } from "@/queries/homeBannerSection";
 import styles from "./HomeCatalogListSection.less";
+import config from "@/config";
 
 const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
   menuName,
@@ -20,6 +21,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
   showNames,
   title,
   useMenuNameAsTitle,
+  googleAnalyticsPromoData,
 }) => {
   const [fetchMenu, { loading: fetching, error, data }] = useLazyQuery<
     homeBannerSectionQuery
@@ -33,6 +35,37 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
       fetchMenu();
     }
   }, []);
+
+  // Google Ecommerce - track promo view
+  useEffect(() => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "view_promotion",
+        ecommerce: {
+          items: [
+            {
+              ...googleAnalyticsPromoData,
+            },
+          ],
+        },
+      });
+    }
+  }, []);
+  // Google Ecommerce - track promo click
+  const trackPromoClick = () => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "select_promotion",
+        ecommerce: {
+          items: [
+            {
+              ...googleAnalyticsPromoData,
+            },
+          ],
+        },
+      });
+    }
+  };
 
   if (!menuName) {
     // improperly configured section
@@ -81,7 +114,7 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
           style={{ justifyContent: justify || "center", gap: gap || 32 }}
         >
           {collections?.map(item => (
-            <Link key={item.id} to={item.url}>
+            <Link key={item.id} to={item.url} onClick={trackPromoClick}>
               <Card
                 hoverable
                 className="full-width"

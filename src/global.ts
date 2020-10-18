@@ -83,6 +83,11 @@ declare global {
           item_list_id?: string;
           index?: number;
           quantity?: string | number;
+          promotion_id?: string;
+          promotion_name?: string;
+          creative_name?: string;
+          creative_slot?: string;
+          location_id?: string;
         }[];
       };
     }[];

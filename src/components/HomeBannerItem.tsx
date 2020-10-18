@@ -1,17 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Row, Col } from "antd";
 import { Link } from "umi";
 import clx from "classnames";
 
 import styles from "./HomeBannerItem.less";
+import { HomeBannerImage } from ".altrc";
+import config from "@/config";
 
-interface Props {
-  imageUrl: string;
-  linkUrl?: string;
-  alt?: string;
-  title?: string;
-}
-const HomeBannerItem: React.FC<Props> = ({ imageUrl, linkUrl, alt, title }) => {
+const HomeBannerItem: React.FC<HomeBannerImage> = ({
+  imageUrl,
+  linkUrl,
+  alt,
+  title,
+  googleAnalyticsPromoData,
+}) => {
+  // Google Ecommerce - track promo view
+  useEffect(() => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "view_promotion",
+        ecommerce: {
+          items: [
+            {
+              ...googleAnalyticsPromoData,
+            },
+          ],
+        },
+      });
+    }
+  }, []);
+  // Google Ecommerce - track promo click
+  const trackPromoClick = () => {
+    if (config.gtmEnabled && googleAnalyticsPromoData) {
+      window.dataLayer.push({
+        event: "select_promotion",
+        ecommerce: {
+          items: [
+            {
+              ...googleAnalyticsPromoData,
+            },
+          ],
+        },
+      });
+    }
+  };
   const content = (
     <div className={clx("full-height", styles.bannerItem)}>
       <img
@@ -40,10 +72,19 @@ const HomeBannerItem: React.FC<Props> = ({ imageUrl, linkUrl, alt, title }) => {
     </div>
   );
   if (linkUrl?.startsWith("/")) {
-    return <Link to={linkUrl}>{content}</Link>;
+    return (
+      <Link to={linkUrl} onClick={trackPromoClick}>
+        {content}
+      </Link>
+    );
   }
   return (
-    <a href={linkUrl} target="_blank" rel="noreferrer noopener">
+    <a
+      href={linkUrl}
+      onClick={trackPromoClick}
+      target="_blank"
+      rel="noreferrer noopener"
+    >
       {content}
     </a>
   );
