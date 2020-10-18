@@ -59,7 +59,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   ] = useLazyQuery<cartWithTokenQuery>(CART_PAGE_WITH_TOKEN_QUERY);
   useEffect(() => {
     lf.getItem("guest_cart_token").then(guestCartToken => {
-      fetchGuestCart({ variables: { token: guestCartToken } });
+      if (guestCartToken) {
+        fetchGuestCart({ variables: { token: guestCartToken } });
+      }
     });
   }, []);
   const addresses = data?.me?.addresses;
