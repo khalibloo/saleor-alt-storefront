@@ -314,7 +314,7 @@ const CartModel: CartModelType = {
                   {
                     item_name: product.name,
                     item_id: variant.sku,
-                    price: variant.pricing?.price?.gross.amount.toString(),
+                    price: variant.pricing?.price?.gross.amount,
                     item_category: product.category?.name,
                     item_variant: variant.name,
                     quantity: quantity - oldQuantity,
@@ -332,7 +332,7 @@ const CartModel: CartModelType = {
                   {
                     item_name: product.name,
                     item_id: variant.sku,
-                    price: variant.pricing?.price?.gross.amount.toString(),
+                    price: variant.pricing?.price?.gross.amount,
                     item_category: product.category?.name,
                     item_variant: variant.name,
                     quantity: oldQuantity - quantity,
@@ -386,7 +386,7 @@ const CartModel: CartModelType = {
                 {
                   item_name: product.name,
                   item_id: variant.sku,
-                  price: variant.pricing?.price?.gross.amount.toString(),
+                  price: variant.pricing?.price?.gross.amount,
                   item_category: product.category?.name,
                   item_variant: variant.name,
                   quantity: quantity,
