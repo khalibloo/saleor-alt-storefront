@@ -41,6 +41,7 @@ import { collectionsQuery } from "@/queries/types/collectionsQuery";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Loader from "./Loader";
+import config from "@/config";
 
 interface Props {
   showCategoryFilter?: boolean;
@@ -186,15 +187,18 @@ const Products: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    // Google Ecommerce
-    if (!Boolean(data?.products?.edges.length)) {
+    // Google Ecommerce - track product list view
+    if (!config.gtmEnabled) {
+      return;
+    }
+    if (!data?.products?.edges || data.products.edges.length === 0) {
       // no products fetched
       return;
     }
-    const items = data?.products?.edges.map((edge, i) => {
+    const items = data.products.edges.map((edge, i) => {
       const p = edge.node;
       return {
-        item_name: p.name, // Name or ID is required.
+        item_name: p.name,
         item_id: p.id,
         price: p.pricing?.priceRange?.start?.gross.amount.toString(),
         item_category: p.category?.name,
@@ -523,6 +527,9 @@ const Products: React.FC<Props> = ({
                                 <ProductCard
                                   className="product-grid-cards"
                                   product={product}
+                                  listName={listName}
+                                  listID={categoryID || collectionID}
+                                  listIndex={i}
                                 />
                               </Col>
                             </Row>

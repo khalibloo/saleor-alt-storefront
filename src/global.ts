@@ -47,3 +47,44 @@ if (config.sentryDSN) {
     environment: config.env,
   });
 }
+
+// type declaration for Google Ecommerce dataLayer
+declare global {
+  interface Window {
+    dataLayer: {
+      event:
+        | "add_payment_info"
+        | "add_shipping_info"
+        | "add_to_cart"
+        | "add_to_wishlist"
+        | "begin_checkout"
+        | "generate_lead"
+        | "purchase"
+        | "refund"
+        | "remove_from_cart"
+        | "select_item"
+        | "select_promotion"
+        | "view_cart"
+        | "view_item"
+        | "view_item_list"
+        | "view_promotion";
+      ecommerce: {
+        items: {
+          item_name?: string;
+          item_id?: string;
+          price?: string;
+          item_brand?: string;
+          item_category?: string;
+          item_category_2?: string;
+          item_category_3?: string;
+          item_category_4?: string;
+          item_variant?: string;
+          item_list_name?: string;
+          item_list_id?: string;
+          index?: number;
+          quantity?: string | number;
+        }[];
+      };
+    }[];
+  }
+}

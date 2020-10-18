@@ -12,5 +12,6 @@ export default {
   siteName: SITE_NAME,
   siteDescription: SITE_DESCRIPTION,
   sentryDSN: SENTRY_DSN,
+  gtmEnabled: process.env.GTM_CODE != null,
   altConfig,
 };

@@ -123,6 +123,8 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
                         <ProductCard
                           className="product-grid-cards"
                           product={product}
+                          listName="Featured Products"
+                          listIndex={i}
                         />
                       </Col>
                     </Row>

@@ -35,6 +35,7 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import _ from "lodash";
 import { ConnectState, Loading } from "@/models/connect";
 import NumberInput from "@/components/NumberInput";
+import config from '@/config';
 
 interface AttrValue {
   id: string;
@@ -149,7 +150,10 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   }, [id]);
 
   useEffect(() => {
-    // Google Ecommerce
+    // Google Ecommerce - track detail view
+    if(!config.gtmEnabled){
+      return;
+    }
     if (!product) {
       return;
     }
@@ -172,9 +176,6 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     });
   }, [product, selectedVariant]);
 
-  const suggestions = product?.category?.products?.edges.filter(
-    e => e.node.id !== product.id,
-  );
   const productGrid: ListGridType = {
     gutter: 24,
     xs: 1,
@@ -184,6 +185,36 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     xl: 4,
     xxl: 6,
   };
+  const suggestions = product?.category?.products?.edges
+    .filter(e => e.node.id !== product.id)
+    .slice(0, productGrid[screenSize]);
+
+  useEffect(() => {
+    // Google Ecommerce - track suggestions view
+    if(!config.gtmEnabled){
+      return;
+    }
+    if (!suggestions) {
+      return;
+    }
+    window.dataLayer.push({
+      event: "view_item_list",
+      ecommerce: {
+        items: suggestions.map((edge, i) => {
+          const p = edge.node;
+          return {
+            item_name: p.name,
+            item_id: p.id,
+            price: p.pricing?.priceRange?.start?.gross.amount.toString(),
+            item_category: p.category?.name,
+            item_list_name: "Product Suggestions",
+            item_list_id: data?.product?.category?.id,
+            index: i,
+          };
+        }),
+      },
+    });
+  }, [suggestions]);
 
   const images =
     selectedVariant && (selectedVariant.images?.length || 0) > 0
@@ -522,10 +553,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
             </SkeletonDiv>
           </Row>
           <List
-            dataSource={(fetching ? (_.range(4) as any[]) : suggestions)?.slice(
-              0,
-              productGrid[screenSize],
-            )}
+            dataSource={fetching ? (_.range(4) as any[]) : suggestions}
             grid={productGrid}
             renderItem={(edge, i) => {
               const productItem = edge.node;
@@ -537,7 +565,12 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   <div className="full-width">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
-                        <ProductCard loading={fetching} product={productItem} />
+                        <ProductCard
+                          loading={fetching}
+                          product={productItem}
+                          listName="Product Suggestions"
+                          listIndex={i}
+                        />
                       </Col>
                     </Row>
                   </div>
