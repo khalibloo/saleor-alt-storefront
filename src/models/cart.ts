@@ -607,7 +607,7 @@ const CartModel: CartModelType = {
         yield lf.removeItem("guest_cart_token");
         yield put({ type: "cart/create" });
 
-        payload?.onCompleted?.(response.data);
+        payload?.onCompleted?.(res.data);
       } catch (err) {
         payload?.onError?.(err);
       }

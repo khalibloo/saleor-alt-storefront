@@ -69,19 +69,32 @@ declare global {
         | "view_item_list"
         | "view_promotion";
       ecommerce: {
+        // currency code
         currency?: string;
+        // total value
         value?: number | string;
+        // coupon code
         coupon?: string;
+        // shipping fee
+        shipping?: number | string;
+        // shipping method name
         shipping_tier?: string;
+        // order ID
         transaction_id?: string;
+        // name of store or sth
+        affiliation?: string;
+        // tax amount
         tax?: number | string;
+        // promo details
         promotion_id?: string;
         promotion_name?: string;
         creative_name?: string;
         creative_slot?: string;
         location_id?: string;
         items?: {
+          // name or ID must be given
           item_name?: string;
+          // sku
           item_id?: string;
           price?: number | string;
           item_brand?: string;
@@ -89,11 +102,15 @@ declare global {
           item_category_2?: string;
           item_category_3?: string;
           item_category_4?: string;
+          // variant name
           item_variant?: string;
+          // collection/category/list name
           item_list_name?: string;
           item_list_id?: string;
+          // index of item in the list
           index?: number;
           quantity?: number | string;
+          //promo details
           promotion_id?: string;
           promotion_name?: string;
           creative_name?: string;
