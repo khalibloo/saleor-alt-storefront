@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Result, Row, Typography } from "antd";
+import { Button, Col, Result, Row } from "antd";
 import { Link, useIntl } from "umi";
 import VSpacing from "@/components/VSpacing";
 

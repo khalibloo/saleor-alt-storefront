@@ -14,7 +14,7 @@ export default defineConfig({
   },
   analytics: {
     ga: process.env.GA_CODE,
-    // baidu: process.env.BAIDU_CODE,
+    baidu: process.env.BAIDU_CODE,
   },
   dva: {
     immer: true,
