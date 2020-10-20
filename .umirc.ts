@@ -20,6 +20,8 @@ export default defineConfig({
     immer: true,
     hmr: true,
   },
+  dynamicImport: { loading: "@/components/Loader" },
+  hash: true,
   locale: {
     default: "en-US",
     antd: true,
