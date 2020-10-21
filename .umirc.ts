@@ -16,7 +16,7 @@ export default defineConfig({
     ga: process.env.GA_CODE,
     baidu: process.env.BAIDU_CODE,
   },
-  chunks: ["vendors", "umi"],
+  // chunks: ["vendors", "umi"],
   dva: {
     immer: true,
     hmr: true,
