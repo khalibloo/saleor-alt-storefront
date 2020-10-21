@@ -16,12 +16,12 @@ export default defineConfig({
     ga: process.env.GA_CODE,
     baidu: process.env.BAIDU_CODE,
   },
-  // chunks: ["vendors", "umi"],
+  chunks: ["vendors", "umi"],
   dva: {
     immer: true,
     hmr: true,
   },
-  // dynamicImport: { loading: "@/components/Loader" },
+  dynamicImport: { loading: "@/components/Loader" },
   hash: true,
   locale: {
     default: "en-US",
@@ -65,26 +65,26 @@ export default defineConfig({
         "text-color-secondary": "#0009",
       },
   chainWebpack: (memo, {}) => {
-    // memo.merge({
-    //   optimization: {
-    //     minimize: true,
-    //     splitChunks: {
-    //       chunks: "all",
-    //       minSize: 30000,
-    //       minChunks: 3,
-    //       automaticNameDelimiter: ".",
-    //       cacheGroups: {
-    //         vendor: {
-    //           name: "vendors",
-    //           test({ resource }) {
-    //             return /[\\/]node_modules[\\/]/.test(resource);
-    //           },
-    //           priority: 10,
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
+    memo.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: "all",
+          minSize: 30000,
+          minChunks: 3,
+          automaticNameDelimiter: ".",
+          cacheGroups: {
+            vendor: {
+              name: "vendors",
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
+            },
+          },
+        },
+      },
+    });
     memo.plugin("dayjs").use(AntdDayjsWebpackPlugin);
     memo
       .plugin("critical")
