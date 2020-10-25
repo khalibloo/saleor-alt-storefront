@@ -7,14 +7,14 @@ import { useQuery } from "@apollo/client";
 import { pageQuery } from "@/queries/types/pageQuery";
 import { PAGE_QUERY } from "@/queries/page";
 import NotFoundPage from "../404";
-import { formatTitle } from "@/utils/utils";
+import { formatTitle, getLangCode } from "@/utils/utils";
 import VSpacing from "@/components/VSpacing";
 import styles from "./slug.less";
 
 const PageDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { loading: fetching, error, data } = useQuery<pageQuery>(PAGE_QUERY, {
-    variables: { slug },
+    variables: { slug, lang: getLangCode() },
   });
 
   if (fetching) {

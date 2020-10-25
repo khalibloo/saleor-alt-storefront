@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderStatus } from "./../../globalTypes";
+import { LanguageCodeEnum, OrderStatus } from "./../../globalTypes";
 
 // ====================================================
 // GraphQL query operation: ordersQuery
@@ -322,6 +322,15 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_pricing {
   price: ordersQuery_me_orders_edges_node_lines_variant_pricing_price | null;
 }
 
+export interface ordersQuery_me_orders_edges_node_lines_variant_translation {
+  __typename: "ProductVariantTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface ordersQuery_me_orders_edges_node_lines_variant_product_thumbnail {
   __typename: "Image";
   /**
@@ -332,6 +341,16 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_product_thumbnai
    * Alt text for an image.
    */
   alt: string | null;
+}
+
+export interface ordersQuery_me_orders_edges_node_lines_variant_product_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  descriptionJson: any;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_variant_product {
@@ -346,6 +365,10 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_product {
    * The main thumbnail for a product.
    */
   thumbnail: ordersQuery_me_orders_edges_node_lines_variant_product_thumbnail | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: ordersQuery_me_orders_edges_node_lines_variant_product_translation | null;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_variant {
@@ -368,6 +391,10 @@ export interface ordersQuery_me_orders_edges_node_lines_variant {
    * Lists the storefront variant's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: ordersQuery_me_orders_edges_node_lines_variant_pricing | null;
+  /**
+   * Returns translated product variant fields for the given language code.
+   */
+  translation: ordersQuery_me_orders_edges_node_lines_variant_translation | null;
   product: ordersQuery_me_orders_edges_node_lines_variant_product;
 }
 
@@ -474,4 +501,8 @@ export interface ordersQuery {
    * Return the currently authenticated user.
    */
   me: ordersQuery_me | null;
+}
+
+export interface ordersQueryVariables {
+  lang: LanguageCodeEnum;
 }

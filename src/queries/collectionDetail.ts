@@ -1,14 +1,20 @@
 import { gql } from "@apollo/client";
+import { COLLECTION_BASIC_DETAILS_FRAGMENT } from "@/fragments/collection";
 
 export const COLLECTION_DETAIL_PAGE_QUERY = gql`
-  query collectionDetailQuery($collection: ID!) {
+  ${COLLECTION_BASIC_DETAILS_FRAGMENT}
+  query collectionDetailQuery($collection: ID!, $lang: LanguageCodeEnum!) {
     collection(id: $collection) {
-      id
-      name
-      slug
+      ...BasicCollectionDetails
+      seoTitle
+      seoDescription
       backgroundImage {
         url
         alt
+      }
+      translation(languageCode: $lang) {
+        seoTitle
+        seoDescription
       }
     }
   }

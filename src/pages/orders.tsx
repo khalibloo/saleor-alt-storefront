@@ -6,11 +6,13 @@ import { useQuery } from "@apollo/client";
 import { ORDERS_PAGE_QUERY } from "@/queries/orders";
 import { ordersQuery } from "@/queries/types/ordersQuery";
 import OrderCard from "@/components/OrderCard";
+import { getLangCode } from "@/utils/utils";
 
 const OrdersPage = () => {
   const intl = useIntl();
   const { loading: fetching, error, data } = useQuery<ordersQuery>(
     ORDERS_PAGE_QUERY,
+    { variables: { lang: getLangCode() } },
   );
   return (
     <div>

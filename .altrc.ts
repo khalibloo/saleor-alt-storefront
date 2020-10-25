@@ -152,7 +152,7 @@ const altConfig: AltConfig = {
       categorySlug: "groceries",
       firstNProducts: 10,
       shuffle: true,
-      title: "Go Groceries",
+      title: "Groceries",
       showTitle: true,
       rows: {
         xs: 4,

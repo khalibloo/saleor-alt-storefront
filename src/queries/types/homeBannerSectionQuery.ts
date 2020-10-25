@@ -3,9 +3,20 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: homeBannerSectionQuery
 // ====================================================
+
+export interface homeBannerSectionQuery_menu_items_category_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
 
 export interface homeBannerSectionQuery_menu_items_category_backgroundImage {
   __typename: "Image";
@@ -27,7 +38,21 @@ export interface homeBannerSectionQuery_menu_items_category {
   id: string;
   name: string;
   slug: string;
+  level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: homeBannerSectionQuery_menu_items_category_translation | null;
   backgroundImage: homeBannerSectionQuery_menu_items_category_backgroundImage | null;
+}
+
+export interface homeBannerSectionQuery_menu_items_collection_translation {
+  __typename: "CollectionTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
 }
 
 export interface homeBannerSectionQuery_menu_items_collection_backgroundImage {
@@ -50,6 +75,10 @@ export interface homeBannerSectionQuery_menu_items_collection {
   id: string;
   name: string;
   slug: string;
+  /**
+   * Returns translated collection fields for the given language code.
+   */
+  translation: homeBannerSectionQuery_menu_items_collection_translation | null;
   backgroundImage: homeBannerSectionQuery_menu_items_collection_backgroundImage | null;
 }
 
@@ -87,4 +116,5 @@ export interface homeBannerSectionQuery {
 
 export interface homeBannerSectionQueryVariables {
   menuName: string;
+  lang: LanguageCodeEnum;
 }

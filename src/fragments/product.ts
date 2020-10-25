@@ -1,6 +1,10 @@
 import { gql } from "@apollo/client";
+import { CATEGORY_BASIC_DETAILS_FRAGMENT } from "./category";
+import { COLLECTION_BASIC_DETAILS_FRAGMENT } from "./collection";
 
 export const PRODUCT_CARD_FRAGMENT = gql`
+  ${CATEGORY_BASIC_DETAILS_FRAGMENT}
+  ${COLLECTION_BASIC_DETAILS_FRAGMENT}
   fragment ProductCard on Product {
     id
     name
@@ -15,12 +19,10 @@ export const PRODUCT_CARD_FRAGMENT = gql`
       alt
     }
     collections {
-      id
-      name
+      ...BasicCollectionDetails
     }
     category {
-      id
-      name
+      ...BasicCategoryDetails
     }
     pricing {
       onSale
@@ -59,6 +61,10 @@ export const PRODUCT_CARD_FRAGMENT = gql`
           }
         }
       }
+    }
+    translation(languageCode: $lang) {
+      id
+      name
     }
   }
 `;

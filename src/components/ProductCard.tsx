@@ -3,7 +3,7 @@ import { ProductCard as ProductCardType } from "@/fragments/types/ProductCard";
 import { Link } from "umi";
 import { Card, Typography, Skeleton } from "antd";
 import AspectRatio from "./AspectRatio";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, getCategoryName, getProductName } from "@/utils/utils";
 import SkeletonDiv from "./SkeletonDiv";
 import config from "@/config";
 
@@ -90,7 +90,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
             paragraph={{ rows: 1, width: "100%" }}
             title={false}
           >
-            <Typography.Text>{product?.name}</Typography.Text>
+            <Typography.Text>{getProductName(product)}</Typography.Text>
           </Skeleton>
         }
         description={
@@ -102,7 +102,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
             title={false}
           >
             <Typography.Text type="secondary">
-              {product?.category?.name}
+              {getCategoryName(product?.category)}
             </Typography.Text>
           </Skeleton>
         }

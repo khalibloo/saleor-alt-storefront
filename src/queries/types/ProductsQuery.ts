@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ProductOrder, AttributeInput } from "./../../globalTypes";
+import { ProductOrder, AttributeInput, LanguageCodeEnum } from "./../../globalTypes";
 
 // ====================================================
 // GraphQL query operation: ProductsQuery
@@ -213,8 +213,31 @@ export interface ProductsQuery_products_edges_node_images {
   alt: string;
 }
 
+export interface ProductsQuery_products_edges_node_collections_translation {
+  __typename: "CollectionTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface ProductsQuery_products_edges_node_collections {
   __typename: "Collection";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  slug: string;
+  /**
+   * Returns translated collection fields for the given language code.
+   */
+  translation: ProductsQuery_products_edges_node_collections_translation | null;
+}
+
+export interface ProductsQuery_products_edges_node_category_translation {
+  __typename: "CategoryTranslation";
   /**
    * The ID of the object.
    */
@@ -229,6 +252,12 @@ export interface ProductsQuery_products_edges_node_category {
    */
   id: string;
   name: string;
+  slug: string;
+  level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: ProductsQuery_products_edges_node_category_translation | null;
 }
 
 export interface ProductsQuery_products_edges_node_pricing_discount_gross {
@@ -379,6 +408,15 @@ export interface ProductsQuery_products_edges_node_pricing {
   priceRangeUndiscounted: ProductsQuery_products_edges_node_pricing_priceRangeUndiscounted | null;
 }
 
+export interface ProductsQuery_products_edges_node_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface ProductsQuery_products_edges_node {
   __typename: "Product";
   /**
@@ -404,6 +442,10 @@ export interface ProductsQuery_products_edges_node {
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: ProductsQuery_products_edges_node_pricing | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: ProductsQuery_products_edges_node_translation | null;
 }
 
 export interface ProductsQuery_products_edges {
@@ -458,4 +500,5 @@ export interface ProductsQueryVariables {
   priceLte?: number | null;
   prodsPerPage: number;
   cursor?: string | null;
+  lang: LanguageCodeEnum;
 }

@@ -3,9 +3,22 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: categoryDetailQuery
 // ====================================================
+
+export interface categoryDetailQuery_category_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  seoTitle: string | null;
+  seoDescription: string | null;
+}
 
 export interface categoryDetailQuery_category_backgroundImage {
   __typename: "Image";
@@ -28,6 +41,12 @@ export interface categoryDetailQuery_category {
   name: string;
   slug: string;
   level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categoryDetailQuery_category_translation | null;
+  seoTitle: string | null;
+  seoDescription: string | null;
   backgroundImage: categoryDetailQuery_category_backgroundImage | null;
 }
 
@@ -40,4 +59,5 @@ export interface categoryDetailQuery {
 
 export interface categoryDetailQueryVariables {
   category: string;
+  lang: LanguageCodeEnum;
 }

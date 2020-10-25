@@ -10,7 +10,7 @@ import {
   Badge,
   Button,
 } from "antd";
-import { useIntl, Link, connect, ConnectRC } from "umi";
+import { useIntl, Link, connect, ConnectRC, setLocale } from "umi";
 import {
   ShoppingCartOutlined,
   UserOutlined,
@@ -92,9 +92,14 @@ const NavBar: ConnectRC<Props> = ({
     });
 
   const langMenu = (
-    <Menu>
-      <Menu.Item>English</Menu.Item>
-      <Menu.Item>Français</Menu.Item>
+    <Menu
+      onClick={item => {
+        setLocale(item.key, false);
+        window.location.reload();
+      }}
+    >
+      <Menu.Item key="en-US">English</Menu.Item>
+      <Menu.Item key="fr-FR">Français</Menu.Item>
     </Menu>
   );
   const avatarMenu = (
@@ -319,7 +324,14 @@ const NavBar: ConnectRC<Props> = ({
             </Menu.Item>
           </Menu>
         </Col>
-        <Col span={8} xs={0} sm={0} md={0} lg={8}>
+        <Col
+          span={8}
+          xs={0}
+          sm={0}
+          md={0}
+          lg={8}
+          className="line-height-normal"
+        >
           <ProductSearch />
         </Col>
         <Col className="full-height">

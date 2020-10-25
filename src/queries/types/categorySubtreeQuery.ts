@@ -3,9 +3,74 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: categorySubtreeQuery
 // ====================================================
+
+export interface categorySubtreeQuery_category_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
 
 export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node {
   __typename: "Category";
@@ -16,6 +81,10 @@ export interface categorySubtreeQuery_category_children_edges_node_children_edge
   name: string;
   slug: string;
   level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation | null;
 }
 
 export interface categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges {
@@ -40,6 +109,10 @@ export interface categorySubtreeQuery_category_children_edges_node_children_edge
   name: string;
   slug: string;
   level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation | null;
   /**
    * List of children of the category.
    */
@@ -69,6 +142,10 @@ export interface categorySubtreeQuery_category_children_edges_node_children_edge
   slug: string;
   level: number;
   /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_translation | null;
+  /**
    * List of children of the category.
    */
   children: categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_children_edges_node_children | null;
@@ -96,6 +173,10 @@ export interface categorySubtreeQuery_category_children_edges_node_children_edge
   name: string;
   slug: string;
   level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_children_edges_node_children_edges_node_translation | null;
   /**
    * List of children of the category.
    */
@@ -125,6 +206,10 @@ export interface categorySubtreeQuery_category_children_edges_node_children_edge
   slug: string;
   level: number;
   /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_children_edges_node_translation | null;
+  /**
    * List of children of the category.
    */
   children: categorySubtreeQuery_category_children_edges_node_children_edges_node_children | null;
@@ -152,6 +237,10 @@ export interface categorySubtreeQuery_category_children_edges_node {
   name: string;
   slug: string;
   level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_children_edges_node_translation | null;
   /**
    * List of children of the category.
    */
@@ -181,6 +270,10 @@ export interface categorySubtreeQuery_category {
   slug: string;
   level: number;
   /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: categorySubtreeQuery_category_translation | null;
+  /**
    * List of children of the category.
    */
   children: categorySubtreeQuery_category_children | null;
@@ -194,5 +287,6 @@ export interface categorySubtreeQuery {
 }
 
 export interface categorySubtreeQueryVariables {
+  lang: LanguageCodeEnum;
   categoryId: string;
 }

@@ -3,9 +3,20 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: featuredCollectionProducts
 // ====================================================
+
+export interface featuredCollectionProducts_collection_translation {
+  __typename: "CollectionTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
 
 export interface featuredCollectionProducts_collection_products_edges_node_thumbnail {
   __typename: "Image";
@@ -32,8 +43,31 @@ export interface featuredCollectionProducts_collection_products_edges_node_image
   alt: string;
 }
 
+export interface featuredCollectionProducts_collection_products_edges_node_collections_translation {
+  __typename: "CollectionTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface featuredCollectionProducts_collection_products_edges_node_collections {
   __typename: "Collection";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  slug: string;
+  /**
+   * Returns translated collection fields for the given language code.
+   */
+  translation: featuredCollectionProducts_collection_products_edges_node_collections_translation | null;
+}
+
+export interface featuredCollectionProducts_collection_products_edges_node_category_translation {
+  __typename: "CategoryTranslation";
   /**
    * The ID of the object.
    */
@@ -48,6 +82,12 @@ export interface featuredCollectionProducts_collection_products_edges_node_categ
    */
   id: string;
   name: string;
+  slug: string;
+  level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: featuredCollectionProducts_collection_products_edges_node_category_translation | null;
 }
 
 export interface featuredCollectionProducts_collection_products_edges_node_pricing_discount_gross {
@@ -198,6 +238,15 @@ export interface featuredCollectionProducts_collection_products_edges_node_prici
   priceRangeUndiscounted: featuredCollectionProducts_collection_products_edges_node_pricing_priceRangeUndiscounted | null;
 }
 
+export interface featuredCollectionProducts_collection_products_edges_node_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface featuredCollectionProducts_collection_products_edges_node {
   __typename: "Product";
   /**
@@ -223,6 +272,10 @@ export interface featuredCollectionProducts_collection_products_edges_node {
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: featuredCollectionProducts_collection_products_edges_node_pricing | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: featuredCollectionProducts_collection_products_edges_node_translation | null;
 }
 
 export interface featuredCollectionProducts_collection_products_edges {
@@ -247,6 +300,10 @@ export interface featuredCollectionProducts_collection {
   name: string;
   slug: string;
   /**
+   * Returns translated collection fields for the given language code.
+   */
+  translation: featuredCollectionProducts_collection_translation | null;
+  /**
    * List of products in this collection.
    */
   products: featuredCollectionProducts_collection_products | null;
@@ -262,4 +319,5 @@ export interface featuredCollectionProducts {
 export interface featuredCollectionProductsVariables {
   slug: string;
   first: number;
+  lang: LanguageCodeEnum;
 }

@@ -3,7 +3,7 @@ import { ADDRESS_DETAILS_FRAGMENT } from "@/fragments/address";
 
 export const ORDERS_PAGE_QUERY = gql`
   ${ADDRESS_DETAILS_FRAGMENT}
-  query ordersQuery {
+  query ordersQuery($lang: LanguageCodeEnum!) {
     me {
       id
       orders(first: 50) {
@@ -89,10 +89,18 @@ export const ORDERS_PAGE_QUERY = gql`
                   attribute {
                     id
                     name
+                    translation(languageCode: $lang) {
+                      id
+                      name
+                    }
                   }
                   values {
                     id
                     name
+                    translation(languageCode: $lang) {
+                      id
+                      name
+                    }
                   }
                 }
                 pricing {
@@ -103,6 +111,10 @@ export const ORDERS_PAGE_QUERY = gql`
                     }
                   }
                 }
+                translation(languageCode: $lang) {
+                  id
+                  name
+                }
                 product {
                   id
                   name
@@ -110,6 +122,11 @@ export const ORDERS_PAGE_QUERY = gql`
                   thumbnail {
                     url
                     alt
+                  }
+                  translation(languageCode: $lang) {
+                    id
+                    name
+                    descriptionJson
                   }
                 }
               }

@@ -1,66 +1,38 @@
+import { CATEGORY_BASIC_DETAILS_FRAGMENT } from "@/fragments/category";
 import { PRODUCT_CARD_FRAGMENT } from "@/fragments/product";
 import { gql } from "@apollo/client";
 
 export const PRODUCT_DETAIL_PAGE_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
-  query productDetailQuery($productID: ID!) {
+  ${CATEGORY_BASIC_DETAILS_FRAGMENT}
+  query productDetailQuery($productID: ID!, $lang: LanguageCodeEnum!) {
     product(id: $productID) {
-      id
-      name
-      slug
+      ...ProductCard
       descriptionJson
-      images {
-        id
-        url
-        alt
-      }
-      pricing {
-        onSale
-        discount {
-          currency
-          gross {
-            currency
-            amount
-          }
-        }
-        priceRange {
-          start {
-            gross {
-              currency
-              amount
-            }
-          }
-          stop {
-            gross {
-              currency
-              amount
-            }
-          }
-        }
-        priceRangeUndiscounted {
-          start {
-            gross {
-              currency
-              amount
-            }
-          }
-          stop {
-            gross {
-              currency
-              amount
-            }
-          }
-        }
-      }
+      seoTitle
+      seoDescription
       isAvailable
+      translation(languageCode: $lang) {
+        descriptionJson
+        seoTitle
+        seoDescription
+      }
       attributes {
         attribute {
           id
           name
+          translation(languageCode: $lang) {
+            id
+            name
+          }
         }
         values {
           id
           name
+          translation(languageCode: $lang) {
+            id
+            name
+          }
         }
       }
       variants {
@@ -84,21 +56,36 @@ export const PRODUCT_DETAIL_PAGE_QUERY = gql`
           values {
             id
             name
-          }
-          attribute {
-            id
-            name
-            values {
+            translation(languageCode: $lang) {
               id
               name
             }
           }
+          attribute {
+            id
+            name
+            translation(languageCode: $lang) {
+              id
+              name
+            }
+            values {
+              id
+              name
+              translation(languageCode: $lang) {
+                id
+                name
+              }
+            }
+          }
         }
         quantityAvailable
+        translation(languageCode: $lang) {
+          id
+          name
+        }
       }
       category {
-        id
-        name
+        ...BasicCategoryDetails
         products(first: 10) {
           edges {
             node {

@@ -3,7 +3,7 @@ import { ProductCard as ProductCardType } from "@/fragments/types/ProductCard";
 import { Link } from "umi";
 import { Card, Typography, Row, Col } from "antd";
 import AspectRatio from "./AspectRatio";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, getProductName } from "@/utils/utils";
 
 interface Props {
   id?: string;
@@ -40,7 +40,9 @@ const ProductListItem: React.FunctionComponent<Props> = ({
         </Col>
         <Col span={20} xs={16} sm={18} md={18} lg={20} xl={20} xxl={20}>
           <Link to={`/products/${product.id}`}>
-            <Typography.Title level={4}>{product.name}</Typography.Title>
+            <Typography.Title level={4}>
+              {getProductName(product)}
+            </Typography.Title>
           </Link>
           <Typography.Title level={4}>
             {isOnSale && (

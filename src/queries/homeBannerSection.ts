@@ -1,7 +1,11 @@
+import { CATEGORY_BASIC_DETAILS_FRAGMENT } from "@/fragments/category";
+import { COLLECTION_BASIC_DETAILS_FRAGMENT } from "@/fragments/collection";
 import { gql } from "@apollo/client";
 
 export const HOME_BANNER_SECTION_QUERY = gql`
-  query homeBannerSectionQuery($menuName: String!) {
+  ${CATEGORY_BASIC_DETAILS_FRAGMENT}
+  ${COLLECTION_BASIC_DETAILS_FRAGMENT}
+  query homeBannerSectionQuery($menuName: String!, $lang: LanguageCodeEnum!) {
     menu(name: $menuName) {
       id
       name
@@ -9,18 +13,14 @@ export const HOME_BANNER_SECTION_QUERY = gql`
         id
         name
         category {
-          id
-          name
-          slug
+          ...BasicCategoryDetails
           backgroundImage {
             url
             alt
           }
         }
         collection {
-          id
-          name
-          slug
+          ...BasicCollectionDetails
           backgroundImage {
             url
             alt

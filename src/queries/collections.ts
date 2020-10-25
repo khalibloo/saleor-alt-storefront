@@ -1,13 +1,13 @@
+import { COLLECTION_BASIC_DETAILS_FRAGMENT } from "@/fragments/collection";
 import { gql } from "@apollo/client";
 
 export const COLLECTIONS_QUERY = gql`
-  query collectionsQuery {
+  ${COLLECTION_BASIC_DETAILS_FRAGMENT}
+  query collectionsQuery($lang: LanguageCodeEnum!) {
     collections(first: 100) {
       edges {
         node {
-          id
-          name
-          slug
+          ...BasicCollectionDetails
         }
       }
     }

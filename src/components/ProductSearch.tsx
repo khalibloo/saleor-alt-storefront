@@ -37,7 +37,10 @@ const ProductSearch: React.FC<Props> = ({ onSearch, ...rest }) => {
         history.push({
           pathname: "/search",
           // preserve query filters if on search page
-          query: { ...(pathname === "/search" ? query : {}), q: search.trim() },
+          query: {
+            ...(pathname === "/search" ? query : {}),
+            q: search.trim(),
+          },
         });
         document.getElementById("product-search-fld")?.blur();
         onSearch?.(query);

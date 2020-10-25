@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { Typography, Row, Col, List } from "antd";
-import { useIntl, Link } from "umi";
-import clx from "classnames";
+import { Link } from "umi";
 import { useLazyQuery } from "@apollo/client";
 import { useResponsive } from "@umijs/hooks";
-import { getScreenSize } from "@/utils/utils";
+import {
+  getCategoryName,
+  getCollectionName,
+  getLangCode,
+  getScreenSize,
+} from "@/utils/utils";
 
 import _ from "lodash";
 import { HomeProductListConfig } from ".altrc";
@@ -32,14 +36,24 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
     fetchCategory,
     { loading: catFetching, error: catError, data: catData },
   ] = useLazyQuery<featuredCategoryProducts>(FEATURED_CATEGORY_PRODUCTS_QUERY, {
-    variables: { slug: categorySlug, first: firstNProducts },
+    variables: {
+      lang: getLangCode(),
+      slug: categorySlug,
+      first: firstNProducts,
+    },
   });
   const [
     fetchCollection,
     { loading: collFetching, error: collError, data: collData },
   ] = useLazyQuery<featuredCollectionProducts>(
     FEATURED_COLLECTION_PRODUCTS_QUERY,
-    { variables: { slug: collectionSlug, first: firstNProducts } },
+    {
+      variables: {
+        slug: collectionSlug,
+        first: firstNProducts,
+        lang: getLangCode(),
+      },
+    },
   );
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
@@ -84,12 +98,12 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
   let products: featuredCategoryProducts_category_products_edges[] | undefined;
   let titleUrl;
   if (categorySlug) {
-    name = catData?.category?.name || "";
+    name = getCategoryName(catData?.category) || "";
     products = catData?.category?.products?.edges;
     const catID = catData?.category?.id;
     titleUrl = catID ? `/categories/${catID}` : "#";
   } else if (collectionSlug) {
-    name = collData?.collection?.name || "";
+    name = getCollectionName(collData?.collection) || "";
     products = collData?.collection?.products?.edges;
     const collID = collData?.collection?.id;
     titleUrl = collID ? `/collections/${collID}` : "#";
