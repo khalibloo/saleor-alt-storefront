@@ -7,7 +7,7 @@ import clx from "classnames";
 import VSpacing from "@/components/VSpacing";
 
 import styles from "./id.less";
-import { formatTitle } from "@/utils/utils";
+import { formatTitle, getCategoryName, getLangCode } from "@/utils/utils";
 import { useQuery } from "@apollo/client";
 import {
   categoryDetailQuery,
@@ -18,21 +18,22 @@ import SkeletonDiv from "@/components/SkeletonDiv";
 import Products from "@/components/Products";
 
 const CategoryDetailPage: React.FC = () => {
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
   const { loading: fetching, error, data } = useQuery<
     categoryDetailQuery,
     categoryDetailQueryVariables
   >(CATEGORY_DETAIL_PAGE_QUERY, {
     variables: {
       category: id as string,
+      lang: getLangCode(),
     },
   });
   return (
     <div>
       {data?.category?.name && (
         <Helmet>
-          <title>{formatTitle(data.category.name)}</title>
-          <meta name="description" content={data.category.name} />
+          <title>{formatTitle(getCategoryName(data.category))}</title>
+          <meta name="description" content={getCategoryName(data.category)} />
         </Helmet>
       )}
       <div className={styles.bannerContainer}>
@@ -53,7 +54,7 @@ const CategoryDetailPage: React.FC = () => {
                 className="center-text no-margin inverse-text"
                 level={1}
               >
-                {data?.category?.name}
+                {getCategoryName(data.category)}
               </Typography.Title>
             </Col>
           </Row>

@@ -15,6 +15,7 @@ export const PRODUCTS_QUERY = gql`
     $priceLte: Float
     $prodsPerPage: Int!
     $cursor: String
+    $lang: LanguageCodeEnum!
   ) {
     minPrice: products(
       filter: { stockAvailability: IN_STOCK, isPublished: true }

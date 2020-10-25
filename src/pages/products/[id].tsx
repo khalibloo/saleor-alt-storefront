@@ -19,7 +19,16 @@ import AspectRatio from "@/components/AspectRatio";
 import VSpacing from "@/components/VSpacing";
 import styles from "./id.less";
 import { useIntl, useParams, useDispatch, connect, ConnectRC } from "umi";
-import { formatPrice, formatTitle, getScreenSize } from "@/utils/utils";
+import {
+  formatPrice,
+  formatTitle,
+  getAttributeName,
+  getAttributeValueName,
+  getLangCode,
+  getProductDescriptionJson,
+  getProductName,
+  getScreenSize,
+} from "@/utils/utils";
 import ProductCard from "@/components/ProductCard";
 import { ListGridType } from "antd/lib/list";
 import { useResponsive, useSize } from "@umijs/hooks";
@@ -40,11 +49,19 @@ import config from "@/config";
 interface AttrValue {
   id: string;
   name: string;
+  translation?: {
+    id: string;
+    name: string;
+  };
 }
 interface VariantAttr {
   id: string;
   name: string;
   values: AttrValue[];
+  translation?: {
+    id: string;
+    name: string;
+  };
   selection: string | undefined;
 }
 interface Props {
@@ -62,6 +79,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   >(PRODUCT_DETAIL_PAGE_QUERY, {
     variables: {
       productID: id as string,
+      lang: getLangCode(),
     },
   });
   const [selectedImg, setSelectedImg] = useState(0);
@@ -93,6 +111,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
               id: attr.attribute.id,
               name: attr.attribute.name as string,
               values: [attr.values[0] as AttrValue],
+              translation: attr.attribute.translation,
               selection: undefined,
             });
           } else if (
@@ -308,8 +327,8 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     <div className="vflex flex-grow-1">
       {product?.name && (
         <Helmet>
-          <title>{formatTitle(product.name)}</title>
-          <meta name="description" content={product.name} />
+          <title>{formatTitle(getProductName(product))}</title>
+          <meta name="description" content={getProductName(product)} />
         </Helmet>
       )}
       <VSpacing height={!responsive.lg ? 8 : 48} />
@@ -444,7 +463,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   className={clx({ ["center-text"]: !responsive.lg })}
                   level={1}
                 >
-                  {product?.name}
+                  {getProductName(product)}
                 </Typography.Title>
               </Skeleton>
               <div id="product-desc">
@@ -456,7 +475,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   title={false}
                 >
                   <RichTextContent
-                    contentJson={product?.descriptionJson}
+                    contentJson={getProductDescriptionJson(product)}
                     lines={10}
                   />
                 </Skeleton>
@@ -486,7 +505,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                           className={clx("full-width", "var-select")}
                           key={vAttr.id}
                           size="large"
-                          placeholder={vAttr.name}
+                          placeholder={getAttributeName(vAttr)}
                           onChange={value => {
                             const selection = [...variantAttrs];
                             selection[i] = { ...vAttr, selection: value };
@@ -500,7 +519,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                               key={val?.id}
                               value={val?.id as string}
                             >
-                              {val?.name}
+                              {getAttributeValueName(val)}
                             </Select.Option>
                           ))}
                         </Select>

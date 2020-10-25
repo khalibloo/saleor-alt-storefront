@@ -19,7 +19,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useIntl, Link, connect, ConnectRC, history } from "umi";
 import VSpacing from "@/components/VSpacing";
 import AspectRatio from "@/components/AspectRatio";
-import { formatPrice, addressToInput } from "@/utils/utils";
+import {
+  formatPrice,
+  addressToInput,
+  getLangCode,
+  getProductName,
+  getVariantName,
+} from "@/utils/utils";
 import AddressSelector from "@/components/AddressSelector";
 import { useBoolean, useResponsive } from "@umijs/hooks";
 import { ConnectState, Loading } from "@/models/connect";
@@ -58,6 +64,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   const responsive = useResponsive();
   const { loading: fetching, error, data } = useQuery<cartQuery>(
     CART_PAGE_QUERY,
+    { variables: { lang: getLangCode() } },
   );
   const [
     fetchGuestCart,
@@ -66,7 +73,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
   useEffect(() => {
     lf.getItem("guest_cart_token").then(guestCartToken => {
       if (guestCartToken) {
-        fetchGuestCart({ variables: { token: guestCartToken } });
+        fetchGuestCart({
+          variables: { token: guestCartToken, lang: getLangCode() },
+        });
       }
     });
   }, []);
@@ -578,10 +587,12 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
         footer={
           <Row justify="space-between">
             <Link to="/orders">
-              <Button>View Orders</Button>
+              <Button>{intl.formatMessage({ id: "cart.viewOrders" })}</Button>
             </Link>
             <Link to="/">
-              <Button type="primary">Continue Shopping</Button>
+              <Button type="primary">
+                {intl.formatMessage({ id: "cart.continueShopping" })}
+              </Button>
             </Link>
           </Row>
         }
@@ -652,9 +663,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                                 to={`/products/${item?.variant.product.id}`}
                               >
                                 <Typography.Title level={4}>
-                                  {item?.variant.product.name}{" "}
+                                  {getProductName(item?.variant.product)}{" "}
                                   {item?.variant.name && (
-                                    <i>({item?.variant.name})</i>
+                                    <i>({getVariantName(item?.variant)})</i>
                                   )}
                                 </Typography.Title>
                               </Link>

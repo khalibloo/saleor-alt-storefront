@@ -6,5 +6,9 @@ export const CATEGORY_BASIC_DETAILS_FRAGMENT = gql`
     name
     slug
     level
+    translation(languageCode: $lang) {
+      id
+      name
+    }
   }
 `;

@@ -3,9 +3,23 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: pageQuery
 // ====================================================
+
+export interface pageQuery_page_translation {
+  __typename: "PageTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  title: string;
+  contentJson: any;
+  seoTitle: string | null;
+  seoDescription: string | null;
+}
 
 export interface pageQuery_page {
   __typename: "Page";
@@ -15,6 +29,12 @@ export interface pageQuery_page {
   id: string;
   title: string;
   contentJson: any;
+  seoTitle: string | null;
+  seoDescription: string | null;
+  /**
+   * Returns translated page fields for the given language code.
+   */
+  translation: pageQuery_page_translation | null;
 }
 
 export interface pageQuery {
@@ -26,4 +46,5 @@ export interface pageQuery {
 
 export interface pageQueryVariables {
   slug: string;
+  lang: LanguageCodeEnum;
 }

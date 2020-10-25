@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "umi";
 import { Card, Typography, Row, Col } from "antd";
 import AspectRatio from "./AspectRatio";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, getProductName } from "@/utils/utils";
 
 interface Props {
   variant: any; //VariantListItemType;
@@ -32,7 +32,7 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
         <Col span={20}>
           <Link to={`/products/${variant.product.id}`}>
             <Typography.Title level={4}>
-              {variant.product.name}
+              {getProductName(variant.product)}
             </Typography.Title>
           </Link>
           <Typography.Title level={4}>

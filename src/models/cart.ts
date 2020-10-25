@@ -68,6 +68,7 @@ import {
   productDetailQuery_product,
   productDetailQuery_product_variants,
 } from "@/queries/types/productDetailQuery";
+import { getLangCode } from "@/utils/utils";
 
 export interface CartModelState {
   checkout: CartCreateMutation_checkoutCreate_checkout | null;
@@ -130,6 +131,7 @@ const CartModel: CartModelType = {
         if (!authenticated && guestCartToken) {
           const variables: cartBadgeWithTokenQueryVariables = {
             token: guestCartToken,
+            lang: getLangCode(),
           };
           const response: {
             data: cartBadgeWithTokenQuery;

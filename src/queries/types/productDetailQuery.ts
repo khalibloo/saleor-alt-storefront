@@ -3,9 +3,23 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: productDetailQuery
 // ====================================================
+
+export interface productDetailQuery_product_thumbnail {
+  __typename: "Image";
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  /**
+   * Alt text for an image.
+   */
+  alt: string | null;
+}
 
 export interface productDetailQuery_product_images {
   __typename: "ProductImage";
@@ -20,307 +34,36 @@ export interface productDetailQuery_product_images {
   alt: string;
 }
 
-export interface productDetailQuery_product_pricing_discount_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface productDetailQuery_product_pricing_discount {
-  __typename: "TaxedMoney";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_pricing_discount_gross;
-}
-
-export interface productDetailQuery_product_pricing_priceRange_start_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface productDetailQuery_product_pricing_priceRange_start {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_pricing_priceRange_start_gross;
-}
-
-export interface productDetailQuery_product_pricing_priceRange_stop_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface productDetailQuery_product_pricing_priceRange_stop {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_pricing_priceRange_stop_gross;
-}
-
-export interface productDetailQuery_product_pricing_priceRange {
-  __typename: "TaxedMoneyRange";
-  /**
-   * Lower bound of a price range.
-   */
-  start: productDetailQuery_product_pricing_priceRange_start | null;
-  /**
-   * Upper bound of a price range.
-   */
-  stop: productDetailQuery_product_pricing_priceRange_stop | null;
-}
-
-export interface productDetailQuery_product_pricing_priceRangeUndiscounted_start_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface productDetailQuery_product_pricing_priceRangeUndiscounted_start {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_pricing_priceRangeUndiscounted_start_gross;
-}
-
-export interface productDetailQuery_product_pricing_priceRangeUndiscounted_stop_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface productDetailQuery_product_pricing_priceRangeUndiscounted_stop {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_pricing_priceRangeUndiscounted_stop_gross;
-}
-
-export interface productDetailQuery_product_pricing_priceRangeUndiscounted {
-  __typename: "TaxedMoneyRange";
-  /**
-   * Lower bound of a price range.
-   */
-  start: productDetailQuery_product_pricing_priceRangeUndiscounted_start | null;
-  /**
-   * Upper bound of a price range.
-   */
-  stop: productDetailQuery_product_pricing_priceRangeUndiscounted_stop | null;
-}
-
-export interface productDetailQuery_product_pricing {
-  __typename: "ProductPricingInfo";
-  /**
-   * Whether it is in sale or not.
-   */
-  onSale: boolean | null;
-  /**
-   * The discount amount if in sale (null otherwise).
-   */
-  discount: productDetailQuery_product_pricing_discount | null;
-  /**
-   * The discounted price range of the product variants.
-   */
-  priceRange: productDetailQuery_product_pricing_priceRange | null;
-  /**
-   * The undiscounted price range of the product variants.
-   */
-  priceRangeUndiscounted: productDetailQuery_product_pricing_priceRangeUndiscounted | null;
-}
-
-export interface productDetailQuery_product_attributes_attribute {
-  __typename: "Attribute";
+export interface productDetailQuery_product_collections_translation {
+  __typename: "CollectionTranslation";
   /**
    * The ID of the object.
    */
   id: string;
-  /**
-   * Name of an attribute displayed in the interface.
-   */
-  name: string | null;
-}
-
-export interface productDetailQuery_product_attributes_values {
-  __typename: "AttributeValue";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  /**
-   * Name of a value displayed in the interface.
-   */
-  name: string | null;
-}
-
-export interface productDetailQuery_product_attributes {
-  __typename: "SelectedAttribute";
-  /**
-   * Name of an attribute displayed in the interface.
-   */
-  attribute: productDetailQuery_product_attributes_attribute;
-  /**
-   * Values of an attribute.
-   */
-  values: (productDetailQuery_product_attributes_values | null)[];
-}
-
-export interface productDetailQuery_product_variants_images {
-  __typename: "ProductImage";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  /**
-   * The URL of the image.
-   */
-  url: string;
-  alt: string;
-}
-
-export interface productDetailQuery_product_variants_pricing_price_gross {
-  __typename: "Money";
-  /**
-   * Amount of money.
-   */
-  amount: number;
-  /**
-   * Currency code.
-   */
-  currency: string;
-}
-
-export interface productDetailQuery_product_variants_pricing_price {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: productDetailQuery_product_variants_pricing_price_gross;
-}
-
-export interface productDetailQuery_product_variants_pricing {
-  __typename: "VariantPricingInfo";
-  /**
-   * The price, with any discount subtracted.
-   */
-  price: productDetailQuery_product_variants_pricing_price | null;
-}
-
-export interface productDetailQuery_product_variants_attributes_values {
-  __typename: "AttributeValue";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  /**
-   * Name of a value displayed in the interface.
-   */
-  name: string | null;
-}
-
-export interface productDetailQuery_product_variants_attributes_attribute_values {
-  __typename: "AttributeValue";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  /**
-   * Name of a value displayed in the interface.
-   */
-  name: string | null;
-}
-
-export interface productDetailQuery_product_variants_attributes_attribute {
-  __typename: "Attribute";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  /**
-   * Name of an attribute displayed in the interface.
-   */
-  name: string | null;
-  /**
-   * List of attribute's values.
-   */
-  values: (productDetailQuery_product_variants_attributes_attribute_values | null)[] | null;
-}
-
-export interface productDetailQuery_product_variants_attributes {
-  __typename: "SelectedAttribute";
-  /**
-   * Values of an attribute.
-   */
-  values: (productDetailQuery_product_variants_attributes_values | null)[];
-  /**
-   * Name of an attribute displayed in the interface.
-   */
-  attribute: productDetailQuery_product_variants_attributes_attribute;
-}
-
-export interface productDetailQuery_product_variants {
-  __typename: "ProductVariant";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  sku: string;
   name: string;
+}
+
+export interface productDetailQuery_product_collections {
+  __typename: "Collection";
   /**
-   * List of images for the product variant.
+   * The ID of the object.
    */
-  images: (productDetailQuery_product_variants_images | null)[] | null;
+  id: string;
+  name: string;
+  slug: string;
   /**
-   * Lists the storefront variant's pricing, the current price and discounts, only meant for displaying.
+   * Returns translated collection fields for the given language code.
    */
-  pricing: productDetailQuery_product_variants_pricing | null;
+  translation: productDetailQuery_product_collections_translation | null;
+}
+
+export interface productDetailQuery_product_category_translation {
+  __typename: "CategoryTranslation";
   /**
-   * List of attributes assigned to this variant.
+   * The ID of the object.
    */
-  attributes: productDetailQuery_product_variants_attributes[];
-  /**
-   * Quantity of a product available for sale in one checkout.
-   */
-  quantityAvailable: number;
+  id: string;
+  name: string;
 }
 
 export interface productDetailQuery_product_category_products_edges_node_thumbnail {
@@ -348,8 +91,31 @@ export interface productDetailQuery_product_category_products_edges_node_images 
   alt: string;
 }
 
+export interface productDetailQuery_product_category_products_edges_node_collections_translation {
+  __typename: "CollectionTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface productDetailQuery_product_category_products_edges_node_collections {
   __typename: "Collection";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  slug: string;
+  /**
+   * Returns translated collection fields for the given language code.
+   */
+  translation: productDetailQuery_product_category_products_edges_node_collections_translation | null;
+}
+
+export interface productDetailQuery_product_category_products_edges_node_category_translation {
+  __typename: "CategoryTranslation";
   /**
    * The ID of the object.
    */
@@ -364,6 +130,12 @@ export interface productDetailQuery_product_category_products_edges_node_categor
    */
   id: string;
   name: string;
+  slug: string;
+  level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: productDetailQuery_product_category_products_edges_node_category_translation | null;
 }
 
 export interface productDetailQuery_product_category_products_edges_node_pricing_discount_gross {
@@ -514,6 +286,15 @@ export interface productDetailQuery_product_category_products_edges_node_pricing
   priceRangeUndiscounted: productDetailQuery_product_category_products_edges_node_pricing_priceRangeUndiscounted | null;
 }
 
+export interface productDetailQuery_product_category_products_edges_node_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface productDetailQuery_product_category_products_edges_node {
   __typename: "Product";
   /**
@@ -539,6 +320,10 @@ export interface productDetailQuery_product_category_products_edges_node {
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: productDetailQuery_product_category_products_edges_node_pricing | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: productDetailQuery_product_category_products_edges_node_translation | null;
 }
 
 export interface productDetailQuery_product_category_products_edges {
@@ -561,10 +346,344 @@ export interface productDetailQuery_product_category {
    */
   id: string;
   name: string;
+  slug: string;
+  level: number;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: productDetailQuery_product_category_translation | null;
   /**
    * List of products in the category.
    */
   products: productDetailQuery_product_category_products | null;
+}
+
+export interface productDetailQuery_product_pricing_discount_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface productDetailQuery_product_pricing_discount {
+  __typename: "TaxedMoney";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_pricing_discount_gross;
+}
+
+export interface productDetailQuery_product_pricing_priceRange_start_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface productDetailQuery_product_pricing_priceRange_start {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_pricing_priceRange_start_gross;
+}
+
+export interface productDetailQuery_product_pricing_priceRange_stop_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface productDetailQuery_product_pricing_priceRange_stop {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_pricing_priceRange_stop_gross;
+}
+
+export interface productDetailQuery_product_pricing_priceRange {
+  __typename: "TaxedMoneyRange";
+  /**
+   * Lower bound of a price range.
+   */
+  start: productDetailQuery_product_pricing_priceRange_start | null;
+  /**
+   * Upper bound of a price range.
+   */
+  stop: productDetailQuery_product_pricing_priceRange_stop | null;
+}
+
+export interface productDetailQuery_product_pricing_priceRangeUndiscounted_start_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface productDetailQuery_product_pricing_priceRangeUndiscounted_start {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_pricing_priceRangeUndiscounted_start_gross;
+}
+
+export interface productDetailQuery_product_pricing_priceRangeUndiscounted_stop_gross {
+  __typename: "Money";
+  /**
+   * Currency code.
+   */
+  currency: string;
+  /**
+   * Amount of money.
+   */
+  amount: number;
+}
+
+export interface productDetailQuery_product_pricing_priceRangeUndiscounted_stop {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_pricing_priceRangeUndiscounted_stop_gross;
+}
+
+export interface productDetailQuery_product_pricing_priceRangeUndiscounted {
+  __typename: "TaxedMoneyRange";
+  /**
+   * Lower bound of a price range.
+   */
+  start: productDetailQuery_product_pricing_priceRangeUndiscounted_start | null;
+  /**
+   * Upper bound of a price range.
+   */
+  stop: productDetailQuery_product_pricing_priceRangeUndiscounted_stop | null;
+}
+
+export interface productDetailQuery_product_pricing {
+  __typename: "ProductPricingInfo";
+  /**
+   * Whether it is in sale or not.
+   */
+  onSale: boolean | null;
+  /**
+   * The discount amount if in sale (null otherwise).
+   */
+  discount: productDetailQuery_product_pricing_discount | null;
+  /**
+   * The discounted price range of the product variants.
+   */
+  priceRange: productDetailQuery_product_pricing_priceRange | null;
+  /**
+   * The undiscounted price range of the product variants.
+   */
+  priceRangeUndiscounted: productDetailQuery_product_pricing_priceRangeUndiscounted | null;
+}
+
+export interface productDetailQuery_product_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  descriptionJson: any;
+  seoTitle: string | null;
+  seoDescription: string | null;
+}
+
+export interface productDetailQuery_product_attributes_attribute {
+  __typename: "Attribute";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Name of an attribute displayed in the interface.
+   */
+  name: string | null;
+}
+
+export interface productDetailQuery_product_attributes_values {
+  __typename: "AttributeValue";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Name of a value displayed in the interface.
+   */
+  name: string | null;
+}
+
+export interface productDetailQuery_product_attributes {
+  __typename: "SelectedAttribute";
+  /**
+   * Name of an attribute displayed in the interface.
+   */
+  attribute: productDetailQuery_product_attributes_attribute;
+  /**
+   * Values of an attribute.
+   */
+  values: (productDetailQuery_product_attributes_values | null)[];
+}
+
+export interface productDetailQuery_product_variants_images {
+  __typename: "ProductImage";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * The URL of the image.
+   */
+  url: string;
+  alt: string;
+}
+
+export interface productDetailQuery_product_variants_pricing_price_gross {
+  __typename: "Money";
+  /**
+   * Amount of money.
+   */
+  amount: number;
+  /**
+   * Currency code.
+   */
+  currency: string;
+}
+
+export interface productDetailQuery_product_variants_pricing_price {
+  __typename: "TaxedMoney";
+  /**
+   * Amount of money including taxes.
+   */
+  gross: productDetailQuery_product_variants_pricing_price_gross;
+}
+
+export interface productDetailQuery_product_variants_pricing {
+  __typename: "VariantPricingInfo";
+  /**
+   * The price, with any discount subtracted.
+   */
+  price: productDetailQuery_product_variants_pricing_price | null;
+}
+
+export interface productDetailQuery_product_variants_attributes_values {
+  __typename: "AttributeValue";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Name of a value displayed in the interface.
+   */
+  name: string | null;
+}
+
+export interface productDetailQuery_product_variants_attributes_attribute_values {
+  __typename: "AttributeValue";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Name of a value displayed in the interface.
+   */
+  name: string | null;
+}
+
+export interface productDetailQuery_product_variants_attributes_attribute {
+  __typename: "Attribute";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Name of an attribute displayed in the interface.
+   */
+  name: string | null;
+  /**
+   * List of attribute's values.
+   */
+  values: (productDetailQuery_product_variants_attributes_attribute_values | null)[] | null;
+}
+
+export interface productDetailQuery_product_variants_attributes {
+  __typename: "SelectedAttribute";
+  /**
+   * Values of an attribute.
+   */
+  values: (productDetailQuery_product_variants_attributes_values | null)[];
+  /**
+   * Name of an attribute displayed in the interface.
+   */
+  attribute: productDetailQuery_product_variants_attributes_attribute;
+}
+
+export interface productDetailQuery_product_variants_translation {
+  __typename: "ProductVariantTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface productDetailQuery_product_variants {
+  __typename: "ProductVariant";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  sku: string;
+  name: string;
+  /**
+   * List of images for the product variant.
+   */
+  images: (productDetailQuery_product_variants_images | null)[] | null;
+  /**
+   * Lists the storefront variant's pricing, the current price and discounts, only meant for displaying.
+   */
+  pricing: productDetailQuery_product_variants_pricing | null;
+  /**
+   * List of attributes assigned to this variant.
+   */
+  attributes: productDetailQuery_product_variants_attributes[];
+  /**
+   * Quantity of a product available for sale in one checkout.
+   */
+  quantityAvailable: number;
+  /**
+   * Returns translated product variant fields for the given language code.
+   */
+  translation: productDetailQuery_product_variants_translation | null;
 }
 
 export interface productDetailQuery_product {
@@ -575,15 +694,30 @@ export interface productDetailQuery_product {
   id: string;
   name: string;
   slug: string;
-  descriptionJson: any;
+  /**
+   * The main thumbnail for a product.
+   */
+  thumbnail: productDetailQuery_product_thumbnail | null;
   /**
    * List of images for the product.
    */
   images: (productDetailQuery_product_images | null)[] | null;
   /**
+   * List of collections for the product.
+   */
+  collections: (productDetailQuery_product_collections | null)[] | null;
+  category: productDetailQuery_product_category | null;
+  /**
    * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: productDetailQuery_product_pricing | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: productDetailQuery_product_translation | null;
+  descriptionJson: any;
+  seoTitle: string | null;
+  seoDescription: string | null;
   /**
    * Whether the product is in stock and visible or not.
    */
@@ -596,7 +730,6 @@ export interface productDetailQuery_product {
    * List of variants for the product.
    */
   variants: (productDetailQuery_product_variants | null)[] | null;
-  category: productDetailQuery_product_category | null;
 }
 
 export interface productDetailQuery {
@@ -608,4 +741,5 @@ export interface productDetailQuery {
 
 export interface productDetailQueryVariables {
   productID: string;
+  lang: LanguageCodeEnum;
 }

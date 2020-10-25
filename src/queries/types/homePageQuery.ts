@@ -3,265 +3,82 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: homePageQuery
 // ====================================================
 
-export interface homePageQuery_shop_homepageCollection_backgroundImage {
-  __typename: "Image";
+export interface homePageQuery_shop_geolocalization_country {
+  __typename: "CountryDisplay";
   /**
-   * The URL of the image.
+   * Country code.
    */
-  url: string;
+  code: string;
   /**
-   * Alt text for an image.
+   * Country name.
    */
-  alt: string | null;
+  country: string;
 }
 
-export interface homePageQuery_shop_homepageCollection_products_edges_node_thumbnail {
-  __typename: "Image";
+export interface homePageQuery_shop_geolocalization {
+  __typename: "Geolocalization";
   /**
-   * The URL of the image.
+   * Country of the user acquired by his IP address.
    */
-  url: string;
-  /**
-   * Alt text for an image.
-   */
-  alt: string | null;
+  country: homePageQuery_shop_geolocalization_country | null;
 }
 
-export interface homePageQuery_shop_homepageCollection_products_edges_node_images {
-  __typename: "ProductImage";
+export interface homePageQuery_shop_companyAddress_country {
+  __typename: "CountryDisplay";
+  /**
+   * Country code.
+   */
+  code: string;
+  /**
+   * Country name.
+   */
+  country: string;
+}
+
+export interface homePageQuery_shop_companyAddress {
+  __typename: "Address";
   /**
    * The ID of the object.
    */
   id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  streetAddress1: string;
+  streetAddress2: string;
+  city: string;
+  cityArea: string;
+  postalCode: string;
   /**
-   * The URL of the image.
+   * Shop's default country.
    */
-  url: string;
-  alt: string;
+  country: homePageQuery_shop_companyAddress_country;
+  countryArea: string;
+  phone: string | null;
+  /**
+   * Address is user's default shipping address.
+   */
+  isDefaultShippingAddress: boolean | null;
+  /**
+   * Address is user's default billing address.
+   */
+  isDefaultBillingAddress: boolean | null;
 }
 
-export interface homePageQuery_shop_homepageCollection_products_edges_node_collections {
-  __typename: "Collection";
+export interface homePageQuery_shop_translation {
+  __typename: "ShopTranslation";
   /**
    * The ID of the object.
    */
   id: string;
-  name: string;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_category {
-  __typename: "Category";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  name: string;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_discount_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_discount {
-  __typename: "TaxedMoney";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money including taxes.
-   */
-  gross: homePageQuery_shop_homepageCollection_products_edges_node_pricing_discount_gross;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_start_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_start {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_start_gross;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_stop_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_stop {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_stop_gross;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange {
-  __typename: "TaxedMoneyRange";
-  /**
-   * Lower bound of a price range.
-   */
-  start: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_start | null;
-  /**
-   * Upper bound of a price range.
-   */
-  stop: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange_stop | null;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_start_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_start {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_start_gross;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_stop_gross {
-  __typename: "Money";
-  /**
-   * Currency code.
-   */
-  currency: string;
-  /**
-   * Amount of money.
-   */
-  amount: number;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_stop {
-  __typename: "TaxedMoney";
-  /**
-   * Amount of money including taxes.
-   */
-  gross: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_stop_gross;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted {
-  __typename: "TaxedMoneyRange";
-  /**
-   * Lower bound of a price range.
-   */
-  start: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_start | null;
-  /**
-   * Upper bound of a price range.
-   */
-  stop: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted_stop | null;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node_pricing {
-  __typename: "ProductPricingInfo";
-  /**
-   * Whether it is in sale or not.
-   */
-  onSale: boolean | null;
-  /**
-   * The discount amount if in sale (null otherwise).
-   */
-  discount: homePageQuery_shop_homepageCollection_products_edges_node_pricing_discount | null;
-  /**
-   * The discounted price range of the product variants.
-   */
-  priceRange: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRange | null;
-  /**
-   * The undiscounted price range of the product variants.
-   */
-  priceRangeUndiscounted: homePageQuery_shop_homepageCollection_products_edges_node_pricing_priceRangeUndiscounted | null;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges_node {
-  __typename: "Product";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  name: string;
-  slug: string;
-  /**
-   * The main thumbnail for a product.
-   */
-  thumbnail: homePageQuery_shop_homepageCollection_products_edges_node_thumbnail | null;
-  /**
-   * List of images for the product.
-   */
-  images: (homePageQuery_shop_homepageCollection_products_edges_node_images | null)[] | null;
-  /**
-   * List of collections for the product.
-   */
-  collections: (homePageQuery_shop_homepageCollection_products_edges_node_collections | null)[] | null;
-  category: homePageQuery_shop_homepageCollection_products_edges_node_category | null;
-  /**
-   * Lists the storefront product's pricing, the current price and discounts, only meant for displaying.
-   */
-  pricing: homePageQuery_shop_homepageCollection_products_edges_node_pricing | null;
-}
-
-export interface homePageQuery_shop_homepageCollection_products_edges {
-  __typename: "ProductCountableEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: homePageQuery_shop_homepageCollection_products_edges_node;
-}
-
-export interface homePageQuery_shop_homepageCollection_products {
-  __typename: "ProductCountableConnection";
-  edges: homePageQuery_shop_homepageCollection_products_edges[];
-}
-
-export interface homePageQuery_shop_homepageCollection {
-  __typename: "Collection";
-  /**
-   * The ID of the object.
-   */
-  id: string;
-  name: string;
-  backgroundImage: homePageQuery_shop_homepageCollection_backgroundImage | null;
-  /**
-   * List of products in this collection.
-   */
-  products: homePageQuery_shop_homepageCollection_products | null;
+  headerText: string;
+  description: string;
 }
 
 export interface homePageQuery_shop {
@@ -271,9 +88,21 @@ export interface homePageQuery_shop {
    */
   name: string;
   /**
-   * Collection displayed on homepage.
+   * Shop's description.
    */
-  homepageCollection: homePageQuery_shop_homepageCollection | null;
+  description: string | null;
+  /**
+   * Customer's geolocalization data.
+   */
+  geolocalization: homePageQuery_shop_geolocalization | null;
+  /**
+   * Company address.
+   */
+  companyAddress: homePageQuery_shop_companyAddress | null;
+  /**
+   * Returns translated shop fields for the given language code.
+   */
+  translation: homePageQuery_shop_translation | null;
 }
 
 export interface homePageQuery {
@@ -281,4 +110,8 @@ export interface homePageQuery {
    * Return information about the shop.
    */
   shop: homePageQuery_shop;
+}
+
+export interface homePageQueryVariables {
+  lang: LanguageCodeEnum;
 }

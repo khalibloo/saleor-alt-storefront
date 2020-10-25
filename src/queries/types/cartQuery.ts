@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LanguageCodeEnum } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL query operation: cartQuery
 // ====================================================
@@ -354,6 +356,24 @@ export interface cartQuery_me_checkout_lines_variant_pricing {
   price: cartQuery_me_checkout_lines_variant_pricing_price | null;
 }
 
+export interface cartQuery_me_checkout_lines_variant_translation {
+  __typename: "ProductVariantTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface cartQuery_me_checkout_lines_variant_product_category_translation {
+  __typename: "CategoryTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface cartQuery_me_checkout_lines_variant_product_category {
   __typename: "Category";
   /**
@@ -361,6 +381,10 @@ export interface cartQuery_me_checkout_lines_variant_product_category {
    */
   id: string;
   name: string;
+  /**
+   * Returns translated category fields for the given language code.
+   */
+  translation: cartQuery_me_checkout_lines_variant_product_category_translation | null;
 }
 
 export interface cartQuery_me_checkout_lines_variant_product_thumbnail {
@@ -373,6 +397,16 @@ export interface cartQuery_me_checkout_lines_variant_product_thumbnail {
    * Alt text for an image.
    */
   alt: string | null;
+}
+
+export interface cartQuery_me_checkout_lines_variant_product_translation {
+  __typename: "ProductTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+  descriptionJson: any;
 }
 
 export interface cartQuery_me_checkout_lines_variant_product {
@@ -388,6 +422,10 @@ export interface cartQuery_me_checkout_lines_variant_product {
    * The main thumbnail for a product.
    */
   thumbnail: cartQuery_me_checkout_lines_variant_product_thumbnail | null;
+  /**
+   * Returns translated product fields for the given language code.
+   */
+  translation: cartQuery_me_checkout_lines_variant_product_translation | null;
 }
 
 export interface cartQuery_me_checkout_lines_variant {
@@ -414,6 +452,10 @@ export interface cartQuery_me_checkout_lines_variant {
    * Lists the storefront variant's pricing, the current price and discounts, only meant for displaying.
    */
   pricing: cartQuery_me_checkout_lines_variant_pricing | null;
+  /**
+   * Returns translated product variant fields for the given language code.
+   */
+  translation: cartQuery_me_checkout_lines_variant_translation | null;
   product: cartQuery_me_checkout_lines_variant_product;
 }
 
@@ -514,4 +556,8 @@ export interface cartQuery {
    * Return the currently authenticated user.
    */
   me: cartQuery_me | null;
+}
+
+export interface cartQueryVariables {
+  lang: LanguageCodeEnum;
 }

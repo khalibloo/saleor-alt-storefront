@@ -5,7 +5,11 @@ import { gql } from "@apollo/client";
 export const FEATURED_CATEGORY_PRODUCTS_QUERY = gql`
   ${CATEGORY_BASIC_DETAILS_FRAGMENT}
   ${PRODUCT_CARD_FRAGMENT}
-  query featuredCategoryProducts($slug: String!, $first: Int!) {
+  query featuredCategoryProducts(
+    $lang: LanguageCodeEnum!
+    $slug: String!
+    $first: Int!
+  ) {
     category(slug: $slug) {
       ...BasicCategoryDetails
       products(first: $first) {

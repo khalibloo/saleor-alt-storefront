@@ -1,6 +1,6 @@
 import { defineConfig } from "umi";
-import path from "path";
-import HtmlCriticalWebpackPlugin from "html-critical-webpack-plugin";
+// import path from "path";
+// import HtmlCriticalWebpackPlugin from "html-critical-webpack-plugin";
 import AntdDayjsWebpackPlugin from "antd-dayjs-webpack-plugin";
 import { GenerateSW } from "workbox-webpack-plugin";
 
@@ -16,7 +16,7 @@ export default defineConfig({
     ga: process.env.GA_CODE,
     baidu: process.env.BAIDU_CODE,
   },
-  chunks: ["vendors", "umi"],
+  // chunks: ["vendors", "umi"],
   dva: {
     immer: true,
     hmr: true,
@@ -65,46 +65,46 @@ export default defineConfig({
         "text-color-secondary": "#0009",
       },
   chainWebpack: (memo, {}) => {
-    memo.merge({
-      optimization: {
-        minimize: true,
-        splitChunks: {
-          chunks: "all",
-          minSize: 30000,
-          minChunks: 3,
-          automaticNameDelimiter: ".",
-          cacheGroups: {
-            vendor: {
-              name: "vendors",
-              test({ resource }) {
-                return /[\\/]node_modules[\\/]/.test(resource);
-              },
-              priority: 10,
-            },
-          },
-        },
-      },
-    });
+    // memo.merge({
+    //   optimization: {
+    //     minimize: true,
+    //     splitChunks: {
+    //       chunks: "all",
+    //       minSize: 30000,
+    //       minChunks: 3,
+    //       automaticNameDelimiter: ".",
+    //       cacheGroups: {
+    //         vendor: {
+    //           name: "vendors",
+    //           test({ resource }) {
+    //             return /[\\/]node_modules[\\/]/.test(resource);
+    //           },
+    //           priority: 10,
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
     memo.plugin("dayjs").use(AntdDayjsWebpackPlugin);
-    memo
-      .plugin("critical")
-      .use(HtmlCriticalWebpackPlugin)
-      .init(
-        (Plugin, args) =>
-          new HtmlCriticalWebpackPlugin({
-            base: path.resolve(__dirname, "dist"),
-            src: "index.html",
-            dest: "index.html",
-            inline: true,
-            minify: true,
-            extract: true,
-            width: 375,
-            height: 565,
-            penthouse: {
-              blockJSRequests: false,
-            },
-          }),
-      );
+    // memo
+    //   .plugin("critical")
+    //   .use(HtmlCriticalWebpackPlugin)
+    //   .init(
+    //     (Plugin, args) =>
+    //       new HtmlCriticalWebpackPlugin({
+    //         base: path.resolve(__dirname, "dist"),
+    //         src: "index.html",
+    //         dest: "index.html",
+    //         inline: true,
+    //         minify: true,
+    //         extract: true,
+    //         width: 375,
+    //         height: 565,
+    //         penthouse: {
+    //           blockJSRequests: false,
+    //         },
+    //       }),
+    //   );
     memo.plugin("workbox").use(GenerateSW);
   },
 });

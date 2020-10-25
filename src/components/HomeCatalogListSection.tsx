@@ -3,7 +3,7 @@ import { Typography, Row, Col, Card } from "antd";
 import { Link } from "umi";
 import { useLazyQuery } from "@apollo/client";
 import { useResponsive } from "@umijs/hooks";
-import { getScreenSize } from "@/utils/utils";
+import { getLangCode, getScreenSize } from "@/utils/utils";
 
 import _ from "lodash";
 import { HomeCatalogListConfig } from ".altrc";
@@ -25,7 +25,9 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
 }) => {
   const [fetchMenu, { loading: fetching, error, data }] = useLazyQuery<
     homeBannerSectionQuery
-  >(HOME_BANNER_SECTION_QUERY, { variables: { menuName } });
+  >(HOME_BANNER_SECTION_QUERY, {
+    variables: { menuName, lang: getLangCode() },
+  });
 
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);

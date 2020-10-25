@@ -7,7 +7,7 @@ import clx from "classnames";
 import VSpacing from "@/components/VSpacing";
 
 import styles from "../categories/id.less";
-import { formatTitle } from "@/utils/utils";
+import { formatTitle, getCollectionName, getLangCode } from "@/utils/utils";
 import {
   collectionDetailQuery,
   collectionDetailQueryVariables,
@@ -25,14 +25,18 @@ const CollectionDetailPage: React.FC = () => {
   >(COLLECTION_DETAIL_PAGE_QUERY, {
     variables: {
       collection: id as string,
+      lang: getLangCode(),
     },
   });
   return (
     <div>
       {data?.collection?.name && (
         <Helmet>
-          <title>{formatTitle(data.collection.name)}</title>
-          <meta name="description" content={data.collection.name} />
+          <title>{formatTitle(getCollectionName(data.collection))}</title>
+          <meta
+            name="description"
+            content={getCollectionName(data.collection)}
+          />
         </Helmet>
       )}
       <div className={styles.bannerContainer}>
@@ -53,7 +57,7 @@ const CollectionDetailPage: React.FC = () => {
                 className="center-text no-margin inverse-text"
                 level={1}
               >
-                {data.collection.name}
+                {getCollectionName(data.collection)}
               </Typography.Title>
             </Col>
           </Row>

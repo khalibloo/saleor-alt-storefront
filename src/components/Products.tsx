@@ -42,6 +42,13 @@ import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Loader from "./Loader";
 import config from "@/config";
+import {
+  getAttributeName,
+  getAttributeValueName,
+  getCategoryName,
+  getCollectionName,
+  getLangCode,
+} from "@/utils/utils";
 
 interface Props {
   showCategoryFilter?: boolean;
@@ -126,6 +133,7 @@ const Products: React.FC<Props> = ({
     sortBy: sortMap[sortBy],
     prodsPerPage: 50,
     cursor: undefined,
+    lang: getLangCode(),
   };
   const { loading: fetching, error, data, fetchMore } = useQuery<
     ProductsQuery,
@@ -138,7 +146,9 @@ const Products: React.FC<Props> = ({
   const [
     fetchCatTree,
     { loading: catTreeFetching, error: catTreeError, data: catTreeData },
-  ] = useLazyQuery<categoryTreeQuery>(CATEGORY_TREE_QUERY);
+  ] = useLazyQuery<categoryTreeQuery>(CATEGORY_TREE_QUERY, {
+    variables: { lang: getLangCode() },
+  });
   const [
     fetchCatSubtree,
     {
@@ -148,7 +158,7 @@ const Products: React.FC<Props> = ({
     },
   ] = useLazyQuery<categorySubtreeQuery, categorySubtreeQueryVariables>(
     CATEGORY_SUBTREE_QUERY,
-    { variables: { categoryId: categoryID as string } },
+    { variables: { lang: getLangCode(), categoryId: categoryID as string } },
   );
 
   // collections filter data
@@ -159,7 +169,9 @@ const Products: React.FC<Props> = ({
       error: collectionsError,
       data: collectionsData,
     },
-  ] = useLazyQuery<collectionsQuery>(COLLECTIONS_QUERY);
+  ] = useLazyQuery<collectionsQuery>(COLLECTIONS_QUERY, {
+    variables: { lang: getLangCode() },
+  });
 
   const {
     state: filterDrawerOpen,
@@ -227,7 +239,7 @@ const Products: React.FC<Props> = ({
   // transform categories tree to match ant Tree component data structure
   const mapCatTree = catChildren =>
     catChildren.edges.map(catEdge => ({
-      title: catEdge.node.name,
+      title: getCategoryName(catEdge.node),
       key: catEdge.node.id,
       children: mapCatTree(catEdge.node.children),
     }));
@@ -235,7 +247,7 @@ const Products: React.FC<Props> = ({
     ? catSubtreeData?.category?.children
     : catTreeData?.categories
   )?.edges.map(catEdge => ({
-    title: catEdge.node.name,
+    title: getCategoryName(catEdge.node),
     key: catEdge.node.id,
     children: mapCatTree(catEdge.node.children),
   }));
@@ -356,7 +368,7 @@ const Products: React.FC<Props> = ({
                       });
                     }}
                   >
-                    {collEdge.node.name}
+                    {getCollectionName(collEdge.node)}
                   </Checkbox>
                 </div>
               ))}
@@ -368,7 +380,7 @@ const Products: React.FC<Props> = ({
             const attr = attrEdge.node;
             return (
               <div key={attr.id}>
-                <label className="attrs-labels">{attr.name}</label>
+                <label className="attrs-labels">{getAttributeName(attr)}</label>
                 <Select
                   id={`attr-select-${attr.slug}`}
                   allowClear
@@ -411,7 +423,7 @@ const Products: React.FC<Props> = ({
                         key={val.id}
                         value={val.slug as string}
                       >
-                        {val.name}
+                        {getAttributeValueName(val)}
                       </Select.Option>
                     );
                   })}

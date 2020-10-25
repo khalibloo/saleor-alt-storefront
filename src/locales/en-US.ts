@@ -81,6 +81,8 @@ export default {
   // cart
   "cart.title": formatTitle("Cart"),
   "cart.heading": "My Cart",
+  "cart.viewOrders": "View Orders",
+  "cart.continueShopping": "Continue Shopping",
   "cart.summary": "Cart Summary",
   "cart.subtotal": "Subtotal",
   "cart.shippingAddress": "Shipping Address",
@@ -175,7 +177,7 @@ export default {
   "who.signup.name.max": "Name is too long",
   "who.signup.pwd.required": "Please enter password",
   "who.signup.pwd.minLength": "Must be 8 characters or more",
-  "who.signup.pwd2": "Confirm password",
+  "who.signup.pwd2": "Confirm Password",
   "who.signup.pwd2.required": "Please confirm password",
   "who.signup.pwd2.match": "Passwords do not match",
   "who.signup.agree": "I agree to the {terms} and {priv}",

@@ -38,7 +38,7 @@ export const CART_PAGE_QUERY = gql`
   ${CHECKOUT_DETAILS_FRAGMENT}
   ${CHECKOUT_LINES_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  query cartQuery {
+  query cartQuery($lang: LanguageCodeEnum!) {
     me {
       id
       addresses {
@@ -56,7 +56,7 @@ export const CART_PAGE_WITH_TOKEN_QUERY = gql`
   ${CHECKOUT_DETAILS_FRAGMENT}
   ${CHECKOUT_LINES_DETAILS_FRAGMENT}
   ${ADDRESS_DETAILS_FRAGMENT}
-  query cartWithTokenQuery($token: UUID!) {
+  query cartWithTokenQuery($token: UUID!, $lang: LanguageCodeEnum!) {
     checkout(token: $token) {
       ...CheckoutDetails
       ...CheckoutLinesDetails

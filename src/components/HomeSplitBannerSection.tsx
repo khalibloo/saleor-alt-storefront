@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Row, Col } from "antd";
 import { useLazyQuery } from "@apollo/client";
 import { useResponsive } from "@umijs/hooks";
-import { getScreenSize } from "@/utils/utils";
+import { getLangCode, getScreenSize } from "@/utils/utils";
 
 import SkeletonDiv from "@/components/SkeletonDiv";
 import { HomeSplitBannerConfig } from ".altrc";
@@ -20,7 +20,9 @@ const HomeSplitBannerSection: React.FC<HomeSplitBannerConfig> = ({
 }) => {
   const [fetchMenu, { loading: fetching, error, data }] = useLazyQuery<
     homeBannerSectionQuery
-  >(HOME_BANNER_SECTION_QUERY, { variables: { menuName } });
+  >(HOME_BANNER_SECTION_QUERY, {
+    variables: { menuName, lang: getLangCode() },
+  });
   const responsive: any = useResponsive();
   const screenSize = getScreenSize(responsive);
   const h = typeof height === "object" ? height[screenSize] : height;

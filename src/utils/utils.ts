@@ -1,5 +1,5 @@
 import config from "@/config";
-import { getIntl } from "umi";
+import { getIntl, getLocale } from "umi";
 import { AddressDetails } from "@/fragments/types/AddressDetails";
 import { AddressInput, CountryCode } from "@/globalTypes";
 
@@ -79,3 +79,23 @@ export const formatPrice = (
   }
   return `${minPriceFormatted} - ${maxPriceFormatted}`;
 };
+
+export const getLangCode = () =>
+  getLocale()
+    .substring(0, 2)
+    .toUpperCase();
+
+export const getProductName = product =>
+  product?.translation?.name || product?.name;
+export const getProductDescriptionJson = product =>
+  product?.translation?.descriptionJson || product?.descriptionJson;
+export const getVariantName = variant =>
+  variant?.translation?.name || variant?.name;
+export const getCategoryName = category =>
+  category?.translation?.name || category?.name;
+export const getCollectionName = collection =>
+  collection?.translation?.name || collection?.name;
+export const getAttributeName = attribute =>
+  attribute?.translation?.name || attribute?.name;
+export const getAttributeValueName = attributeValue =>
+  attributeValue?.translation?.name || attributeValue?.name;

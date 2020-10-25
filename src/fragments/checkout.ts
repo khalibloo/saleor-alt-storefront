@@ -92,10 +92,18 @@ export const CHECKOUT_LINES_DETAILS_FRAGMENT = gql`
           attribute {
             id
             name
+            translation(languageCode: $lang) {
+              id
+              name
+            }
           }
           values {
             id
             name
+            translation(languageCode: $lang) {
+              id
+              name
+            }
           }
         }
         pricing {
@@ -106,17 +114,30 @@ export const CHECKOUT_LINES_DETAILS_FRAGMENT = gql`
             }
           }
         }
+        translation(languageCode: $lang) {
+          id
+          name
+        }
         product {
           id
           name
           category {
             id
             name
+            translation(languageCode: $lang) {
+              id
+              name
+            }
           }
           descriptionJson
           thumbnail {
             url
             alt
+          }
+          translation(languageCode: $lang) {
+            id
+            name
+            descriptionJson
           }
         }
       }
