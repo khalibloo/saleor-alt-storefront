@@ -15,7 +15,7 @@ export default {
   "navbar.logout": "Se Déconnecter",
   "navbar.loginAsk": "Souhaitez-vous vous connecter et prendre un panier?",
   "navbar.continueAsGuest": "Ou continuer en tant qu'invité",
-  "cookies.message":
+  "cookies.notice":
     "Ce site web utilise des cookies. En continuant à utiliser le site Web, vous indiquez que cela vous convient.",
   "cookies.privacyPolicy": "Politique de Confidentialité",
   "cookies.accept": "Accepter les Cookies",
