@@ -13,6 +13,12 @@ export default {
   "navbar.settings": "Settings",
   "navbar.language": "Language",
   "navbar.logout": "Logout",
+  "navbar.loginAsk": "Would you like to log in and grab a cart?",
+  "navbar.continueAsGuest": "Or continue as a Guest",
+  "cookies.message":
+    "This website uses cookies. By continuing to use the website, you indicate that you are fine with this.",
+  "cookies.privacyPolicy": "Privacy Policy",
+  "cookies.accept": "Accept Cookies",
 
   // misc
   "misc.pleaseSelect": "Please Select",

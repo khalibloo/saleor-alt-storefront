@@ -9,6 +9,7 @@ import {
   Modal,
   Badge,
   Button,
+  Space,
 } from "antd";
 import { useIntl, Link, connect, ConnectRC, setLocale } from "umi";
 import {
@@ -21,6 +22,7 @@ import {
   LoginOutlined,
 } from "@ant-design/icons";
 import clx from "classnames";
+import lf from "localforage";
 
 import styles from "./NavBar.less";
 import ProductSearch from "@/components/ProductSearch";
@@ -34,6 +36,8 @@ import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
 import GuestForm from "@/components/GuestForm";
 import VSpacing from "@/components/VSpacing";
 import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
+import { getScreenSize } from "@/utils/utils";
+import config from "@/config";
 
 interface Props {
   authenticated: boolean;
@@ -50,6 +54,11 @@ const NavBar: ConnectRC<Props> = ({
 }) => {
   const intl = useIntl();
   const {
+    state: cookieDrawerOpen,
+    setTrue: openCookieDrawer,
+    setFalse: closeCookieDrawer,
+  } = useBoolean(false);
+  const {
     state: searchDrawerOpen,
     setTrue: openSearchDrawer,
     setFalse: closeSearchDrawer,
@@ -64,7 +73,7 @@ const NavBar: ConnectRC<Props> = ({
     setTrue: openMenuDrawer,
     setFalse: closeMenuDrawer,
   } = useBoolean(false);
-  const responsive = useResponsive();
+  const responsive: any = useResponsive();
   useEffect(() => {
     dispatch?.({ type: "cart/create" });
   }, []);
@@ -77,6 +86,24 @@ const NavBar: ConnectRC<Props> = ({
   useEffect(() => {
     refetch();
   }, [window.location.pathname]);
+  useEffect(() => {
+    if (config.altConfig.showCookieNotice) {
+      lf.getItem("accepted_cookie_notice").then(accepted => {
+        if (!accepted) {
+          openCookieDrawer();
+        }
+      });
+    }
+  }, []);
+  const screenSize = getScreenSize(responsive);
+  const cookieDrawerHeights = {
+    xs: 240,
+    sm: 200,
+    md: 180,
+    lg: 160,
+    xl: 160,
+    xxl: 160,
+  };
 
   const checkout = authenticated ? cartData?.me?.checkout : localCheckout;
 
@@ -183,7 +210,7 @@ const NavBar: ConnectRC<Props> = ({
         visible={guestCartModalOpen}
       >
         <Typography.Title level={4} className="center-text">
-          Would you like to log in and grab a cart?
+          {intl.formatMessage({ id: "navbar.loginAsk" })}
         </Typography.Title>
         <VSpacing height={24} />
         <div className="center-text">
@@ -201,12 +228,56 @@ const NavBar: ConnectRC<Props> = ({
         </div>
         <VSpacing height={24} />
         <Typography.Title level={4} className="center-text">
-          Or continue as a Guest
+          {intl.formatMessage({ id: "navbar.continueAsGuest" })}
         </Typography.Title>
         <div className="center-text">
           <GuestForm />
         </div>
       </Modal>
+      <Drawer
+        closable={false}
+        destroyOnClose
+        height={cookieDrawerHeights[screenSize]}
+        mask={false}
+        onClose={closeCookieDrawer}
+        placement="bottom"
+        visible={cookieDrawerOpen}
+      >
+        <Row justify="space-around" align="middle" className="full-height">
+          <Col span={16} xs={22} sm={22} md={20} lg={16}>
+            <Typography.Paragraph
+              className="center-text"
+              style={{ fontSize: "1.2rem" }}
+            >
+              {intl.formatMessage({ id: "cookies.notice" })}
+            </Typography.Paragraph>
+            <Row justify="center">
+              <Col>
+                <Space>
+                  <Link to="/pages/privacy">
+                    <Button size="large">
+                      {intl.formatMessage({ id: "cookies.privacyPolicy" })}
+                    </Button>
+                  </Link>
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      lf.setItem("accepted_cookie_notice", true).then(value => {
+                        if (value) {
+                          closeCookieDrawer();
+                        }
+                      });
+                    }}
+                  >
+                    {intl.formatMessage({ id: "cookies.accept" })}
+                  </Button>
+                </Space>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Drawer>
       <Drawer
         visible={searchDrawerOpen}
         onClose={closeSearchDrawer}

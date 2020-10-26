@@ -112,6 +112,7 @@ interface AltConfig {
   name: String;
   // allow users to checkout without logging in?
   allowAnonCheckout: boolean;
+  showCookieNotice: boolean;
   paymentGateways: {
     id: String;
     onPay: (
@@ -135,6 +136,7 @@ interface AltConfig {
 const altConfig: AltConfig = {
   name: SITE_NAME,
   allowAnonCheckout: true,
+  showCookieNotice: true,
   homeLayout: [
     {
       type: "banner",
