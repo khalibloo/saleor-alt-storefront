@@ -111,6 +111,7 @@ export interface HomeVSpacingConfig {
 interface AltConfig {
   name: String;
   // allow users to checkout without logging in?
+  showSearch: boolean;
   allowAnonCheckout: boolean;
   showCookieNotice: boolean;
   paymentGateways: {
@@ -135,6 +136,7 @@ interface AltConfig {
 
 const altConfig: AltConfig = {
   name: SITE_NAME,
+  showSearch: true,
   allowAnonCheckout: true,
   showCookieNotice: true,
   homeLayout: [

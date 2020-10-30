@@ -34,6 +34,7 @@ import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
 import GuestForm from "@/components/GuestForm";
 import VSpacing from "@/components/VSpacing";
 import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
+import config from "@/config";
 
 interface Props {
   authenticated: boolean;
@@ -332,7 +333,7 @@ const NavBar: ConnectRC<Props> = ({
           lg={8}
           className="line-height-normal"
         >
-          <ProductSearch />
+          {config.altConfig.showSearch && <ProductSearch />}
         </Col>
         <Col className="full-height">
           <Menu
@@ -340,14 +341,16 @@ const NavBar: ConnectRC<Props> = ({
             className={clx("no-bg no-border full-height")}
             selectedKeys={[]}
           >
-            <Menu.Item
-              key="search"
-              className={clx("full-height", styles.navrightItem)}
-              hidden={responsive.lg}
-              onClick={openSearchDrawer}
-            >
-              <SearchOutlined className={styles.navrightIcon} />
-            </Menu.Item>
+            {config.altConfig.showSearch && (
+              <Menu.Item
+                key="search"
+                className={clx("full-height", styles.navrightItem)}
+                hidden={responsive.lg}
+                onClick={openSearchDrawer}
+              >
+                <SearchOutlined className={styles.navrightIcon} />
+              </Menu.Item>
+            )}
             <Menu.Item
               key="lang"
               className={clx("no-padding full-height", styles.navrightItem)}
