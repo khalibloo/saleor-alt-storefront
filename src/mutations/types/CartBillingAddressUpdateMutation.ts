@@ -268,6 +268,9 @@ export interface CartBillingAddressUpdateMutation_checkoutBillingAddressUpdate_c
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * Email of a customer.

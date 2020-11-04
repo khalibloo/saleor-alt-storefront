@@ -268,6 +268,9 @@ export interface CartLineDeleteMutation_checkoutLineDelete_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * Email of a customer.

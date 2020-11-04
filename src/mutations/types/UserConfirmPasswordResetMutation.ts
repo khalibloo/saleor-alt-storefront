@@ -55,10 +55,10 @@ export interface UserConfirmPasswordResetMutation_setPassword_user {
 
 export interface UserConfirmPasswordResetMutation_setPassword {
   __typename: "SetPassword";
-  /**
-   * List of errors that occurred executing the mutation.
-   */
   accountErrors: UserConfirmPasswordResetMutation_setPassword_accountErrors[];
+  /**
+   * JWT token, required to authenticate.
+   */
   token: string | null;
   /**
    * A user instance.

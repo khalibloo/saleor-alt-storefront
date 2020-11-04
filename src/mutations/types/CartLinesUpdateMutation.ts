@@ -268,6 +268,9 @@ export interface CartLinesUpdateMutation_checkoutLinesUpdate_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * Email of a customer.

@@ -3,9 +3,27 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { AccountErrorCode } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL mutation operation: TokenVerifyMutation
 // ====================================================
+
+export interface TokenVerifyMutation_tokenVerify_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
 
 export interface TokenVerifyMutation_tokenVerify_user_metadata {
   __typename: "MetadataItem";
@@ -37,13 +55,24 @@ export interface TokenVerifyMutation_tokenVerify_user {
 
 export interface TokenVerifyMutation_tokenVerify {
   __typename: "VerifyToken";
+  /**
+   * Determine if token is valid or not.
+   */
+  isValid: boolean;
+  /**
+   * JWT payload.
+   */
   payload: any | null;
+  accountErrors: TokenVerifyMutation_tokenVerify_accountErrors[];
+  /**
+   * User assigned to token.
+   */
   user: TokenVerifyMutation_tokenVerify_user | null;
 }
 
 export interface TokenVerifyMutation {
   /**
-   * Mutation that confirms if token is valid and also returns user data.
+   * Verify JWT token.
    */
   tokenVerify: TokenVerifyMutation_tokenVerify | null;
 }

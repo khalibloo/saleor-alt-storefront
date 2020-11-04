@@ -518,6 +518,15 @@ export interface productDetailQuery_product_translation {
   seoDescription: string | null;
 }
 
+export interface productDetailQuery_product_attributes_attribute_translation {
+  __typename: "AttributeTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface productDetailQuery_product_attributes_attribute {
   __typename: "Attribute";
   /**
@@ -528,6 +537,19 @@ export interface productDetailQuery_product_attributes_attribute {
    * Name of an attribute displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute fields for the given language code.
+   */
+  translation: productDetailQuery_product_attributes_attribute_translation | null;
+}
+
+export interface productDetailQuery_product_attributes_values_translation {
+  __typename: "AttributeValueTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
 }
 
 export interface productDetailQuery_product_attributes_values {
@@ -540,6 +562,10 @@ export interface productDetailQuery_product_attributes_values {
    * Name of a value displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute value fields for the given language code.
+   */
+  translation: productDetailQuery_product_attributes_values_translation | null;
 }
 
 export interface productDetailQuery_product_attributes {
@@ -595,6 +621,15 @@ export interface productDetailQuery_product_variants_pricing {
   price: productDetailQuery_product_variants_pricing_price | null;
 }
 
+export interface productDetailQuery_product_variants_attributes_values_translation {
+  __typename: "AttributeValueTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface productDetailQuery_product_variants_attributes_values {
   __typename: "AttributeValue";
   /**
@@ -605,6 +640,28 @@ export interface productDetailQuery_product_variants_attributes_values {
    * Name of a value displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute value fields for the given language code.
+   */
+  translation: productDetailQuery_product_variants_attributes_values_translation | null;
+}
+
+export interface productDetailQuery_product_variants_attributes_attribute_translation {
+  __typename: "AttributeTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
+export interface productDetailQuery_product_variants_attributes_attribute_values_translation {
+  __typename: "AttributeValueTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
 }
 
 export interface productDetailQuery_product_variants_attributes_attribute_values {
@@ -617,6 +674,10 @@ export interface productDetailQuery_product_variants_attributes_attribute_values
    * Name of a value displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute value fields for the given language code.
+   */
+  translation: productDetailQuery_product_variants_attributes_attribute_values_translation | null;
 }
 
 export interface productDetailQuery_product_variants_attributes_attribute {
@@ -629,6 +690,10 @@ export interface productDetailQuery_product_variants_attributes_attribute {
    * Name of an attribute displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute fields for the given language code.
+   */
+  translation: productDetailQuery_product_variants_attributes_attribute_translation | null;
   /**
    * List of attribute's values.
    */
