@@ -239,6 +239,10 @@ export interface ordersQuery_me_orders_edges_node_invoices {
    * URL to download an invoice.
    */
   url: string | null;
+  /**
+   * Created date time of job in ISO 8601 format.
+   */
+  createdAt: any;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_unitPrice_gross {

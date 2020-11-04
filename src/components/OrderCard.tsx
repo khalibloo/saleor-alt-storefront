@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { formatPrice } from "@/utils/utils";
 import VariantListItem from "@/components/VariantListItem";
 import { ordersQuery_me_orders_edges_node } from "@/queries/types/ordersQuery";
-import { MoreOutlined } from "@ant-design/icons";
 
 interface Props {
   order: ordersQuery_me_orders_edges_node;

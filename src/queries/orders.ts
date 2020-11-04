@@ -69,6 +69,7 @@ export const ORDERS_PAGE_QUERY = gql`
               id
               status
               url
+              createdAt
             }
             lines {
               id
