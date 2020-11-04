@@ -182,6 +182,8 @@ const AuthModel: AuthModelType = {
           localStorage.removeItem("rememberme");
         }
         const storage = remember ? localStorage : sessionStorage;
+        localStorage.removeItem("csrfToken");
+        sessionStorage.removeItem("csrfToken");
         storage.setItem(
           "csrfToken",
           response.data.tokenCreate?.csrfToken as string,
