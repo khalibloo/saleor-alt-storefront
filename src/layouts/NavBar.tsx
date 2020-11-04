@@ -76,7 +76,7 @@ const NavBar: ConnectRC<Props> = ({
     if (authenticated) {
       fetchCartBadge();
     }
-  }, [window.location.pathname]);
+  }, [window.location.pathname, authenticated]);
 
   const checkout = authenticated ? cartData?.me?.checkout : localCheckout;
 
