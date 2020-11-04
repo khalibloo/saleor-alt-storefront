@@ -133,6 +133,16 @@ export const client: ApolloClient<any> = new ApolloClient({
       handleResponse: (operation, accessTokenField) => response => {
         // here you can parse response, handle errors, prepare returned token to
         // further operations
+        const errors = response.data.tokenRefresh.accountErrors;
+        if (errors.length > 0) {
+          const invalidCsrfToken = errors.find(
+            e => e.code === "JWT_INVALID_CSRF_TOKEN",
+          );
+          if (invalidCsrfToken) {
+            localStorage.removeItem("csrfToken");
+            sessionStorage.removeItem("csrfToken");
+          }
+        }
         // returned object should be like this:
         // { access_token: 'token string here' }
         return { access_token: response.data.tokenRefresh.token };
