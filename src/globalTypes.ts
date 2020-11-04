@@ -336,6 +336,16 @@ export enum CountryCode {
 /**
  * An enumeration.
  */
+export enum JobStatusEnum {
+  DELETED = "DELETED",
+  FAILED = "FAILED",
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+}
+
+/**
+ * An enumeration.
+ */
 export enum LanguageCodeEnum {
   AR = "AR",
   AZ = "AZ",
@@ -360,6 +370,7 @@ export enum LanguageCodeEnum {
   IS = "IS",
   IT = "IT",
   JA = "JA",
+  KA = "KA",
   KM = "KM",
   KO = "KO",
   LT = "LT",

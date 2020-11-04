@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { LanguageCodeEnum, OrderStatus } from "./../../globalTypes";
+import { LanguageCodeEnum, OrderStatus, JobStatusEnum } from "./../../globalTypes";
 
 // ====================================================
 // GraphQL query operation: ordersQuery
@@ -223,6 +223,22 @@ export interface ordersQuery_me_orders_edges_node_fulfillments {
    * List of lines for the fulfillment.
    */
   lines: (ordersQuery_me_orders_edges_node_fulfillments_lines | null)[] | null;
+}
+
+export interface ordersQuery_me_orders_edges_node_invoices {
+  __typename: "Invoice";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Job status.
+   */
+  status: JobStatusEnum;
+  /**
+   * URL to download an invoice.
+   */
+  url: string | null;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_unitPrice_gross {
@@ -483,6 +499,10 @@ export interface ordersQuery_me_orders_edges_node {
    * List of shipments for the order.
    */
   fulfillments: (ordersQuery_me_orders_edges_node_fulfillments | null)[];
+  /**
+   * List of order invoices.
+   */
+  invoices: (ordersQuery_me_orders_edges_node_invoices | null)[] | null;
   /**
    * List of order lines.
    */

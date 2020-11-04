@@ -65,6 +65,11 @@ export const ORDERS_PAGE_QUERY = gql`
                 }
               }
             }
+            invoices {
+              id
+              status
+              url
+            }
             lines {
               id
               isShippingRequired
