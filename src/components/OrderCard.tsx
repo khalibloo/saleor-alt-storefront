@@ -65,7 +65,7 @@ const OrderCard: React.FC<Props> = ({ order }) => {
               </Typography.Text>
             </div>
             {invoice && invoice.status === "SUCCESS" && (
-              <div style={{ marginTop: 8 }}>
+              <div className="mt-2">
                 <a href={invoice.url} target="_blank" rel="noreferrer noopener">
                   <Button size="small">
                     {intl.formatMessage({

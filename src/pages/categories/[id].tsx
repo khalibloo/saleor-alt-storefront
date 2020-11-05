@@ -5,7 +5,12 @@ import { useParams } from "umi";
 
 import VSpacing from "@/components/VSpacing";
 
-import { formatTitle, getCategoryName, getLangCode } from "@/utils/utils";
+import {
+  formatTitle,
+  getCategoryName,
+  getCategorySeoDesc,
+  getLangCode,
+} from "@/utils/utils";
 import { useQuery } from "@apollo/client";
 import {
   categoryDetailQuery,
@@ -31,7 +36,10 @@ const CategoryDetailPage: React.FC = () => {
       {data?.category?.name && (
         <Helmet>
           <title>{formatTitle(getCategoryName(data.category))}</title>
-          <meta name="description" content={getCategoryName(data.category)} />
+          <meta
+            name="description"
+            content={getCategorySeoDesc(data.category)}
+          />
         </Helmet>
       )}
       <div className="overflow-hidden relative" style={{ height: 300 }}>

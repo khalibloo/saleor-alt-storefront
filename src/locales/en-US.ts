@@ -78,6 +78,7 @@ export default {
   "search.sort.price.hightolow": "Price (High to Low)",
   "search.sort.newest": "Newest Arrivals",
   "search.filters": "Filters",
+  "search.filters.priceRange": "Price Range",
 
   // products
   // detail

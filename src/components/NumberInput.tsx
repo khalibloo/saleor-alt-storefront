@@ -40,12 +40,7 @@ const NumberInput: React.FC<Props> = props => {
     }
   };
   return (
-    <Input.Group
-      className="w-full"
-      compact
-      style={{ display: "flex" }}
-      size={groupSize}
-    >
+    <Input.Group className="w-full flex" compact size={groupSize}>
       <Button
         {...decrementBtnProps}
         disabled={disabled || value === min}
@@ -55,7 +50,8 @@ const NumberInput: React.FC<Props> = props => {
           }
           decrementBtnProps?.onClick?.(e);
         }}
-        style={{ ...(decrementBtnProps?.style || {}), alignItems: "center" }}
+        className="items-center"
+        style={{ ...(decrementBtnProps?.style || {}) }}
       >
         <MinusOutlined />
       </Button>
@@ -85,7 +81,8 @@ const NumberInput: React.FC<Props> = props => {
           }
           incrementBtnProps?.onClick?.(e);
         }}
-        style={{ ...(incrementBtnProps?.style || {}), alignItems: "center" }}
+        className="items-center"
+        style={{ ...(incrementBtnProps?.style || {}) }}
       >
         <PlusOutlined />
       </Button>

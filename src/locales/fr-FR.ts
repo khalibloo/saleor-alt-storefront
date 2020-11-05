@@ -80,6 +80,7 @@ export default {
   "search.sort.price.hightolow": "Prix (Décroissant)",
   "search.sort.newest": "Nouveautés",
   "search.filters": "Filtres",
+  "search.filters.priceRange": "Échelle des Prix",
 
   // products
   // detail

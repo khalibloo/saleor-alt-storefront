@@ -280,7 +280,9 @@ const Products: React.FC<Props> = ({
             style={{ height: 32 }}
           >
             <div>
-              <label>Price Range</label>
+              <label>
+                {intl.formatMessage({ id: "search.filters.priceRange" })}
+              </label>
               <Slider
                 id="filters-price-sldr"
                 range

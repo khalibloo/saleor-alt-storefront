@@ -251,8 +251,9 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   const priceLabel = (
     <SkeletonDiv
       active
+      className="m-auto"
       loading={fetching}
-      style={{ height: 21, width: "30%", margin: "auto" }}
+      style={{ height: 21, width: "30%" }}
     >
       <Typography.Title id="price-lbl" className="text-center" level={3}>
         {formatPrice(currency, minPrice, maxPrice)}
@@ -361,9 +362,9 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                     )}
                   <div
                     id="thumbs-container"
+                    className="overflow-y-auto"
                     style={{
                       height: imgSize.height ? imgSize.height - 80 : undefined,
-                      overflowY: "auto",
                     }}
                   >
                     <div ref={thumbsColRef}>
@@ -561,13 +562,9 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
           <Row justify="center">
             <SkeletonDiv
               active
+              className="w-1/2 m-auto mb-4"
               loading={fetching}
-              style={{
-                height: 21,
-                width: "50%",
-                margin: "auto",
-                marginBottom: 16,
-              }}
+              style={{ height: 21 }}
             >
               <Typography.Title level={1} id="product-suggestions-title">
                 {intl.formatMessage({ id: "products.detail.suggestions" })}

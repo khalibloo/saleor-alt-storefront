@@ -93,8 +93,16 @@ export const getVariantName = variant =>
   variant?.translation?.name || variant?.name;
 export const getCategoryName = category =>
   category?.translation?.name || category?.name;
+export const getCategorySeoDesc = category =>
+  category?.translation?.seoDescription ||
+  category?.seoDescription ||
+  getCategoryName(category);
 export const getCollectionName = collection =>
   collection?.translation?.name || collection?.name;
+export const getCollectionSeoDesc = collection =>
+  collection?.translation?.seoDescription ||
+  collection?.seoDescription ||
+  getCollectionName(collection);
 export const getAttributeName = attribute =>
   attribute?.translation?.name || attribute?.name;
 export const getAttributeValueName = attributeValue =>
