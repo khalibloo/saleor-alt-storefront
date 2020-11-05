@@ -280,6 +280,9 @@ export interface CartPaymentCreateMutation_checkoutPaymentCreate_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * Email of a customer.

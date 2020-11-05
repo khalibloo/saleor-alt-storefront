@@ -27,7 +27,7 @@ import ProductSearch from "@/components/ProductSearch";
 import { useResponsive, useBoolean } from "@umijs/hooks";
 import { ConnectState } from "@/models/connect";
 import AuthTabs from "@/components/AuthTabs";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { CART_BADGE_QUERY } from "@/queries/cart";
 import { cartBadgeQuery } from "@/queries/types/cartBadgeQuery";
 import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
@@ -68,15 +68,15 @@ const NavBar: ConnectRC<Props> = ({
   useEffect(() => {
     dispatch?.({ type: "cart/create" });
   }, []);
-  const {
-    loading: fetching,
-    data: cartData,
-    error: cartError,
-    refetch,
-  } = useQuery<cartBadgeQuery>(CART_BADGE_QUERY);
+  const [
+    fetchCartBadge,
+    { loading: fetching, data: cartData, error: cartError },
+  ] = useLazyQuery<cartBadgeQuery>(CART_BADGE_QUERY);
   useEffect(() => {
-    refetch();
-  }, [window.location.pathname]);
+    if (authenticated) {
+      fetchCartBadge();
+    }
+  }, [window.location.pathname, authenticated]);
 
   const checkout = authenticated ? cartData?.me?.checkout : localCheckout;
 

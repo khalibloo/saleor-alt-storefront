@@ -148,6 +148,8 @@ export default {
   "orders.status.partially_fulfilled": "Partiellement Livré",
   "orders.status.fulfilled": "Livré",
   "orders.status.canceled": "Annulé",
+  "orders.invoice": "Facture d'Achat",
+  "orders.invoice.download": "Télécharger la Facture",
 
   // profile
   "settings.title": formatTitle("Paramètres du Compte"),

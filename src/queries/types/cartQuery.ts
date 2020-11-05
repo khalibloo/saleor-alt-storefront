@@ -292,6 +292,15 @@ export interface cartQuery_me_checkout_lines_variant_images {
   alt: string;
 }
 
+export interface cartQuery_me_checkout_lines_variant_attributes_attribute_translation {
+  __typename: "AttributeTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface cartQuery_me_checkout_lines_variant_attributes_attribute {
   __typename: "Attribute";
   /**
@@ -302,6 +311,19 @@ export interface cartQuery_me_checkout_lines_variant_attributes_attribute {
    * Name of an attribute displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute fields for the given language code.
+   */
+  translation: cartQuery_me_checkout_lines_variant_attributes_attribute_translation | null;
+}
+
+export interface cartQuery_me_checkout_lines_variant_attributes_values_translation {
+  __typename: "AttributeValueTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
 }
 
 export interface cartQuery_me_checkout_lines_variant_attributes_values {
@@ -314,6 +336,10 @@ export interface cartQuery_me_checkout_lines_variant_attributes_values {
    * Name of a value displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute value fields for the given language code.
+   */
+  translation: cartQuery_me_checkout_lines_variant_attributes_values_translation | null;
 }
 
 export interface cartQuery_me_checkout_lines_variant_attributes {
@@ -499,6 +525,9 @@ export interface cartQuery_me_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * Email of a customer.

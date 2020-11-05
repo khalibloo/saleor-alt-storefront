@@ -145,6 +145,8 @@ export default {
   "orders.status.partially_fulfilled": "Partly Delivered",
   "orders.status.fulfilled": "Delivered",
   "orders.status.canceled": "Canceled",
+  "orders.invoice": "Invoice",
+  "orders.invoice.download": "Download Invoice",
 
   // profile
   "settings.title": formatTitle("Account Settings"),

@@ -134,6 +134,9 @@ export interface CartCreateMutation_checkoutCreate_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   shippingMethod: CartCreateMutation_checkoutCreate_checkout_shippingMethod | null;
   /**
