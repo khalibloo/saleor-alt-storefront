@@ -32,6 +32,7 @@ import ResetPasswordRequestForm from "@/components/ResetPasswordRequestForm";
 import GuestForm from "@/components/GuestForm";
 import VSpacing from "@/components/VSpacing";
 import { CartCreateMutation_checkoutCreate_checkout } from "@/mutations/types/CartCreateMutation";
+import config from "@/config";
 
 interface Props {
   authenticated: boolean;
@@ -330,7 +331,7 @@ const NavBar: ConnectRC<Props> = ({
           lg={8}
           style={{ lineHeight: "normal" }}
         >
-          <ProductSearch />
+          {config.altConfig.showSearch && <ProductSearch />}
         </Col>
         <Col className="h-full">
           <Menu
@@ -338,14 +339,16 @@ const NavBar: ConnectRC<Props> = ({
             className="bg-transparent border-none h-full"
             selectedKeys={[]}
           >
-            <Menu.Item
-              key="search"
-              className="h-full align-top"
-              hidden={responsive.lg}
-              onClick={openSearchDrawer}
-            >
-              <SearchOutlined className="mr-0 text-2xl" />
-            </Menu.Item>
+            {config.altConfig.showSearch && (
+              <Menu.Item
+                key="search"
+                className="h-full align-top"
+                hidden={responsive.lg}
+                onClick={openSearchDrawer}
+              >
+                <SearchOutlined className="mr-0 text-2xl" />
+              </Menu.Item>
+            )}
             <Menu.Item
               key="lang"
               className="p-0 h-full align-top"
