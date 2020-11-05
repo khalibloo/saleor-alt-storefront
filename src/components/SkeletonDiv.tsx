@@ -15,7 +15,7 @@ const SkeletonDiv: React.FC<Props> = props => {
   return (
     <div
       className={clx(
-        "full-height full-width",
+        "w-full h-full",
         styles.skeleton,
         { [styles.active]: active },
         className,

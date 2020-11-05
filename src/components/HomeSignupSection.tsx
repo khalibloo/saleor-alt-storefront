@@ -45,10 +45,10 @@ const HomeSignupSection: React.FC<Props> = ({
   }
   return (
     <Row className="signup-container" justify="center">
-      <Col className="center-text">
+      <Col className="text-center">
         <VSpacing height={32} />
         <div>
-          <Typography.Text className="center-text" style={{ fontSize: 24 }}>
+          <Typography.Text className="text-center text-2xl">
             {message || "Create Your Account Today"}
           </Typography.Text>
         </div>

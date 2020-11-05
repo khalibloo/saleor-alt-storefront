@@ -19,7 +19,7 @@ const OrdersPage = () => {
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {intl.formatMessage({ id: "orders.heading" })}
           </Typography.Title>
           <Row justify="center">
@@ -31,7 +31,7 @@ const OrdersPage = () => {
                   const order = orderEdge.node;
                   return (
                     <List.Item className="order-list-items" key={order.id}>
-                      <div className="full-width">
+                      <div className="w-full">
                         <OrderCard order={order} />
                         <VSpacing height={24} />
                       </div>

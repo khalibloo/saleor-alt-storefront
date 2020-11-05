@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "umi";
+import { Link, useIntl } from "umi";
 import { Card, Typography, Row, Col } from "antd";
 import AspectRatio from "./AspectRatio";
 import { formatPrice, getProductName } from "@/utils/utils";
@@ -9,6 +9,7 @@ interface Props {
   qty?: number;
 }
 const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
+  const intl = useIntl();
   const thumbnail = variant.images[0]
     ? variant.images[0]
     : variant.product?.thumbnail;
@@ -21,7 +22,7 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
           <Link to={`/products/${variant.product.id}`}>
             <AspectRatio width={1} height={1}>
               <img
-                className="full-width"
+                className="w-full"
                 alt={thumbnail?.alt}
                 src={thumbnail?.url}
                 loading="lazy"
@@ -40,7 +41,9 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
           </Typography.Title>
           {qty !== undefined && (
             <div>
-              <Typography.Text>Qty: {qty}</Typography.Text>
+              <Typography.Text>
+                {intl.formatMessage({ id: "misc.qty" })}: {qty}
+              </Typography.Text>
             </div>
           )}
         </Col>

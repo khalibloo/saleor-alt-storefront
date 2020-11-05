@@ -64,10 +64,10 @@ const VoucherCodeForm: ConnectRC<Props> = ({
       hideRequiredMark
       onFinish={onFinish}
     >
-      <Row style={{ flexWrap: "nowrap" }}>
+      <Row className="flex-no-wrap">
         <Col flex="auto">
           <Form.Item
-            className="no-margin"
+            className="m-0"
             name="code"
             rules={[
               {
@@ -85,7 +85,7 @@ const VoucherCodeForm: ConnectRC<Props> = ({
           </Form.Item>
         </Col>
         <Col>
-          <Form.Item className="no-margin">
+          <Form.Item className="m-0">
             <Button
               block
               type="primary"

@@ -53,11 +53,11 @@ const AddressSelector: React.FC<Props> = ({
   }
   return (
     <Select
-      className="full-width"
+      className="w-full"
       dropdownRender={menu => (
         <div ref={setContainer}>
           {menu}
-          <Menu.Divider style={{ margin: "4px 0" }} />
+          <Menu.Divider className="my-1" />
           <Affix offsetBottom={0} offsetTop={0} target={() => container}>
             <Row justify="center">
               <AddOrEditAddress

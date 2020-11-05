@@ -29,13 +29,13 @@ const SearchPage = () => {
       <VSpacing height={24} />
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {intl.formatMessage({ id: "search.heading" })}
           </Typography.Title>
           {query && (
             <Typography.Title
               id="page-subheading"
-              className="center-text"
+              className="text-center"
               level={3}
             >
               <i>"{query}"</i>

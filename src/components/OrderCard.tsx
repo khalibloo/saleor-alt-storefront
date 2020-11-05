@@ -65,7 +65,7 @@ const OrderCard: React.FC<Props> = ({ order }) => {
               </Typography.Text>
             </div>
             {invoice && invoice.status === "SUCCESS" && (
-              <div style={{ marginTop: 8 }}>
+              <div className="mt-2">
                 <a href={invoice.url} target="_blank" rel="noreferrer noopener">
                   <Button size="small">
                     {intl.formatMessage({
@@ -85,7 +85,7 @@ const OrderCard: React.FC<Props> = ({ order }) => {
         renderItem={line => {
           return (
             <List.Item className="product-list-items" key={line?.id}>
-              <div className="full-width">
+              <div className="w-full">
                 <VariantListItem variant={line?.variant} qty={line?.quantity} />
               </div>
             </List.Item>

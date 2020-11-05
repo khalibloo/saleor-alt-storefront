@@ -383,7 +383,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
         <Col span={16}>
           <Select
             id="shipping-method-select"
-            className="full-width"
+            className="w-full"
             disabled={
               shippingAddress === null && availableShippingMethods?.length === 0
             }
@@ -495,7 +495,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
         <Col span={16}>
           <Select
             id="payment-method-select"
-            className="full-width"
+            className="w-full"
             placeholder={intl.formatMessage({
               id: "misc.pleaseSelect",
             })}
@@ -580,7 +580,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
     </>
   );
   return (
-    <div className="vflex flex-grow-1">
+    <div className="flex flex-col flex-grow">
       <VSpacing height={24} />
       <Modal
         onCancel={() => history.push("/")}
@@ -601,9 +601,9 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
       >
         <Result status="success" title="Thank You For Shopping With Us" />
       </Modal>
-      <Row justify="center" className="flex-grow-1">
+      <Row justify="center" className="flex-grow">
         <Col span={22}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {intl.formatMessage({ id: "cart.heading" })}
           </Typography.Title>
           <Row gutter={24} justify="center">
@@ -618,7 +618,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                   const qtyAvailable = item?.variant.quantityAvailable || 0;
                   return (
                     <List.Item className="product-list-items" key={item?.id}>
-                      <div className="full-width">
+                      <div className="w-full">
                         <Card>
                           <Row gutter={24}>
                             <Col
@@ -635,7 +635,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                               >
                                 <AspectRatio width={1} height={1}>
                                   <img
-                                    className="full-width"
+                                    className="w-full"
                                     alt={
                                       item?.variant.images?.[0]?.alt ||
                                       (item?.variant.product?.thumbnail
@@ -748,7 +748,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
             <Col span={8} xs={0} sm={0} md={0} lg={8} xl={8} xxl={8}>
               <Card
                 id="summary-card"
-                className="shadow"
+                className="shadow-md"
                 bordered={false}
                 title={intl.formatMessage({ id: "cart.summary" })}
               >

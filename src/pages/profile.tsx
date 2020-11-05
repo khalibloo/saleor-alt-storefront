@@ -59,7 +59,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
       </Modal>
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {intl.formatMessage({ id: "profile.heading" })}
           </Typography.Title>
           <Row justify="center">
@@ -122,7 +122,7 @@ const ProfilePage: React.FC<Props> = ({ loading }) => {
                               style: { height: 120 },
                             }}
                           >
-                            <PlusOutlined style={{ fontSize: 36 }} />
+                            <PlusOutlined className="text-4xl" />
                           </AddOrEditAddress>
                         </List.Item>
                       );

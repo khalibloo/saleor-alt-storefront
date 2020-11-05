@@ -64,14 +64,14 @@ const HomeBannerSection: React.FC<HomeBannerConfig> = ({
       <Col
         span={24}
         md={fullWidth ? 24 : 20}
-        className="mask relative"
+        className="overflow-hidden relative"
         style={{ height: h || 500 }}
       >
         <SkeletonDiv active loading={fetching}>
           {items?.length === 1 ? (
             <HomeBannerItem {...items[0]} />
           ) : (
-            <Carousel autoplay className="full-height">
+            <Carousel autoplay className="w-full">
               {items?.map(item => (
                 <div key={item.id}>
                   <div style={{ height: h }}>

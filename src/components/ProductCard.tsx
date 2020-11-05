@@ -72,7 +72,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
         <AspectRatio width={1} height={1}>
           <SkeletonDiv active loading={loading}>
             <img
-              className="full-width"
+              className="w-full"
               alt={product?.thumbnail?.alt as string}
               src={product?.thumbnail?.url}
               loading="lazy"
@@ -116,11 +116,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
       >
         {isOnSale && (
           <span>
-            <Typography.Text
-              className="strike-text"
-              type="secondary"
-              style={{ fontSize: 12 }}
-            >
+            <Typography.Text className="text-xs line-through" type="secondary">
               {formatPrice(
                 currency,
                 minUndiscountedPrice,
