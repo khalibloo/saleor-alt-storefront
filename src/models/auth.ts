@@ -542,6 +542,7 @@ const AuthModel: AuthModelType = {
     },
     *logout({ payload }, { call, put }) {
       yield put({ type: "clear" });
+      memstore.clear();
       localStorage.removeItem("csrfToken");
       sessionStorage.removeItem("csrfToken");
       localStorage.removeItem("rememberme");
