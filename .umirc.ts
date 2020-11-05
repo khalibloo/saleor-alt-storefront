@@ -22,6 +22,7 @@ export default defineConfig({
     hmr: true,
   },
   dynamicImport: { loading: "@/components/Loader" },
+  extraPostCSSPlugins: [require("tailwindcss")],
   hash: true,
   locale: {
     default: "en-US",
