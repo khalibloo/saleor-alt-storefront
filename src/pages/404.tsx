@@ -8,7 +8,7 @@ const NotFoundPage = () => {
   return (
     <div>
       <VSpacing height={24} />
-      <Row justify="center" align="middle" className="full-heighst">
+      <Row justify="center" align="middle" className="h-full">
         <Col span={22} md={20} xl={18}>
           <Result
             status="404"

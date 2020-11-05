@@ -3,9 +3,27 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { AccountErrorCode } from "./../../globalTypes";
+
 // ====================================================
 // GraphQL mutation operation: TokenCreateMutation
 // ====================================================
+
+export interface TokenCreateMutation_tokenCreate_accountErrors {
+  __typename: "AccountError";
+  /**
+   * The error code.
+   */
+  code: AccountErrorCode;
+  /**
+   * Name of a field that caused the error. A value of `null` indicates that the error isn't associated with a particular field.
+   */
+  field: string | null;
+  /**
+   * The error message.
+   */
+  message: string | null;
+}
 
 export interface TokenCreateMutation_tokenCreate_user_metadata {
   __typename: "MetadataItem";
@@ -37,7 +55,19 @@ export interface TokenCreateMutation_tokenCreate_user {
 
 export interface TokenCreateMutation_tokenCreate {
   __typename: "CreateToken";
+  /**
+   * JWT token, required to authenticate.
+   */
   token: string | null;
+  /**
+   * JWT refresh token, required to re-generate access token.
+   */
+  refreshToken: string | null;
+  /**
+   * CSRF token required to re-generate access token.
+   */
+  csrfToken: string | null;
+  accountErrors: TokenCreateMutation_tokenCreate_accountErrors[];
   /**
    * A user instance.
    */
@@ -46,11 +76,7 @@ export interface TokenCreateMutation_tokenCreate {
 
 export interface TokenCreateMutation {
   /**
-   * Mutation that authenticates a user and returns token and user data.
-   * 
-   * It overrides the default graphql_jwt.ObtainJSONWebToken to wrap potential
-   * authentication errors in our Error type, which is consistent to how the rest of
-   * the mutation works.
+   * Create JWT token.
    */
   tokenCreate: TokenCreateMutation_tokenCreate | null;
 }

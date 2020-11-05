@@ -14,6 +14,7 @@ import { createUploadLink } from "apollo-upload-client";
 import config from "./config";
 import logger from "./utils/logger";
 import dayjs from "dayjs";
+import memstore from "./memstore";
 
 export interface APIError {
   field: string | null;
@@ -27,24 +28,14 @@ export class APIException {
   }
 }
 
-interface JWTData {
-  email: string;
-  exp: number;
-  origIat: number;
-  user_id: string;
-  is_staff: boolean;
-  is_superuser: boolean;
-}
-
 const storage = () =>
   localStorage.getItem("rememberme") ? localStorage : sessionStorage;
 // Apollo client
 const request = operation => {
-  const token = storage().getItem("jwt");
+  const token = memstore.get("jwt");
+  const authHeader = token ? { Authorization: `JWT ${token}` } : {};
   operation.setContext({
-    headers: {
-      authorization: token ? `JWT ${token}` : "",
-    },
+    headers: { ...authHeader },
   });
 };
 
@@ -81,19 +72,16 @@ const retryLink = new RetryLink({
   },
 });
 
-const getToken = () => storage().getItem("jwt");
-const setToken = token => storage().setItem("jwt", token);
-const getTokenData = (): JWTData | null => {
-  const token = getToken();
-  if (token) {
-    return jwtDecode(token);
-  }
-  return null;
+const setToken = token => {
+  memstore.set("jwt", token);
+  const exp = jwtDecode(token).exp;
+  memstore.set("exp", parseInt(exp) * 1000);
 };
+const getCsrfToken = () => storage().getItem("csrfToken");
 const isTokenExpired = () => {
-  const exp = getTokenData()?.exp;
+  const exp = memstore.get("exp");
   if (exp) {
-    return dayjs(exp * 1000) <= dayjs();
+    return dayjs(parseInt(exp, 10)) <= dayjs();
   }
   return false;
 };
@@ -114,20 +102,27 @@ export const client: ApolloClient<any> = new ApolloClient({
     retryLink,
     new TokenRefreshLink({
       isTokenValidOrUndefined: () =>
-        !isTokenExpired() || typeof getToken() !== "string",
+        isTokenExpired() || typeof getCsrfToken() !== "string",
       fetchAccessToken: async () => {
+        const csrfToken = getCsrfToken();
         const resp = await fetch(config.apiEndpoint, {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            query: `mutation TokenRefreshMutation {
-              tokenRefresh(token: "${getToken()}") {
+            query: `mutation AutoTokenRefreshMutation($csrfToken: String!) {
+              tokenRefresh(csrfToken: $csrfToken) {
                 token
-                payload
+                accountErrors {
+                  code
+                  field
+                  message
+                }
               }
             }`,
+            variables: { csrfToken },
           }),
         });
         return resp.json();
@@ -138,6 +133,16 @@ export const client: ApolloClient<any> = new ApolloClient({
       handleResponse: (operation, accessTokenField) => response => {
         // here you can parse response, handle errors, prepare returned token to
         // further operations
+        const errors = response.data.tokenRefresh.accountErrors;
+        if (errors.length > 0) {
+          const invalidCsrfToken = errors.find(
+            e => e.code === "JWT_INVALID_CSRF_TOKEN",
+          );
+          if (invalidCsrfToken) {
+            localStorage.removeItem("csrfToken");
+            sessionStorage.removeItem("csrfToken");
+          }
+        }
         // returned object should be like this:
         // { access_token: 'token string here' }
         return { access_token: response.data.tokenRefresh.token };
@@ -152,7 +157,7 @@ export const client: ApolloClient<any> = new ApolloClient({
     }),
     createUploadLink({
       uri: config.apiEndpoint,
-      credentials: "same-origin",
+      credentials: "include",
     }),
   ]),
   cache: new InMemoryCache(),

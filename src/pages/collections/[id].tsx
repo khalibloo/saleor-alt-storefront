@@ -2,18 +2,21 @@ import React from "react";
 import { Typography, Row, Col } from "antd";
 import { Helmet } from "react-helmet";
 import { useParams } from "umi";
-import clx from "classnames";
 
 import VSpacing from "@/components/VSpacing";
 
-import styles from "../categories/id.less";
-import { formatTitle, getCollectionName, getLangCode } from "@/utils/utils";
+import {
+  formatTitle,
+  getCollectionName,
+  getCollectionSeoDesc,
+  getLangCode,
+} from "@/utils/utils";
+import { useQuery } from "@apollo/client";
 import {
   collectionDetailQuery,
   collectionDetailQueryVariables,
 } from "@/queries/types/collectionDetailQuery";
 import { COLLECTION_DETAIL_PAGE_QUERY } from "@/queries/collectionDetail";
-import { useQuery } from "@apollo/client";
 import SkeletonDiv from "@/components/SkeletonDiv";
 import Products from "@/components/Products";
 
@@ -35,26 +38,32 @@ const CollectionDetailPage: React.FC = () => {
           <title>{formatTitle(getCollectionName(data.collection))}</title>
           <meta
             name="description"
-            content={getCollectionName(data.collection)}
+            content={getCollectionSeoDesc(data.collection)}
           />
         </Helmet>
       )}
-      <div className={styles.bannerContainer}>
+      <div className="overflow-hidden relative" style={{ height: 300 }}>
         <SkeletonDiv active loading={fetching}>
           <img
             id="banner-img"
-            className={clx("full-width full-height", styles.bannerImg)}
+            className="w-full h-full absolute top-0 left-0 object-cover"
             src={data?.collection?.backgroundImage?.url}
             alt={data?.collection?.backgroundImage?.alt || ""}
             loading="lazy"
           />
         </SkeletonDiv>
         {data?.collection?.name && (
-          <Row className="full-height" justify="center" align="middle">
-            <Col className={styles.bannerTitleBG}>
+          <Row className="h-full" justify="center" align="middle">
+            <Col
+              className="py-2 px-8"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to left, #3330, #333c, #333c, #3330)",
+              }}
+            >
               <Typography.Title
                 id="title"
-                className="center-text no-margin inverse-text"
+                className="text-center m-0 inverse-text"
                 level={1}
               >
                 {getCollectionName(data.collection)}

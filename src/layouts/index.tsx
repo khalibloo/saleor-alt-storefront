@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { Affix, Button, Col, Layout, Row, Space, Typography } from "antd";
+import { connect, ConnectRC, Link, Loading, useIntl } from "umi";
 import { Helmet } from "react-helmet";
+import { client } from "@/apollo";
+import { ApolloProvider } from "@apollo/client";
+import lf from "localforage";
+import { useBoolean } from "@umijs/hooks";
 import clx from "classnames";
 
-import styles from "./index.less";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "@/apollo";
-import { connect, ConnectRC, Link, Loading, useIntl } from "umi";
 import { ConnectState } from "@/models/connect";
 import Loader from "@/components/Loader";
-import { useBoolean } from "@umijs/hooks";
-import lf from "localforage";
 import config from "@/config";
 
 interface Props {
@@ -44,13 +43,13 @@ const BasicLayout: ConnectRC<Props> = ({ children, loading, dispatch }) => {
     <>
       <Helmet htmlAttributes={{ lang: intl.locale }} />
       <ApolloProvider client={client}>
-        <Layout className={styles.layout}>
-          <Layout.Header
-            className={clx("full-width no-padding shadow", styles.header)}
-          >
+        <Layout className="min-h-full">
+          <Layout.Header className={clx("w-full p-0 fixed z-10 shadow-md")}>
             <NavBar />
           </Layout.Header>
-          <Layout.Content className={styles.content}>{children}</Layout.Content>
+          <Layout.Content className="mt-16 flex flex-col">
+            {children}
+          </Layout.Content>
           <Layout.Footer>
             <Footer />
           </Layout.Footer>
@@ -61,12 +60,10 @@ const BasicLayout: ConnectRC<Props> = ({ children, loading, dispatch }) => {
           <Row
             justify="space-around"
             align="middle"
-            className={clx("full-height", "bg-default", styles.cookieNotice)}
+            className="h-full bg-default p-6 shadow-md"
           >
             <Col span={16} xs={22} sm={22} md={20} lg={16}>
-              <Typography.Paragraph
-                className={clx("center-text", styles.cookieNoticeText)}
-              >
+              <Typography.Paragraph className="text-center text-lg">
                 {intl.formatMessage({ id: "cookies.notice" })}
               </Typography.Paragraph>
               <Row justify="center">

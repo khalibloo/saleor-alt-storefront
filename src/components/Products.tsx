@@ -280,7 +280,9 @@ const Products: React.FC<Props> = ({
             style={{ height: 32 }}
           >
             <div>
-              <label>Price Range</label>
+              <label>
+                {intl.formatMessage({ id: "search.filters.priceRange" })}
+              </label>
               <Slider
                 id="filters-price-sldr"
                 range
@@ -385,7 +387,7 @@ const Products: React.FC<Props> = ({
                   id={`attr-select-${attr.slug}`}
                   allowClear
                   autoClearSearchValue
-                  className="full-width"
+                  className="w-full"
                   mode="multiple"
                   showArrow
                   onChange={(values, m) => {
@@ -534,7 +536,7 @@ const Products: React.FC<Props> = ({
                         id={`product-list-item-${i}`}
                         key={product.id}
                       >
-                        <div className="full-width">
+                        <div className="w-full">
                           {view === "grid" ? (
                             <Row justify="center">
                               <Col span={24} style={{ maxWidth: 240 }}>

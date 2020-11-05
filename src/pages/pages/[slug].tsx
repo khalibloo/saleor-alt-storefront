@@ -9,7 +9,6 @@ import { PAGE_QUERY } from "@/queries/page";
 import NotFoundPage from "../404";
 import { formatTitle, getLangCode } from "@/utils/utils";
 import VSpacing from "@/components/VSpacing";
-import styles from "./slug.less";
 
 const PageDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -41,8 +40,8 @@ const PageDetailPage = () => {
       )}
       <VSpacing height={24} />
       <Row justify="center">
-        <Col className={styles.articleContent} span={22} md={20} xl={18}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+        <Col className="text-lg" span={22} md={20} xl={18}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {data?.page?.title}
           </Typography.Title>
           <RichTextContent contentJson={data?.page?.contentJson} />

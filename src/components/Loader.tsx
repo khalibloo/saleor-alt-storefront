@@ -21,7 +21,7 @@ const Loader: React.FC<Props> = ({
   ...rest
 }) => {
   return (
-    <Row justify="center" align="middle" className="full-height">
+    <Row justify="center" align="middle" className="h-full">
       <Col>
         <Spin {...rest} size={size || "large"} />
       </Col>

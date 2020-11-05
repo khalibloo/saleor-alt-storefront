@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { LanguageCodeEnum, OrderStatus } from "./../../globalTypes";
+import { LanguageCodeEnum, OrderStatus, JobStatusEnum } from "./../../globalTypes";
 
 // ====================================================
 // GraphQL query operation: ordersQuery
@@ -225,6 +225,26 @@ export interface ordersQuery_me_orders_edges_node_fulfillments {
   lines: (ordersQuery_me_orders_edges_node_fulfillments_lines | null)[] | null;
 }
 
+export interface ordersQuery_me_orders_edges_node_invoices {
+  __typename: "Invoice";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  /**
+   * Job status.
+   */
+  status: JobStatusEnum;
+  /**
+   * URL to download an invoice.
+   */
+  url: string | null;
+  /**
+   * Created date time of job in ISO 8601 format.
+   */
+  createdAt: any;
+}
+
 export interface ordersQuery_me_orders_edges_node_lines_unitPrice_gross {
   __typename: "Money";
   /**
@@ -258,6 +278,15 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_images {
   alt: string;
 }
 
+export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_attribute_translation {
+  __typename: "AttributeTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
+}
+
 export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_attribute {
   __typename: "Attribute";
   /**
@@ -268,6 +297,19 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_attri
    * Name of an attribute displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute fields for the given language code.
+   */
+  translation: ordersQuery_me_orders_edges_node_lines_variant_attributes_attribute_translation | null;
+}
+
+export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_values_translation {
+  __typename: "AttributeValueTranslation";
+  /**
+   * The ID of the object.
+   */
+  id: string;
+  name: string;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_values {
@@ -280,6 +322,10 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_attributes_value
    * Name of a value displayed in the interface.
    */
   name: string | null;
+  /**
+   * Returns translated attribute value fields for the given language code.
+   */
+  translation: ordersQuery_me_orders_edges_node_lines_variant_attributes_values_translation | null;
 }
 
 export interface ordersQuery_me_orders_edges_node_lines_variant_attributes {
@@ -457,6 +503,10 @@ export interface ordersQuery_me_orders_edges_node {
    * List of shipments for the order.
    */
   fulfillments: (ordersQuery_me_orders_edges_node_fulfillments | null)[];
+  /**
+   * List of order invoices.
+   */
+  invoices: (ordersQuery_me_orders_edges_node_invoices | null)[] | null;
   /**
    * List of order lines.
    */

@@ -78,6 +78,7 @@ export default {
   "search.sort.price.hightolow": "Price (High to Low)",
   "search.sort.newest": "Newest Arrivals",
   "search.filters": "Filters",
+  "search.filters.priceRange": "Price Range",
 
   // products
   // detail
@@ -145,6 +146,8 @@ export default {
   "orders.status.partially_fulfilled": "Partly Delivered",
   "orders.status.fulfilled": "Delivered",
   "orders.status.canceled": "Canceled",
+  "orders.invoice": "Invoice",
+  "orders.invoice.download": "Download Invoice",
 
   // profile
   "settings.title": formatTitle("Account Settings"),

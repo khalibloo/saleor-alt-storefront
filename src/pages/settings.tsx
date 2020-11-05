@@ -98,7 +98,7 @@ const SettingsPage = ({ loading }) => {
       </Modal>
       <Row justify="center">
         <Col span={22}>
-          <Typography.Title id="page-heading" className="center-text" level={1}>
+          <Typography.Title id="page-heading" className="text-center" level={1}>
             {intl.formatMessage({ id: "settings.heading" })}
           </Typography.Title>
           <Row justify="center">

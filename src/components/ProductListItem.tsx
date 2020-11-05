@@ -30,7 +30,7 @@ const ProductListItem: React.FunctionComponent<Props> = ({
           <Link to={`/products/${product.id}`}>
             <AspectRatio width={1} height={1}>
               <img
-                className="full-width"
+                className="w-full"
                 alt={product.thumbnail?.alt as string}
                 src={product.thumbnail?.url}
                 loading="lazy"
@@ -48,9 +48,8 @@ const ProductListItem: React.FunctionComponent<Props> = ({
             {isOnSale && (
               <span>
                 <Typography.Text
-                  className="strike-text"
+                  className="text-sm line-through"
                   type="secondary"
-                  style={{ fontSize: 14 }}
                 >
                   {formatPrice(
                     currency,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Row, Col, List, Card } from "antd";
+import { Typography, Row, Col, List, Card, Button } from "antd";
 import { useIntl } from "umi";
 import dayjs from "dayjs";
 import { formatPrice } from "@/utils/utils";
@@ -13,6 +13,13 @@ const OrderCard: React.FC<Props> = ({ order }) => {
   const intl = useIntl();
   const currency = order.total?.gross.currency as string;
   const totalPrice = order.total?.gross.amount as number;
+  let invoice;
+  // get latest invoice for order
+  if (order.invoices?.length) {
+    invoice = order.invoices?.reduce((a, b) => {
+      return new Date(a?.createdAt) > new Date(b?.createdAt) ? a : b;
+    });
+  }
 
   return (
     <Card
@@ -57,6 +64,17 @@ const OrderCard: React.FC<Props> = ({ order }) => {
                 })}
               </Typography.Text>
             </div>
+            {invoice && invoice.status === "SUCCESS" && (
+              <div className="mt-2">
+                <a href={invoice.url} target="_blank" rel="noreferrer noopener">
+                  <Button size="small">
+                    {intl.formatMessage({
+                      id: "orders.invoice.download",
+                    })}
+                  </Button>
+                </a>
+              </div>
+            )}
           </Col>
         </Row>
       }
@@ -67,7 +85,7 @@ const OrderCard: React.FC<Props> = ({ order }) => {
         renderItem={line => {
           return (
             <List.Item className="product-list-items" key={line?.id}>
-              <div className="full-width">
+              <div className="w-full">
                 <VariantListItem variant={line?.variant} qty={line?.quantity} />
               </div>
             </List.Item>

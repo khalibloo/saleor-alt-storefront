@@ -1,16 +1,12 @@
 import { Effect, ImmerReducer, Subscription, Reducer } from "umi";
 import { client, APIException } from "@/apollo";
 import lf from "localforage";
+import jwtDecode from "jwt-decode";
 import { TOKEN_CREATE_MUTATION } from "@/mutations/TokenCreate";
 import {
   TokenCreateMutationVariables,
   TokenCreateMutation,
 } from "@/mutations/types/TokenCreateMutation";
-import {
-  TokenVerifyMutationVariables,
-  TokenVerifyMutation,
-} from "@/mutations/types/TokenVerifyMutation";
-import { TOKEN_VERIFY_MUTATION } from "@/mutations/TokenVerify";
 import { USER_REGISTER_MUTATION } from "@/mutations/UserRegister";
 import { USER_NAME_UPDATE_MUTATION } from "@/mutations/UserNameUpdate";
 import { USER_CONFIRM_EMAIL_CHANGE_MUTATION } from "@/mutations/UserConfirmEmailChange";
@@ -83,6 +79,12 @@ import {
 import { USER_VERIFY_EMAIL_MUTATION } from "@/mutations/UserVerifyEmail";
 import { ConnectState } from "./connect";
 import config from "@/config";
+import {
+  TokenRefreshMutation,
+  TokenRefreshMutationVariables,
+} from "@/mutations/types/TokenRefreshMutation";
+import { TOKEN_REFRESH_MUTATION } from "@/mutations/TokenRefresh";
+import memstore from "@/memstore";
 
 export interface AuthModelState {
   authenticated: boolean;
@@ -137,14 +139,14 @@ const AuthModel: AuthModelType = {
       try {
         const remember = !!localStorage.getItem("rememberme");
         const storage = remember ? localStorage : sessionStorage;
-        const token = storage.getItem("jwt");
-        let response: { data: TokenVerifyMutation } | null = null;
-        if (token) {
-          const variables: TokenVerifyMutationVariables = {
-            token,
+        const csrfToken = storage.getItem("csrfToken");
+        let response: { data: TokenRefreshMutation } | null = null;
+        if (csrfToken) {
+          const variables: TokenRefreshMutationVariables = {
+            csrfToken,
           };
           response = yield call(client.mutate, {
-            mutation: TOKEN_VERIFY_MUTATION,
+            mutation: TOKEN_REFRESH_MUTATION,
             variables,
           });
           yield put({ type: "setLoggedIn", payload: { authenticated: true } });
@@ -168,21 +170,31 @@ const AuthModel: AuthModelType = {
             variables,
           },
         );
+        // if errors, throw exception
+        const errors = response.data.tokenCreate?.accountErrors || [];
+        if (errors.length > 0) {
+          throw new APIException(errors);
+        }
+
         if (remember) {
           localStorage.setItem("rememberme", "yes");
         } else {
           localStorage.removeItem("rememberme");
         }
         const storage = remember ? localStorage : sessionStorage;
-        storage.setItem("jwt", response.data.tokenCreate?.token as string);
+        localStorage.removeItem("csrfToken");
+        sessionStorage.removeItem("csrfToken");
+        storage.setItem(
+          "csrfToken",
+          response.data.tokenCreate?.csrfToken as string,
+        );
+        const jwt = response.data.tokenCreate?.token;
+        const exp = jwtDecode(jwt).exp;
+        memstore.set("jwt", jwt);
+        memstore.set("exp", parseInt(exp) * 1000);
         yield put({ type: "setLoggedIn", payload: { authenticated: true } });
         yield call(client.resetStore);
 
-        if (!response.data.tokenCreate?.token) {
-          throw new APIException([
-            { field: null, message: null, code: "INVALID_CREDENTIALS" },
-          ]);
-        }
         yield lf.removeItem("guest_email");
         yield lf.removeItem("guest_cart_token");
         const guestCartEntry = yield select(
@@ -530,9 +542,10 @@ const AuthModel: AuthModelType = {
     },
     *logout({ payload }, { call, put }) {
       yield put({ type: "clear" });
-      localStorage.removeItem("jwt");
-      sessionStorage.removeItem("jwt");
+      localStorage.removeItem("csrfToken");
+      sessionStorage.removeItem("csrfToken");
       localStorage.removeItem("rememberme");
+      localStorage.removeItem("exp");
       yield call(client.resetStore);
     },
     *requestAccountDeactivation({ payload }, { call, put }) {

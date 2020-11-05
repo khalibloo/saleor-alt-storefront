@@ -22,6 +22,9 @@ export interface cartBadgeWithTokenQuery_checkout {
    * The ID of the object.
    */
   id: string;
+  /**
+   * The checkout's token.
+   */
   token: any;
   /**
    * A list of checkout lines, each containing information about an item in the checkout.

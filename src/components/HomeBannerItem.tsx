@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Typography, Row, Col } from "antd";
 import { Link } from "umi";
-import clx from "classnames";
 
-import styles from "./HomeBannerItem.less";
 import { HomeBannerImage } from ".altrc";
 import config from "@/config";
 
@@ -37,23 +35,29 @@ const HomeBannerItem: React.FC<HomeBannerImage> = ({
     }
   };
   const content = (
-    <div className={clx("full-height", styles.bannerItem)}>
+    <div className="h-full relative">
       <img
-        className={clx("full-width full-height", styles.bannerImg)}
+        className="w-full h-full object-cover"
         src={imageUrl}
         alt={alt}
         loading="lazy"
       />
       {title && (
         <Row
-          className={clx("full-width full-height", styles.bannerOverlay)}
+          className="w-full h-full absolute top-0 left-0"
           justify="center"
           align="middle"
         >
-          <Col className={styles.bannerTitleBG}>
+          <Col
+            className="py-2 px-8"
+            style={{
+              backgroundImage:
+                "linear-gradient(to left, #3330, #333c, #333c, #3330)",
+            }}
+          >
             <Typography.Title
               id="banner-title"
-              className="center-text no-margin inverse-text"
+              className="text-center m-0 inverse-text"
               level={1}
             >
               {title}

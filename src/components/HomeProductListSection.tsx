@@ -137,7 +137,7 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
       <Col span={22} lg={20}>
         {showTitle && titleText && (
           <Link to={titleUrl} onClick={trackPromoClick}>
-            <Typography.Title className="center-text" level={1}>
+            <Typography.Title className="text-center" level={1}>
               {titleText}
             </Typography.Title>
           </Link>
@@ -155,7 +155,7 @@ const HomeProductListSection: React.FC<HomeProductListConfig> = ({
                   id={`product-list-item-${i}`}
                   key={product.id}
                 >
-                  <div className="full-width">
+                  <div className="w-full">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
                         <ProductCard

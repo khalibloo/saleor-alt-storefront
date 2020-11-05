@@ -26,3 +26,7 @@
 /src/.umi-test
 /.env.local
 *.local.ts
+
+# localhost https certs
+cert.crt
+cert.key

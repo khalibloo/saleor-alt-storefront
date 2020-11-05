@@ -6,6 +6,13 @@ export const TOKEN_CREATE_MUTATION = gql`
   mutation TokenCreateMutation($email: String!, $password: String!) {
     tokenCreate(email: $email, password: $password) {
       token
+      refreshToken
+      csrfToken
+      accountErrors {
+        code
+        field
+        message
+      }
       user {
         ...UserDetails
       }
