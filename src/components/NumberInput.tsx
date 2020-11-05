@@ -41,7 +41,7 @@ const NumberInput: React.FC<Props> = props => {
   };
   return (
     <Input.Group
-      className="full-width"
+      className="w-full"
       compact
       style={{ display: "flex" }}
       size={groupSize}

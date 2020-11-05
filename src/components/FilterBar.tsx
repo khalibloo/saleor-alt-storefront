@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Row, Col, Typography, Select, Button } from "antd";
 import { useIntl } from "umi";
-
-import styles from "./FilterBar.less";
 import { FilterOutlined } from "@ant-design/icons";
 
 interface Props {
@@ -22,7 +20,7 @@ const FilterBar: React.FC<Props> = ({
   const intl = useIntl();
   return (
     <Row
-      className={styles.row}
+      className="py-4"
       justify={hideFilters ? "end" : "space-between"}
       align="bottom"
     >
@@ -34,7 +32,7 @@ const FilterBar: React.FC<Props> = ({
         </Col>
       )}
 
-      <Col className={styles.sortCol}>
+      <Col className="w-40">
         <div>
           <Typography.Text>
             {intl.formatMessage({ id: "search.sortby" })}
@@ -43,7 +41,7 @@ const FilterBar: React.FC<Props> = ({
         <div>
           <Select
             id={id}
-            className="full-width"
+            className="w-full"
             defaultValue="RELEVANCE"
             value={value}
             onChange={value => onSortChange?.(value)}

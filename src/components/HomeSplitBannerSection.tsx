@@ -96,7 +96,7 @@ const HomeSplitBannerSection: React.FC<HomeSplitBannerConfig> = ({
   };
   return (
     <Row justify="center">
-      <Col span={22} xs={22} md={20} className="mask relative">
+      <Col span={22} xs={22} md={20} className="overflow-hidden relative">
         <Row gutter={[gap || 24, gap || 24]}>
           {items?.[0] && (
             <Col {...splitLayoutA} style={{ height: h || 500 }}>

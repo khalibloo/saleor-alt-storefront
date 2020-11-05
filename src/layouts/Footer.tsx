@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <Row justify="center">
       <Col>
-        <Typography.Text className="center-text">
+        <Typography.Text className="text-center">
           {intl.formatMessage({ id: "footer.createdby" })}
         </Typography.Text>
       </Col>

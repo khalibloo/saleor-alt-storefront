@@ -17,7 +17,6 @@ import { Helmet } from "react-helmet";
 import RichTextContent from "@/components/RichTextContent";
 import AspectRatio from "@/components/AspectRatio";
 import VSpacing from "@/components/VSpacing";
-import styles from "./id.less";
 import { useIntl, useParams, useDispatch, connect, ConnectRC } from "umi";
 import {
   formatPrice,
@@ -255,7 +254,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
       loading={fetching}
       style={{ height: 21, width: "30%", margin: "auto" }}
     >
-      <Typography.Title id="price-lbl" className="center-text" level={3}>
+      <Typography.Title id="price-lbl" className="text-center" level={3}>
         {formatPrice(currency, minPrice, maxPrice)}
       </Typography.Title>
     </SkeletonDiv>
@@ -324,7 +323,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
     </Button>
   );
   return (
-    <div className="vflex flex-grow-1">
+    <div className="flex flex-col flex-grow">
       {product?.name && (
         <Helmet>
           <title>{formatTitle(getProductName(product))}</title>
@@ -375,18 +374,19 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                               <Button
                                 id={`thumb-btn-${i}`}
                                 className={clx(
-                                  "full-width full-height no-padding",
+                                  "w-full h-full p-0 transition-transform ease-in-out duration-100",
                                   "thumb-btns",
                                   {
-                                    [styles.selectedBtn]: i === selectedImg,
-                                    [styles.unselectedBtn]: i !== selectedImg,
+                                    ["border-2 border-primary"]:
+                                      i === selectedImg,
+                                    ["scale-90"]: i !== selectedImg,
                                   },
                                 )}
                                 onClick={() => carouselRef.current?.goTo(i)}
                               >
                                 <SkeletonDiv active loading={fetching}>
                                   <img
-                                    className="full-width"
+                                    className="w-full"
                                     alt={image?.alt || ""}
                                     src={image?.url}
                                     loading="lazy"
@@ -435,7 +435,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                             <div key={image?.id}>
                               <img
                                 id={`carousel-img-${i}`}
-                                className="full-width carousel-imgs"
+                                className="w-full carousel-imgs"
                                 alt={image?.alt as string}
                                 src={image?.url}
                                 loading="lazy"
@@ -460,7 +460,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
               >
                 <Typography.Title
                   id="product-name"
-                  className={clx({ ["center-text"]: !responsive.lg })}
+                  className={clx({ ["text-center"]: !responsive.lg })}
                   level={1}
                 >
                   {getProductName(product)}
@@ -502,7 +502,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                       return (
                         <Select
                           id={`var-select-${i}`}
-                          className={clx("full-width", "var-select")}
+                          className={clx("w-full", "var-select")}
                           key={vAttr.id}
                           size="large"
                           placeholder={getAttributeName(vAttr)}
@@ -584,7 +584,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
                   className="suggestion-list-items"
                   key={productItem?.id || i}
                 >
-                  <div className="full-width">
+                  <div className="w-full">
                     <Row justify="center">
                       <Col span={24} style={{ maxWidth: 240 }}>
                         <ProductCard
@@ -605,8 +605,12 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
       <VSpacing height={48} />
       {!responsive.lg && (
         <Affix offsetBottom={0}>
-          <Card className="shadow" bodyStyle={{ padding: 0 }} bordered={false}>
-            <div className={styles.affixPadding}>
+          <Card
+            className="shadow-md"
+            bodyStyle={{ padding: 0 }}
+            bordered={false}
+          >
+            <div className="p-4">
               {priceLabel}
               <Row justify="center">
                 <Col span={20}>{qtySelector}</Col>

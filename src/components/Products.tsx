@@ -385,7 +385,7 @@ const Products: React.FC<Props> = ({
                   id={`attr-select-${attr.slug}`}
                   allowClear
                   autoClearSearchValue
-                  className="full-width"
+                  className="w-full"
                   mode="multiple"
                   showArrow
                   onChange={(values, m) => {
@@ -534,7 +534,7 @@ const Products: React.FC<Props> = ({
                         id={`product-list-item-${i}`}
                         key={product.id}
                       >
-                        <div className="full-width">
+                        <div className="w-full">
                           {view === "grid" ? (
                             <Row justify="center">
                               <Col span={24} style={{ maxWidth: 240 }}>

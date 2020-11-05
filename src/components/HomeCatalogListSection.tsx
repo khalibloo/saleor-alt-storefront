@@ -10,7 +10,6 @@ import { HomeCatalogListConfig } from ".altrc";
 import AspectRatio from "./AspectRatio";
 import { homeBannerSectionQuery } from "@/queries/types/homeBannerSectionQuery";
 import { HOME_BANNER_SECTION_QUERY } from "@/queries/homeBannerSection";
-import styles from "./HomeCatalogListSection.less";
 import config from "@/config";
 
 const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
@@ -99,23 +98,27 @@ const HomeCatalogListSection: React.FC<HomeCatalogListConfig> = ({
     <Row justify="center">
       <Col span={22} md={20}>
         {titleText && (
-          <Typography.Title className="center-text" level={1}>
+          <Typography.Title className="text-center" level={1}>
             {titleText}
           </Typography.Title>
         )}
         <div
-          className={styles.catalogGrid}
-          style={{ justifyContent: justify || "center", gap: gap || 32 }}
+          className="grid"
+          style={{
+            justifyContent: justify || "center",
+            gap: gap || 32,
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
+          }}
         >
           {collections?.map(item => (
             <Link key={item.id} to={item.url} onClick={trackPromoClick}>
               <Card
                 hoverable
-                className="full-width"
+                className="w-full"
                 cover={
                   <AspectRatio height={1} width={1}>
                     <img
-                      className="full-width full-height img-cover"
+                      className="w-full h-full object-cover"
                       src={item.backgroundImage.url}
                       alt={item.backgroundImage.alt}
                       loading="lazy"

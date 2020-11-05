@@ -1,6 +1,5 @@
 import * as React from "react";
 import clx from "classnames";
-import styles from "./AspectRatio.less";
 
 interface Props {
   width: number;
@@ -11,12 +10,12 @@ const AspectRatio: React.FunctionComponent<Props> = props => {
   const { height, width, noMask, children } = props;
   return (
     <div
-      className={clx("full-width relative", { mask: !noMask })}
+      className={clx("w-full relative", { ["overflow-hidden"]: !noMask })}
       style={{
         paddingTop: `${(height / width) * 100}%`,
       }}
     >
-      <div className={clx("absolute", styles.container)}>{children}</div>
+      <div className="absolute top-0 right-0 bottom-0 left-0">{children}</div>
     </div>
   );
 };

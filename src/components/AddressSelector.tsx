@@ -53,7 +53,7 @@ const AddressSelector: React.FC<Props> = ({
   }
   return (
     <Select
-      className="full-width"
+      className="w-full"
       dropdownRender={menu => (
         <div ref={setContainer}>
           {menu}

@@ -85,7 +85,7 @@ const OrderCard: React.FC<Props> = ({ order }) => {
         renderItem={line => {
           return (
             <List.Item className="product-list-items" key={line?.id}>
-              <div className="full-width">
+              <div className="w-full">
                 <VariantListItem variant={line?.variant} qty={line?.quantity} />
               </div>
             </List.Item>
