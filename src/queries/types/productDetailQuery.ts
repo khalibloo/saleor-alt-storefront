@@ -805,6 +805,7 @@ export interface productDetailQuery {
 }
 
 export interface productDetailQueryVariables {
-  productID: string;
+  productID?: string | null;
+  productSlug?: string | null;
   lang: LanguageCodeEnum;
 }

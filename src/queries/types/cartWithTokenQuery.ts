@@ -399,6 +399,7 @@ export interface cartWithTokenQuery_checkout_lines_variant_product {
    * The ID of the object.
    */
   id: string;
+  slug: string;
   name: string;
   category: cartWithTokenQuery_checkout_lines_variant_product_category | null;
   descriptionJson: any;

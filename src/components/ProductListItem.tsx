@@ -27,7 +27,7 @@ const ProductListItem: React.FunctionComponent<Props> = ({
     <Card className={className} id={id}>
       <Row gutter={24}>
         <Col span={4} xs={8} sm={6} md={6} lg={4} xl={4} xxl={4}>
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/products/${product.slug}`}>
             <AspectRatio width={1} height={1}>
               <img
                 className="w-full"
@@ -39,7 +39,7 @@ const ProductListItem: React.FunctionComponent<Props> = ({
           </Link>
         </Col>
         <Col span={20} xs={16} sm={18} md={18} lg={20} xl={20} xxl={20}>
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/products/${product.slug}`}>
             <Typography.Title level={4}>
               {getProductName(product)}
             </Typography.Title>

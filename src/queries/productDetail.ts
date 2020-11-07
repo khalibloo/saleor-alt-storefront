@@ -5,8 +5,12 @@ import { gql } from "@apollo/client";
 export const PRODUCT_DETAIL_PAGE_QUERY = gql`
   ${PRODUCT_CARD_FRAGMENT}
   ${CATEGORY_BASIC_DETAILS_FRAGMENT}
-  query productDetailQuery($productID: ID!, $lang: LanguageCodeEnum!) {
-    product(id: $productID) {
+  query productDetailQuery(
+    $productID: ID
+    $productSlug: String
+    $lang: LanguageCodeEnum!
+  ) {
+    product(id: $productID, slug: $productSlug) {
       ...ProductCard
       descriptionJson
       seoTitle

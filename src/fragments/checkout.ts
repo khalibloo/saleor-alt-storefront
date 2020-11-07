@@ -120,6 +120,7 @@ export const CHECKOUT_LINES_DETAILS_FRAGMENT = gql`
         }
         product {
           id
+          slug
           name
           category {
             id

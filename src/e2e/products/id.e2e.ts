@@ -21,7 +21,7 @@ const mock = RequestMock()
     };
   });
 
-fixture`Product Detail Page`.page`http://localhost:5000/products/1`
+fixture`Product Detail Page`.page`http://localhost:5000/products/apple-juice`
   .beforeEach(async t => t.resizeWindow(1536, 864))
   .requestHooks(mock);
 
