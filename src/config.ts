@@ -12,6 +12,8 @@ export default {
   siteName: SITE_NAME,
   siteDescription: SITE_DESCRIPTION,
   sentryDSN: SENTRY_DSN,
-  gtmEnabled: GTM_CODE != null,
+  gtmEnabled: GTM_CODE,
+  meiliSearchKey: MEILISEARCH_KEY,
+  meiliSearchUrl: MEILISEARCH_URL ? new URL(MEILISEARCH_URL) : undefined,
   altConfig,
 };

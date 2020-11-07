@@ -23,4 +23,8 @@ body {
   .bg-default {
     background-color: @layout-body-background;
   }
+  .no-hover-border.ant-select:not(.ant-select-disabled):hover
+    .ant-select-selector {
+    border-right: none !important;
+  }
 }

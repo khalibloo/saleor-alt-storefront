@@ -61,6 +61,7 @@
     "libphonenumber-js": "^1.7.51",
     "localforage": "^1.9.0",
     "lodash": "^4.17.20",
+    "meilisearch": "^0.16.0",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
