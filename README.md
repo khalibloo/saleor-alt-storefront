@@ -42,7 +42,7 @@ Refer to the [Configuration page](https://github.com/khalibloo/saleor-alt-storef
 Refer to [Theming](https://github.com/khalibloo/saleor-alt-storefront/wiki/Theming) and [Customizing the Home Page](https://github.com/khalibloo/saleor-alt-storefront/wiki/Customizing-The-Home-Page) on the wiki.
 
 # Translating
-All visible UI strings are set up in locale files to enable easy translation of the UI to different languages. Currently, only English is available. Other languages will be slowly added after reaching a stable version. When that time comes, we'll likely need your help with the translations 😉
+All visible UI strings are set up in locale files to enable easy translation of the UI to different languages. Currently, only English and French (Google Translate quality) are available. Other languages will be slowly added after reaching a stable version. When that time comes, we'll likely need your help with the translations 😉
 
 # Development Guide
 We're fans of yarn. We recommend it over npm as it will allow you to have the exact same dependencies as specified in our lock file.
