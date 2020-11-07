@@ -136,7 +136,7 @@ const ProductCard: React.FunctionComponent<Props> = ({
   }
   return (
     <Link
-      to={`/products/${product?.id}`}
+      to={`/products/${product?.slug}`}
       onClick={() => {
         trackClick();
         onClick?.();

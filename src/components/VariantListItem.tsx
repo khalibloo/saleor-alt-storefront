@@ -19,7 +19,7 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
     <Card>
       <Row gutter={24}>
         <Col span={4} xs={8} md={6} lg={4}>
-          <Link to={`/products/${variant.product.id}`}>
+          <Link to={`/products/${variant.product.slug}`}>
             <AspectRatio width={1} height={1}>
               <img
                 className="w-full"
@@ -31,7 +31,7 @@ const VariantListItem: React.FunctionComponent<Props> = ({ variant, qty }) => {
           </Link>
         </Col>
         <Col span={20} xs={16} md={18} lg={20}>
-          <Link to={`/products/${variant.product.id}`}>
+          <Link to={`/products/${variant.product.slug}`}>
             <Typography.Title level={4}>
               {getProductName(variant.product)}
             </Typography.Title>

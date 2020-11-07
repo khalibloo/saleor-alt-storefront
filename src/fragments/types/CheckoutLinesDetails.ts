@@ -169,6 +169,7 @@ export interface CheckoutLinesDetails_lines_variant_product {
    * The ID of the object.
    */
   id: string;
+  slug: string;
   name: string;
   category: CheckoutLinesDetails_lines_variant_product_category | null;
   descriptionJson: any;

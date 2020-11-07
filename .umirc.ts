@@ -50,8 +50,10 @@ export default defineConfig({
   define: {
     APP_ENV: "default",
     ENDPOINT: process.env.ENDPOINT,
-    SENTRY_DSN: process.env.SENTRY_DSN,
     GTM_CODE: process.env.GTM_CODE,
+    MEILISEARCH_URL: process.env.MEILISEARCH_URL,
+    MEILISEARCH_KEY: process.env.MEILISEARCH_KEY,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     SITE_NAME: process.env.SITE_NAME || "Alt Storefront",
     SITE_DESCRIPTION:
       process.env.SITE_DESCRIPTION ||

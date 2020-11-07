@@ -71,13 +71,13 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
 
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const { loading: fetching, error, data } = useQuery<
     productDetailQuery,
     productDetailQueryVariables
   >(PRODUCT_DETAIL_PAGE_QUERY, {
     variables: {
-      productID: id as string,
+      productSlug: slug as string,
       lang: getLangCode(),
     },
   });
@@ -165,7 +165,7 @@ const ProductDetailPage: ConnectRC<Props> = ({ loading }) => {
   // if we navigate to different product, scroll to top
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
     // Google Ecommerce - track detail view

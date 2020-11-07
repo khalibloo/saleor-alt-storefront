@@ -405,6 +405,7 @@ export interface ordersQuery_me_orders_edges_node_lines_variant_product {
    * The ID of the object.
    */
   id: string;
+  slug: string;
   name: string;
   descriptionJson: any;
   /**

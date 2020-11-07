@@ -631,7 +631,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                               xxl={4}
                             >
                               <Link
-                                to={`/products/${item?.variant.product.id}`}
+                                to={`/products/${item?.variant.product.slug}`}
                               >
                                 <AspectRatio width={1} height={1}>
                                   <img
@@ -660,7 +660,7 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
                               xxl={20}
                             >
                               <Link
-                                to={`/products/${item?.variant.product.id}`}
+                                to={`/products/${item?.variant.product.slug}`}
                               >
                                 <Typography.Title level={4}>
                                   {getProductName(item?.variant.product)}{" "}

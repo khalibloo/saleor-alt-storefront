@@ -123,6 +123,7 @@ export const ORDERS_PAGE_QUERY = gql`
                 }
                 product {
                   id
+                  slug
                   name
                   descriptionJson
                   thumbnail {
