@@ -1,7 +1,17 @@
 # Alt Storefront
 This project aims to provide a more customizable storefront for the Saleor
-e-commerce platform. It's based on Ant Design and Umi in order to make it easy to extend and customize, and also to reduce the complexity of the codebase. This project is still in its infancy and definitely not ready for
-use in production, but you're welcome to experiment with it and give feedback and suggestions.
+e-commerce platform. It's based on Ant Design and Umi in order to make it easy to extend and 
+customize, and also to reduce the complexity of the codebase. This project is still in its 
+infancy, but you're welcome to experiment with it and give feedback and suggestions.
+
+# Features
+- Clean minimalistic design, responsive layout
+- Easy theming and customization using LESS variables
+- Configure home page layout by stacking preset sections
+- Integration with MeiliSearch to provide blazing fast search suggestions
+- Support for the brand new Google Ecommerce analytics (GA4)
+- Good performance, small build chunks... Be sure to check out our demo
+- Multi-language support, PWA superpowers, SEO, and more
 
 # Stack
 To simplify development and to allow for easy customization, we've chosen
