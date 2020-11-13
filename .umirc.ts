@@ -85,6 +85,7 @@ export default defineConfig({
     SITE_DESCRIPTION:
       process.env.SITE_DESCRIPTION ||
       "An alternate storefront for the saleor ecommerce platform",
+    TCO_MERCHANT_CODE: process.env.TCO_MERCHANT_CODE,
   },
   theme: useDark
     ? {}
