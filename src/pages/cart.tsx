@@ -528,8 +528,22 @@ const CartPage: ConnectRC<Props> = ({ authenticated, loading, dispatch }) => {
             gw => gw.id === selectedPaymentMethod,
           );
           gateway?.onPay?.(
-            totalPrice as number,
-            checkout?.token,
+            {
+              checkout,
+              checkoutToken: checkout?.token,
+              email: checkout?.email,
+              lines: checkoutLines,
+              currency,
+              totalPrice,
+              shippingPrice,
+              discountPrice,
+              shippingMethod: shippingMethod?.name,
+              billingAddress,
+              shippingAddress,
+              voucherCode,
+              langCode: getLangCode(),
+            },
+            gateway.config,
             (token, billingAddr) => {
               dispatch?.({
                 type: "cart/createPayment",

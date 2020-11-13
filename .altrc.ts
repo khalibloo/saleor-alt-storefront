@@ -1,4 +1,18 @@
 import { AddressInput, CountryCode } from "@/globalTypes";
+import {
+  cartQuery_me_checkout,
+  cartQuery_me_checkout_billingAddress,
+  cartQuery_me_checkout_lines,
+  cartQuery_me_checkout_shippingAddress,
+} from "@/queries/types/cartQuery";
+import Logger from "@/utils/logger";
+import { getProductName, getVariantName } from "@/utils/utils";
+
+declare global {
+  interface Window {
+    TwoCoInlineCart: any;
+  }
+}
 
 interface GoogleAnalyticsPromo {
   promotion_id?: string;
@@ -109,18 +123,33 @@ export interface HomeVSpacingConfig {
   spacing: number | string;
 }
 interface AltConfig {
-  name: String;
+  name: string;
   // allow users to checkout without logging in?
   showSearch: boolean;
   allowAnonCheckout: boolean;
   showCookieNotice: boolean;
   paymentGateways: {
-    id: String;
+    id: string;
+    config?: any;
     onPay: (
-      amount: number,
-      checkoutToken: String,
-      onSuccess: (token: String, billingAddress: AddressInput) => void,
-      onError: (errorMsg: String) => void,
+      checkoutData: {
+        checkout: cartQuery_me_checkout;
+        email: string;
+        totalPrice: number;
+        billingAddress: cartQuery_me_checkout_billingAddress;
+        shippingAddress: cartQuery_me_checkout_shippingAddress;
+        shippingPrice: number;
+        discountPrice: number;
+        shippingMethod: string;
+        currency: string;
+        lines: cartQuery_me_checkout_lines[];
+        checkoutToken: string;
+        voucherCode: string;
+        langCode: string;
+      },
+      config: any,
+      onSuccess: (token: string, billingAddress?: AddressInput) => void,
+      onError: (errorMsg: string) => void,
       onCancel: () => void,
     ) => void;
   }[];
@@ -258,7 +287,7 @@ const altConfig: AltConfig = {
   paymentGateways: [
     {
       id: "mirumee.payments.dummy",
-      onPay: (amount, checkoutToken, onSuccess, onError, onCancel) => {
+      onPay: (checkoutData, config, onSuccess, onError, onCancel) => {
         // configure payment gateway
         // open payment gateway popup
         // if success, call onSuccess
@@ -272,6 +301,129 @@ const altConfig: AltConfig = {
           city: "COOPA ISLAND",
           country: CountryCode.FI,
         });
+      },
+    },
+    {
+      id: "khalibloo.payments.2checkout",
+      config: {
+        merchantCode: TCO_MERCHANT_CODE,
+      },
+      onPay: (
+        {
+          email,
+          checkoutToken,
+          billingAddress,
+          shippingAddress,
+          lines,
+          currency,
+          langCode,
+          shippingPrice,
+          shippingMethod,
+          voucherCode,
+        },
+        config,
+        onSuccess,
+        onError,
+        onCancel,
+      ) => {
+        // configure payment gateway
+        if (!config?.merchantCode) {
+          Logger.error("2Checkout: Merchant code not set.");
+          return null;
+        }
+        try {
+          window.TwoCoInlineCart.setup.setMerchant(config.merchantCode);
+
+          // use dynamic products, not those in 2CO control panel
+          window.TwoCoInlineCart.setup.setMode("DYNAMIC");
+          window.TwoCoInlineCart.cart.setCurrency(currency);
+          window.TwoCoInlineCart.cart.setLanguage(langCode);
+          window.TwoCoInlineCart.cart.setOrderExternalRef(checkoutToken);
+
+          // add products
+          lines.forEach(line => {
+            const productName = getProductName(line.variant.product);
+            const variantName = getVariantName(line.variant);
+            window.TwoCoInlineCart.products.add({
+              name: variantName
+                ? `${productName} (${variantName})`
+                : productName,
+              quantity: line.quantity,
+              price: line.variant.pricing?.price?.gross.amount,
+              tangible: true,
+            });
+          });
+          window.TwoCoInlineCart.products.add({
+            name: shippingMethod,
+            price: shippingPrice,
+            type: "SHIPPING",
+          });
+
+          // set billing address
+          window.TwoCoInlineCart.billing.setData({
+            name: `${billingAddress.firstName} ${billingAddress.lastName}`,
+            email,
+            phone: billingAddress.phone,
+            country: billingAddress.country.code,
+            city: billingAddress.city,
+            state: billingAddress.countryArea,
+            zip: billingAddress.postalCode,
+            address: billingAddress.streetAddress1,
+            address2: billingAddress.streetAddress2,
+            "company-name": billingAddress.companyName,
+            // "fiscal-code",
+            // "tax-office"
+          });
+
+          // set shipping address
+          window.TwoCoInlineCart.billing.setData({
+            name: `${shippingAddress.firstName} ${shippingAddress.lastName}`,
+            email,
+            phone: shippingAddress.phone,
+            country: shippingAddress.country.code,
+            city: shippingAddress.city,
+            state: shippingAddress.countryArea,
+            zip: shippingAddress.postalCode,
+            address: shippingAddress.streetAddress1,
+            address2: shippingAddress.streetAddress2,
+          });
+
+          // vouchers not yet supported
+          // if (voucherCode) {
+          //   window.TwoCoInlineCart.cart.addCoupon(voucherCode);
+          // }
+
+          // open payment gateway popup
+          window.TwoCoInlineCart.cart.checkout();
+
+          // if success, call onSuccess
+          // if error, call onError
+          // if canceled by user, call onCancel
+          let hasPaid = false;
+          window.TwoCoInlineCart.events.subscribe("payment:finalized", () => {
+            Logger.log("payment:finalized triggered");
+            hasPaid = true;
+            onSuccess("fully-charged");
+          });
+          window.TwoCoInlineCart.events.subscribe("cart:opened", () => {
+            Logger.log("cart:opened triggered");
+          });
+          window.TwoCoInlineCart.events.subscribe("cart:closed", () => {
+            Logger.log("cart:closed triggered");
+            // window.document.body.se;
+            if (!hasPaid) {
+              onCancel();
+            }
+          });
+          window.TwoCoInlineCart.events.subscribe(
+            "fulfillment:finalized",
+            () => {
+              Logger.log("fulfillment:finalized triggered");
+            },
+          );
+        } catch (err) {
+          onError("Payment failed: Please try again later");
+        }
       },
     },
   ],
