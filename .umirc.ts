@@ -74,7 +74,6 @@ export default defineConfig({
   );`,
   ],
   define: {
-    ...process.env,
     APP_ENV: "default",
     ENDPOINT: process.env.ENDPOINT,
     GTM_CODE: process.env.GTM_CODE,
