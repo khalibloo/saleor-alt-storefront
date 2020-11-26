@@ -16,7 +16,7 @@ interface ProductDocument {
 let productsIndex: Index<ProductDocument>;
 if (config.meiliSearchUrl) {
   const client = new MeiliSearch({
-    host: config.meiliSearchUrl.origin,
+    host: config.meiliSearchUrl.href,
     apiKey: config.meiliSearchKey,
   });
   productsIndex = client.getIndex("products");
