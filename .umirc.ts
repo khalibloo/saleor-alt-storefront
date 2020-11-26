@@ -34,7 +34,7 @@ export default defineConfig({
   links: [
     {
       rel: "preconnect",
-      href: process.env.ENDPOINT_ORIGIN,
+      href: process.env.API_ORIGIN,
     },
     {
       rel: "preconnect",
@@ -75,7 +75,7 @@ export default defineConfig({
   ],
   define: {
     APP_ENV: "default",
-    ENDPOINT: process.env.ENDPOINT,
+    API_URI: process.env.API_URI,
     GTM_CODE: process.env.GTM_CODE,
     MEILISEARCH_URL: process.env.MEILISEARCH_URL,
     MEILISEARCH_KEY: process.env.MEILISEARCH_KEY,

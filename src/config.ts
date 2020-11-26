@@ -8,7 +8,7 @@ if (APP_ENV !== "production") {
 
 export default {
   env: APP_ENV,
-  apiEndpoint: ENDPOINT,
+  apiEndpoint: API_URI,
   siteName: SITE_NAME,
   siteDescription: SITE_DESCRIPTION,
   sentryDSN: SENTRY_DSN,
