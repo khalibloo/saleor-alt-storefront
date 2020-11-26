@@ -34,7 +34,7 @@ export default defineConfig({
   links: [
     {
       rel: "preconnect",
-      href: process.env.ENDPOINT_ORIGIN,
+      href: process.env.API_ORIGIN,
     },
     {
       rel: "preconnect",
@@ -47,9 +47,35 @@ export default defineConfig({
     //   content: "width=device-width, initial-scale=1",
     // },
   ],
+  scripts: [
+    `(function (document, src, libName, config) {
+      var script             = document.createElement('script');
+      script.src             = src;
+      script.async           = true;
+      var firstScriptElement = document.getElementsByTagName('script')[0];
+      script.onload          = function () {
+          for (var namespace in config) {
+              if (config.hasOwnProperty(namespace)) {
+                  window[libName].setup.setConfig(namespace, config[namespace]);
+              }
+          }
+          window[libName].register();
+      };
+
+      firstScriptElement.parentNode.insertBefore(script, firstScriptElement);
+  })(
+    document,
+    'https://secure.avangate.com/checkout/client/twoCoInlineCart.js',
+    'TwoCoInlineCart',
+    {
+      "app":{"merchant":"${process.env.TCO_MERCHANT_CODE}","iframeLoad":"checkout"},
+      "cart":{"host":"https:\/\/secure.2checkout.com","customization":"inline"}
+    }
+  );`,
+  ],
   define: {
     APP_ENV: "default",
-    ENDPOINT: process.env.ENDPOINT,
+    API_URI: process.env.API_URI,
     GTM_CODE: process.env.GTM_CODE,
     MEILISEARCH_URL: process.env.MEILISEARCH_URL,
     MEILISEARCH_KEY: process.env.MEILISEARCH_KEY,
@@ -58,6 +84,7 @@ export default defineConfig({
     SITE_DESCRIPTION:
       process.env.SITE_DESCRIPTION ||
       "An alternate storefront for the saleor ecommerce platform",
+    TCO_MERCHANT_CODE: process.env.TCO_MERCHANT_CODE,
   },
   theme: useDark
     ? {}
