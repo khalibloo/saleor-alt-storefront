@@ -1,4 +1,5 @@
 @import "~antd/lib/style/themes/default.less";
+
 body {
   .ant-btn.icon-btn {
     border: none;
@@ -27,4 +28,9 @@ body {
     .ant-select-selector {
     border-right: none !important;
   }
+}
+
+/* important: override tailwind svg vertical align. it messes with antd icon placement */
+svg {
+  vertical-align: unset;
 }
